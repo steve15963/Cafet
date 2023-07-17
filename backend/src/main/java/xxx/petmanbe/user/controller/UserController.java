@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
+import xxx.petmanbe.user.entity.Token;
+import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.service.UserService;
 
 @RestController
@@ -27,5 +30,12 @@ public class UserController {
 	}
 
 
+	@PostMapping("/login")
+	public ResponseEntity<Token> PostLoginUser(@RequestBody LoginDto loginDto) throws Exception{
+
+		Token token = userService.postLoginUser(loginDto);
+
+		return ResponseEntity.ok(token);
+	}
 
 }

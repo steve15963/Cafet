@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
+import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.UserRepository;
 
@@ -16,6 +18,11 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 
 
+	@Autowired
+	private JwtUtil jwtUtil;
+
+	@Autowired
+	private JwtService jwtService;
 
 
 	@Override
@@ -36,4 +43,21 @@ public class UserServiceImpl implements UserService {
 
 		return email;
 	}
+
+	@Override
+	public Token postLoginUser(LoginDto loginDto) throws Exception {
+
+		User user = userRepository.findByEmail(loginDto.getEmail());
+
+		String accessToken = jwtUtil.generateAccessToken(user);
+
+		String refreshToken = jwtUtil.generateRefreshToken(user);
+
+		Token token = jwtService.saveToken(user, accessToken, refreshToken);
+
+		return token;
+	}
+
+
+
 }
