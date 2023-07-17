@@ -1,0 +1,19 @@
+int tilt = 2;  // 기울기 센서 핀을 2번으로
+int led = 5;   // LED를 5번 핀으로
+ 
+void setup() {
+  Serial.begin(9600);     // 시리얼 통신 시작, 통신 속도 9600
+  pinMode(tilt, INPUT);   // 기울기 센서를 입력모드로 설정
+  pinMode(led, OUTPUT);   // LED를 출력모드로 설정
+ 
+}
+ 
+void loop() {
+  int val = digitalRead(tilt);   // 정수형 변수 val을 생성한 후 기울기 센서 값을 입력
+  Serial.println(val);           // 시리얼 모니터에 값을 보여줍니다
+  if (val == 0) {                // 센서가 기울지 않았을 때
+    digitalWrite(led, LOW);      // LED OFF
+  }
+  else                           // 센서가 기울었을때
+  digitalWrite(led, HIGH);       //LED ON
+}
