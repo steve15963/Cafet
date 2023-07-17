@@ -13,14 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
-import xxx.petmanbe.user.dto.requestDto.ModifyDto;
+import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RefreshTokenDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
+import xxx.petmanbe.user.entity.Level;
 import xxx.petmanbe.user.entity.Token;
-import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.service.JwtService;
 import xxx.petmanbe.user.service.UserService;
 
@@ -53,11 +54,11 @@ public class UserController {
 	}
 
 	@PutMapping("")
-	public ResponseEntity<String> PutUser(@RequestBody ModifyDto modifyDto) throws Exception {
+	public ResponseEntity<String> PutUser(@RequestBody UserModifyDto userModifyDto) throws Exception {
 
-		String msg = userService.putUser(modifyDto);
+		String msg = userService.putUser(userModifyDto);
 
-		return ResponseEntity.ok(modifyDto.getEmail()+msg);
+		return ResponseEntity.ok(userModifyDto.getEmail()+msg);
 	}
 
 	@GetMapping("/{userId}")
@@ -88,12 +89,20 @@ public class UserController {
 	}
 
 	@PostMapping("/token/refresh")
-	public ResponseEntity<String> refreshToken(@RequestBody RefreshTokenDto refreshTokenDto){
+	public ResponseEntity<String> PostRefreshToken(@RequestBody RefreshTokenDto refreshTokenDto){
 
 		String newAccessToken = jwtService.refreshToken(refreshTokenDto.getRefreshToken());
 
 		return ResponseEntity.ok(newAccessToken);
 
+	}
+
+	@PutMapping("/level")
+	public ResponseEntity<String> PutUserLevel(@RequestBody LevelModifyDto levelModifyDto){
+
+		String msg = userService.putUserLevel(levelModifyDto);
+
+		return ResponseEntity.ok(msg);
 	}
 
 

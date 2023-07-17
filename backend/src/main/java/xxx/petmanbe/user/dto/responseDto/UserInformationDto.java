@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import xxx.petmanbe.user.entity.Level;
 
 @Getter
 @Setter
@@ -31,7 +32,7 @@ public class UserInformationDto {
 
 	private String status;
 
-	private int level;
+	private Level level;
 
 	private LocalDateTime createdDate;
 

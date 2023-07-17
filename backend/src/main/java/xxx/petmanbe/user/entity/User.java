@@ -48,9 +48,10 @@ public class User {
     @Size(min=2, max = 3)
     private String status;
 
-    @Column(nullable = false)
-    @ColumnDefault("100")
-    private int level;
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="level_id")
+    private Level level;
 
     @Column(nullable = false)
     @CreatedDate
@@ -66,7 +67,7 @@ public class User {
     private Token token;
 
     @Builder
-    public User(long userId, String email, String password, String phoneNo, String nickname, String status, int level,
+    public User(long userId, String email, String password, String phoneNo, String nickname, String status, Level level,
         LocalDateTime createdDate, LocalDateTime updatedDate, Token token) {
         this.userId = userId;
         this.email = email;

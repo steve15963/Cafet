@@ -6,13 +6,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
-import xxx.petmanbe.user.dto.requestDto.ModifyDto;
+import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
+import xxx.petmanbe.user.entity.Level;
 import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
+import xxx.petmanbe.user.repository.LevelRepository;
 import xxx.petmanbe.user.repository.UserRepository;
 
 @Service
@@ -27,6 +30,9 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private JwtService jwtService;
 
+	@Autowired
+	private LevelRepository levelRepository;
+
 	@Override
 	public String postnewUser(RegistDto registDto) throws Exception {
 
@@ -35,11 +41,14 @@ public class UserServiceImpl implements UserService{
 			.password(registDto.getPassword())
 			.phoneNo(registDto.getPhoneNo())
 			.nickname(registDto.getNickname())
-			.level(100)
 			.status("no")
 			.createdDate(LocalDateTime.now())
 			.updatedDate(LocalDateTime.now())
 			.build();
+
+		Level level = Level.builder().level_code(100).build();
+
+		user.setLevel(level);
 
 		String email = userRepository.save(user).getEmail();
 
@@ -61,16 +70,16 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public String putUser(ModifyDto modifyDto) throws Exception {
+	public String putUser(UserModifyDto userModifyDto) throws Exception {
 
-		User user = userRepository.findByEmail(modifyDto.getEmail());
+		User user = userRepository.findByEmail(userModifyDto.getEmail());
 
-		user.setPhoneNo(modifyDto.phoneNo);
-		user.setNickname(modifyDto.nickname);
+		user.setPhoneNo(userModifyDto.phoneNo);
+		user.setNickname(userModifyDto.nickname);
 
 		userRepository.save(user);
 
-		if(user.getNickname()== modifyDto.nickname && user.getPhoneNo()== modifyDto.phoneNo){
+		if(user.getNickname()== userModifyDto.nickname && user.getPhoneNo()== userModifyDto.phoneNo){
 			return "success";
 
 		}else{
@@ -121,6 +130,23 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
+	@Override
+	public String putUserLevel(LevelModifyDto levelModifyDto) {
 
+		User user = userRepository.findByUserId(levelModifyDto.getUserId());
+
+		Level level = user.getLevel();
+
+		level.setLevel_code(levelModifyDto.getLevel());
+
+		levelRepository.save(level);
+
+		if(user.getLevel().getLevel_code()== level.getLevel_code()){
+			return "success";
+
+		}else{
+			return "fail";
+		}
+	}
 
 }

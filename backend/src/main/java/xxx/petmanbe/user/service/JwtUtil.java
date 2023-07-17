@@ -75,10 +75,6 @@ public class JwtUtil {
 
 	public Boolean validateToken(String token){
 
-
-
-		System.out.println(Jwts.parser().setSigningKey(key.getBytes()));
-
 		try {
 			System.out.println(key.getBytes());
 			Claims claims = Jwts.parser().setSigningKey(key.getBytes()).parseClaimsJws(token).getBody();
