@@ -1,6 +1,7 @@
 package xxx.petmanbe.user.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.ModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
+import xxx.petmanbe.user.dto.responseDto.UserListDto;
 import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.UserRepository;
@@ -95,6 +97,14 @@ public class UserServiceImpl implements UserService {
 			.build();
 
 		return userInformationDto;
+	}
+
+	@Override
+	public List<UserListDto> getUserList() {
+
+		List<UserListDto> userList = userRepository.findAllBy();
+
+		return userList;
 	}
 
 }

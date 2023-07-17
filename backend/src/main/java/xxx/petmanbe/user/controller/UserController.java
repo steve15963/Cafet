@@ -1,5 +1,7 @@
 package xxx.petmanbe.user.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.ModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
+import xxx.petmanbe.user.dto.responseDto.UserListDto;
 import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.service.UserService;
@@ -57,6 +60,15 @@ public class UserController {
 		UserInformationDto userInformationDto = userService.getUser(userId);
 
 		return ResponseEntity.ok(userInformationDto);
+
+	}
+
+	@GetMapping("")
+	public ResponseEntity<List<UserListDto>> GetUserList(){
+
+		List<UserListDto> userList = userService.getUserList();
+
+		return ResponseEntity.ok(userList);
 
 	}
 
