@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
+import xxx.petmanbe.user.dto.requestDto.ModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
@@ -58,6 +59,22 @@ public class UserServiceImpl implements UserService {
 		return token;
 	}
 
+	@Override
+	public String putUser(ModifyDto modifyDto) throws Exception {
 
+		User user = userRepository.findByEmail(modifyDto.getEmail());
+
+		user.setPhoneNo(modifyDto.phoneNo);
+		user.setNickname(modifyDto.nickname);
+
+		userRepository.save(user);
+
+		if(user.getNickname()== modifyDto.nickname && user.getPhoneNo()== modifyDto.phoneNo){
+			return "success";
+
+		}else{
+			return "fail";
+		}
+	}
 
 }
