@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.ModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
+import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.UserRepository;
@@ -75,6 +76,25 @@ public class UserServiceImpl implements UserService {
 		}else{
 			return "fail";
 		}
+	}
+
+	@Override
+	public UserInformationDto getUser(long userId) throws Exception {
+
+
+		User user = userRepository.findByUserId(userId);
+
+		UserInformationDto userInformationDto = UserInformationDto.builder()
+			.email(user.getEmail())
+			.phoneNo(user.getPhoneNo())
+			.nickname(user.getNickname())
+			.status(user.getStatus())
+			.level(user.getLevel())
+			.createdDate(user.getCreatedDate())
+			.updatedDate(user.getUpdatedDate())
+			.build();
+
+		return userInformationDto;
 	}
 
 }
