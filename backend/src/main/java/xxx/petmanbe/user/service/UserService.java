@@ -21,6 +21,7 @@ public interface UserService {
 
 	public List<UserListDto> getUserList();
 
+	public String deleteUser(long userId);
 
 
 }

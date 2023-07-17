@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,6 +70,15 @@ public class UserController {
 		List<UserListDto> userList = userService.getUserList();
 
 		return ResponseEntity.ok(userList);
+
+	}
+
+	@DeleteMapping("/{userId}")
+	public ResponseEntity<String> DeleteUser(@PathVariable long userId){
+
+		String msg = userService.deleteUser(userId);
+
+		return ResponseEntity.ok(msg);
 
 	}
 

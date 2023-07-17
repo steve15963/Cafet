@@ -107,4 +107,21 @@ public class UserServiceImpl implements UserService {
 		return userList;
 	}
 
+	@Override
+	public String deleteUser(long userId) {
+
+		User user = userRepository.findByUserId(userId);
+
+		user.setStatus("yes");
+		user.setPassword("1");
+
+		userRepository.save(user);
+
+		if(user.getStatus()=="yes"){
+			return "success";
+		}else{
+			return "fail";
+		}
+	}
+
 }
