@@ -2,12 +2,16 @@ package xxx.petmanbe.user.service;
 
 import java.sql.Date;
 
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.SignatureException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
+import xxx.petmanbe.user.repository.UserRepository;
 
 @Component
 public class JwtUtil {
@@ -21,30 +25,82 @@ public class JwtUtil {
 	@Value("${jwt.refreshTokenExpirationTime:0}")
 	private int refreshTokenExpirationTime;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	public String generateAccessToken(User user){
 
-		accessTokenExpirationTime=1000;
+		accessTokenExpirationTime=120000;
 
 		return Jwts.builder()
 			.claim("emailid",user.getEmail())
 			.setIssuedAt(new Date(System.currentTimeMillis()))
 			.setExpiration(new Date(System.currentTimeMillis()+accessTokenExpirationTime))
-			.signWith(SignatureAlgorithm.HS256,key)
+			.signWith(SignatureAlgorithm.HS256,key.getBytes())
 			.compact();
 	}
 
 	public String generateRefreshToken(User user){
 
-		refreshTokenExpirationTime=1000;
+		refreshTokenExpirationTime=120000;
 
 		return Jwts.builder()
 			.claim("emailid", user.getEmail())
 			.setIssuedAt(new Date(System.currentTimeMillis()))
 			.setExpiration(new Date(System.currentTimeMillis()+refreshTokenExpirationTime))
-			.signWith(SignatureAlgorithm.HS256,key)
+			.signWith(SignatureAlgorithm.HS256,key.getBytes())
 			.compact();
 
 	}
+
+	//-----------------------
+
+
+	//-----------------------
+
+	public String getAccessToken(Long userId){
+
+		User user = userRepository.findByUserId(userId);
+
+		return generateAccessToken(user);
+
+	}
+
+	public String getRefreshToken(Long userId){
+
+		User user = userRepository.findByUserId(userId);
+
+		return generateRefreshToken(user);
+	}
+
+	public Boolean validateToken(String token){
+
+
+
+		System.out.println(Jwts.parser().setSigningKey(key.getBytes()));
+
+		try {
+			System.out.println(key.getBytes());
+			Claims claims = Jwts.parser().setSigningKey(key.getBytes()).parseClaimsJws(token).getBody();
+			return true;
+		} catch(SignatureException ex){
+			//			System.out.println(Jwts.parser().setSigningKey(key.getBytes()).parseClaimsJws(token));
+			System.out.println("Invalid JWT signautre");
+		} catch(MalformedJwtException ex){
+			System.out.println("Invalid JWT token");
+		} catch(ExpiredJwtException ex){
+			System.out.println("Expired JWT token");
+		} catch(UnsupportedJwtException ex){
+			System.out.println("Unsupported JWT token");
+		} catch(IllegalArgumentException ex){
+			System.out.println("JWT claims string is empty");
+		}
+		return false;
+
+
+
+	}
+
 
 
 }

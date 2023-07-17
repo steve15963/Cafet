@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
+import xxx.petmanbe.user.repository.TokenRepository;
 import xxx.petmanbe.user.repository.UserRepository;
 
 @Service
@@ -12,6 +13,12 @@ public class JwtServiceImpl implements JwtService{
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private JwtUtil jwtUtil;
+
+	@Autowired
+	private TokenRepository tokenRepository;
 
 	@Override
 	public Token saveToken(User user, String refreshToken, String accessToken) {
@@ -28,5 +35,22 @@ public class JwtServiceImpl implements JwtService{
 		userRepository.save(user);
 
 		return token;
+	}
+
+	@Override
+	public String refreshToken(String refreshToken) {
+
+		if(jwtUtil.validateToken(refreshToken)){
+			Token token = tokenRepository.findByRefreshToken(refreshToken);
+
+			String newAccessToken = jwtUtil.getAccessToken(
+				token.getUser().getUserId()
+			);
+
+			token.setAccessToken(newAccessToken);
+			tokenRepository.save(token);
+			return newAccessToken;
+		}
+		return null;
 	}
 }

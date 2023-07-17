@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.ModifyDto;
+import xxx.petmanbe.user.dto.requestDto.RefreshTokenDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
 import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
+import xxx.petmanbe.user.service.JwtService;
 import xxx.petmanbe.user.service.UserService;
 
 @RestController
@@ -28,6 +30,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private JwtService jwtService;
 
 	@PostMapping("/new")
 	public ResponseEntity<String> PostNewUser(@RequestBody RegistDto registDto) throws Exception {
@@ -79,6 +84,15 @@ public class UserController {
 		String msg = userService.deleteUser(userId);
 
 		return ResponseEntity.ok(msg);
+
+	}
+
+	@PostMapping("/token/refresh")
+	public ResponseEntity<String> refreshToken(@RequestBody RefreshTokenDto refreshTokenDto){
+
+		String newAccessToken = jwtService.refreshToken(refreshTokenDto.getRefreshToken());
+
+		return ResponseEntity.ok(newAccessToken);
 
 	}
 

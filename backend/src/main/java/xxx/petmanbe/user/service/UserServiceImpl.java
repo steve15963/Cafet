@@ -16,18 +16,16 @@ import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
 
 	@Autowired
 	private UserRepository userRepository;
-
 
 	@Autowired
 	private JwtUtil jwtUtil;
 
 	@Autowired
 	private JwtService jwtService;
-
 
 	@Override
 	public String postnewUser(RegistDto registDto) throws Exception {
@@ -113,7 +111,6 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findByUserId(userId);
 
 		user.setStatus("yes");
-		user.setPassword("1");
 
 		userRepository.save(user);
 
@@ -123,5 +120,7 @@ public class UserServiceImpl implements UserService {
 			return "fail";
 		}
 	}
+
+
 
 }
