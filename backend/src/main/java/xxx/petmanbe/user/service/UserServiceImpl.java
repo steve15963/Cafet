@@ -3,6 +3,8 @@ package xxx.petmanbe.user.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
+import xxx.petmanbe.user.dto.responseDto.LoginRequestDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
 import xxx.petmanbe.user.entity.Level;
@@ -33,6 +36,7 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private LevelRepository levelRepository;
 
+	@Transactional
 	@Override
 	public String postnewUser(RegistDto registDto) throws Exception {
 
@@ -55,8 +59,9 @@ public class UserServiceImpl implements UserService{
 		return email;
 	}
 
+	@Transactional
 	@Override
-	public Token postLoginUser(LoginDto loginDto) throws Exception {
+	public LoginRequestDto postLoginUser(LoginDto loginDto) throws Exception {
 
 		User user = userRepository.findByEmail(loginDto.getEmail());
 
@@ -66,9 +71,15 @@ public class UserServiceImpl implements UserService{
 
 		Token token = jwtService.saveToken(user, accessToken, refreshToken);
 
-		return token;
+		LoginRequestDto loginRequestDto = LoginRequestDto.builder()
+			.userId(user.getUserId())
+			.token(token)
+			.build();
+
+		return loginRequestDto;
 	}
 
+	@Transactional
 	@Override
 	public String putUser(UserModifyDto userModifyDto) throws Exception {
 
@@ -87,6 +98,7 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
+	@Transactional
 	@Override
 	public UserInformationDto getUser(long userId) throws Exception {
 
@@ -106,6 +118,7 @@ public class UserServiceImpl implements UserService{
 		return userInformationDto;
 	}
 
+	@Transactional
 	@Override
 	public List<UserListDto> getUserList() {
 
@@ -114,6 +127,7 @@ public class UserServiceImpl implements UserService{
 		return userList;
 	}
 
+	@Transactional
 	@Override
 	public String deleteUser(long userId) {
 
@@ -130,6 +144,7 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
+	@Transactional
 	@Override
 	public String putUserLevel(LevelModifyDto levelModifyDto) {
 

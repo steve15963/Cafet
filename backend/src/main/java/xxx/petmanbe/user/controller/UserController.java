@@ -18,6 +18,7 @@ import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RefreshTokenDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
+import xxx.petmanbe.user.dto.responseDto.LoginRequestDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
 import xxx.petmanbe.user.entity.Level;
@@ -44,13 +45,12 @@ public class UserController {
 
 	}
 
-
 	@PostMapping("/login")
-	public ResponseEntity<Token> PostLoginUser(@RequestBody LoginDto loginDto) throws Exception{
+	public ResponseEntity<LoginRequestDto> PostLoginUser(@RequestBody LoginDto loginDto) throws Exception{
 
-		Token token = userService.postLoginUser(loginDto);
+		LoginRequestDto loginRequestDto = userService.postLoginUser(loginDto);
 
-		return ResponseEntity.ok(token);
+		return ResponseEntity.ok(loginRequestDto);
 	}
 
 	@PutMapping("")
