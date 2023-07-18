@@ -34,19 +34,6 @@ public class UserServiceImpl implements UserService{
 
 	private final LevelRepository levelRepository;
 
-
-	// @Autowired
-	// private UserRepository userRepository;
-	//
-	// @Autowired
-	// private JwtUtil jwtUtil;
-	//
-	// @Autowired
-	// private JwtService jwtService;
-	//
-	// @Autowired
-	// private LevelRepository levelRepository;
-
 	@Transactional
 	@Override
 	public String postnewUser(RegistDto registDto) throws Exception {
@@ -74,7 +61,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean checkUserLogin(LoginDto loginDto) throws Exception{
 
-		User user = userRepository.findByEmail(loginDto.getEmail());
+		User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()->new IllegalArgumentException());
 
 		if(loginDto.getPassword()==user.getPassword()) return true;
 
@@ -86,7 +73,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean postLoginUser(LoginDto loginDto) throws Exception {
 
-		User user = userRepository.findByEmail(loginDto.getEmail());
+		User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()->new IllegalArgumentException());
 
 		if(!Objects.equals(loginDto.getPassword(), user.getPassword())) {
 			return false;
@@ -110,10 +97,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String putUser(UserModifyDto userModifyDto) throws Exception {
 
-		User user = userRepository.findByEmail(userModifyDto.getEmail());
+		User user = userRepository.findByEmail(userModifyDto.getEmail()).orElseThrow(()->new IllegalArgumentException());
 
-		user.setPhoneNo(userModifyDto.phoneNo);
-		user.setNickname(userModifyDto.nickname);
+		System.out.println(user.getUserId());
+
+		user.updateUser(userModifyDto.phoneNo,userModifyDto.nickname);
 
 		userRepository.save(user);
 
@@ -129,8 +117,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserInformationDto getUser(long userId) throws Exception {
 
-
-		User user = userRepository.findByUserId(userId);
+		User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
 
 		UserInformationDto userInformationDto = UserInformationDto.builder()
 			.email(user.getEmail())
@@ -149,7 +136,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<UserListDto> getUserList() {
 
-		List<UserListDto> userList = userRepository.findAllBy();
+		List<UserListDto> userList = userRepository.findAllBy().orElseThrow(()-> new IllegalArgumentException());
 
 		return userList;
 	}
@@ -158,7 +145,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String deleteUser(long userId) {
 
-		User user = userRepository.findByUserId(userId);
+		User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
 
 		user.setStatus("yes");
 
@@ -175,7 +162,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String putUserLevel(LevelModifyDto levelModifyDto) {
 
-		User user = userRepository.findByUserId(levelModifyDto.getUserId());
+		User user = userRepository.findById(levelModifyDto.getUserId()).orElseThrow(()->new IllegalArgumentException());
 
 		Level level = user.getLevel();
 

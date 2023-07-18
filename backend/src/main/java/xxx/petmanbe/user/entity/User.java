@@ -19,6 +19,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class User {
 
@@ -66,18 +68,8 @@ public class User {
     @JoinColumn(name="token_id")
     private Token token;
 
-    @Builder
-    public User(long userId, String email, String password, String phoneNo, String nickname, String status, Level level,
-        LocalDateTime createdDate, LocalDateTime updatedDate, Token token) {
-        this.userId = userId;
-        this.email = email;
-        this.password = password;
+    public void updateUser( String phoneNo, String nickname) {
         this.phoneNo = phoneNo;
         this.nickname = nickname;
-        this.status = status;
-        this.level = level;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-        this.token = token;
     }
 }

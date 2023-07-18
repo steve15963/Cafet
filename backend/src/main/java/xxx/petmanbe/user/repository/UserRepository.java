@@ -1,6 +1,7 @@
 package xxx.petmanbe.user.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -9,9 +10,7 @@ import xxx.petmanbe.user.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	public User findByEmail(String email);
+	public Optional<User> findByEmail(String email);
 
-	public User findByUserId(long userId);
-
-	List<UserListDto> findAllBy();
+	public Optional<List<UserListDto>> findAllBy();
 }

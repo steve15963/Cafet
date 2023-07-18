@@ -39,7 +39,8 @@ public class JwtServiceImpl implements JwtService{
 	public String refreshToken(String refreshToken) {
 
 		if(jwtUtil.validateToken(refreshToken)){
-			Token token = tokenRepository.findByRefreshToken(refreshToken);
+
+			Token token = tokenRepository.findByRefreshToken(refreshToken).orElseThrow(()->new IllegalArgumentException());
 
 			String newAccessToken = jwtUtil.getAccessToken(
 				token.getUser().getUserId()

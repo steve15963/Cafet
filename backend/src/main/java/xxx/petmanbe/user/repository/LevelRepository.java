@@ -8,8 +8,5 @@ import xxx.petmanbe.user.entity.Level;
 @Repository
 public interface LevelRepository extends JpaRepository<Level, Long> {
 
-	Level findByLevelId(String levelId);
-
-
 
 }

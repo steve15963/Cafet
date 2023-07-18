@@ -7,16 +7,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@Getter
 @Entity
-@Setter
 @Table
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Level {
 
 	@Id
@@ -27,9 +30,4 @@ public class Level {
 	@Column
 	private int level_code;
 
-	@Builder
-	public Level(Long levelId, int level_code) {
-		this.levelId = levelId;
-		this.level_code = level_code;
-	}
 }

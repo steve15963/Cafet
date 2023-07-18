@@ -60,7 +60,7 @@ public class JwtUtil {
 
 	public String getAccessToken(Long userId){
 
-		User user = userRepository.findByUserId(userId);
+		User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
 
 		return generateAccessToken(user);
 
@@ -68,7 +68,7 @@ public class JwtUtil {
 
 	public String getRefreshToken(Long userId){
 
-		User user = userRepository.findByUserId(userId);
+		User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
 
 		return generateRefreshToken(user);
 	}
