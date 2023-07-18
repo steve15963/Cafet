@@ -18,17 +18,6 @@ public class JwtServiceImpl implements JwtService{
 
 	private final TokenRepository tokenRepository;
 
-	// public JwtServiceImpl(userRepository userRepository)
-	//
-	// @Autowired
-	// private UserRepository userRepository;
-	//
-	// @Autowired
-	// private JwtUtil jwtUtil;
-	//
-	// @Autowired
-	// private TokenRepository tokenRepository;
-
 	@Override
 	public Token saveToken(User user, String refreshToken, String accessToken) {
 

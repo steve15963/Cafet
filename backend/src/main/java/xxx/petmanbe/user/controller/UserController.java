@@ -2,6 +2,9 @@ package xxx.petmanbe.user.controller;
 
 import java.util.List;
 
+import javax.validation.constraints.Null;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,7 @@ import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.dto.responseDto.LoginRequestDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
+import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.service.JwtService;
 import xxx.petmanbe.user.service.UserService;
 
@@ -31,22 +35,24 @@ public class UserController {
 
 	private final UserService userService;
 	private final JwtService jwtService;
-	
+
 	@PostMapping("/new")
 	public ResponseEntity<String> PostNewUser(@RequestBody RegistDto registDto) throws Exception {
 
 		String email = userService.postnewUser(registDto);
 
-		return ResponseEntity.ok(email + "regist success");
+		return new ResponseEntity<>(email + "regist success",HttpStatus.OK);
 
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<LoginRequestDto> PostLoginUser(@RequestBody LoginDto loginDto) throws Exception{
+	public ResponseEntity<String> PostLoginUser(@RequestBody LoginDto loginDto) throws Exception{
 
-		LoginRequestDto loginRequestDto = userService.postLoginUser(loginDto);
-
-		return ResponseEntity.ok(loginRequestDto);
+		if(userService.postLoginUser(loginDto)){
+				return new ResponseEntity<>("success", HttpStatus.OK);
+		}else{
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@PutMapping("")
@@ -54,7 +60,7 @@ public class UserController {
 
 		String msg = userService.putUser(userModifyDto);
 
-		return ResponseEntity.ok(userModifyDto.getEmail()+msg);
+		return new ResponseEntity<>(userModifyDto.getEmail()+msg,HttpStatus.OK);
 	}
 
 	@GetMapping("/{userId}")
@@ -62,7 +68,7 @@ public class UserController {
 
 		UserInformationDto userInformationDto = userService.getUser(userId);
 
-		return ResponseEntity.ok(userInformationDto);
+		return new ResponseEntity<>(userInformationDto,HttpStatus.OK);
 
 	}
 
@@ -71,7 +77,7 @@ public class UserController {
 
 		List<UserListDto> userList = userService.getUserList();
 
-		return ResponseEntity.ok(userList);
+		return new ResponseEntity<>(userList,HttpStatus.OK);
 
 	}
 
@@ -80,7 +86,7 @@ public class UserController {
 
 		String msg = userService.deleteUser(userId);
 
-		return ResponseEntity.ok(msg);
+		return new ResponseEntity<>(msg,HttpStatus.OK);
 
 	}
 
@@ -89,7 +95,7 @@ public class UserController {
 
 		String newAccessToken = jwtService.refreshToken(refreshTokenDto.getRefreshToken());
 
-		return ResponseEntity.ok(newAccessToken);
+		return new ResponseEntity<>(newAccessToken,HttpStatus.OK);
 
 	}
 
@@ -98,7 +104,7 @@ public class UserController {
 
 		String msg = userService.putUserLevel(levelModifyDto);
 
-		return ResponseEntity.ok(msg);
+		return new ResponseEntity<>(msg,HttpStatus.OK);
 	}
 
 

@@ -15,7 +15,9 @@ public interface UserService {
 
 	public String postnewUser(RegistDto registDto) throws Exception;
 
-	public LoginRequestDto postLoginUser(LoginDto loginDto) throws Exception;
+	public boolean checkUserLogin(LoginDto loginDto) throws Exception;
+
+	public boolean postLoginUser(LoginDto loginDto) throws Exception;
 
 	public String putUser(UserModifyDto userModifyDto) throws Exception;
 

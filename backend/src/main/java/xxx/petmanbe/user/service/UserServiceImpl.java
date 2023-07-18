@@ -2,6 +2,7 @@ package xxx.petmanbe.user.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import javax.transaction.Transactional;
 
@@ -71,9 +72,25 @@ public class UserServiceImpl implements UserService{
 
 	@Transactional
 	@Override
-	public LoginRequestDto postLoginUser(LoginDto loginDto) throws Exception {
+	public boolean checkUserLogin(LoginDto loginDto) throws Exception{
 
 		User user = userRepository.findByEmail(loginDto.getEmail());
+
+		if(loginDto.getPassword()==user.getPassword()) return true;
+
+		return false;
+
+	}
+
+	@Transactional
+	@Override
+	public boolean postLoginUser(LoginDto loginDto) throws Exception {
+
+		User user = userRepository.findByEmail(loginDto.getEmail());
+
+		if(!Objects.equals(loginDto.getPassword(), user.getPassword())) {
+			return false;
+		}
 
 		String accessToken = jwtUtil.generateAccessToken(user);
 
@@ -81,12 +98,12 @@ public class UserServiceImpl implements UserService{
 
 		Token token = jwtService.saveToken(user, accessToken, refreshToken);
 
-		LoginRequestDto loginRequestDto = LoginRequestDto.builder()
-			.userId(user.getUserId())
-			.token(token)
-			.build();
+		// LoginRequestDto loginRequestDto = LoginRequestDto.builder()
+		// 	.userId(user.getUserId())
+		// 	.token(token)
+		// 	.build();
 
-		return loginRequestDto;
+		return true;
 	}
 
 	@Transactional
