@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
@@ -24,17 +23,33 @@ import xxx.petmanbe.user.repository.UserRepository;
 @Service
 public class UserServiceImpl implements UserService{
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
-	@Autowired
-	private JwtUtil jwtUtil;
+	private final JwtUtil jwtUtil;
 
-	@Autowired
-	private JwtService jwtService;
+	private final JwtService jwtService;
 
-	@Autowired
-	private LevelRepository levelRepository;
+	private final LevelRepository levelRepository;
+
+	public UserServiceImpl(UserRepository userRepository, JwtUtil jwtUtil, JwtService jwtService,
+		LevelRepository levelRepository) {
+		this.userRepository = userRepository;
+		this.jwtUtil = jwtUtil;
+		this.jwtService = jwtService;
+		this.levelRepository = levelRepository;
+	}
+
+	// @Autowired
+	// private UserRepository userRepository;
+	//
+	// @Autowired
+	// private JwtUtil jwtUtil;
+	//
+	// @Autowired
+	// private JwtService jwtService;
+	//
+	// @Autowired
+	// private LevelRepository levelRepository;
 
 	@Transactional
 	@Override

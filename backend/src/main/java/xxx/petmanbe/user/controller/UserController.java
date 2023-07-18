@@ -2,7 +2,6 @@ package xxx.petmanbe.user.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +20,6 @@ import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.dto.responseDto.LoginRequestDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
-import xxx.petmanbe.user.entity.Level;
-import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.service.JwtService;
 import xxx.petmanbe.user.service.UserService;
 
@@ -30,11 +27,13 @@ import xxx.petmanbe.user.service.UserService;
 @RequestMapping(value="/api/user")
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
+	private final JwtService jwtService;
 
-	@Autowired
-	private JwtService jwtService;
+	public UserController(UserService userService, JwtService jwtService){
+		this.userService = userService;
+		this.jwtService=jwtService;
+	}
 
 	@PostMapping("/new")
 	public ResponseEntity<String> PostNewUser(@RequestBody RegistDto registDto) throws Exception {

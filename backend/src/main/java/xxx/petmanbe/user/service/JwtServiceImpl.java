@@ -1,6 +1,5 @@
 package xxx.petmanbe.user.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import xxx.petmanbe.user.entity.Token;
@@ -11,14 +10,28 @@ import xxx.petmanbe.user.repository.UserRepository;
 @Service
 public class JwtServiceImpl implements JwtService{
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
-	@Autowired
-	private JwtUtil jwtUtil;
+	private final JwtUtil jwtUtil;
 
-	@Autowired
-	private TokenRepository tokenRepository;
+	private final TokenRepository tokenRepository;
+
+	public JwtServiceImpl(UserRepository userRepository, JwtUtil jwtUtil, TokenRepository tokenRepository) {
+		this.userRepository = userRepository;
+		this.jwtUtil = jwtUtil;
+		this.tokenRepository = tokenRepository;
+	}
+
+	// public JwtServiceImpl(userRepository userRepository)
+	//
+	// @Autowired
+	// private UserRepository userRepository;
+	//
+	// @Autowired
+	// private JwtUtil jwtUtil;
+	//
+	// @Autowired
+	// private TokenRepository tokenRepository;
 
 	@Override
 	public Token saveToken(User user, String refreshToken, String accessToken) {
