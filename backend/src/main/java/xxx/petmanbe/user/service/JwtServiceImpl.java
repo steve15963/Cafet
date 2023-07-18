@@ -2,12 +2,14 @@ package xxx.petmanbe.user.service;
 
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.TokenRepository;
 import xxx.petmanbe.user.repository.UserRepository;
 
 @Service
+@RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService{
 
 	private final UserRepository userRepository;
@@ -15,12 +17,6 @@ public class JwtServiceImpl implements JwtService{
 	private final JwtUtil jwtUtil;
 
 	private final TokenRepository tokenRepository;
-
-	public JwtServiceImpl(UserRepository userRepository, JwtUtil jwtUtil, TokenRepository tokenRepository) {
-		this.userRepository = userRepository;
-		this.jwtUtil = jwtUtil;
-		this.tokenRepository = tokenRepository;
-	}
 
 	// public JwtServiceImpl(userRepository userRepository)
 	//

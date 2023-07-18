@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
@@ -21,6 +22,7 @@ import xxx.petmanbe.user.repository.LevelRepository;
 import xxx.petmanbe.user.repository.UserRepository;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
 	private final UserRepository userRepository;
@@ -31,13 +33,6 @@ public class UserServiceImpl implements UserService{
 
 	private final LevelRepository levelRepository;
 
-	public UserServiceImpl(UserRepository userRepository, JwtUtil jwtUtil, JwtService jwtService,
-		LevelRepository levelRepository) {
-		this.userRepository = userRepository;
-		this.jwtUtil = jwtUtil;
-		this.jwtService = jwtService;
-		this.levelRepository = levelRepository;
-	}
 
 	// @Autowired
 	// private UserRepository userRepository;

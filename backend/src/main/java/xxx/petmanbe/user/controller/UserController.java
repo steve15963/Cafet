@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
@@ -25,16 +26,12 @@ import xxx.petmanbe.user.service.UserService;
 
 @RestController
 @RequestMapping(value="/api/user")
+@RequiredArgsConstructor
 public class UserController {
 
 	private final UserService userService;
 	private final JwtService jwtService;
-
-	public UserController(UserService userService, JwtService jwtService){
-		this.userService = userService;
-		this.jwtService=jwtService;
-	}
-
+	
 	@PostMapping("/new")
 	public ResponseEntity<String> PostNewUser(@RequestBody RegistDto registDto) throws Exception {
 
