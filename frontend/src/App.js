@@ -10,7 +10,7 @@ import StorePage from "./pages/StorePage";
 const App = () => {
   return (
     <Router>
-      <Route path="/Board" exact>
+      <Route path="/BoardPage" exact>
         <BoardPage />
       </Route>
       <Route path="/LoginPage">
