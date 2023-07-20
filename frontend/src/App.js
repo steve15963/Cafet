@@ -1,6 +1,6 @@
 import React from "react";
-import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 import { Route, Routes } from "react-router-dom";
 
 import BoardPage from "./pages/BoardPage";
