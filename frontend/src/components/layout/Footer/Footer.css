@@ -1,0 +1,17 @@
+.Footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: center;
+}
+
+.text {
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: none;
+}
