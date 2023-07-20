@@ -2,9 +2,24 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.Header_category {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+}
+
 .header-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  height: 60px;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  width: 20%;
 }
 
 .logo {
@@ -12,18 +27,30 @@
   height: 50px;
 }
 
-.mainlogo {
-  width: 100px;
-  height: 75px;
+.mainlogo-container {
+  display: flex;
+  justify-content: center;
+  width: 60%;
 }
 
-.login-link {
+.mainlogo {
+  width: 100px;
+  height: 50px;
+}
+
+.link-container {
+  display: flex;
+  justify-content: center;
+  width: 20%;
+}
+
+.link {
   color: black;
   font-weight: bold;
   font-size: 18px;
   text-decoration: none;
 }
 
-.login-link:hover {
+.link:hover {
   color: blue;
 }
