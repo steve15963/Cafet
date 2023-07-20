@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import BoardPage from "./pages/BoardPage";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
@@ -7,29 +7,19 @@ import ManagePage from "./pages/ManagePage";
 import MyPage from "./pages/MyPage";
 import StorePage from "./pages/StorePage";
 
-const App = () => {
+function App() {
   return (
-    <Router>
-      <Route path="/BoardPage" exact>
-        <BoardPage />
-      </Route>
-      <Route path="/LoginPage">
-        <LoginPage />
-      </Route>
-      <Route path="/" exact>
-        <MainPage />
-      </Route>
-      <Route path="/ManagePage">
-        <ManagePage />
-      </Route>
-      <Route path="/MyPage">
-        <MyPage />
-      </Route>
-      <Route path="/StorePage">
-        <StorePage />
-      </Route>
-    </Router>
+    <div className="App">
+      <Routes>
+        <Route path="/BoardPage" element={<BoardPage />} />
+        <Route path="/LoginPage" element={<LoginPage />} />
+        <Route path="/" element={<MainPage />} />
+        <Route path="/ManagePage" element={<ManagePage />} />
+        <Route path="/MyPage" element={<MyPage />} />
+        <Route path="/StorePage" element={<StorePage />} />
+      </Routes>
+    </div>
   );
-};
+}
 
 export default App;
