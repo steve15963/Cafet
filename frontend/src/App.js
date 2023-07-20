@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes } from "react-router-dom";
+
 import BoardPage from "./pages/BoardPage";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
@@ -9,7 +11,7 @@ import MyPage from "./pages/MyPage";
 import StorePage from "./pages/StorePage";
 import TestPage from "./pages/TestPage";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Routes>
@@ -23,6 +25,6 @@ function App() {
       </Routes>
     </div>
   );
-}
+};
 
 export default App;
