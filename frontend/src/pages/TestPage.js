@@ -7,17 +7,17 @@ import SideBar from "../components/layout/SideBar/SideBar";
 
 const TestPage = () => {
   return (
-    <div>
+    <>
       <Header />
+      <SideBar />
       <Button
         text={"버튼버튼"}
         onClick={() => {
           alert("클릭했습니다.");
         }}
       />
-      <SideBar />
       <Footer />
-    </div>
+    </>
   );
 };
 

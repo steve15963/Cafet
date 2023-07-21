@@ -1,7 +1,7 @@
 import React from "react";
 import "./SideBar.css";
 
-import Nav from "react-bootstrap/Nav";
+import { Link } from "react-router-dom";
 
 const rectangleStyle = {
   border: "solid",
@@ -10,17 +10,17 @@ const rectangleStyle = {
 
 const SideBar = () => {
   return (
-    <Nav defaultActiveKey="/home" className="flex-column">
+    <nav defaultActiveKey="/home" className="SideBar">
       <div style={rectangleStyle}>
-        <Nav.Link href="/home">유저 관리</Nav.Link>
+        <Link to={"/"}>유저관리</Link>
       </div>
       <div style={rectangleStyle}>
-        <Nav.Link href="/home">업주 관리</Nav.Link>
+        <Link to={"/"}>업주관리</Link>
       </div>
       <div style={rectangleStyle}>
-        <Nav.Link href="/home">등록 요청 관리</Nav.Link>
+        <Link to={"/"}>등록요청관리</Link>
       </div>
-    </Nav>
+    </nav>
   );
 };
 
