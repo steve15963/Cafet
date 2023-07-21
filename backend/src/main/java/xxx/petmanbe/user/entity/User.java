@@ -1,8 +1,12 @@
 package xxx.petmanbe.user.entity;
 
 import lombok.*;
+
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -15,6 +19,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class User {
 
@@ -33,7 +39,7 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    @Size(min=13, max = 15)
+    @Size(min=11, max = 15)
     private String phoneNo;
 
     @Column(nullable = false)
@@ -44,15 +50,17 @@ public class User {
     @Size(min=2, max = 3)
     private String status;
 
-    @Column(nullable = false)
-    private int level;
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="level_id")
+    private Level level;
 
     @Column(nullable = false)
-    @CreationTimestamp
+    @CreatedDate
     private LocalDateTime createdDate;
 
     @Column(nullable = false)
-    @UpdateTimestamp
+    @LastModifiedDate
     private LocalDateTime updatedDate;
 
     @JsonIgnore
@@ -60,18 +68,8 @@ public class User {
     @JoinColumn(name="token_id")
     private Token token;
 
-    @Builder
-    public User(long userId, String email, String password, String phoneNo, String nickname, String status, int level,
-        LocalDateTime createdDate, LocalDateTime updatedDate, Token token) {
-        this.userId = userId;
-        this.email = email;
-        this.password = password;
+    public void updateUser( String phoneNo, String nickname) {
         this.phoneNo = phoneNo;
         this.nickname = nickname;
-        this.status = status;
-        this.level = level;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-        this.token = token;
     }
 }
