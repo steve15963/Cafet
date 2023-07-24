@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
@@ -26,8 +27,8 @@ import xxx.petmanbe.BusinessNumber.DTO.Response.nomal.ResponseBusinessNumberStat
 @Repository
 public class BusinessNumberRepositoryImpl implements BusinessNumberRepository {
 
-	//@Value("${opendata.key}")
-	private String key = "iPxqZfz5fTvgC2Rlat2T56y5jPwmGHYKh0U7TA8cNDxVvXn40VMiTuEfLSs5cHtI1G9cRLXbFIKvI014Pffiqg==";
+	@Value("${opendata.key}")
+	private String key;
 
 	private ObjectMapper mapper;
 
