@@ -69,6 +69,27 @@ public class BoardController {
 		return new ResponseEntity<>(boardList, HttpStatus.OK);
 	}
 
+	// 게시글 검색 기능: 제목으로 검색
+	@GetMapping("/title/{key}")
+	public ResponseEntity<List<BoardListResponseDto>> getBoardListByBoardTitle(@PathVariable String key){
+		// 게시글 목록 가져오기
+		List<BoardListResponseDto> boardList = boardService.getBoardListByBoardTitle(key);
+
+		// 결과 전달
+		return new ResponseEntity<>(boardList, HttpStatus.OK);
+	}
+
+	// 게시글 검색 기능: 내용으로 검색
+	@GetMapping("/content/{key}")
+	public ResponseEntity<List<BoardListResponseDto>> getBoardListByBoardContent(@PathVariable String key){
+		// 게시글 목록 가져오기
+		List<BoardListResponseDto> boardList = boardService.getBoardListByBoardContent(key);
+
+		// 결과 전달
+		return new ResponseEntity<>(boardList, HttpStatus.OK);
+	}
+
+
 	// 게시글 수정하기
 	@PutMapping("/{boardId}")
 	public ResponseEntity<Integer> putBoard(@PathVariable Long boardId, @RequestPart("dto") UpdateBoardRequestDto request){

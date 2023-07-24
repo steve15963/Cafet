@@ -9,4 +9,8 @@ import xxx.petmanbe.board.entity.Board;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
 	List<Board> findByStatusFalse();
+
+	List<Board> findByBoardTitleContaining(String boardTitle);
+
+	List<Board> findByBoardContentContaining(String boardContent);
 }

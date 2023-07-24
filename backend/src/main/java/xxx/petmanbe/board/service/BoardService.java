@@ -24,7 +24,13 @@ public class BoardService {
 
 	private final BoardRepository boardRepository;
 
-	// id로 검색해서 찾기
+	// 게시글 생성
+	@Transactional
+	public Board postBoard(AddBoardRequestDto request){
+		return boardRepository.save(request.toEntity());
+	}
+
+	// 게시글 상세 보기
 	public BoardResponseDto getBoardById(Long boardId){
 
 		Board board = boardRepository.findById(boardId)
@@ -41,10 +47,18 @@ public class BoardService {
 			.collect(Collectors.toList());
 	}
 
-	// 게시글 생성
-	@Transactional
-	public Board postBoard(AddBoardRequestDto request){
-		return boardRepository.save(request.toEntity());
+	// 글 제목으로 게시글 검색
+	public List<BoardListResponseDto> getBoardListByBoardTitle(String key){
+		return boardRepository.findByBoardTitleContaining(key).stream()
+			.map(BoardListResponseDto::new)
+			.collect(Collectors.toList());
+	}
+
+	// 글 내용으로 게시글 검색
+	public List<BoardListResponseDto> getBoardListByBoardContent(String key){
+		return boardRepository.findByBoardContentContaining(key).stream()
+			.map(BoardListResponseDto::new)
+			.collect(Collectors.toList());
 	}
 
 	// 게시글 수정: 제목, 내용, 카테고리
