@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xxx.petmanbe.board.dto.request.UpdateBoardRequestDto;
 import xxx.petmanbe.comment.entity.Comment;
+import xxx.petmanbe.common.entity.BaseTimeEntity;
 
 @Entity
 @Table(name = "board")
@@ -26,7 +27,7 @@ import xxx.petmanbe.comment.entity.Comment;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Board extends BaseTimeEntity{
+public class Board extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
 	@Column(name = "board_id", nullable = false, updatable = false)

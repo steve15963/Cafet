@@ -15,7 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import xxx.petmanbe.board.entity.BaseTimeEntity;
+import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.board.entity.Board;
 import xxx.petmanbe.comment.dto.request.UpdateCommentRequestDto;
 
