@@ -3,8 +3,8 @@ import React from "react";
 import Header from "../components/layout/Header/Header";
 import Footer from "../components/layout/Footer/Footer";
 import Button from "../components/item/Button/Button";
-import SideBar from "../components/layout/SideBar/SideBar";
 import SearchBar from "../components/item/SearchBar/SearchBar";
+import SideBar from "../components/item/SideBar/SideBar";
 
 const TestPage = () => {
   return (
