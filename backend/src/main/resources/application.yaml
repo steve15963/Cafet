@@ -11,8 +11,9 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-        ddl-auto: update
-      database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL8Dialect
 
 
   mail:
