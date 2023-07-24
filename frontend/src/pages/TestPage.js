@@ -1,15 +1,16 @@
 import React from "react";
 
-import Header from "../components/layout/Header/Header";
-import Footer from "../components/layout/Footer/Footer";
-import Button from "../components/item/Button/Button";
-import SearchBar from "../components/item/SearchBar/SearchBar";
-import SideBar from "../components/item/SideBar/SideBar";
+// import Header from "../components/layout/Header/Header";
+// import Button from "../components/Button/Button";
+// import SearchBar from "../components/SearchBar/SearchBar";
+// import SideBar from "../components/SideBar/SideBar";
+import CommentList from "../components/CommentList/CommentList";
+import Footer from "../components/Footer/Footer";
 
 const TestPage = () => {
   return (
     <>
-      <Header />
+      {/* <Header />
       <SideBar />
       <SearchBar />
       <Button
@@ -17,7 +18,8 @@ const TestPage = () => {
         onClick={() => {
           alert("클릭했습니다.");
         }}
-      />
+      /> */}
+      <CommentList />
       <Footer />
     </>
   );

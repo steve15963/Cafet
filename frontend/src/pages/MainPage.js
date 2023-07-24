@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import Button from "../components/item/Button/Button";
+import Button from "../components/Button/Button";
 
 const MainPage = () => {
   return (

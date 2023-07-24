@@ -1,0 +1,27 @@
+.cmt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-bottom: 1px solid #ccc;
+  padding: 8px 0;
+  list-style: none;
+}
+
+.cmt_user_id {
+  display: flex;
+  justify-content: center;
+  width: 20%;
+}
+
+.cmt_cmt {
+  display: flex;
+  justify-content: center;
+  width: 60%;
+}
+
+.cmt_created_time {
+  display: flex;
+  justify-content: center;
+  width: 20%;
+}

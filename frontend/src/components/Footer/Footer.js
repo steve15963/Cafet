@@ -13,7 +13,7 @@ const Footer = () => {
           </p>
           &nbsp;
           <Link to={"/LoginPage"} class="link">
-            문의하기
+            <p class="text">문의하기</p>
           </Link>
         </div>
       </nav>
