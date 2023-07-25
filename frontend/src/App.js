@@ -4,12 +4,12 @@ import { Route, Routes } from "react-router-dom";
 
 import BoardDetail from "./pages/BoardDetail/BoardDetail";
 import BoardPage from "./pages/BoardPage/BoardPage";
-import LoginPage from "./pages/LoginPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
 import MainPage from "./pages/MainPage/MainPage";
-import ManagePage from "./pages/ManagePage";
-import MyPage from "./pages/MyPage";
-import StorePage from "./pages/StorePage";
-import TestPage from "./pages/TestPage";
+import ManagePage from "./pages/ManagePage/ManagePage";
+import MyPage from "./pages/MyPage/MyPage";
+import StorePage from "./pages/StorePage/StorePage";
+import TestPage from "./pages/TestPage/TestPage";
 
 const App = () => {
   return (
