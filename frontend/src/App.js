@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 
-import BoardDetail from "./pages/BoardDetail";
+import BoardDetail from "./pages/BoardDetail/BoardDetail";
 import BoardPage from "./pages/BoardPage";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";

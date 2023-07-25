@@ -8,24 +8,20 @@
   list-style: none;
 }
 
-.cmt_user_id {
+.cmt_left {
   display: flex;
   justify-content: center;
   width: 20%;
 }
 
-.cmt_cmt {
+.cmt_center {
   display: flex;
   justify-content: center;
   width: 60%;
 }
 
-.cmt_created_time {
+.cmt_right {
   display: flex;
   justify-content: center;
   width: 20%;
-}
-
-.footer_save {
-  padding-bottom: 40px;
 }

@@ -1,0 +1,12 @@
+.BoardDetail-container {
+  width: 80%;
+  margin: 0 auto; /* 가운데 정렬을 위해 필요한 부분입니다. */
+}
+
+.header-save {
+  padding-top: 120px;
+}
+
+.footer-save {
+  padding-bottom: 40px;
+}

@@ -7,49 +7,49 @@ const Header = () => {
   return (
     <div className="Header">
       <nav className="Header_guest">
-        <div class="header-container">
-          <div class="logo-container">
+        <div className="header-container">
+          <div className="logo-container">
             <Link to={"/"}>
-              <img src="images/logo192.png" alt="로고" class="logo" />
+              <img
+                src="../assets/images/logo192.png"
+                alt="로고"
+                className="logo"
+              />
             </Link>
+            <p>capet</p>
           </div>
-          <div class="mainlogo-container">
-            <Link to={"/"}>
-              <img src="images/logo512.png" alt="메인로고" class="mainlogo" />
-            </Link>
+          <div className="mainlogo-container">
+            <div>
+              <Link to={"/LoginPage"} className="link">
+                동물별로 찾기
+              </Link>
+              &nbsp;&nbsp;| &nbsp;
+              <Link to={"/LoginPage"} className="link">
+                가게별로 찾기
+              </Link>
+              &nbsp;&nbsp;| &nbsp;
+              <Link to={"/LoginPage"} className="link">
+                커뮤니티
+              </Link>
+              &nbsp;&nbsp;| &nbsp;
+              <Link to={"/LoginPage"} className="link">
+                카페소식
+              </Link>
+              &nbsp;&nbsp;| &nbsp;
+              <Link to={"/LoginPage"} className="link">
+                검색
+              </Link>
+            </div>
           </div>
-          <div class="link-container">
-            <Link to={"/LoginPage"} class="link">
+          <div className="link-container">
+            <Link to={"/LoginPage"} className="link">
               로그인
             </Link>
             &nbsp;&nbsp;
-            <Link to={"/LoginPage"} class="link">
+            <Link to={"/LoginPage"} className="link">
               회원가입
             </Link>
           </div>
-        </div>
-      </nav>
-      <nav className="Header_category">
-        <div>
-          <Link to={"/LoginPage"} class="link">
-            동물별로 찾기
-          </Link>
-          &nbsp;&nbsp;| &nbsp;
-          <Link to={"/LoginPage"} class="link">
-            가게별로 찾기
-          </Link>
-          &nbsp;&nbsp;| &nbsp;
-          <Link to={"/LoginPage"} class="link">
-            커뮤니티
-          </Link>
-          &nbsp;&nbsp;| &nbsp;
-          <Link to={"/LoginPage"} class="link">
-            카페소식
-          </Link>
-          &nbsp;&nbsp;| &nbsp;
-          <Link to={"/LoginPage"} class="link">
-            검색
-          </Link>
         </div>
       </nav>
     </div>

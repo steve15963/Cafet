@@ -34,7 +34,6 @@ const NearPost = () => {
           </li>
         ))}
       </ul>
-      <div className="footer_save" />
     </div>
   );
 };
