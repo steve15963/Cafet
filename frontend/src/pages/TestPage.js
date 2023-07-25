@@ -1,14 +1,15 @@
 import React from "react";
 
-// import Header from "../components/layout/Header/Header";
+// import Header from "../components/Header/Header";
 // import Button from "../components/Button/Button";
 // import SearchBar from "../components/SearchBar/SearchBar";
 // import SideBar from "../components/SideBar/SideBar";
 import Post from "../components/Post/Post";
 import CommentList from "../components/CommentList/CommentList";
-import CommentSlot from "../components/CommentSlot/CommentSlot";
+import InputForm from "../components/InputForm/InputForm";
 import NearPost from "../components/NearPost/NearPost";
 import Footer from "../components/Footer/Footer";
+import Editor from "../components/Editor/Editor";
 
 const TestPage = () => {
   return (
@@ -23,8 +24,9 @@ const TestPage = () => {
         }}
       />  */}
       <Post />
-      <CommentSlot />
       <CommentList />
+      <InputForm />
+      <Editor />
       <NearPost />
       <Footer />
     </>

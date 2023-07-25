@@ -38,11 +38,11 @@ const CommentList = () => {
         {mockComment.map((value) => (
           <li key={value.comment_id}>
             <div className="cmt">
-              <div className="cmt_user_id">
+              <div className="cmt_left">
                 <strong>{value.user_id}</strong>
               </div>
-              <div className="cmt_cmt">{value.comment}</div>
-              <div className="cmt_created_time">{value.created_time}</div>
+              <div className="cmt_center">{value.comment}</div>
+              <div className="cmt_right">{value.created_time}</div>
             </div>
           </li>
         ))}
