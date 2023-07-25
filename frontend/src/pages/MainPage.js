@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Header from "../components/layout/Header/Header";
+import Header from "../components/Header/Header";
 import "./MainPage.css";
-import Footer from "../components/layout/Footer/Footer";
+import Footer from "../components/Footer/Footer";
 // import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Masonry from "@mui/lab/Masonry";
