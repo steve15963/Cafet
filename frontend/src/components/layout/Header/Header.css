@@ -4,6 +4,7 @@
   left: 0;
   right: 0;
   background-color: #e7f3fc;
+  z-index: 1;
 }
 
 .Header_guest {
