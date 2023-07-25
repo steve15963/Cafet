@@ -1,0 +1,30 @@
+.boardPage_input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .boardPage_input .boardPage_search {
+  width: 600px;
+  display: flex;
+  gap: 10px;
+  flex: 1;
+  box-sizing: border-box;
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 20px;
+  padding: 15px;
+}
+
+.boardPage_input .boardPage_search:focus {
+  outline: none;
+  border: 1px solid #1f93ff;
+}
+
+.boardPage_input .boardPage_btn {
+  cursor: pointer;
+  width: 50px;
+  border: none;
+  background-color: #1f93ff;
+  color: white;
+  border-radius: 5px;
+} */
