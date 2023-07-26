@@ -20,33 +20,33 @@ const Header = () => {
           </div>
           <div className="mainlogo-container">
             <div>
-              <Link to={"/LoginPage"} className="link">
+              <Link to={"/login"} className="link">
                 동물별로 찾기
               </Link>
               &nbsp;&nbsp;| &nbsp;
-              <Link to={"/LoginPage"} className="link">
+              <Link to={"/login"} className="link">
                 가게별로 찾기
               </Link>
               &nbsp;&nbsp;| &nbsp;
-              <Link to={"/LoginPage"} className="link">
+              <Link to={"/login"} className="link">
                 커뮤니티
               </Link>
               &nbsp;&nbsp;| &nbsp;
-              <Link to={"/LoginPage"} className="link">
+              <Link to={"/login"} className="link">
                 카페소식
               </Link>
               &nbsp;&nbsp;| &nbsp;
-              <Link to={"/LoginPage"} className="link">
+              <Link to={"/login"} className="link">
                 검색
               </Link>
             </div>
           </div>
           <div className="link-container">
-            <Link to={"/LoginPage"} className="link">
+            <Link to={"/login"} className="link">
               로그인
             </Link>
             &nbsp;&nbsp;
-            <Link to={"/LoginPage"} className="link">
+            <Link to={"/login"} className="link">
               회원가입
             </Link>
           </div>
