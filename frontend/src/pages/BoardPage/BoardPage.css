@@ -1,3 +1,15 @@
+.table-wrapper {
+  display: flex;
+}
+
+.table-right-save {
+  width: 10%;
+}
+
+.table-left-save {
+  width: 10%;
+}
+
 .boardPage_input {
   display: flex;
   align-items: center;
