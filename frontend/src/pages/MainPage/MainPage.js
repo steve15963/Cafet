@@ -139,6 +139,7 @@ const MainPage = () => {
           ))}
         </Masonry>
       </div>
+      <div className="footer-save" />
       <Footer />
     </div>
   );

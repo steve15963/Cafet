@@ -28,7 +28,7 @@ const Header = () => {
                 가게별로 찾기
               </Link>
               &nbsp;&nbsp;| &nbsp;
-              <Link to={"/login"} className="link">
+              <Link to={"/board"} className="link">
                 커뮤니티
               </Link>
               &nbsp;&nbsp;| &nbsp;

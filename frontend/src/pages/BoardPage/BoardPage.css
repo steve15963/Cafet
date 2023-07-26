@@ -4,6 +4,14 @@
   justify-content: center;
 }
 
+.header-save {
+  padding-top: 120px;
+}
+
+.footer-save {
+  padding-bottom: 50px;
+}
+
 /* .boardPage_input .boardPage_search {
   width: 600px;
   display: flex;
