@@ -1,5 +1,6 @@
 package xxx.petmanbe.user.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,11 +19,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 
 
-@NoArgsConstructor
-@Getter
 @Entity
-@Setter
 @Table
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Token {
 	@Id
 	@Column(name="token_id")
@@ -42,11 +45,4 @@ public class Token {
 	@OneToOne(mappedBy = "token", cascade = CascadeType.ALL)
 	private User user;
 
-	@Builder
-	public Token(String tokenType, String refreshToken, String accessToken, User user) {
-		this.tokenType=tokenType;
-		this.accessToken=accessToken;
-		this.refreshToken= refreshToken;
-		this.user = user;
-	}
 }
