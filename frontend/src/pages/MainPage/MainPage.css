@@ -64,7 +64,7 @@
   /* justify-content: center; */
   text-align: center;
   /* gap: 30px; */
-  background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
+  background-color: #666;
   color: #e8e8e8;
   /* padding: 10px; */
   line-height: 1.5;
@@ -83,7 +83,6 @@
 
 .card-container:hover {
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
-
   overflow: hidden;
 }
 

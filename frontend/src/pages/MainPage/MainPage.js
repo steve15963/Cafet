@@ -2,20 +2,7 @@ import React, { useState } from "react";
 import "./MainPage.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-// import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Masonry from "@mui/lab/Masonry";
-import { styled } from "@mui/material/styles";
-
-const Label = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(0.5),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-  borderBottomLeftRadius: 0,
-  borderBottomRightRadius: 0,
-}));
 
 const mockCards = [
   {
@@ -117,9 +104,9 @@ const MainPage = () => {
       <div className="MainPage">
         <Masonry columns={3} spacing={2}>
           {cards.map((item) => (
-            <div class="card-container">
-              <div class="card">
-                <div class="front-content">
+            <div className="card-container">
+              <div className="card">
+                <div className="front-content">
                   <img
                     src={`${item.thumbnail}?auto=format`}
                     alt={item.title}
@@ -130,8 +117,8 @@ const MainPage = () => {
                   />
                   {/* <p>&nbsp;</p> */}
                 </div>
-                <div class="content">
-                  <p class="heading">{item.boardTitle}</p>
+                <div className="content">
+                  <p className="heading">{item.boardTitle}</p>
                   <p>{item.boardContent}</p>
                 </div>
               </div>
