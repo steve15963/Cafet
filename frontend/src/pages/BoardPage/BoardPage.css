@@ -4,10 +4,12 @@
 
 .table-right-save {
   width: 10%;
+  justify-content: end;
 }
 
 .table-left-save {
   width: 10%;
+  justify-content: start;
 }
 
 .boardPage_input {
