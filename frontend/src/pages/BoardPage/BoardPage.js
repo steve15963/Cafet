@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { MdSearch } from "react-icons/md";
-// import BoardDetail from "./BoardDetail"
+import { boardMenuList } from '../../utils/useBoardPageMenu/useBoardPageMenu'
+import Menu from "../../components/Menu/Menu";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./BoardPage.css";
 import Pagination from "react-bootstrap/Pagination";
@@ -20,11 +20,15 @@ for (let number = 1; number <= 5; number++) {
 }
 
 const BoardPage = () => {
-  const [data, setData] = useState([])
+  
+  // 메뉴 버튼 활성화를 위한 state 관리
+  const [menuSelected, setMenuSelected] = useState(-1)
+  
+  const [boardData, setboardData] = useState([])
   useEffect(() => {
     axios.get('http://localhost:8080/api/board/list')
     .then(function (response) {
-      setData(response.data)
+      setboardData(response.data)
     })
     .catch(function (error) {
       console.log(error);
@@ -35,8 +39,16 @@ const BoardPage = () => {
     <>
       <Header />
       <div className="header-save" />
-      <div className="category_section">
-
+      <div className="menu_wrapper">
+        <div className="menu-left-save"/>
+        <div className="menu_section">
+          {
+            boardMenuList.map((it) => 
+              <Menu key={it.id} {...it} />
+            )
+          }
+        </div>
+        <div className="menu-right-save"/>
       </div>
       <div className="table-wrapper">
         <div className="table-left-save" />
@@ -52,7 +64,7 @@ const BoardPage = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((el) => {
+            {boardData.map((el) => {
               return (
                 <tr key={el.boardId}>
                   <td>{el.boardId}</td>
@@ -69,9 +81,9 @@ const BoardPage = () => {
         <div className="table-right-save" />
       </div>
       <div className="input_wrapper">
-        <div class="group">
-          <input placeholder="검색" type="search" class="searchbar" />
-          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
+        <div className="group">
+          <input placeholder="검색" type="search" className="searchbar" />
+          <svg className="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
         </div>
       </div>
       <div className="d-flex justify-content-center">
@@ -88,9 +100,3 @@ const BoardPage = () => {
 };
 
 export default BoardPage;
-
-
-{/* <Button text={'전체게시판'} onClick={handleChangeMenu} onMouseOver={} />
-<Button text={'자유게시판'} onClick={handleChangeMenu} onMouseOver={} />
-<Button text={'자랑게시판'} onClick={handleChangeMenu} onMouseOver={} />
-<Button text={'홍보게시판'} onClick={handleChangeMenu} onMouseOver={} /> */}

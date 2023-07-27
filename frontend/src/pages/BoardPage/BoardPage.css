@@ -1,5 +1,21 @@
-.category_section {
+.menu_wrapper {
+  display: flex;
+}
+.menu_section {
+  display: flex;
+  justify-content: left;
+  align-content: center;
+  width: 80%;
+}
 
+.menu_wrapper .menu-right-save {
+  width: 10%;
+  justify-content: end;
+}
+
+.menu_wrapper .menu-left-save {
+  width: 100px;
+  justify-content: start;
 }
 
 .table-wrapper {
@@ -24,7 +40,7 @@
 }
 
 .header-save {
-  padding-top: 120px;
+  padding-top: 80px;
 }
 
 .footer-save {
