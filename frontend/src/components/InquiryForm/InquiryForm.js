@@ -4,6 +4,7 @@ import { MdPerson, MdCall } from "react-icons/md";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { InputLabel, MenuItem } from "@mui/material";
+import TextField from "@mui/material/TextField";
 
 const InquiryForm = () => {
   const [category, setCategory] = React.useState("");
@@ -21,16 +22,29 @@ const InquiryForm = () => {
         <p className="form-title">문의하기</p>
         <b>문의자 정보</b>
         <div className="input-container">
-          <p>이름</p>
-          <input placeholder="이름을 입력하세요" type="text" />
+          <TextField
+            id="outlined-basic"
+            label="이름"
+            variant="outlined"
+            placeholder="이름을 쓰세요"
+            fullWidth
+          />
           <span className="icon">
             <MdPerson />
           </span>
         </div>
         <div className="input-container">
-          <p>이메일</p>
-          <input placeholder="이메일을 입력하세요" type="email" />
-          <span>
+          <TextField
+            id="outlined-basic"
+            label="이메일"
+            placeholder="이메일을 쓰세요"
+            variant="outlined"
+            inputProps={{
+              type: "email",
+            }}
+            fullWidth
+          />
+          <span className="icon">
             <svg
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -47,24 +61,30 @@ const InquiryForm = () => {
           </span>
         </div>
         <div className="input-container">
-          <p>연락처</p>
-          <input placeholder="전화번호를 입력하세요" type="text" />
-          <span>
+          <TextField
+            id="outlined-basic"
+            label="전화번호"
+            placeholder="전화번호를 적으세요"
+            variant="outlined"
+            fullWidth
+          />
+          <span className="icon">
             <MdCall />
           </span>
         </div>
         <br />
         <b>문의 내용</b>
         <div className="input-container">
-          <p>제목</p>
-          <input placeholder="제목을 입력하세요" type="text" />
+          <TextField
+            id="outlined-basic"
+            label="제목"
+            variant="outlined"
+            placeholder="제목을 쓰세요"
+            fullWidth
+          />
         </div>
-        {/* <div className="input-container">
-          <p>분류</p>
-        </div> */}
-        <div className="input-container-2">
-          <p>분류</p>
-          <FormControl sx={{ width: 360 }}>
+        <div className="input-container">
+          <FormControl fullWidth>
             <InputLabel id="select-label">분류</InputLabel>
             <Select
               labelId="select-label"
@@ -82,9 +102,15 @@ const InquiryForm = () => {
           </FormControl>
         </div>
 
-        <div class="input-container">
-          <p>내용</p>
-          <input type="text" className="inquiry-input" />
+        <div className="input-container">
+          <TextField
+            id="outlined-textarea"
+            label="문의내용"
+            placeholder="내용을 입력하세요"
+            multiline
+            fullWidth
+            rows={5}
+          />
         </div>
         <button class="submit" onClick={handleSubmit}>
           등록하기
