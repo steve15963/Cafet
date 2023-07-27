@@ -12,7 +12,7 @@ const Footer = () => {
             회사소개 | 제휴제안 | 이용약관 | 개인정보처리방침 |
           </p>
           &nbsp;
-          <Link to={"/login"} className="link">
+          <Link to={"/inquiry"} className="link">
             <p className="text">문의하기</p>
           </Link>
         </div>
