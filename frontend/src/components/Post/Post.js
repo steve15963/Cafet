@@ -13,7 +13,7 @@ const Post = ({ boardDetail }) => {
       <div className="post-info">
         <span className="post-author">작성자: {boardDetail.nickname}</span>
         <span className="post-detail-info">
-          조회수: {boardDetail.viewCnt} | 좋아요: {boardDetail.like_sum} | 댓글:{" "}
+          조회수: {boardDetail.viewCnt} | 좋아요: {boardDetail.likeSum} | 댓글:{" "}
           {boardDetail.commentSum}
         </span>
       </div>

@@ -6,7 +6,6 @@ import React from "react";
 // import SideBar from "../components/SideBar/SideBar";
 import Post from "../../components/Post/Post";
 import CommentList from "../../components/CommentList/CommentList";
-import InputForm from "../../components/InputForm/InputForm";
 import NearPost from "../../components/NearPost/NearPost";
 import Footer from "../../components/Footer/Footer";
 import Editor from "../../components/Editor/Editor";
@@ -25,7 +24,6 @@ const TestPage = () => {
       />  */}
       <Post />
       <CommentList />
-      <InputForm />
       <Editor />
       <NearPost />
       <Footer />
