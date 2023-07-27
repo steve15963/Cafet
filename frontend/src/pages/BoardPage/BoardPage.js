@@ -22,7 +22,7 @@ for (let number = 1; number <= 5; number++) {
 const BoardPage = () => {
   
   // 메뉴 버튼 활성화를 위한 state 관리
-  const [menuSelected, setMenuSelected] = useState(-1)
+  //const [menuSelected, setMenuSelected] = useState(-1)
   
   const [boardData, setboardData] = useState([])
   useEffect(() => {
