@@ -1,36 +1,24 @@
 import React from "react";
 import "./Post.css";
 
-const mockPost = {
-  post_id: "1",
-  title: "첫 번째 게시글",
-  created_time: new Date().getTime(),
-  author: "테스터",
-  look: 1555,
-  like_sum: 154,
-  comment: 39,
-  content:
-    "테스트용 게시글 테스트용 게시글 테스트용 게시글 테스트용 게시글 테스트용 게시글 테스트용 게시글 테스트용 게시글 ",
-};
-
-const Post = () => {
+const Post = ({ boardDetail }) => {
   return (
     <div className="post-card">
       <div className="post-info">
-        <h2 className="post-title">{mockPost.title}</h2>
+        <h2 className="post-title">{boardDetail.boardTitle}</h2>
         <span className="post-date">
-          작성일: {new Date(mockPost.created_time).toLocaleDateString()}
+          작성일: {new Date(boardDetail.createdTime).toLocaleDateString()}
         </span>
       </div>
       <div className="post-info">
-        <span className="post-author">작성자: {mockPost.author}</span>
+        <span className="post-author">작성자: {boardDetail.nickname}</span>
         <span className="post-detail-info">
-          조회수: {mockPost.look} | 좋아요: {mockPost.like_sum} | 댓글:{" "}
-          {mockPost.comment}
+          조회수: {boardDetail.viewCnt} | 좋아요: {boardDetail.like_sum} | 댓글:{" "}
+          {boardDetail.commentSum}
         </span>
       </div>
       <div className="post-content-wrapper">
-        <p className="post-content">{mockPost.content}</p>
+        <p className="post-content">{boardDetail.boardContent}</p>
       </div>
     </div>
   );

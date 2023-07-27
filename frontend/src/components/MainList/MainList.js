@@ -10,11 +10,21 @@ const MainList = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  const logLinkClick = (item) => {
+    console.log("Link clicked with item:", item);
+  };
+
   return (
     <div className="MainPage">
       <Masonry columns={3} spacing={2}>
         {boardList.map((item) => (
-          <Link to={`/board/detail/${item.boardId}`} key={item.boardId}>
+          <Link
+            to={`/board/detail/${item.boardId}`}
+            key={item.boardId}
+            state={item}
+            onClick={() => logLinkClick(item.boardId)}
+          >
             <div className="card-container">
               <div className="card">
                 <div className="front-content">
