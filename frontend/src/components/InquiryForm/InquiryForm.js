@@ -53,9 +53,9 @@ const InquiryForm = () => {
             >
               <path
                 d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                stroke-width="2"
-                stroke-linejoin="round"
-                stroke-linecap="round"
+                strokeWidth="2"
+                strokeLinejoin="round"
+                strokeLinecap="round"
               ></path>
             </svg>
           </span>
@@ -112,7 +112,7 @@ const InquiryForm = () => {
             rows={5}
           />
         </div>
-        <button class="submit" onClick={handleSubmit}>
+        <button className="submit" onClick={handleSubmit}>
           등록하기
         </button>
       </form>
