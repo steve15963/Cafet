@@ -1,0 +1,55 @@
+.Header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+.Header_guest {
+  font-family: Arial, Helvetica, sans-serif;
+  border-bottom: 2px solid #0067a3;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 75px;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+}
+
+.logo {
+  width: 75px;
+  height: 75px;
+}
+
+.category-container {
+  display: flex;
+  justify-content: center;
+  width: 60%;
+}
+
+.link-container {
+  display: flex;
+  justify-content: center;
+  width: 20%;
+}
+
+.link {
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: blue;
+}
