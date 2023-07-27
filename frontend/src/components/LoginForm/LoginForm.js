@@ -1,66 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
+import handleLogin from "../../utils/handleLogin";
 import "./LoginForm.css";
-import InputForm from "../InputForm/InputForm";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const onLoginButtonClick = async () => {
+    try {
+      const response = await handleLogin(email, password);
+      const token = response.data.token;
+      console.log("Login success", token);
+      navigate("/");
+    } catch (error) {
+      console.error("Login failed:");
+      alert("로그인에 실패하셨습니다.");
+      setEmail("");
+      setPassword("");
+    }
+  };
+
   return (
-    <div class="loginForm">
-      <InputForm />
-
-      <form class="form">
-        <p class="form-title">Sign in to your account</p>
-        <div class="input-container">
-          <InputForm placeholder="Enter email" type="slot" />
-          <span>
-            <svg
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                stroke-width="2"
-                stroke-linejoin="round"
-                stroke-linecap="round"
-              ></path>
-            </svg>
-          </span>
-        </div>
-        <div class="input-container">
-          <InputForm placeholder="Enter password" type="slot" />
-
-          <span>
-            <svg
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                stroke-width="2"
-                stroke-linejoin="round"
-                stroke-linecap="round"
-              ></path>
-              <path
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                stroke-width="2"
-                stroke-linejoin="round"
-                stroke-linecap="round"
-              ></path>
-            </svg>
-          </span>
-        </div>
-        <button class="submit" type="submit">
-          Sign in
-        </button>
-
-        <p class="signup-link">
-          No account?
-          <a href="">Sign up</a>
-        </p>
-      </form>
+    <div className="login-form">
+      <input
+        type="email"
+        className="input-field"
+        placeholder="Email"
+        name="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        className="input-field"
+        placeholder="Password"
+        name="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button className="login-button" onClick={onLoginButtonClick}>
+        Login
+      </button>
     </div>
   );
 };

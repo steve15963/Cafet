@@ -14,7 +14,7 @@ const Header = () => {
             </Link>
             <p>capet</p>
           </div>
-          <div className="mainlogo-container">
+          <div className="category-container">
             <div>
               <Link to={"/login"} className="link">
                 동물별로 찾기

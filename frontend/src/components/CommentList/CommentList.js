@@ -12,7 +12,7 @@ const CommentList = ({ commentList }) => {
           <li key={value.commentId}>
             <div className="cmt">
               <div className="cmt_left">
-                <strong>{value.user_id}</strong>
+                <strong>{value.nickname}</strong>
               </div>
               <div className="cmt_center">{value.content}</div>
               <div className="cmt_right">{value.createdTime}</div>
