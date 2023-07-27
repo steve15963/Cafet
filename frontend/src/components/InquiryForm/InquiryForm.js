@@ -23,7 +23,7 @@ const InquiryForm = () => {
         <div className="input-container">
           <p>이름</p>
           <input placeholder="이름을 입력하세요" type="text" />
-          <span>
+          <span className="icon">
             <MdPerson />
           </span>
         </div>
@@ -59,7 +59,10 @@ const InquiryForm = () => {
           <p>제목</p>
           <input placeholder="제목을 입력하세요" type="text" />
         </div>
-        <div className="input-container">
+        {/* <div className="input-container">
+          <p>분류</p>
+        </div> */}
+        <div className="input-container-2">
           <p>분류</p>
           <FormControl sx={{ width: 360 }}>
             <InputLabel id="select-label">분류</InputLabel>
@@ -67,7 +70,7 @@ const InquiryForm = () => {
               labelId="select-label"
               id="simple-select"
               value={category}
-              label="분류를 선택하세요"
+              label="분류"
               onChange={handleChange}
               fullWidth={true}
             >
@@ -78,6 +81,7 @@ const InquiryForm = () => {
             </Select>
           </FormControl>
         </div>
+
         <div class="input-container">
           <p>내용</p>
           <input type="text" className="inquiry-input" />

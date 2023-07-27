@@ -39,6 +39,34 @@
   margin-top: 15px;
   margin-right: 30px;
 }
+
+.input-container-2 {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.input-container-2 p {
+  margin-top: 15px;
+  margin-right: 30px;
+}
+.input-container-2 input {
+  background-color: #fff;
+  padding: 1rem;
+  padding-right: 3rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  width: 360px;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.input-container-2 input {
+  outline: none;
+  border: 1px solid #e5e7eb;
+  margin: 8px 0;
+}
+
 .input-container input,
 .form button {
   outline: none;
@@ -67,6 +95,7 @@
   padding-right: 1rem;
   place-content: center;
 }
+
 .inquiry-input {
   min-height: 200px;
 }
