@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { MdSearch } from "react-icons/md";
 // import BoardDetail from "./BoardDetail"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./BoardPage.css";
@@ -6,6 +7,7 @@ import Pagination from "react-bootstrap/Pagination";
 import Table from "react-bootstrap/Table";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+import axios from 'axios'
 
 let active = 1;
 let items = [];
@@ -17,87 +19,60 @@ for (let number = 1; number <= 5; number++) {
   );
 }
 
-const mockBoard = [
-  {
-    id: 0,
-    board_id: 0,
-    user_id: 0,
-    shop_id: 0,
-    board_title: "Title TMP",
-    board_content: "Content TMP",
-    author: "Author TMP",
-    created_time: new Date().getTime(),
-    updated_time: new Date().getTime(),
-    type: false,
-    category_id: "chat",
-    like_sum: 10,
-  },
-  {
-    id: 1,
-    board_id: 1,
-    user_id: 1,
-    shop_id: 1,
-    board_title: "Title TMP1",
-    board_content: "Content TMP1",
-    author: "Author TMP1",
-    created_time: new Date().getTime(),
-    updated_time: new Date().getTime(),
-    type: false,
-    category_id: "chat",
-    like_sum: 64,
-  },
-  {
-    id: 2,
-    board_id: 2,
-    user_id: 2,
-    shop_id: 2,
-    board_title: "Title TMP2",
-    board_content: "Content TMP2",
-    author: "Author TMP2",
-    created_time: new Date().getTime(),
-    updated_time: new Date().getTime(),
-    type: false,
-    category_id: "chat",
-    like_sum: 102,
-  },
-];
-
 const BoardPage = () => {
+  const [data, setData] = useState([])
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/board/list')
+    .then(function (response) {
+      setData(response.data)
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }, [])
+
   return (
     <>
       <Header />
       <div className="header-save" />
-      <Table className="text-center">
-        <thead>
-          <tr className="table-secondary">
-            <th>글번호</th>
-            <th>말머리</th>
-            <th className="col-6">제목</th>
-            <th>작성자</th>
-            <th>날짜</th>
-            <th>조회 수</th>
-            <th>추천 수</th>
-          </tr>
-        </thead>
-        <tbody>
-          {mockBoard.map((el) => {
-            return (
-              <tr>
-                <td>{el.id}</td>
-                <td>{el.category_id}</td>
-                <td className="col-6">{el.board_title}</td>
-                <td>{el.author}</td>
-                <td>{el.like_sum}</td>
-                <td>{el.author}</td>
-                <td>임시</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-      <div className="boardPage_input">
-        <input className="boardPage_search" />
-        <button className="boardPage_btn">search</button>
+      <div className="category_section">
+
+      </div>
+      <div className="table-wrapper">
+        <div className="table-left-save" />
+        <Table className="text-center">
+          <thead>
+            <tr className="table-secondary">
+              <th>글번호</th>
+              <th className="col-6">제목</th>
+              <th>작성자</th>
+              <th>작성일</th>
+              <th>조회 수</th>
+              <th>댓글 수</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((el) => {
+              return (
+                <tr key={el.boardId}>
+                  <td>{el.boardId}</td>
+                  <td className="col-6">{el.boardTitle}</td>
+                  <td>{el.nickname}</td>
+                  <td>{el.createdTime}</td>
+                  <td>{el.viewCnt}</td>
+                  <td>{el.commentSum}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+        <div className="table-right-save" />
+      </div>
+      <div className="input_wrapper">
+        <div class="group">
+          <input placeholder="검색" type="search" class="searchbar" />
+          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
+        </div>
       </div>
       <div className="d-flex justify-content-center">
         <Pagination>
@@ -113,3 +88,9 @@ const BoardPage = () => {
 };
 
 export default BoardPage;
+
+
+{/* <Button text={'전체게시판'} onClick={handleChangeMenu} onMouseOver={} />
+<Button text={'자유게시판'} onClick={handleChangeMenu} onMouseOver={} />
+<Button text={'자랑게시판'} onClick={handleChangeMenu} onMouseOver={} />
+<Button text={'홍보게시판'} onClick={handleChangeMenu} onMouseOver={} /> */}
