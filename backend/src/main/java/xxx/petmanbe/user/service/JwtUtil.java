@@ -33,11 +33,11 @@ public class JwtUtil {
 		accessTokenExpirationTime=120000;
 
 		return Jwts.builder()
-			.claim("emailid",user.getEmail())
-			.setIssuedAt(new Date(System.currentTimeMillis()))
-			.setExpiration(new Date(System.currentTimeMillis()+accessTokenExpirationTime))
-			.signWith(SignatureAlgorithm.HS256,key.getBytes())
-			.compact();
+				.claim("emailid",user.getEmail())
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis()+accessTokenExpirationTime))
+				.signWith(SignatureAlgorithm.HS256,key.getBytes())
+				.compact();
 	}
 
 	public String generateRefreshToken(User user){
@@ -45,11 +45,11 @@ public class JwtUtil {
 		refreshTokenExpirationTime=120000;
 
 		return Jwts.builder()
-			.claim("emailid", user.getEmail())
-			.setIssuedAt(new Date(System.currentTimeMillis()))
-			.setExpiration(new Date(System.currentTimeMillis()+refreshTokenExpirationTime))
-			.signWith(SignatureAlgorithm.HS256,key.getBytes())
-			.compact();
+				.claim("emailid", user.getEmail())
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis()+refreshTokenExpirationTime))
+				.signWith(SignatureAlgorithm.HS256,key.getBytes())
+				.compact();
 
 	}
 

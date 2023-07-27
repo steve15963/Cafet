@@ -9,9 +9,9 @@ import lombok.*;
 @NoArgsConstructor
 public class RefreshTokenDto {
 
-	private String userId;
+    private String userId;
 
-	private String refreshToken;
+    private String refreshToken;
 
 
 }

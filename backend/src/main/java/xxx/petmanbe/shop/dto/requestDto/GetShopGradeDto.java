@@ -13,8 +13,8 @@ import lombok.Setter;
 @Builder
 public class GetShopGradeDto {
 
-	long shopId;
+    long shopId;
 
-	long userId;
+    long userId;
 
 }

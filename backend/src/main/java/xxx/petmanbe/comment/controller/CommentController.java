@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -25,11 +25,11 @@ public class CommentController {
 	private final CommentService commentService;
 
 	// 해당 게시글에 댓글 추가
-	@PostMapping("/{boardId}/new")
-	public ResponseEntity<Integer> postComment(@PathVariable Long boardId, @RequestPart("dto") AddCommentRequestDto request){
+	@PostMapping("/{boardId}/new/{userId}")
+	public ResponseEntity<Integer> postComment(@PathVariable Long boardId, @PathVariable Long userId, @RequestBody AddCommentRequestDto request){
 
 		// 생성하러 이동
-		commentService.postComment(boardId, request);
+		commentService.postComment(boardId, userId, request);
 
 		// 결과 전달
 		return new ResponseEntity<>(HttpStatus.CREATED);
@@ -44,9 +44,18 @@ public class CommentController {
 		return new ResponseEntity<>(commentList, HttpStatus.OK);
 	}
 
+	// 작성자가 쓴 댓글 목록 가져오기
+	@GetMapping("/user/{nickname}")
+	public ResponseEntity<List<CommentResponseDto>> getCommentListByNickname(@PathVariable String nickname){
+
+		// 목록 가져오기
+		List<CommentResponseDto> commentList = commentService.getCommentListByNickname(nickname);
+		return new ResponseEntity<>(commentList, HttpStatus.OK);
+	}
+
 	// 댓글 수정하기
 	@PutMapping("/{commentId}")
-	public ResponseEntity<Integer> putComment(@PathVariable Long commentId, @RequestPart("dto") UpdateCommentRequestDto request){
+	public ResponseEntity<Integer> putComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequestDto request){
 
 		// 수정하기
 		commentService.putComment(commentId, request);

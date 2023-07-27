@@ -5,15 +5,20 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.*;
+import xxx.petmanbe.board.entity.Board;
+import xxx.petmanbe.common.entity.BaseTimeEntity;
+import xxx.petmanbe.user.entity.User;
 
 @Entity
 @Table
@@ -22,7 +27,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Shop {
+public class Shop extends BaseTimeEntity {
 
 	@Id
 	@Column(name="shop_id")
@@ -65,10 +70,18 @@ public class Shop {
 	@Column(columnDefinition = "TEXT")
 	private String homepage;
 
+	@Column(name = "status", nullable = false, columnDefinition = "boolean default false")
+	private boolean status;
+
 	@OneToMany(cascade = CascadeType.REMOVE)
 	private List<Grade>	shopList;
 
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<Board> boardList;
 
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 
 	public void updateShop(String shopTitle, long totalScore, int gradeCount,  double longitude,
 		double latitude, String address, String phoneNo, String descriptions, String openedTime,
@@ -91,4 +104,10 @@ public class Shop {
 		this.totalScore=totalScore;
 		this.gradeCount=gradeCount;
 	}
+
+	public void changeDeleteStatus(){
+		this.status = !this.status;
+	}
+
+
 }

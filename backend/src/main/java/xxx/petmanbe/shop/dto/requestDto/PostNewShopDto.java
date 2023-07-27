@@ -13,25 +13,27 @@ import lombok.Setter;
 @Builder
 public class PostNewShopDto {
 
-	String shopTitle;
+    String shopTitle;
 
-	double longitude;
+    double longitude;
 
-	double latitude;
+    double latitude;
 
-	String address;
+    String address;
 
-	String phoneNo;
+    String phoneNo;
 
-	String descriptions;
+    String descriptions;
 
-	String openedTime;
+    String openedTime;
 
-	String closedTime;
+    String closedTime;
 
-	String sns;
+    String sns;
 
-	String homepage;
+    String homepage;
+
+    long userId;
 
 
 }

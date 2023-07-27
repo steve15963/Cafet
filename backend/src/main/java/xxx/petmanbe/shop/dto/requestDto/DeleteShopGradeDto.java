@@ -13,9 +13,9 @@ import lombok.Setter;
 @Builder
 public class DeleteShopGradeDto {
 
-	long shopId;
+    long shopId;
 
-	long userId;
+    long userId;
 
 
 }

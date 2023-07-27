@@ -20,6 +20,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.user.entity.User;
 
 @Entity
@@ -29,28 +30,28 @@ import xxx.petmanbe.user.entity.User;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Grade {
+public class Grade extends BaseTimeEntity {
 
-	@Id
-	@Column
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long gradeId;
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long gradeId;
 
-	@Column
-	private int value;
+    @Column
+    private int value;
 
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="shop_id")
-	private Shop shop;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="shop_id")
+    private Shop shop;
 
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User user;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
 
-	public void updateGrade(int value){
-		this.value = value;
-	}
+    public void updateGrade(int value){
+        this.value = value;
+    }
 
 }

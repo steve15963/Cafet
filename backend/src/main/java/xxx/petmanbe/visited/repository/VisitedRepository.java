@@ -11,7 +11,7 @@ import xxx.petmanbe.visited.entity.Visited;
 
 public interface VisitedRepository extends JpaRepository<Visited,Long> {
 
-	@Query("select i from Visited i where i.user.userId = :User and i.shop.shopId = :Shop")
-	Optional<Visited> findByUserShopJpql(@Param("User") long userId, @Param("Shop") long shopId);
+    @Query("select i from Visited i where i.user.userId = :User and i.shop.shopId = :Shop")
+    Optional<Visited> findByUserShopJpql(@Param("User") long userId, @Param("Shop") long shopId);
 
 }

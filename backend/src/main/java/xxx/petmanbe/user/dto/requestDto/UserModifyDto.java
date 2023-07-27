@@ -11,10 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserModifyDto {
 
-	public String email;
+    public String email;
 
-	public String phoneNo;
+    public String phoneNo;
 
-	public String nickname;
+    public String nickname;
 
 }

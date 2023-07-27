@@ -18,6 +18,7 @@ import lombok.Setter;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.board.entity.Board;
 import xxx.petmanbe.comment.dto.request.UpdateCommentRequestDto;
+import xxx.petmanbe.user.entity.User;
 
 @Entity
 @Table(name = "comment")
@@ -37,8 +38,9 @@ public class Comment extends BaseTimeEntity {
 	@JoinColumn(name = "board_id")
 	private Board board;
 
-	// user 연결시 resolve
-	// private String nickname;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	@Column(name = "content", nullable = false)
 	private String content;
