@@ -13,8 +13,8 @@ import lombok.Setter;
 @Builder
 public class PostShopGradeDto {
 
-	long shopId;
-	int value;
-	long userId;
+    long shopId;
+    int value;
+    long userId;
 
 }

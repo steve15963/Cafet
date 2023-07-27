@@ -8,8 +8,6 @@ import xxx.petmanbe.comment.entity.Comment;
 @NoArgsConstructor
 public class AddCommentRequestDto {
 	private String content;
-	// user 연결시 resolve
-	// private String nickname;
 
 	public Comment toEntity(){
 		return Comment.builder()

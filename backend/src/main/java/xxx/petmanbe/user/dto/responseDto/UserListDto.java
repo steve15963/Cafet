@@ -2,7 +2,6 @@ package xxx.petmanbe.user.dto.responseDto;
 
 import java.time.LocalDateTime;
 
-import xxx.petmanbe.user.entity.Level;
 
 public interface UserListDto {
 	long getUserId();
@@ -15,11 +14,11 @@ public interface UserListDto {
 
 	String getStatus();
 
-	Level getLevel();
+	int getLevel();
 
-	LocalDateTime getCreatedDate();
+	LocalDateTime getCreatedTime();
 
-	LocalDateTime getUpdatedDate();
+	LocalDateTime getUpdatedTime();
 
 }
 

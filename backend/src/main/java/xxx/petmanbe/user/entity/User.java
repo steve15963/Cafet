@@ -1,17 +1,12 @@
 package xxx.petmanbe.user.entity;
 
 import lombok.*;
-
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import xxx.petmanbe.common.entity.BaseTimeEntity;
+import xxx.petmanbe.userfile.entity.UserFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
     @Column(length = 20, nullable = false, name="user_id")
@@ -30,7 +25,7 @@ public class User {
     private long userId;
 
     @Email
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Size(min=2, max = 64)
     private String email;
 
@@ -38,11 +33,11 @@ public class User {
     @Size(min=3, max = 25)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Size(min=11, max = 15)
     private String phoneNo;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Size(min=3, max = 10)
     private String nickname;
 
@@ -55,18 +50,15 @@ public class User {
     @JoinColumn(name="level_id")
     private Level level;
 
-    @Column(nullable = false)
-    @CreatedDate
-    private LocalDateTime createdDate;
-
-    @Column(nullable = false)
-    @LastModifiedDate
-    private LocalDateTime updatedDate;
-
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="token_id")
     private Token token;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "userfile_id")
+    private UserFile userFile;
 
     public void updateUser( String phoneNo, String nickname) {
         this.phoneNo = phoneNo;

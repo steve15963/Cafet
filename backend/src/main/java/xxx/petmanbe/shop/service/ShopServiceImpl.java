@@ -10,12 +10,16 @@ import xxx.petmanbe.shop.dto.requestDto.PutShopDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
+import xxx.petmanbe.user.entity.User;
+import xxx.petmanbe.user.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
 public class ShopServiceImpl implements ShopService{
 
 	private final ShopRepository shopRepository;
+
+	private final UserRepository userRepository;
 
 	@Transactional
 	@Override
@@ -46,25 +50,35 @@ public class ShopServiceImpl implements ShopService{
 	public boolean postShopNew(PostNewShopDto postNewShopDto) {
 
 		//중복 체크 들어가야 함
-		
-		Shop shop = Shop.builder()
-			.shopTitle(postNewShopDto.getShopTitle())
-			.totalScore(0)
-			.gradeCount(0)
-			.longitude(postNewShopDto.getLongitude())
-			.latitude(postNewShopDto.getLatitude())
-			.address(postNewShopDto.getAddress())
-			.phoneNo(postNewShopDto.getPhoneNo())
-			.descriptions(postNewShopDto.getDescriptions())
-			.openedTime(postNewShopDto.getOpenedTime())
-			.closedTime(postNewShopDto.getClosedTime())
-			.sns(postNewShopDto.getSns())
-			.homepage(postNewShopDto.getHomepage())
-			.build();
 
-		shopRepository.save(shop);
+		User user = userRepository.findById(postNewShopDto.getUserId()).orElseThrow(()->new IllegalArgumentException());
 
-		return true;
+		if(user.getLevel().getLevelCode() >100){
+
+			Shop shop = Shop.builder()
+				.shopTitle(postNewShopDto.getShopTitle())
+				.totalScore(0)
+				.gradeCount(0)
+				.longitude(postNewShopDto.getLongitude())
+				.latitude(postNewShopDto.getLatitude())
+				.address(postNewShopDto.getAddress())
+				.phoneNo(postNewShopDto.getPhoneNo())
+				.descriptions(postNewShopDto.getDescriptions())
+				.openedTime(postNewShopDto.getOpenedTime())
+				.closedTime(postNewShopDto.getClosedTime())
+				.sns(postNewShopDto.getSns())
+				.homepage(postNewShopDto.getHomepage())
+				.user(user)
+				.build();
+
+			shopRepository.save(shop);
+
+			return true;
+
+		}else{
+
+			return false;
+		}
 	}
 
 	@Transactional
@@ -81,4 +95,27 @@ public class ShopServiceImpl implements ShopService{
 
 		return true;
 	}
+
+	@Transactional
+	public Shop putShopStatus(Long shopId){
+
+		Shop shop = shopRepository.findById(shopId).
+			orElseThrow(() -> new IllegalArgumentException("not found"));
+
+		shop.changeDeleteStatus();
+
+		return shop;
+	}
+
+	// 지역별로 받기
+	// @Override
+	// public List<Shop> getShopRegionList(String sidoName, String gugunName, String dongName) {
+	//
+	// 	String dongCode = dongCodeRepository.findDongCodeBySidoNameAndGugunNameAndDongName(sidoName, gugunName, dongName);
+	//
+	// 	List<Shop> shop = shopRepository.findByDongCode(dongCode).orElseThrow(()->new IllegalArgumentException());
+	//
+	// 	return shop;
+	// }
+
 }

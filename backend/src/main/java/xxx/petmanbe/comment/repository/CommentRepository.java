@@ -8,4 +8,8 @@ import xxx.petmanbe.comment.entity.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 	List<Comment> findByStatusFalseAndBoard_BoardId(Long boardId);
+
+	List<Comment> findByStatusFalseAndUser_Nickname(String nickname);
+
+	int countByStatusFalseAndBoard_BoardId(Long boardId);
 }

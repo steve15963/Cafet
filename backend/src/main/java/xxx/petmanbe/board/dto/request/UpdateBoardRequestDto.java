@@ -1,11 +1,15 @@
 package xxx.petmanbe.board.dto.request;
 
+import java.util.List;
+
 import lombok.Getter;
+import xxx.petmanbe.tag.dto.response.TagListResponseDto;
+import xxx.petmanbe.tag.entity.Tag;
 
 @Getter
 public class UpdateBoardRequestDto {
 	private String boardTitle;
 	private String boardContent;
-	// category 생성 후 resolve
-	// private String categoryName;
-}
+	private String categoryName;
+	private List<TagListResponseDto> tagList;
+ }

@@ -7,11 +7,12 @@ import xxx.petmanbe.shop.dto.requestDto.PutShopGradeDto;
 
 public interface GradeService {
 
-	public boolean postShopGrade(PostShopGradeDto postShopGradeDto);
+    public boolean postShopGrade(PostShopGradeDto postShopGradeDto);
 
-	public boolean putShopGrade(PutShopGradeDto putShopGradeDto);
+    public long getShopGrade(GetShopGradeDto getShopGradeDto);
 
-	public long getShopGrade(GetShopGradeDto getShopGradeDto);
+    public boolean putShopGrade(PutShopGradeDto putShopGradeDto);
 
-	public boolean deleteShopGrade(DeleteShopGradeDto deleteShopGradeDto);
+    public boolean deleteShopGrade(DeleteShopGradeDto deleteShopGradeDto);
+
 }

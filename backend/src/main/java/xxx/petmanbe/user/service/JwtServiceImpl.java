@@ -22,11 +22,11 @@ public class JwtServiceImpl implements JwtService{
 	public Token saveToken(User user, String refreshToken, String accessToken) {
 
 		Token token = Token.builder()
-			.user(user)
-			.refreshToken(refreshToken)
-			.accessToken(accessToken)
-			.tokenType("Bearer")
-			.build();
+				.user(user)
+				.refreshToken(refreshToken)
+				.accessToken(accessToken)
+				.tokenType("Bearer")
+				.build();
 
 		user.setToken(token);
 
@@ -43,7 +43,7 @@ public class JwtServiceImpl implements JwtService{
 			Token token = tokenRepository.findByRefreshToken(refreshToken).orElseThrow(()->new IllegalArgumentException());
 
 			String newAccessToken = jwtUtil.getAccessToken(
-				token.getUser().getUserId()
+					token.getUser().getUserId()
 			);
 
 			token.setAccessToken(newAccessToken);

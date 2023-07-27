@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.user.entity.User;
 
@@ -27,22 +28,22 @@ import xxx.petmanbe.user.entity.User;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Visited {
+public class Visited extends BaseTimeEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long visitedId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long visitedId;
 
-	@Column
-	private LocalDateTime visitedDate;
+    @Column
+    private LocalDateTime visitedDate;
 
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User user;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
-	@ManyToOne
-	@JoinColumn(name="shop_id")
-	private Shop shop;
+    @ManyToOne
+    @JoinColumn(name="shop_id")
+    private Shop shop;
 
 
 }

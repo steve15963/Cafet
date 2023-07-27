@@ -1,6 +1,8 @@
 package xxx.petmanbe.comment.service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -15,29 +17,32 @@ import xxx.petmanbe.comment.dto.request.UpdateCommentRequestDto;
 import xxx.petmanbe.comment.dto.response.CommentResponseDto;
 import xxx.petmanbe.comment.entity.Comment;
 import xxx.petmanbe.comment.repository.CommentRepository;
+import xxx.petmanbe.user.entity.User;
+import xxx.petmanbe.user.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
 public class CommentService {
 	private final BoardRepository boardRepository;
 	private final CommentRepository commentRepository;
+	private final UserRepository userRepository;
 
 	// 댓글 달기
 	@Transactional
-	public Comment postComment(Long boardId, AddCommentRequestDto request){
-
-		// 댓글 달릴 게시글 찾기
-		Board board = boardRepository.findById(boardId)
-			.orElseThrow(()-> new IllegalArgumentException("not found"));
+	public Comment postComment(Long boardId, Long userId, AddCommentRequestDto request){
 
 		// dto를 comment로 변환시키고
 		Comment comment	= request.toEntity();
 
-		// 유저 정보 등록(연결하고 추가)
-		// comment.setUser(user);
+		// 댓글 달릴 게시글 찾기
+		Optional<Board> board = boardRepository.findById(boardId);
 
 		// 등록할 게시글 정보 등록
-		comment.setBoard(board);
+		board.ifPresent(comment::setBoard);
+
+		// 유저 정보 등록(연결하고 추가)
+		Optional<User> user = userRepository.findById(userId);
+		user.ifPresent(comment::setUser);
 
 		// 게시글 정보 반환
 		return commentRepository.save(comment);
@@ -45,7 +50,16 @@ public class CommentService {
 
 	// 댓글 목록 가져오기
 	public List<CommentResponseDto> getCommentList(Long boardId){
+
 		return commentRepository.findByStatusFalseAndBoard_BoardId(boardId).stream()
+			.map(CommentResponseDto::new)
+			.collect(Collectors.toList());
+	}
+
+	// 사용자가 작성한 댓글 목록 가져오기
+	public List<CommentResponseDto> getCommentListByNickname(String nickname){
+
+		return commentRepository.findByStatusFalseAndUser_Nickname(nickname).stream()
 			.map(CommentResponseDto::new)
 			.collect(Collectors.toList());
 	}

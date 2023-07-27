@@ -9,5 +9,5 @@ import xxx.petmanbe.user.entity.Token;
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Long> {
 
-	Optional<Token> findByRefreshToken(String refreshToken);
+    Optional<Token> findByRefreshToken(String refreshToken);
 }

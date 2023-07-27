@@ -1,11 +1,12 @@
 package xxx.petmanbe.board.dto.request;
 
-import lombok.Builder;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import xxx.petmanbe.board.entity.Board;
+import xxx.petmanbe.tag.dto.response.TagListResponseDto;
 
 @Getter
 @NoArgsConstructor
@@ -15,14 +16,13 @@ public class AddBoardRequestDto {
 
 	private String boardContent;
 
-	// user와 mapping 이후 resolve
-	// private String nickname;
+	private List<TagListResponseDto> tagList;
 
-	// shop과 mapping 이후 resolve
-	// private String shopName;
+	private String nickname;
 
-	// category 생성 이후 resolve
-	// private String categoryName;
+	private String shopTitle;
+
+	private String categoryName;
 
 	public Board toEntity(){
 		return Board.builder()

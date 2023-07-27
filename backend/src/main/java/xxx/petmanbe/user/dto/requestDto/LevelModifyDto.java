@@ -15,8 +15,8 @@ import xxx.petmanbe.user.entity.Level;
 @NoArgsConstructor
 public class LevelModifyDto {
 
-	private Long userId;
+    private Long userId;
 
-	private int level;
+    private int level;
 
 }

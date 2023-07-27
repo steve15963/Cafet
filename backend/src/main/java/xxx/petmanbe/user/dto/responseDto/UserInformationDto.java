@@ -34,8 +34,8 @@ public class UserInformationDto {
 
 	private Level level;
 
-	private LocalDateTime createdDate;
+	private LocalDateTime createdTime;
 
-	private LocalDateTime updatedDate;
+	private LocalDateTime updatedTime;
 
 }

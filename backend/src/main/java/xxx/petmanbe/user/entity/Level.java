@@ -22,12 +22,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Level {
 
-	@Id
-	@Column(name="level_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long levelId;
+    @Id
+    @Column(name="level_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long levelId;
 
-	@Column
-	private int level_code;
+    @Column(name = "level_code", columnDefinition = "integer default 100")
+    private int levelCode;
 
 }

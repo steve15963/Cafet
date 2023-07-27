@@ -2,7 +2,7 @@ package xxx.petmanbe.user.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -13,11 +13,9 @@ import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
-import xxx.petmanbe.user.dto.responseDto.LoginRequestDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
 import xxx.petmanbe.user.entity.Level;
-import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.LevelRepository;
 import xxx.petmanbe.user.repository.UserRepository;
@@ -36,25 +34,25 @@ public class UserServiceImpl implements UserService{
 
 	@Transactional
 	@Override
-	public String postnewUser(RegistDto registDto) throws Exception {
+	public long postnewUser(RegistDto registDto) throws Exception {
 
 		User user = User.builder()
-			.email(registDto.getEmail())
-			.password(registDto.getPassword())
-			.phoneNo(registDto.getPhoneNo())
-			.nickname(registDto.getNickname())
-			.status("no")
-			.createdDate(LocalDateTime.now())
-			.updatedDate(LocalDateTime.now())
-			.build();
+				.email(registDto.getEmail())
+				.password(registDto.getPassword())
+				.phoneNo(registDto.getPhoneNo())
+				.nickname(registDto.getNickname())
+				.status("no")
+				.build();
 
-		Level level = Level.builder().level_code(100).build();
+		Level level = Level.builder().levelCode(100).build();
+
+		System.out.println(level);
 
 		user.setLevel(level);
 
-		String email = userRepository.save(user).getEmail();
+		long userId = userRepository.save(user).getUserId();
 
-		return email;
+		return userId;
 	}
 
 	@Transactional
@@ -67,30 +65,35 @@ public class UserServiceImpl implements UserService{
 
 		return false;
 
-	}
+	// }
 
-	@Transactional
-	@Override
-	public boolean postLoginUser(LoginDto loginDto) throws Exception {
-
-		User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()->new IllegalArgumentException());
-
-		if(!Objects.equals(loginDto.getPassword(), user.getPassword())) {
-			return false;
-		}
-
-		String accessToken = jwtUtil.generateAccessToken(user);
-
-		String refreshToken = jwtUtil.generateRefreshToken(user);
-
-		Token token = jwtService.saveToken(user, accessToken, refreshToken);
-
-		// LoginRequestDto loginRequestDto = LoginRequestDto.builder()
-		// 	.userId(user.getUserId())
-		// 	.token(token)
-		// 	.build();
-
-		return true;
+	// @Transactional
+	// @Override
+	// public Optional<RefreshJwtDto> postLoginUser(LoginDto loginDto) throws Exception {
+	//
+	// 	User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()->new IllegalArgumentException());
+	//
+	// 	if(!Objects.equals(loginDto.getPassword(), user.getPassword())) {
+	// 		return null;
+	// 	}
+	//
+	// 	String accessToken = jwtUtil.generateAccessToken(user);
+	//
+	// 	String refreshToken = jwtUtil.generateRefreshToken(user);
+	//
+	// 	// Token token = jwtService.saveToken(user, accessToken, refreshToken);
+	//
+	// 	// LoginRequestDto loginRequestDto = LoginRequestDto.builder()
+	// 	// 	.userId(user.getUserId())
+	// 	// 	.token(token)
+	// 	// 	.build();
+	//
+	// 	return Optional.ofNullable(
+	// 		new RefreshJwtDto(
+	// 			new AccessJwtTokenDto(accessToken),
+	// 			refreshToken
+	// 		)
+	// 	);
 	}
 
 	@Transactional
@@ -120,16 +123,34 @@ public class UserServiceImpl implements UserService{
 		User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
 
 		UserInformationDto userInformationDto = UserInformationDto.builder()
-			.email(user.getEmail())
-			.phoneNo(user.getPhoneNo())
-			.nickname(user.getNickname())
-			.status(user.getStatus())
-			.level(user.getLevel())
-			.createdDate(user.getCreatedDate())
-			.updatedDate(user.getUpdatedDate())
-			.build();
+				.email(user.getEmail())
+				.phoneNo(user.getPhoneNo())
+				.nickname(user.getNickname())
+				.status(user.getStatus())
+				.level(user.getLevel())
+				.createdTime(user.getCreatedTime())
+				.updatedTime(user.getUpdatedTime())
+				.build();
 
 		return userInformationDto;
+	}
+
+	@Override
+	public User SessionLogin(LoginDto loginDto) throws Exception {
+		Optional<User> findUser = userRepository.findByEmail(loginDto.getEmail());
+
+		System.out.println(findUser.get().getUserId());
+
+		if(findUser.isEmpty()){
+			return null;
+		}
+		else{
+			User user = findUser.get();
+			if(loginDto.getPassword().equals(user.getPassword())){
+				return user;
+			}
+			return null;
+		}
 	}
 
 	@Transactional
@@ -166,11 +187,11 @@ public class UserServiceImpl implements UserService{
 
 		Level level = user.getLevel();
 
-		level.setLevel_code(levelModifyDto.getLevel());
+		level.setLevelCode(levelModifyDto.getLevel());
 
 		levelRepository.save(level);
 
-		if(user.getLevel().getLevel_code()== level.getLevel_code()){
+		if(user.getLevel().getLevelCode()== level.getLevelCode()){
 			return "success";
 
 		}else{

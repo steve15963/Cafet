@@ -7,6 +7,5 @@ public interface JwtService {
 
 	public String refreshToken(String refreshToken);
 
-	Token saveToken(User user, String refreshToken, String accessToken);
-
+	public Token saveToken(User user, String refreshToken, String accessToken);
 }

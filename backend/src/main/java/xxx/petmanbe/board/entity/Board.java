@@ -8,6 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,6 +21,8 @@ import lombok.Setter;
 import xxx.petmanbe.board.dto.request.UpdateBoardRequestDto;
 import xxx.petmanbe.comment.entity.Comment;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
+import xxx.petmanbe.shop.entity.Shop;
+import xxx.petmanbe.user.entity.User;
 
 @Entity
 @Table(name = "board")
@@ -33,26 +37,32 @@ public class Board extends BaseTimeEntity {
 	@Column(name = "board_id", nullable = false, updatable = false)
 	private Long boardId;
 
-	private Long userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User user;
 
-	private Long shopId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "shop_id")
+	private Shop shop;
 
-	private Long categoryId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_id")
+	private Category category;
 
 	@Column(name = "board_title", length = 50, nullable = false)
 	private String boardTitle;
 
 	@Column(name = "board_content", nullable = false)
 	private String boardContent;
-	//
-	// @Column(name = "created_time", nullable = false, columnDefinition = "timestamp default now()")
-	// private LocalDateTime createdTime;
-	//
-	// @Column(name = "updated_time", nullable = false, columnDefinition = "timestamp default now()")
-	// private LocalDateTime updatedTime;
 
 	@Column(name = "like_sum", nullable = false, columnDefinition = "integer default 0")
 	private int likeSum;
+
+	@Column(name = "comment_sum", nullable = false, columnDefinition = "integer default 0")
+	private int commentSum;
+
+	@Column(name = "view_cnt", nullable = false, columnDefinition = "integer default 0")
+	private int viewCnt;
 
 	@Column(name = "status", nullable = false, columnDefinition = "boolean default false")
 	private boolean status;
@@ -60,10 +70,20 @@ public class Board extends BaseTimeEntity {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "board")
 	private List<Comment> commentList;
 
-	// update를 위한 메소드
+	// 게시글 수정을 위한 메소드
 	public void updateBoard(Long boardId, UpdateBoardRequestDto request){
 		this.boardTitle = request.getBoardTitle();
 		this.boardContent = request.getBoardContent();
+	}
+
+	// 게시글 조회수 증가 메소드
+	public void updateViewCnt(){
+		this.viewCnt += 1;
+	}
+
+	// 카테고리 변경 메소드
+	public void updateCategory(Category category) {
+		this.category = category;
 	}
 
 	// 게시글 삭제 및 복구를 위한 메소드, true/false 전환
