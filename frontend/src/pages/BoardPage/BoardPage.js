@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { MdSearch } from "react-icons/md";
 // import BoardDetail from "./BoardDetail"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./BoardPage.css";
@@ -34,8 +35,11 @@ const BoardPage = () => {
     <>
       <Header />
       <div className="header-save" />
+      <div className="category_section">
+
+      </div>
       <div className="table-wrapper">
-      <div className="table-left-save" />
+        <div className="table-left-save" />
         <Table className="text-center">
           <thead>
             <tr className="table-secondary">
@@ -63,10 +67,12 @@ const BoardPage = () => {
           </tbody>
         </Table>
         <div className="table-right-save" />
+      </div>
+      <div className="input_wrapper">
+        <div class="group">
+          <input placeholder="검색" type="search" class="searchbar" />
+          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
         </div>
-      <div className="boardPage_input">
-        <input className="boardPage_search" />
-        <button className="boardPage_btn">search</button>
       </div>
       <div className="d-flex justify-content-center">
         <Pagination>
@@ -82,3 +88,9 @@ const BoardPage = () => {
 };
 
 export default BoardPage;
+
+
+{/* <Button text={'전체게시판'} onClick={handleChangeMenu} onMouseOver={} />
+<Button text={'자유게시판'} onClick={handleChangeMenu} onMouseOver={} />
+<Button text={'자랑게시판'} onClick={handleChangeMenu} onMouseOver={} />
+<Button text={'홍보게시판'} onClick={handleChangeMenu} onMouseOver={} /> */}
