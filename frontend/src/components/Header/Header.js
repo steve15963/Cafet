@@ -17,7 +17,7 @@ const Header = () => {
           <div className="category-container">
             <div>
               <Link to={"/login"} className="link">
-                동물별로 찾기
+                시연용 서버입니다.
               </Link>
               &nbsp;&nbsp;| &nbsp;
               <Link to={"/login"} className="link">
