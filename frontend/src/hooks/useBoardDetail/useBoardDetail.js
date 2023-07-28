@@ -10,7 +10,7 @@ const useBoardDetail = (boardId) => {
       try {
         console.log(boardId);
         const response = await axios.get(
-          `http://localhost:8080/api/board/${boardId}`
+          `http://i9a105.p.ssafy.io:8080/api/board/${boardId}`
         );
         setBoardDetail(response.data);
         setLoading(false);
