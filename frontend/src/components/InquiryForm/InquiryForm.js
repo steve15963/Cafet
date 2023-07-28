@@ -112,9 +112,11 @@ const InquiryForm = () => {
             rows={5}
           />
         </div>
-        <button className="submit" onClick={handleSubmit}>
-          등록하기
-        </button>
+        <div className="input-container">
+          <button className="submit" onClick={handleSubmit}>
+            등록하기
+          </button>
+        </div>
       </form>
     </div>
   );

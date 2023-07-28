@@ -42,6 +42,7 @@
 .inquiry-form button {
   outline: none;
   border: 1px solid #e5e7eb;
+  width: 300px;
   margin: 8px 0;
 }
 
