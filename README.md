@@ -9,44 +9,43 @@
 
 ### 👥 팀원 소개
 
-| 멤버 | 역할 | 담당 |
-| --- | --- | --- |
+| 멤버        | 역할        | 담당      |
+| ----------- | ----------- | --------- |
 | 👑 송진현😭 | Back IoT PM | 추가 예정 |
-| 🦘 이제원 | Back |  |
-| 🐻 박동건 | Back  |  |
-| 🚀 김재석 | Front |  |
-| ⚛ 박동휘 | Front IoT |  |
-| 🗡 신재혁🎲 | Back Front |  |
+| 🦘 이제원   | Back        |           |
+| 🐻 박동건   | Back        |           |
+| 🚀 김재석   | Front       |           |
+| ⚛ 박동휘    | Front IoT   |           |
+| 🗡 신재혁🎲  | Back Front  |           |
 
 ### 프로젝트 구분
 
-| Application | Domain | Language | Framework |
-| --- | --- | --- | --- |
-| ✅ Desktop Web | ⬜ AI | ✅ JavaScript | ⬜ Vue.js |
-| ⬜ Mobile Web | ⬜ Big Data | ⬜ TypeScript | ✅ React |
-| ✅ Responsive Web | ⬜ Blockchain | ⬜ C/C++ | ⬜ Angular |
-| ⬜ Android App | ✅ Responsive Web | ⬜ C# | ✅ Node.js |
-| ⬜ iOS App | ⬜ AR/VR/Metaverse | ⬜ Python | ⬜ Flask/Django |
-| ⬜ Desktop App | ⬜ Game | ✅ Java | ✅ Spring/Springboot |
-|  |  | ⬜ Kotlin |  |
-|  |  |  |  |
+| Application       | Domain             | Language      | Framework            |
+| ----------------- | ------------------ | ------------- | -------------------- |
+| ✅ Desktop Web    | ⬜ AI              | ✅ JavaScript | ⬜ Vue.js            |
+| ⬜ Mobile Web     | ⬜ Big Data        | ⬜ TypeScript | ✅ React             |
+| ✅ Responsive Web | ⬜ Blockchain      | ⬜ C/C++      | ⬜ Angular           |
+| ⬜ Android App    | ✅ Responsive Web  | ⬜ C#         | ✅ Node.js           |
+| ⬜ iOS App        | ⬜ AR/VR/Metaverse | ⬜ Python     | ⬜ Flask/Django      |
+| ⬜ Desktop App    | ⬜ Game            | ✅ Java       | ✅ Spring/Springboot |
+|                   |                    | ⬜ Kotlin     |                      |
+|                   |                    |               |                      |
 
 ### ✔ 목표
 
 > 전국 애견카페 커뮤니티
-> 
 
 ## 프로젝트 관리
 
 ### 📅 프로젝트 진행 일정
 
-| 일자 | Front | Back |
-| --- | --- | --- |
-| 2023-07-10(월) | Jira 생성, 기능명세서 작성 | Jira 생성, 기능명세서 작성 |
-| 2023-07-11(화) | 메뉴 구조도 작성 | 스프린트1 ERD 완성, api 명세서 작업 시작 |
-| 2023-07-12(수) | 로그인 회원 마이페이지 관리자페이지 UI 프로토타입 작성 | api 명세서 작성 완료, 파일구조 정리, |
-| 2023-07-13(목) | 메인페이지 게시판 UI 프로토타입 작성,  | API명세서 추가 작성, ERD 보충, 백 코딩 시작, |
-| 2023-07-14(금) | UI기능 정리 및 리액트 설정 세팅 | User, Board, BusinessNumber DTO Service Repository 작성 |
+| 일자           | Front                                                  | Back                                                    |
+| -------------- | ------------------------------------------------------ | ------------------------------------------------------- |
+| 2023-07-10(월) | Jira 생성, 기능명세서 작성                             | Jira 생성, 기능명세서 작성                              |
+| 2023-07-11(화) | 메뉴 구조도 작성                                       | 스프린트1 ERD 완성, api 명세서 작업 시작                |
+| 2023-07-12(수) | 로그인 회원 마이페이지 관리자페이지 UI 프로토타입 작성 | api 명세서 작성 완료, 파일구조 정리,                    |
+| 2023-07-13(목) | 메인페이지 게시판 UI 프로토타입 작성,                  | API명세서 추가 작성, ERD 보충, 백 코딩 시작,            |
+| 2023-07-14(금) | UI기능 정리 및 리액트 설정 세팅                        | User, Board, BusinessNumber DTO Service Repository 작성 |
 
 ### ✔ 회의록
 
@@ -59,26 +58,25 @@
 - git을 이용한 협업시 각자의 작업물은 각자의 개인 branch에 push하고, 기능이 완성되면 master branch에 합친다(팀장 포함).
 - 각자 기능 개발 후 git에 `add-commit-push`하기 전, 각자의 작업영역을 사전에 공유한다.
 - 커밋 메시지 양식은 다음과 같이 통일한다.
-    
-    | Tag Name | Description |
-    | --- | --- |
-    | Feat | 새로운 기능을 추가 |
-    | Fix | 버그 수정 |
-    | Design | css 등 사용자 UI 디자인 변경 |
-    | !BREAKING CHANGE | 커다란 API 변경의 경우 |
-    | !HOTFIX | 급하게 치명적인 버그를 고쳐야하는 경우 |
-    | Style | 코드 포멧 변경, 세미 콜론 누락, 코드 수정이 없는 경우 |
-    | Refactor | 프로덕션 코드 리팩토링 |
-    | Comment | 필요한 주석 추가 및 변경 |
-    | Docs | 문서 수정 |
-    | Test | 테스트 코드, 리펙토링 테스트 코드 추가, Production Code(실제로 사용하는 코드) 변경 없음 |
-    | Chore | 빌드 업무 수정, 패키지 매니저 수정, 패키지 관리자 구성 등 업데이트, Production 코드 변경 없음 |
-    | Rename | 파일 혹은 폴더명을 수정하거나 옮기는 작업만인 경우 |
-    | Remove | 파일을 삭제하는 작업만 수행한 경우 |
-    | Update | 파일 수정 |
+  | Tag Name | Description |
+  | ---------------- | --------------------------------------------------------------------------------------------- |
+  | Feat | 새로운 기능을 추가 |
+  | Fix | 버그 수정 |
+  | Design | css 등 사용자 UI 디자인 변경 |
+  | !BREAKING CHANGE | 커다란 API 변경의 경우 |
+  | !HOTFIX | 급하게 치명적인 버그를 고쳐야하는 경우 |
+  | Style | 코드 포멧 변경, 세미 콜론 누락, 코드 수정이 없는 경우 |
+  | Refactor | 프로덕션 코드 리팩토링 |
+  | Comment | 필요한 주석 추가 및 변경 |
+  | Docs | 문서 수정 |
+  | Test | 테스트 코드, 리펙토링 테스트 코드 추가, Production Code(실제로 사용하는 코드) 변경 없음 |
+  | Chore | 빌드 업무 수정, 패키지 매니저 수정, 패키지 관리자 구성 등 업데이트, Production 코드 변경 없음 |
+  | Rename | 파일 혹은 폴더명을 수정하거나 옮기는 작업만인 경우 |
+  | Remove | 파일을 삭제하는 작업만 수행한 경우 |
+  | Update | 파일 수정 |
 
 ```java
-ex) 
+ex)
 Feat : 유저 파트
 유저 회원가입 추가
 ```
@@ -90,13 +88,12 @@ Feat : 유저 파트
 - 줄임말은 되도록 피한다.
 - Java와 SQL에서 모든 변수는 camelCase로 쓴다.
 - `HttpStatus`를 사용하는 경우 다음과 같은 규칙을 따른다.
-    
-    | Status Code | Name | Use case |
-    | --- | --- | --- |
-    | 200 | OK | 성공한 GET, PUT 요청 |
-    | 201 | Created | 성공한 POST 요청 |
-    | 204 | No Content | 성공한 DELETE 요청 |
-    | 400 | Bad Request | 유효하지 않은 컨텐츠: 요청 실패 |
+  | Status Code | Name | Use case |
+  | ----------- | ----------- | ------------------------------- |
+  | 200 | OK | 성공한 GET, PUT 요청 |
+  | 201 | Created | 성공한 POST 요청 |
+  | 204 | No Content | 성공한 DELETE 요청 |
+  | 400 | Bad Request | 유효하지 않은 컨텐츠: 요청 실패 |
 - 생성자 주입 방식으로 작성한다.
 
 ## 📂 프로젝트 폴더 구조
@@ -130,7 +127,6 @@ Feat : 유저 파트
 											ㄴ 📄 UpdateBoardRequestDto.java
 									ㄴ 📂 responseDto
 											ㄴ 📄 BoardResponseDto.java
-											ㄴ 📄 BoardListResponseDto.java
 											ㄴ 📄 LikeBoardListResponseDto.java
 							ㄴ 📂 entity
 									ㄴ 📄 Board.java
@@ -149,7 +145,6 @@ Feat : 유저 파트
 											ㄴ 📄 UpdateCommentRequestDto.java
 									ㄴ 📂 responseDto
 											ㄴ 📄 CommentResponseDto.java
-											ㄴ 📄 CommentListResponseDto.java
 							ㄴ 📂 entity
 									ㄴ 📄 Comment.java
 					ㄴ 📂 com.petman.shop
@@ -195,10 +190,118 @@ Feat : 유저 파트
 					ㄴ 📄 application.yml
 ```
 
-### Front-End (추가 예정)
+### Front-End
 
 ```markdown
-
+📂 frontend
+	ㄴ ...
+	ㄴ 📂 public
+		ㄴ 📄 favicon.ico
+		ㄴ 📄 index.html
+		ㄴ 📄 manifest.json
+		ㄴ 📄 robots.txt
+		ㄴ 📂 images
+			ㄴ 📂 logo
+				ㄴ 📄 logo192.png
+				ㄴ 📄 logo512.png
+			ㄴ 📂 main
+				ㄴ 📄 babyrabbit.png
+				ㄴ 📄 bamboodog.png
+				ㄴ 📄 blackcat.png
+				ㄴ 📄 cat.png
+				ㄴ 📄 chinchilla.png
+				ㄴ 📄 dog.png
+				ㄴ 📄 ducklings.png
+				ㄴ 📄 hamster.png
+				ㄴ 📄 noimage.png
+				ㄴ 📄 puppy.png
+				ㄴ 📄 rabbit.png
+				ㄴ 📄 walldog.png
+				ㄴ 📄 wooddog.png
+	ㄴ 📂 src
+		ㄴ 📄 App.css
+		ㄴ 📄 App.js
+		ㄴ 📄 index.css
+		ㄴ 📄 index.js
+		ㄴ 📂 components
+			ㄴ 📂 Button
+				ㄴ 📄 Button.css
+				ㄴ 📄 Button.js
+			ㄴ 📂 CommentList
+				ㄴ 📄 CommentList.css
+				ㄴ 📄 CommentList.js
+			ㄴ 📂 Editor
+				ㄴ 📄 Editor.css
+				ㄴ 📄 Editor.js
+			ㄴ 📂 Footer
+				ㄴ 📄 Footer.css
+				ㄴ 📄 Footer.js
+			ㄴ 📂 Header
+				ㄴ 📄 Header.css
+				ㄴ 📄 Header.js
+			ㄴ 📂 InquiryForm
+				ㄴ 📄 InquiryForm.css
+				ㄴ 📄 InquiryForm.js
+			ㄴ 📂 LoginForm
+				ㄴ 📄 LoginForm.css
+				ㄴ 📄 LoginForm.js
+			ㄴ 📂 MainList
+				ㄴ 📄 MainList.css
+				ㄴ 📄 MainList.js
+				ㄴ 📄 MainListMockupData.js
+			ㄴ 📂 Menu
+				ㄴ 📄 Menu.css
+				ㄴ 📄 Menu.js
+			ㄴ 📂 NearPost
+				ㄴ 📄 NearPost.css
+				ㄴ 📄 NearPost.js
+			ㄴ 📂 Post
+				ㄴ 📄 Post.css
+				ㄴ 📄 Post.js
+			ㄴ 📂 SideBar
+				ㄴ 📄 SideBar.css
+				ㄴ 📄 SideBar.js
+		ㄴ 📂 pages
+			ㄴ 📂 BoardDetail
+				ㄴ 📄 BoardDetail.css
+				ㄴ 📄 BoardDetail.js
+			ㄴ 📂 BoardPage
+				ㄴ 📄 BoardPage.css
+				ㄴ 📄 BoardPage.js
+			ㄴ 📂 InquiryPage
+				ㄴ 📄 InquiryPage.css
+				ㄴ 📄 InquiryPage.js
+			ㄴ 📂 LoginPage
+				ㄴ 📄 LoginPage.css
+				ㄴ 📄 LoginPage.js
+			ㄴ 📂 MainPage
+				ㄴ 📄 MainPage.css
+				ㄴ 📄 MainPage.js
+			ㄴ 📂 ManagePage
+				ㄴ 📄 ManagePage.css
+				ㄴ 📄 ManagePage.js
+			ㄴ 📂 MyPage
+				ㄴ 📄 MyPage.css
+				ㄴ 📄 MyPage.js
+			ㄴ 📂 StorePage
+				ㄴ 📄 StorePage.css
+				ㄴ 📄 StorePage.js
+			ㄴ 📂 TestPage
+				ㄴ 📄 TestPage.css
+				ㄴ 📄 TestPage.js
+		ㄴ 📂 utils
+			ㄴ 📂 handleLogin
+				ㄴ 📄 handleLogin.js
+		ㄴ 📂 hooks
+			ㄴ 📂 useBoardDetail
+				ㄴ 📄 useBoardDetail.js
+			ㄴ 📂 useBoardList
+				ㄴ 📄 useBoardList.js
+			ㄴ 📂 useBoardPageMenu
+				ㄴ 📄 useBoardPageMenu.js
+	ㄴ 📄 package-lock.json
+	ㄴ 📄 package.json
+	ㄴ 📄 README.md
 ```
 
 ## 설계, 기획
@@ -210,48 +313,47 @@ Feat : 유저 파트
 ### API
 
 - User
-    
-    | 방식 | 경로 | 권한 | 기능 |
-    | --- | --- | --- | --- |
-    | GET | /api/user/{userId} | 일반 | 회원정보 받기(마이페이지) |
-    | GET | /api/user | 관리자 | 전체 회원 받아오기 |
-    | POST | /api/user/login | 전체 | 로그인 하기 |
-    | POST | /api/user/new | 전체 | 회원가입 |
-    | PUT | /api/user | 전체 | 회원 정보 수정 |
-    | DELETE | /api/user/{userId} | 전체 | 회원 삭제 |
-    | POST | /api/user/email | - | 이메일이 DB에 이미 있는지 확인 |
-    | POST | /api/user/nickname | - | 닉네임이 DB에 이미 있는지 확인 |
-    | POST | /api/user/token-request | - | smtp를 이용한 이메일에 인증번호를 메일 발송 |
-    | POST | /api/user/token-validation | - | 보냈던 이메일 인증번호 유효한지 확인 |
+
+  | 방식   | 경로                       | 권한   | 기능                                        |
+  | ------ | -------------------------- | ------ | ------------------------------------------- |
+  | GET    | /api/user/{userId}         | 일반   | 회원정보 받기(마이페이지)                   |
+  | GET    | /api/user                  | 관리자 | 전체 회원 받아오기                          |
+  | POST   | /api/user/login            | 전체   | 로그인 하기                                 |
+  | POST   | /api/user/new              | 전체   | 회원가입                                    |
+  | PUT    | /api/user                  | 전체   | 회원 정보 수정                              |
+  | DELETE | /api/user/{userId}         | 전체   | 회원 삭제                                   |
+  | POST   | /api/user/email            | -      | 이메일이 DB에 이미 있는지 확인              |
+  | POST   | /api/user/nickname         | -      | 닉네임이 DB에 이미 있는지 확인              |
+  | POST   | /api/user/token-request    | -      | smtp를 이용한 이메일에 인증번호를 메일 발송 |
+  | POST   | /api/user/token-validation | -      | 보냈던 이메일 인증번호 유효한지 확인        |
 
 - Board
-    
-    | 방식 | 경로 | 권한 | 기능 |
-    | --- | --- | --- | --- |
-    | GET | /api/board/list?tag={1,2,3}&word=”검색키워드” | - | 게시물 리스트 |
-    | GET | /api/board/{boardId} | - | 상세 게시물 보기 |
-    | POST | /api/board/new | 전체 | 게시글 생성 |
-    | PUT | /api/board | 전체 | 게시글 수정 |
-    | DELETE | /api/board/{boardId} | 전체 | 게시글 삭제 |
+
+  | 방식   | 경로                                          | 권한 | 기능             |
+  | ------ | --------------------------------------------- | ---- | ---------------- |
+  | GET    | /api/board/list?tag={1,2,3}&word=”검색키워드” | -    | 게시물 리스트    |
+  | GET    | /api/board/{boardId}                          | -    | 상세 게시물 보기 |
+  | POST   | /api/board/new                                | 전체 | 게시글 생성      |
+  | PUT    | /api/board                                    | 전체 | 게시글 수정      |
+  | DELETE | /api/board/{boardId}                          | 전체 | 게시글 삭제      |
 
 - Comment
-    
-    | 방식 | 경로 | 권한 | 기능 |
-    | --- | --- | --- | --- |
-    | GET | /api/comment/{boardId} | - | 해당하는 게시물 댓글 가져오기 |
-    | POST | /api/comment/new | - | 댓글 넣기 |
-    | PUT | /api/comment | 전체 | 댓글 수정하기 |
-    | DELETE | /api/comment/{commentId} | 전체 | 댓글 삭제하기 |
+
+  | 방식   | 경로                     | 권한 | 기능                          |
+  | ------ | ------------------------ | ---- | ----------------------------- |
+  | GET    | /api/comment/{boardId}   | -    | 해당하는 게시물 댓글 가져오기 |
+  | POST   | /api/comment/new         | -    | 댓글 넣기                     |
+  | PUT    | /api/comment             | 전체 | 댓글 수정하기                 |
+  | DELETE | /api/comment/{commentId} | 전체 | 댓글 삭제하기                 |
 
 - Shop
-    
-    | 방식 | 경로 | 권한 | 기능 |
-    | --- | --- | --- | --- |
-    | GET | /api/shop/list | - | 가게 리스트 |
-    | GET | /api/shop/{shopId} | - | 가게 상세내용 보기 |
-    | POST | /api/shop/new | User | 공공데이터 API로 사업자 번호 인증 및 사업 분야 체크 |
-    | PUT | /api/shop | Business | 가게 정보 수정하기 |
-    | DELETE | /api/shop/{shopId} | Business | 가게 정보 삭제하기 |
+  | 방식 | 경로 | 권한 | 기능 |
+  | ------ | ------------------ | -------- | --------------------------------------------------- |
+  | GET | /api/shop/list | - | 가게 리스트 |
+  | GET | /api/shop/{shopId} | - | 가게 상세내용 보기 |
+  | POST | /api/shop/new | User | 공공데이터 API로 사업자 번호 인증 및 사업 분야 체크 |
+  | PUT | /api/shop | Business | 가게 정보 수정하기 |
+  | DELETE | /api/shop/{shopId} | Business | 가게 정보 삭제하기 |
 
 ### Entity Relationship Diagram
 
