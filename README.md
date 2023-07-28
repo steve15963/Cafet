@@ -357,7 +357,7 @@ Feat : 유저 파트
 
 ### Entity Relationship Diagram
 
-![homo_ssafyens_ERD.png](img/homo_ssafyens_ERD.png)
+![homo_ssafyens_ERD.png](/backend/assets/homo_ssafyens_ERD.png)
 
 ```sql
 -- SQL 문 입력
