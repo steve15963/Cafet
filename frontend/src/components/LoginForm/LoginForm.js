@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import handleLogin from "../../utils/handleLogin";
+import handleLogin from "../../utils/handleLogin/handleLogin";
 import "./LoginForm.css";
 import { useNavigate } from "react-router-dom";
 
