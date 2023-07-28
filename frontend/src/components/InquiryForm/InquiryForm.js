@@ -5,16 +5,18 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { InputLabel, MenuItem } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import { useNavigate } from "react-router-dom";
 
 const InquiryForm = () => {
   const [category, setCategory] = React.useState("");
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setCategory(event.target.value);
   };
   const handleSubmit = (e) => {
     alert("문의사항이 등록되었습니다.");
-    e.preventDefault();
+    navigate("/");
   };
   return (
     <div className="inquire">
