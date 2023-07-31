@@ -43,4 +43,12 @@ public class MailService {
 		//성공적 종료
 		return 0;
 	}
+	private String genRandomPassword(int length) {
+		String password = "";
+		for(int i = 0 ; i < length; i++) {
+			password += (int)((Math.random() * 10) % 10);
+		}
+		return password;
+	}
+
 }
