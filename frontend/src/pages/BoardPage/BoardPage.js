@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { boardMenuList } from "../../hooks/useBoardPageMenu/useBoardPageMenu";
+import { useNavigate } from "react-router-dom";
+import { boardMenuList } from '../../hooks/useBoardPageMenu/useBoardPageMenu'
 import Menu from "../../components/Menu/Menu";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./BoardPage.scoped.css";
@@ -21,9 +22,14 @@ for (let number = 1; number <= 5; number++) {
 
 const BoardPage = () => {
   // 메뉴 버튼 활성화를 위한 state 관리
-  //const [menuSelected, setMenuSelected] = useState(-1)
+  // const [menuSelected, setMenuSelected] = useState(-1)
+  let navigate = useNavigate();
 
-  const [boardData, setboardData] = useState([]);
+  const goToDetail = (pageId) => {
+    navigate(`/board/detail/${pageId}`)
+  }
+
+  const [boardData, setboardData] = useState([])
   useEffect(() => {
     axios
       .get("http://i9a105.p.ssafy.io:8080/api/board/list")
@@ -66,7 +72,7 @@ const BoardPage = () => {
               return (
                 <tr key={el.boardId}>
                   <td>{el.boardId}</td>
-                  <td className="col-6">{el.boardTitle}</td>
+                  <td className="col-6" onClick={() => goToDetail(el.boardId)}>{el.boardTitle}</td>
                   <td>{el.nickname}</td>
                   <td>{el.createdTime}</td>
                   <td>{el.viewCnt}</td>
