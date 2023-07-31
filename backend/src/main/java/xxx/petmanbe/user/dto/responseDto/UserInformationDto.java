@@ -1,6 +1,7 @@
 package xxx.petmanbe.user.dto.responseDto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Email;
@@ -16,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xxx.petmanbe.user.entity.Level;
+import xxx.petmanbe.userfile.entity.UserFile;
 
 @Getter
 @Setter
@@ -37,5 +39,7 @@ public class UserInformationDto {
 	private LocalDateTime createdTime;
 
 	private LocalDateTime updatedTime;
+
+	private List<UserFilesListDto> userFile;
 
 }
