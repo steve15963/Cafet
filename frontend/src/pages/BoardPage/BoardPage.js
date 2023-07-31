@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { boardMenuList } from "../../hooks/useBoardPageMenu/useBoardPageMenu";
 import Menu from "../../components/Menu/Menu";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./BoardPage.css";
+import "./BoardPage.scoped.css";
 import Pagination from "react-bootstrap/Pagination";
 import Table from "react-bootstrap/Table";
 import Header from "../../components/Header/Header";

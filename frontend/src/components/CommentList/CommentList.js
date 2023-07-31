@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./CommentList.css";
+import "./CommentList.scoped.css";
 
 const CommentList = ({ commentList }) => {
   const [commentCount] = useState(commentList.length);

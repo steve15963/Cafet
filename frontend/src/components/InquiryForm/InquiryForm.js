@@ -1,5 +1,5 @@
 import React from "react";
-import "./InquiryForm.css";
+import "./InquiryForm.scoped.css";
 import { MdPerson, MdCall } from "react-icons/md";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";

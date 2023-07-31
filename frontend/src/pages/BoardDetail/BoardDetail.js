@@ -1,5 +1,5 @@
 import React from "react";
-import "./BoardDetail.css";
+import "./BoardDetail.scoped.css";
 import { useParams } from "react-router-dom";
 
 import Header from "../../components/Header/Header";
