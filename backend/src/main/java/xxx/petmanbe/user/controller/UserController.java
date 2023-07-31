@@ -37,14 +37,14 @@ public class UserController {
 
 
 	@PostMapping(value="/new",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<String> PostNewUser(@RequestPart("registDto") RegistDto registDto, @RequestPart("file")MultipartFile multipartFile) throws Exception {
+	public ResponseEntity<String> PostNewUser(@RequestPart("dto") RegistDto request, @RequestPart("file")MultipartFile file) throws Exception {
 
-		System.out.println(multipartFile.getOriginalFilename());
+		System.out.println(file.getOriginalFilename());
 
-		Long userId = userService.postnewUser(registDto);
+		Long userId = userService.postnewUser(request);
 
-		if(!multipartFile.isEmpty()){
-			String url = fileService.keepFile(multipartFile, userId);
+		if(!file.isEmpty()){
+			String url = fileService.keepFile(file, userId);
 		}
 		
 
@@ -54,14 +54,14 @@ public class UserController {
 
 	@PostMapping("/login")
 	// public ResponseEntity<RefreshJwtDto> PostLoginUser(@RequestBody LoginDto loginDto, HttpServletRequest httpServletRequest) throws Exception{
-	public ResponseEntity PostLoginUser(@RequestBody LoginDto loginDto, HttpServletRequest httpServletRequest) throws Exception{
+	public ResponseEntity PostLoginUser(@RequestPart("dto") LoginDto request, HttpServletRequest httpServletRequest) throws Exception{
 		// Optional<RefreshJwtDto> refreshJwtDto = userService.postLoginUser(loginDto);
 		// if(refreshJwtDto.isEmpty()) {
 		// 	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		//
 		// }
 		// return new ResponseEntity<RefreshJwtDto>(refreshJwtDto.get(), HttpStatus.OK);
-		User findUser = userService.SessionLogin(loginDto);
+		User findUser = userService.SessionLogin(request);
 
 		httpServletRequest.getSession().setAttribute("user",
 			findUser
@@ -75,11 +75,11 @@ public class UserController {
 
 	//이메일은 못 바꿈
 	@PutMapping("")
-	public ResponseEntity<String> PutUser(@RequestBody UserModifyDto userModifyDto) throws Exception {
+	public ResponseEntity<String> PutUser(@RequestPart("dto") UserModifyDto request) throws Exception {
 
-		String msg = userService.putUser(userModifyDto);
+		String msg = userService.putUser(request);
 
-		return new ResponseEntity<>(userModifyDto.getEmail()+msg,HttpStatus.OK);
+		return new ResponseEntity<>(request.getEmail()+msg,HttpStatus.OK);
 	}
 
 	@GetMapping("/{userId}")
@@ -110,9 +110,9 @@ public class UserController {
 	}
 
 	@PostMapping("/token/refresh")
-	public ResponseEntity<String> PostRefreshToken(@RequestBody RefreshTokenDto refreshTokenDto){
+	public ResponseEntity<String> PostRefreshToken(@RequestPart("dto") RefreshTokenDto request){
 
-		String newAccessToken = jwtService.refreshToken(refreshTokenDto.getRefreshToken());
+		String newAccessToken = jwtService.refreshToken(request.getRefreshToken());
 
 		return new ResponseEntity<>(newAccessToken,HttpStatus.OK);
 
@@ -121,9 +121,9 @@ public class UserController {
 	
 	// level 내리기
 	@PutMapping("/level")
-	public ResponseEntity<String> PutUserLevel(@RequestBody LevelModifyDto levelModifyDto){
+	public ResponseEntity<String> PutUserLevel(@RequestPart("dto") LevelModifyDto request){
 
-		String msg = userService.putUserLevel(levelModifyDto);
+		String msg = userService.putUserLevel(request);
 
 		return new ResponseEntity<>(msg,HttpStatus.OK);
 	}
