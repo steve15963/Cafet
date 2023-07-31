@@ -40,9 +40,9 @@ public class ShopController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<String> PostShopNew(@RequestBody PostNewShopDto postNewShopDto){
+    public ResponseEntity<String> PostShopNew(@RequestPart("dto") PostNewShopDto request){
 
-        if(shopService.postShopNew(postNewShopDto)){
+        if(shopService.postShopNew(request)){
             return new ResponseEntity<>("sucess",HttpStatus.OK);
         }else{
             return new ResponseEntity<>("유저 status가 낮습니다.",HttpStatus.BAD_REQUEST);
@@ -50,9 +50,9 @@ public class ShopController {
     }
 
     @PutMapping("")
-    public ResponseEntity<String> PutShop(@RequestBody PutShopDto putShopDto){
+    public ResponseEntity<String> PutShop(@RequestPart("dto") PutShopDto request){
 
-        if(shopService.putShop(putShopDto)){
+        if(shopService.putShop(request)){
             return new ResponseEntity<>("success",HttpStatus.OK);
         }else{
             return new ResponseEntity<>("fail",HttpStatus.BAD_REQUEST);
@@ -72,9 +72,9 @@ public class ShopController {
 	}
 
 	@PostMapping("/grade")
-	public ResponseEntity<String> PostShopGrade(@RequestBody PostShopGradeDto postShopGradeDto){
+	public ResponseEntity<String> PostShopGrade(@RequestPart("dto") PostShopGradeDto request){
 
-        if(gradeService.postShopGrade(postShopGradeDto)){
+        if(gradeService.postShopGrade(request)){
             return new ResponseEntity<>("success",HttpStatus.OK);
         }else{
             return new ResponseEntity<>("fail",HttpStatus.BAD_REQUEST);
@@ -82,13 +82,13 @@ public class ShopController {
     }
 
     @GetMapping("/grade")
-    public ResponseEntity<Long> GetShopGrade(@RequestBody GetShopGradeDto getShopGradeDto){
+    public ResponseEntity<Long> GetShopGrade(@RequestPart("dto") GetShopGradeDto request){
 
-        long gradeId = gradeService.getShopGrade(getShopGradeDto);
+        long gradeId = gradeService.getShopGrade(request);
 
         return new ResponseEntity<>(gradeId, HttpStatus.OK);
 
-        // if(gradeService.getShopGrade(getShopGradeDto)){
+        // if(gradeService.getShopGrade(request)){
         // 	return new ResponseEntity<>("success", HttpStatus.OK);
         // }else{
         // 	return new ResponseEntity<>("fail",HttpStatus.OK);
@@ -98,9 +98,9 @@ public class ShopController {
     }
 
     @PutMapping("/grade")
-    public ResponseEntity<String> PutShopGrade(@RequestBody PutShopGradeDto putShopGradeDto){
+    public ResponseEntity<String> PutShopGrade(@RequestPart("dto") PutShopGradeDto request){
 
-        if(gradeService.putShopGrade(putShopGradeDto)){
+        if(gradeService.putShopGrade(request)){
             return new ResponseEntity<>("success",HttpStatus.OK);
         }else{
             return new ResponseEntity<>("fail",HttpStatus.BAD_REQUEST);
@@ -108,9 +108,9 @@ public class ShopController {
     }
 
     @DeleteMapping("/grade")
-    public ResponseEntity<String> DeleteShopGrade(@RequestBody DeleteShopGradeDto deleteShopGradeDto){
+    public ResponseEntity<String> DeleteShopGrade(@RequestPart("dto") DeleteShopGradeDto request){
 
-        if(gradeService.deleteShopGrade(deleteShopGradeDto)){
+        if(gradeService.deleteShopGrade(request)){
             return new ResponseEntity<>("success",HttpStatus.OK);
         }else{
             return new ResponseEntity<>("fail",HttpStatus.BAD_REQUEST);

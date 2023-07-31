@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class BoardController {
 
 	// 게시글 생성
 	@PostMapping("/new")
-	public ResponseEntity<Integer> postBoard(@RequestBody AddBoardRequestDto request){
+	public ResponseEntity<Integer> postBoard(@RequestPart("dto") AddBoardRequestDto request){
 		// 게시글 생성
 		boardService.postBoard(request);
 
@@ -41,7 +42,7 @@ public class BoardController {
 
 	// 카테고리 생성
 	@PostMapping("/category/new")
-	public ResponseEntity<Integer> postCategory(@RequestBody AddCategoryRequestDto request){
+	public ResponseEntity<Integer> postCategory(@RequestPart("dto") AddCategoryRequestDto request){
 		// 카테고리 생성
 		boardService.postCategory(request);
 
@@ -128,7 +129,7 @@ public class BoardController {
 
 	// 게시글 수정하기
 	@PutMapping("/{boardId}")
-	public ResponseEntity<Integer> putBoard(@PathVariable Long boardId, @RequestBody UpdateBoardRequestDto request){
+	public ResponseEntity<Integer> putBoard(@PathVariable Long boardId, @RequestPart("dto") UpdateBoardRequestDto request){
 
 		// 수정
 		boardService.putBoard(boardId, request);
