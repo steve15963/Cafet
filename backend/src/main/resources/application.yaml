@@ -41,3 +41,8 @@ jwt:
 
 opendata:
   key:
+
+email:
+  regist:
+    ExpirationTime:
+      int: 5
