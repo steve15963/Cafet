@@ -17,34 +17,34 @@ const InquiryForm = () => {
     e.preventDefault();
   };
   return (
-    <div className="inquiryForm">
-      <form className="form">
-        <p className="form-title">문의하기</p>
+    <div className="inquire">
+      <form className="inquiry-form">
+        <p className="inquiry-form-title">문의하기</p>
         <b>문의자 정보</b>
         <div className="input-container">
           <TextField
-            id="outlined-basic"
             label="이름"
             variant="outlined"
             placeholder="이름을 쓰세요"
             fullWidth
+            size="small"
           />
-          <span className="icon">
+          <span className="inquiry-icon">
             <MdPerson />
           </span>
         </div>
         <div className="input-container">
           <TextField
-            id="outlined-basic"
             label="이메일"
             placeholder="이메일을 쓰세요"
             variant="outlined"
             inputProps={{
               type: "email",
             }}
+            size="small"
             fullWidth
           />
-          <span className="icon">
+          <span className="inquiry-icon">
             <svg
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -62,13 +62,13 @@ const InquiryForm = () => {
         </div>
         <div className="input-container">
           <TextField
-            id="outlined-basic"
             label="전화번호"
             placeholder="전화번호를 적으세요"
             variant="outlined"
+            size="small"
             fullWidth
           />
-          <span className="icon">
+          <span className="inquiry-icon">
             <MdCall />
           </span>
         </div>
@@ -76,15 +76,15 @@ const InquiryForm = () => {
         <b>문의 내용</b>
         <div className="input-container">
           <TextField
-            id="outlined-basic"
             label="제목"
             variant="outlined"
             placeholder="제목을 쓰세요"
             fullWidth
+            size="small"
           />
         </div>
         <div className="input-container">
-          <FormControl fullWidth>
+          <FormControl fullWidth size="small">
             <InputLabel id="select-label">분류</InputLabel>
             <Select
               labelId="select-label"
