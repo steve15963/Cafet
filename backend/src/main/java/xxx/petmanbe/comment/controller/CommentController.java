@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class CommentController {
 
 	// 해당 게시글에 댓글 추가
 	@PostMapping("/{boardId}/new/{userId}")
-	public ResponseEntity<Integer> postComment(@PathVariable Long boardId, @PathVariable Long userId, @RequestBody AddCommentRequestDto request){
+	public ResponseEntity<Integer> postComment(@PathVariable Long boardId, @PathVariable Long userId, @RequestPart("dto") AddCommentRequestDto request){
 
 		// 생성하러 이동
 		commentService.postComment(boardId, userId, request);
@@ -55,7 +55,7 @@ public class CommentController {
 
 	// 댓글 수정하기
 	@PutMapping("/{commentId}")
-	public ResponseEntity<Integer> putComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequestDto request){
+	public ResponseEntity<Integer> putComment(@PathVariable Long commentId, @RequestPart("dto") UpdateCommentRequestDto request){
 
 		// 수정하기
 		commentService.putComment(commentId, request);

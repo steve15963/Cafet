@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class TagController {
 
 	// 태그 등록하기
 	@PostMapping("/new")
-	public ResponseEntity<Integer> postTag(@RequestBody AddTagRequestDto request){
+	public ResponseEntity<Integer> postTag(@RequestPart("dto") AddTagRequestDto request){
 		
 		// 태그 등록
 		tagService.postTag(request);
