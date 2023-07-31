@@ -1,8 +1,10 @@
 package xxx.petmanbe.user.service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -13,12 +15,15 @@ import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
+import xxx.petmanbe.user.dto.responseDto.UserFilesListDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
 import xxx.petmanbe.user.entity.Level;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.LevelRepository;
 import xxx.petmanbe.user.repository.UserRepository;
+import xxx.petmanbe.userfile.entity.UserFile;
+import xxx.petmanbe.userfile.repository.UserFileRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +36,8 @@ public class UserServiceImpl implements UserService{
 	private final JwtService jwtService;
 
 	private final LevelRepository levelRepository;
+
+	private final UserFileRepository userFileRepository;
 
 	@Transactional
 	@Override
@@ -122,6 +129,10 @@ public class UserServiceImpl implements UserService{
 
 		User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
 
+		List<UserFilesListDto> userFilesListDtos = userFileRepository.findUserFileByUser_UserId(userId).stream()
+			.map(UserFilesListDto::new).collect(Collectors.toList());
+
+
 		UserInformationDto userInformationDto = UserInformationDto.builder()
 				.email(user.getEmail())
 				.phoneNo(user.getPhoneNo())
@@ -130,6 +141,7 @@ public class UserServiceImpl implements UserService{
 				.level(user.getLevel())
 				.createdTime(user.getCreatedTime())
 				.updatedTime(user.getUpdatedTime())
+				.userFile(userFilesListDtos)
 				.build();
 
 		return userInformationDto;
