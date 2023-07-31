@@ -1,0 +1,13 @@
+.xs2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar {
+  margin-left: 20px;
+}
+
+.tab-wrapper {
+  margin-top: 50px;
+}
