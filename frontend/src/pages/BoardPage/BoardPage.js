@@ -2,23 +2,28 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { boardMenuList } from '../../hooks/useBoardPageMenu/useBoardPageMenu'
 import Menu from "../../components/Menu/Menu";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./BoardPage.scoped.css";
-import Pagination from "react-bootstrap/Pagination";
-import Table from "react-bootstrap/Table";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+import Button from "../../components/Button/Button";
+
 import axios from "axios";
 
-let active = 1;
-let items = [];
-for (let number = 1; number <= 5; number++) {
-  items.push(
-    <Pagination.Item key={number} active={number === active}>
-      {number}
-    </Pagination.Item>
-  );
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+
+const createTable = (boardId, boardTitle, nickname, createdTime, viewCnt, commentSum) => {
+  return {boardId, boardTitle, nickname, createdTime, viewCnt, commentSum}
 }
+
 
 const BoardPage = () => {
   // 메뉴 버튼 활성화를 위한 state 관리
@@ -29,7 +34,12 @@ const BoardPage = () => {
     navigate(`/board/detail/${pageId}`)
   }
 
+  const goToCreate = () => {
+    navigate('/create')
+  }
+
   const [boardData, setboardData] = useState([])
+
   useEffect(() => {
     axios
       .get("http://i9a105.p.ssafy.io:8080/api/board/list")
@@ -40,6 +50,10 @@ const BoardPage = () => {
         console.log(error);
       });
   }, []);
+
+  const tableRows = boardData.map((el) => 
+    createTable(el.boardId, el.boardTitle, el.nickname, el.createdTime, el.viewCnt, el.commentSum)
+  )
 
   return (
     <>
@@ -52,36 +66,45 @@ const BoardPage = () => {
             <Menu key={it.id} {...it} />
           ))}
         </div>
+        <div>
+          <Button text={'글 작성'} onClick={goToCreate}/>
+        </div>
         <div className="menu-right-save" />
       </div>
       <div className="table-wrapper">
         <div className="table-left-save" />
-        <Table className="text-center">
-          <thead>
-            <tr className="table-secondary">
-              <th>글번호</th>
-              <th className="col-6">제목</th>
-              <th>작성자</th>
-              <th>작성일</th>
-              <th>조회 수</th>
-              <th>댓글 수</th>
-            </tr>
-          </thead>
-          <tbody>
-            {boardData.map((el) => {
-              return (
-                <tr key={el.boardId}>
-                  <td>{el.boardId}</td>
-                  <td className="col-6" onClick={() => goToDetail(el.boardId)}>{el.boardTitle}</td>
-                  <td>{el.nickname}</td>
-                  <td>{el.createdTime}</td>
-                  <td>{el.viewCnt}</td>
-                  <td>{el.commentSum}</td>
-                </tr>
-              );
-            })}
-          </tbody>
+        
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">번호</TableCell>
+              <TableCell align="center">제목</TableCell>
+              <TableCell align="center">작성자</TableCell>
+              <TableCell align="center">작성일자</TableCell>
+              <TableCell align="center">조회 수</TableCell>
+              <TableCell align="center">댓글 수</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tableRows.map((row) => (
+              <TableRow
+                key={row.boardId}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row" align="center">
+                  {row.boardId}
+                </TableCell>
+                <TableCell onClick={() => goToDetail(row.boardId)}>{row.boardTitle}</TableCell>
+                <TableCell>{row.nickname}</TableCell>
+                <TableCell>{row.createdTime}</TableCell>
+                <TableCell align="center">{row.viewCnt}</TableCell>
+                <TableCell align="center">{row.commentSum}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
         </Table>
+      </TableContainer>
         <div className="table-right-save" />
       </div>
       <div className="input_wrapper">
@@ -94,12 +117,10 @@ const BoardPage = () => {
           </svg>
         </div>
       </div>
-      <div className="d-flex justify-content-center">
-        <Pagination>
-          <Pagination.Prev />
-          {items}
-          <Pagination.Next />
-        </Pagination>
+      <div className="pagenation">
+        <Stack>
+          <Pagination count={10} shape="rounded" />
+        </Stack>
       </div>
       <div className="footer-save" />
       <Footer />

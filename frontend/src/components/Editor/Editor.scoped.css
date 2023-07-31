@@ -1,4 +1,6 @@
 .Editor {
+  max-width: 1200px;
+  width: 100%;
   font-family: Arial, sans-serif;
   border: 1px solid #ccc;
   padding: 10px;
@@ -7,20 +9,9 @@
   margin-bottom: 20px;
 }
 
-.Editor h2 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-}
-
 .ck-content {
   min-height: 200px;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
-}
-
-.editor_button {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
 }

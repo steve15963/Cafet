@@ -11,6 +11,7 @@ import MyPage from "./pages/MyPage/MyPage";
 import StorePage from "./pages/StorePage/StorePage";
 import TestPage from "./pages/TestPage/TestPage";
 import InquiryPage from "./pages/InquiryPage/InquiryPage";
+import CreatePage from "./pages/CreatePage/CreatePage";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/store" element={<StorePage />} />
         <Route path="/test" element={<TestPage />} />
         <Route path="/inquiry" element={<InquiryPage />} />
+        <Route path="/create" element={<CreatePage />} />
       </Routes>
     </div>
   );
