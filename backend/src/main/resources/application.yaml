@@ -42,7 +42,7 @@ jwt:
 opendata:
   key:
 
-email:
+mail:
   regist:
     ExpirationTime:
       int: 5
