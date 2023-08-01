@@ -2,7 +2,6 @@ package xxx.petmanbe.comment.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -40,11 +39,14 @@ public class CommentService {
 		// 등록할 게시글 정보 등록
 		board.ifPresent(comment::setBoard);
 
-		// 유저 정보 등록(연결하고 추가)
+		// 유저 정보 등록
 		Optional<User> user = userRepository.findById(userId);
 		user.ifPresent(comment::setUser);
+		
+		// 해당 게시글 카운트 증가
+		board.ifPresent(Board::plusCommentSum);
 
-		// 게시글 정보 반환
+		// 댓글 생성
 		return commentRepository.save(comment);
 	}
 
@@ -68,14 +70,14 @@ public class CommentService {
 	@Transactional
 	public Comment putComment(Long commentId, UpdateCommentRequestDto request){
 		// 수정할 정보 가져오기
-		Comment comment = commentRepository.findById(commentId)
-			.orElseThrow(() -> new IllegalArgumentException("not found"));
+		Optional<Comment> comment = commentRepository.findById(commentId);
 
 		// 해당 댓글 수정
-		comment.updateComment(request);
+		// 비즈니스 로직 상 게시글이 null일 수 없으므로 null 검사는 따로 하지 않음
+		comment.get().updateComment(request);
 
 		// 수정 정보 반환
-		return comment;
+		return comment.get();
 	}
 
 	// 댓글 삭제
@@ -83,13 +85,19 @@ public class CommentService {
 	public Comment putCommentStatus(Long commentId){
 
 		// 수정할 정보 가져오기
-		Comment comment = commentRepository.findById(commentId)
-			.orElseThrow(()-> new IllegalArgumentException("not found"));
+		Optional<Comment> comment = commentRepository.findById(commentId);
 
 		// 댓글 삭제/복구 상태 변경
-		comment.updateCommentStatus();
+		comment.ifPresent(Comment::updateCommentStatus);
+
+		// 해당 댓글이 달려있는 게시글 정보
+		// 비즈니스 로직 상 게시글이 null일 수 없으므로 null 검사는 따로 하지 않음
+		Optional<Board> board = boardRepository.findById(comment.get().getBoard().getBoardId());
+
+		// 댓글 수 변경
+		board.ifPresent(Board::minusCommentSum);
 
 		// 바뀐 댓글 정보 반환
-		return comment;
+		return comment.get();
 	}
 }

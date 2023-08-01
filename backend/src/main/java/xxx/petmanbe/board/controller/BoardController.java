@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+import javax.transaction.Transactional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -38,6 +40,7 @@ public class BoardController {
 
 	// 게시글 생성
 	@PostMapping("/new")
+	@Transactional
 	public ResponseEntity<String> postBoard(@RequestBody AddBoardRequestDto request) throws IOException {
 		// 게시글 생성
 		long boardId = boardService.postBoard(request);
