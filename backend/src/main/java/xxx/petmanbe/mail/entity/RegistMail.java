@@ -39,10 +39,10 @@ public class RegistMail extends BaseTimeEntity {
 	@Column
 	LocalDateTime expiredTime;
 
-	// @Column
-	// boolean check;
-	//
-	// @Column
-	// LocalDateTime checkExpiredTime;
+	@Column
+	boolean checkConfirm;
+
+	@Column
+	LocalDateTime checkExpiredTime;
 
 }

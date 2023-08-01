@@ -37,10 +37,10 @@ public class MailController {
 	@PostMapping("/check/regist")
 	public ResponseEntity<String> postRegistCheckMail(@RequestBody KeyCheckRegistDto request){
 
-		// if(mailService.postRegistCheckMail(request)){
+		if(mailService.postRegistCheckMail(request)){
 			return new ResponseEntity<>(HttpStatus.OK);
-		// }
-		// return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 

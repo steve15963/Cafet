@@ -92,41 +92,41 @@ public class MailService {
 
 	}
 
-	// public boolean postRegistCheckMail(KeyCheckRegistDto keyCheckRegistDto){
-	//
-	// 	RegistMail registMailCheck = mailRegistRepository.findByMailTokenAndMail(keyCheckRegistDto.getMailToken(), keyCheckRegistDto.getMail());
-	//
-	// 	if(Objects.isNull(registMailCheck)){
-	//
-	// 		return false;
-	// 	}else{
-	// 		// expiration time이 now보다 시간이 작으면
-	// 		if(LocalDateTime.now().isBefore(registMailCheck.getExpiredTime())){
-	// 			//성공
-	// 			registMailCheck.setCheck(true);
-	// 			registMailCheck.setCheckExpiredTime(LocalDateTime.now().plusHours(registCheckExpirationTime));
-	//
-	// 			return true;
-	// 		}
-	//
-	// 		return false;
-	// 	}
-	//
-	// }
-	//
-	// // 회원가입 버튼을 눌렀을 때에 체크하는 함수
-	// public boolean registcheck(String email){
-	//
-	// 	RegistMail registMail = mailRegistRepository.findByMail(email).orElseThrow(()->new IllegalArgumentException());
-	//
-	// 	if(registMail.isCheck() && LocalDateTime.now().isBefore(registMail.getCheckExpiredTime())){
-	//
-	// 		return true;
-	// 	}
-	//
-	// 	return false;
-	//
-	// }
+	public boolean postRegistCheckMail(KeyCheckRegistDto keyCheckRegistDto){
+
+		RegistMail registMailCheck = mailRegistRepository.findByMailTokenAndMail(keyCheckRegistDto.getMailToken(), keyCheckRegistDto.getMail());
+
+		if(Objects.isNull(registMailCheck)){
+
+			return false;
+		}else{
+			// expiration time이 now보다 시간이 작으면
+			if(LocalDateTime.now().isBefore(registMailCheck.getExpiredTime())){
+				//성공
+				registMailCheck.setCheckConfirm(true);
+				registMailCheck.setCheckExpiredTime(LocalDateTime.now().plusHours(registCheckExpirationTime));
+
+				return true;
+			}
+
+			return false;
+		}
+
+	}
+
+	// 회원가입 버튼을 눌렀을 때에 체크하는 함수
+	public boolean registcheck(String email){
+
+		RegistMail registMail = mailRegistRepository.findByMail(email).orElseThrow(()->new IllegalArgumentException());
+
+		if(registMail.isCheckConfirm() && LocalDateTime.now().isBefore(registMail.getCheckExpiredTime())){
+
+			return true;
+		}
+
+		return false;
+
+	}
 
 
 	//비밀번호 code를 랜덤으로 생성하는 함수
