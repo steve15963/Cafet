@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import xxx.petmanbe.mail.service.MailService;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
@@ -35,6 +36,8 @@ public class UserController {
 
 	private final FileService fileService;
 
+	private final MailService mailService;
+
 
 	@PostMapping(value="/new")
 	public ResponseEntity<String> PostNewUser(@RequestBody RegistDto request) throws Exception {
@@ -42,6 +45,16 @@ public class UserController {
 		Long userId = userService.postnewUser(request);
 
 		return new ResponseEntity<>(userId + "regist success",HttpStatus.OK);
+
+
+		// 추후에 넣어야 할 부분 (지금은 체크하기 불편할까봐 주석으로 넣어놓음)
+		// if(mailService.registcheck(request.getEmail())){
+		// 	Long userId = userService.postnewUser(request);
+		// 	return new ResponseEntity<>(userId + "regist success",HttpStatus.OK);
+		//
+		// }else{
+		// 	return new ResponseEntity<>("다시 인증해주세요!", HttpStatus.OK);
+		// }
 
 	}
 
