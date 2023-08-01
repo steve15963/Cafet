@@ -1,6 +1,7 @@
 package xxx.petmanbe.userfile.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -9,6 +10,6 @@ import xxx.petmanbe.userfile.entity.UserFile;
 
 public interface UserFileRepository extends JpaRepository<UserFile, Long> {
 
-	List<UserFile> findUserFileByUser_UserId(Long userId);
+	// Optional<UserFile> findByUser_UserId(Long userId);
 
 }

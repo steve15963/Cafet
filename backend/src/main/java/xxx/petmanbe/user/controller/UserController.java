@@ -36,17 +36,10 @@ public class UserController {
 	private final FileService fileService;
 
 
-	@PostMapping(value="/new",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<String> PostNewUser(@RequestPart("dto") RegistDto request, @RequestPart("file")MultipartFile file) throws Exception {
-
-		System.out.println(file.getOriginalFilename());
+	@PostMapping(value="/new")
+	public ResponseEntity<String> PostNewUser(@RequestPart("dto") RegistDto request) throws Exception {
 
 		Long userId = userService.postnewUser(request);
-
-		if(!file.isEmpty()){
-			String url = fileService.keepFile(file, userId);
-		}
-		
 
 		return new ResponseEntity<>(userId + "regist success",HttpStatus.OK);
 
@@ -74,12 +67,18 @@ public class UserController {
 	}
 
 	//이메일은 못 바꿈
-	@PutMapping("")
-	public ResponseEntity<String> PutUser(@RequestPart("dto") UserModifyDto request) throws Exception {
+	@PutMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<String> PutUser(@RequestPart("dto") UserModifyDto request, @RequestPart("file")MultipartFile file) throws Exception {
 
-		String msg = userService.putUser(request);
+		String userFile = null;
 
-		return new ResponseEntity<>(request.getEmail()+msg,HttpStatus.OK);
+		if(userService.putUser(request)){
+			if(!file.isEmpty()){
+				userFile = fileService.keepFile(file, request.getEmail());
+			}
+		}
+
+		return new ResponseEntity<>(userFile,HttpStatus.OK);
 	}
 
 	@GetMapping("/{userId}")

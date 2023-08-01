@@ -1,5 +1,6 @@
 package xxx.petmanbe.board.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.board.dto.request.AddBoardRequestDto;
@@ -21,6 +23,7 @@ import xxx.petmanbe.board.dto.request.UpdateBoardRequestDto;
 import xxx.petmanbe.board.dto.response.BoardListResponseDto;
 import xxx.petmanbe.board.dto.response.BoardResponseDto;
 import xxx.petmanbe.board.service.BoardService;
+import xxx.petmanbe.boardfile.service.BoardFileService;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,11 +33,18 @@ public class BoardController {
 
 	private final BoardService boardService;
 
+	private final BoardFileService boardFileService;
+
 	// 게시글 생성
 	@PostMapping("/new")
-	public ResponseEntity<Integer> postBoard(@RequestPart("dto") AddBoardRequestDto request){
+	public ResponseEntity<Integer> postBoard(@RequestPart("dto") AddBoardRequestDto request, @RequestPart("file")
+		MultipartFile file) throws IOException {
 		// 게시글 생성
-		boardService.postBoard(request);
+		long boardId = boardService.postBoard(request);
+
+		if(!file.isEmpty()){
+			String url = boardFileService.keepFile(file, boardId);
+		}
 
 		// 결과 전달
 		return new ResponseEntity<>(HttpStatus.CREATED);

@@ -19,6 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xxx.petmanbe.board.dto.request.UpdateBoardRequestDto;
+import xxx.petmanbe.boardfile.entity.BoardFile;
 import xxx.petmanbe.comment.entity.Comment;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.shop.entity.Shop;
@@ -69,6 +70,9 @@ public class Board extends BaseTimeEntity {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "board")
 	private List<Comment> commentList;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "board")
+	private List<BoardFile> boardFileList;
 
 	// 게시글 수정을 위한 메소드
 	public void updateBoard(Long boardId, UpdateBoardRequestDto request){

@@ -40,6 +40,6 @@ public class UserInformationDto {
 
 	private LocalDateTime updatedTime;
 
-	private List<UserFilesListDto> userFile;
+	private UserFilesListDto userFile;
 
 }
