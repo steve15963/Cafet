@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xxx.petmanbe.shop.dto.requestDto.*;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
+import xxx.petmanbe.shop.dto.responseDto.GetShopUserGradeDto;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.service.GradeService;
 import xxx.petmanbe.shop.service.ShopService;
@@ -81,12 +82,12 @@ public class ShopController {
         }
     }
 
-    @GetMapping("/grade")
-    public ResponseEntity<Long> GetShopGrade(@RequestBody GetShopGradeDto request){
+    @GetMapping("/grade/{shopId}/{userId}")
+    public ResponseEntity<GetShopUserGradeDto> GetShopGrade(@PathVariable long shopId, @PathVariable long userId){
 
-        long gradeId = gradeService.getShopGrade(request);
+        GetShopUserGradeDto getShopUserGradeDto = gradeService.getShopGrade(shopId, userId);
 
-        return new ResponseEntity<>(gradeId, HttpStatus.OK);
+        return new ResponseEntity<>(getShopUserGradeDto, HttpStatus.OK);
 
         // if(gradeService.getShopGrade(request)){
         // 	return new ResponseEntity<>("success", HttpStatus.OK);

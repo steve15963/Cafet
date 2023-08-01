@@ -1,11 +1,14 @@
 package xxx.petmanbe.shop.service;
 
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import xxx.petmanbe.shop.dto.requestDto.DeleteShopGradeDto;
 import xxx.petmanbe.shop.dto.requestDto.GetShopGradeDto;
 import xxx.petmanbe.shop.dto.requestDto.PostShopGradeDto;
 import xxx.petmanbe.shop.dto.requestDto.PutShopGradeDto;
+import xxx.petmanbe.shop.dto.responseDto.GetShopUserGradeDto;
 import xxx.petmanbe.shop.entity.Grade;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.GradeRepository;
@@ -49,11 +52,12 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
-    public long getShopGrade(GetShopGradeDto getShopGradeDto) {
+    public GetShopUserGradeDto getShopGrade(long shopId, long userId) {
 
-        Grade grade = gradeRepository.findByUserShopJpql(getShopGradeDto.getUserId(), getShopGradeDto.getShopId()).orElseThrow(()->new IllegalArgumentException());
+        GetShopUserGradeDto getShopUserGradeDto = gradeRepository.findByUserShopJpql(userId, shopId).stream()
+            .map(GetShopUserGradeDto::new).findFirst().orElseThrow(()->new IllegalArgumentException());
 
-        return grade.getGradeId();
+        return getShopUserGradeDto;
     }
 
     @Override
