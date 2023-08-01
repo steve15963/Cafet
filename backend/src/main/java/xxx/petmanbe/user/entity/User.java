@@ -57,8 +57,10 @@ public class User extends BaseTimeEntity {
     @JoinColumn(name="token_id")
     private Token token;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<UserFile> userFileList;
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="userfile_id")
+    private UserFile userFile;
 
     public void updateUser( String phoneNo, String nickname) {
         this.phoneNo = phoneNo;

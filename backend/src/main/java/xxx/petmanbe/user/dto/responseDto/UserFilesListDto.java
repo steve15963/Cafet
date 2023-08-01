@@ -13,8 +13,10 @@ public class UserFilesListDto {
 
 	private String userUrl;
 
-	@Builder
+
 	public UserFilesListDto(UserFile userfile) {
 		this.userUrl= userfile.getUserUrl();
 	}
+
+
 }

@@ -21,9 +21,9 @@ public class PictureController {
 	private final FileService fileService;
 
 	@PostMapping(value = "user/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public String savePicture(@RequestPart(value = "image")MultipartFile image, @PathVariable Long userId) throws IOException {
+	public String savePicture(@RequestPart(value = "image")MultipartFile image, @PathVariable String email) throws IOException {
 
-		String url = fileService.keepFile(image, userId);
+		String url = fileService.keepFile(image, email);
 
 		return url;
 	}

@@ -105,21 +105,19 @@ public class UserServiceImpl implements UserService{
 
 	@Transactional
 	@Override
-	public String putUser(UserModifyDto userModifyDto) throws Exception {
+	public boolean putUser(UserModifyDto userModifyDto) throws Exception {
 
 		User user = userRepository.findByEmail(userModifyDto.getEmail()).orElseThrow(()->new IllegalArgumentException());
-
-		System.out.println(user.getUserId());
 
 		user.updateUser(userModifyDto.phoneNo,userModifyDto.nickname);
 
 		userRepository.save(user);
 
 		if(user.getNickname()== userModifyDto.nickname && user.getPhoneNo()== userModifyDto.phoneNo){
-			return "success";
+			return true;
 
 		}else{
-			return "fail";
+			return false;
 		}
 	}
 
@@ -129,8 +127,9 @@ public class UserServiceImpl implements UserService{
 
 		User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
 
-		List<UserFilesListDto> userFilesListDtos = userFileRepository.findUserFileByUser_UserId(userId).stream()
-			.map(UserFilesListDto::new).collect(Collectors.toList());
+		UserFilesListDto userFilesListDto = userFileRepository.findById(user.getUserFile().getUserfileId()).stream()
+			.map(UserFilesListDto::new)
+			.findFirst().orElseThrow(()->new IllegalArgumentException());
 
 
 		UserInformationDto userInformationDto = UserInformationDto.builder()
@@ -141,7 +140,7 @@ public class UserServiceImpl implements UserService{
 				.level(user.getLevel())
 				.createdTime(user.getCreatedTime())
 				.updatedTime(user.getUpdatedTime())
-				.userFile(userFilesListDtos)
+				.userFile(userFilesListDto)
 				.build();
 
 		return userInformationDto;
