@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MailCheckRegistDto {
 
-	private String address;
+	private String mail;
 
 }

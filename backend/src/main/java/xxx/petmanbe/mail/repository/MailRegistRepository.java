@@ -8,8 +8,8 @@ import xxx.petmanbe.mail.entity.RegistMail;
 
 public interface MailRegistRepository extends JpaRepository<RegistMail,Long> {
 
-	RegistMail findByMailTokenAndMail(String emailToken, String Email);
+	RegistMail findByMailTokenAndMail(String mailToken, String Email);
 
-	Optional<RegistMail> findByMail(String email);
+	Optional<RegistMail> findByMail(String mail);
 
 }

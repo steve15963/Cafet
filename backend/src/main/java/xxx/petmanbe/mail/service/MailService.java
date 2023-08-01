@@ -9,7 +9,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import xxx.petmanbe.mail.DTO.MailDto;
 import xxx.petmanbe.mail.DTO.requestDto.KeyCheckRegistDto;
@@ -51,7 +50,7 @@ public class MailService {
 		if(mailSender == null)
 			return false;
 		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo(mailDto.getAddress());
+		message.setTo(mailDto.getMail());
 		message.setFrom(FROM_ADDRESS);
 		message.setSubject(mailDto.getTitle());
 		message.setText(mailDto.getMessage());
@@ -69,19 +68,19 @@ public class MailService {
 		String message = "인증번호는 "+Key+" 입니다!";
 
 		MailDto mailDto = MailDto.builder()
-			.address(mailCheckRegistDto.getAddress())
+			.mail(mailCheckRegistDto.getMail())
 			.title("[Cafet] 회원가입 인증번호입니다!")
 			.message(message)
 			.build();
 
 		RegistMail registMail = RegistMail.builder()
-			.mail(mailCheckRegistDto.getAddress())
+			.mail(mailCheckRegistDto.getMail())
 			.mailToken(Key)
 			.expiredTime(LocalDateTime.now().plusMinutes(registExpirationTime))
 			.build();
 
 
-		System.out.println(mailDto.getAddress());
+		System.out.println(mailDto.getMail());
 
 		System.out.println(registMail);
 
@@ -93,41 +92,41 @@ public class MailService {
 
 	}
 
-	public boolean postRegistCheckMail(KeyCheckRegistDto keyCheckRegistDto){
-
-		RegistMail registMailCheck = mailRegistRepository.findByMailTokenAndMail(keyCheckRegistDto.getEmailToken(), keyCheckRegistDto.getAddress());
-
-		if(Objects.isNull(registMailCheck)){
-
-			return false;
-		}else{
-			// expiration time이 now보다 시간이 작으면
-			if(LocalDateTime.now().isBefore(registMailCheck.getExpiredTime())){
-				//성공
-				registMailCheck.setCheck(true);
-				registMailCheck.setCheckExpiredTime(LocalDateTime.now().plusHours(registCheckExpirationTime));
-
-				return true;
-			}
-
-			return false;
-		}
-
-	}
-
-	// 회원가입 버튼을 눌렀을 때에 체크하는 함수
-	public boolean registcheck(String email){
-
-		RegistMail registMail = mailRegistRepository.findByMail(email).orElseThrow(()->new IllegalArgumentException());
-
-		if(registMail.isCheck() && LocalDateTime.now().isBefore(registMail.getCheckExpiredTime())){
-
-			return true;
-		}
-
-		return false;
-
-	}
+	// public boolean postRegistCheckMail(KeyCheckRegistDto keyCheckRegistDto){
+	//
+	// 	RegistMail registMailCheck = mailRegistRepository.findByMailTokenAndMail(keyCheckRegistDto.getMailToken(), keyCheckRegistDto.getMail());
+	//
+	// 	if(Objects.isNull(registMailCheck)){
+	//
+	// 		return false;
+	// 	}else{
+	// 		// expiration time이 now보다 시간이 작으면
+	// 		if(LocalDateTime.now().isBefore(registMailCheck.getExpiredTime())){
+	// 			//성공
+	// 			registMailCheck.setCheck(true);
+	// 			registMailCheck.setCheckExpiredTime(LocalDateTime.now().plusHours(registCheckExpirationTime));
+	//
+	// 			return true;
+	// 		}
+	//
+	// 		return false;
+	// 	}
+	//
+	// }
+	//
+	// // 회원가입 버튼을 눌렀을 때에 체크하는 함수
+	// public boolean registcheck(String email){
+	//
+	// 	RegistMail registMail = mailRegistRepository.findByMail(email).orElseThrow(()->new IllegalArgumentException());
+	//
+	// 	if(registMail.isCheck() && LocalDateTime.now().isBefore(registMail.getCheckExpiredTime())){
+	//
+	// 		return true;
+	// 	}
+	//
+	// 	return false;
+	//
+	// }
 
 
 	//비밀번호 code를 랜덤으로 생성하는 함수

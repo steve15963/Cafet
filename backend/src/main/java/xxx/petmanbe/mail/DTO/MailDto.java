@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class MailDto {
-	private String address;
+	private String mail;
 	private String title;
 	private String message;
 }

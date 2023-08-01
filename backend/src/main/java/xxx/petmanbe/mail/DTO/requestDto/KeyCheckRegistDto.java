@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class KeyCheckRegistDto {
 
-	private String address;
+	private String mail;
 
-	private String emailToken;
+	private String mailToken;
 
 }
