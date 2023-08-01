@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const SideBar = () => {
   return (
-    <nav defaultActiveKey="/home" className="SideBar">
+    <nav className="sideBar">
       <div className="linkdiv">
         <Link to={"/manage/users"}>유저관리</Link>
       </div>

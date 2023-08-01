@@ -1,0 +1,47 @@
+.header-save {
+  padding-top: 80px;
+}
+.manage-box {
+  width: 60%;
+  /* height: 600px; */
+  /* display: flex; */
+  margin: auto;
+  border: 1px solid;
+}
+.manage-small-header {
+  margin: auto;
+  background-color: #007bff;
+}
+.manage-small-header p {
+  margin: auto;
+  text-align: center;
+  color: #ffffff;
+  /* margin-bottom: 20px; */
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.manage-user-form {
+  width: 60%;
+  margin: auto;
+}
+
+.manage-user-form-div {
+  margin-top: 10px;
+}
+
+.manage-user-form-button {
+  margin-top: 10px;
+  display: block;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  background-color: #007bff;
+  color: #ffffff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  width: 100%;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+}
