@@ -17,4 +17,6 @@ public class UserModifyDto {
 
     public String nickname;
 
+    public String fileUrl;
+
 }

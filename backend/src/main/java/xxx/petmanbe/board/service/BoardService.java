@@ -142,9 +142,16 @@ public class BoardService {
 			.collect(Collectors.toList());
 
 		// 가게 정보 가져오기(추후 mapping 방식이 바뀌면 수정)
-		Optional<GetShopDto> shop = shopRepository.findByStatusFalseAndShopTitle(board.getShop().getShopTitle()).stream()
-			.map(GetShopDto::new)
-			.findFirst();
+		Optional<GetShopDto> shop = null;
+		try{
+			shop = shopRepository.findByStatusFalseAndShopTitle(board.getShop().getShopTitle()).stream()
+				.map(GetShopDto::new)
+				.findFirst();
+		}catch (Exception e){
+
+		}
+
+
 
 		// 사진 정보 가져오기
 		List<BoardFile> boardFiles = boardFileRepository.findAllByBoard_BoardId(boardId);

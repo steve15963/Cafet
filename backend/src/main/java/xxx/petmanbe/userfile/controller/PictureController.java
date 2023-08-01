@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,12 +21,12 @@ public class PictureController {
 
 	private final FileService fileService;
 
-	@PostMapping(value = "user/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public String savePicture(@RequestPart(value = "image")MultipartFile image, @PathVariable String email) throws IOException {
-
-		String url = fileService.keepFile(image, email);
-
-		return url;
-	}
+	// @PostMapping(value = "user/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	// public String savePicture(@RequestBody MultipartFile image, @PathVariable String email) throws IOException {
+	//
+	// 	String url = fileService.keepFile(image, email);
+	//
+	// 	return url;
+	// }
 }
 

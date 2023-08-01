@@ -3,6 +3,7 @@ package xxx.petmanbe.mail.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ public class MailController {
 
 	//회원가입 이메일 인증
 	@PostMapping("/send/regist")
-	public ResponseEntity<String> postRegistMail(@RequestPart("dto") MailCheckRegistDto request){
+	public ResponseEntity<String> postRegistMail(@RequestBody MailCheckRegistDto request){
 
 		if(mailService.postRegistMail(request)){
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -32,7 +33,7 @@ public class MailController {
 
 	//회원가입 이메일 확인
 	@PostMapping("/check/regist")
-	public ResponseEntity<String> postRegistCheckMail(@RequestPart("dto") KeyCheckRegistDto request){
+	public ResponseEntity<String> postRegistCheckMail(@RequestBody KeyCheckRegistDto request){
 
 		if(mailService.postRegistCheckMail(request)){
 			return new ResponseEntity<>(HttpStatus.OK);

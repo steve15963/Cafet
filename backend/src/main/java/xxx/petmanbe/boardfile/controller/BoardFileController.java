@@ -20,14 +20,14 @@ public class BoardFileController {
 
 	private final BoardFileService boardFileService;
 
-	@PostMapping(value = "/{boardId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public String saveBoardFile(@RequestPart(value="file") MultipartFile file, @PathVariable Long boardId) throws
-		IOException {
-
-		String url = boardFileService.keepFile(file, boardId);
-
-		return url;
-	}
+	// @PostMapping(value = "/{boardId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	// public String saveBoardFile(@RequestPart(value="file") MultipartFile file, @PathVariable Long boardId) throws
+	// 	IOException {
+	//
+	// 	String url = boardFileService.keepFile(file, boardId);
+	//
+	// 	return url;
+	// }
 
 }
 

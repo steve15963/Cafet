@@ -29,35 +29,31 @@ public class BoardFileServiceImpl implements BoardFileService{
 
 	@Transactional
 	@Override
-	public String keepFile(MultipartFile file, Long boardId) throws IOException {
+	public Boolean keepFile(List<String> file, Long boardId) throws IOException {
 
 		if(!file.isEmpty()){
-			String storedFileName = s3Uploader.upload(file, "board" );
+			// String storedFileName = s3Uploader.upload(file, "board" );
 
 			Board board = boardRepository.findById(boardId).orElseThrow(()->new IllegalArgumentException());
 
-			BoardFile file1 = BoardFile.builder()
-				.boardUrl(storedFileName)
-				.board(board)
-				.build();
+			List<BoardFile> boardFileList = null;
 
-			List<BoardFile> boardFileList = board.getBoardFileList();
+			for(int i=0 ; i<file.size(); i++){
+				BoardFile file1 = BoardFile.builder()
+					.boardUrl(file.get(i))
+					.build();
 
-			if(Objects.isNull(boardFileList)){
-				List<BoardFile> blankBoardFiles = new LinkedList<>();
-				blankBoardFiles.add(file1);
-				boardFileList = blankBoardFiles;
-			}else{
+				boardFileList = board.getBoardFileList();
 				boardFileList.add(file1);
-			}
 
-			board.setBoardFileList(boardFileList);
+
+				boardFileRepository.save(file1);
+			}
 
 			boardRepository.save(board);
 
-			boardFileRepository.save(file1);
 
-			return storedFileName;
+			return true;
 
 		}else{
 			System.out.println("image is null");

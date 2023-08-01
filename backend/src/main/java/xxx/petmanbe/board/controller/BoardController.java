@@ -2,6 +2,7 @@ package xxx.petmanbe.board.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,22 +38,23 @@ public class BoardController {
 
 	// 게시글 생성
 	@PostMapping("/new")
-	public ResponseEntity<Integer> postBoard(@RequestPart("dto") AddBoardRequestDto request, @RequestPart("file")
-		MultipartFile file) throws IOException {
+	public ResponseEntity<String> postBoard(@RequestBody AddBoardRequestDto request) throws IOException {
 		// 게시글 생성
 		long boardId = boardService.postBoard(request);
 
-		if(!file.isEmpty()){
-			String url = boardFileService.keepFile(file, boardId);
+		if(!Objects.isNull(request.getFileUrlList())){
+			if(boardFileService.keepFile(request.getFileUrlList(), boardId)){
+				return new ResponseEntity<>("Success pictures in!",HttpStatus.OK);
+			}
 		}
 
 		// 결과 전달
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ResponseEntity<>("pictures not in",HttpStatus.CREATED);
 	}
 
 	// 카테고리 생성
 	@PostMapping("/category/new")
-	public ResponseEntity<Integer> postCategory(@RequestPart("dto") AddCategoryRequestDto request){
+	public ResponseEntity<Integer> postCategory(@RequestBody AddCategoryRequestDto request){
 		// 카테고리 생성
 		boardService.postCategory(request);
 
@@ -139,7 +141,7 @@ public class BoardController {
 
 	// 게시글 수정하기
 	@PutMapping("/{boardId}")
-	public ResponseEntity<Integer> putBoard(@PathVariable Long boardId, @RequestPart("dto") UpdateBoardRequestDto request){
+	public ResponseEntity<Integer> putBoard(@PathVariable Long boardId, @RequestBody UpdateBoardRequestDto request){
 
 		// 수정
 		boardService.putBoard(boardId, request);

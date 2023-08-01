@@ -40,7 +40,7 @@ public class ShopController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<String> PostShopNew(@RequestPart("dto") PostNewShopDto request){
+    public ResponseEntity<String> PostShopNew(@RequestBody PostNewShopDto request){
 
         if(shopService.postShopNew(request)){
             return new ResponseEntity<>("sucess",HttpStatus.OK);
@@ -50,7 +50,7 @@ public class ShopController {
     }
 
     @PutMapping("")
-    public ResponseEntity<String> PutShop(@RequestPart("dto") PutShopDto request){
+    public ResponseEntity<String> PutShop(@RequestBody PutShopDto request){
 
         if(shopService.putShop(request)){
             return new ResponseEntity<>("success",HttpStatus.OK);
@@ -72,7 +72,7 @@ public class ShopController {
 	}
 
 	@PostMapping("/grade")
-	public ResponseEntity<String> PostShopGrade(@RequestPart("dto") PostShopGradeDto request){
+	public ResponseEntity<String> PostShopGrade(@RequestBody PostShopGradeDto request){
 
         if(gradeService.postShopGrade(request)){
             return new ResponseEntity<>("success",HttpStatus.OK);
@@ -82,7 +82,7 @@ public class ShopController {
     }
 
     @GetMapping("/grade")
-    public ResponseEntity<Long> GetShopGrade(@RequestPart("dto") GetShopGradeDto request){
+    public ResponseEntity<Long> GetShopGrade(@RequestBody GetShopGradeDto request){
 
         long gradeId = gradeService.getShopGrade(request);
 
@@ -98,7 +98,7 @@ public class ShopController {
     }
 
     @PutMapping("/grade")
-    public ResponseEntity<String> PutShopGrade(@RequestPart("dto") PutShopGradeDto request){
+    public ResponseEntity<String> PutShopGrade(@RequestBody PutShopGradeDto request){
 
         if(gradeService.putShopGrade(request)){
             return new ResponseEntity<>("success",HttpStatus.OK);
@@ -108,7 +108,7 @@ public class ShopController {
     }
 
     @DeleteMapping("/grade")
-    public ResponseEntity<String> DeleteShopGrade(@RequestPart("dto") DeleteShopGradeDto request){
+    public ResponseEntity<String> DeleteShopGrade(@RequestBody DeleteShopGradeDto request){
 
         if(gradeService.deleteShopGrade(request)){
             return new ResponseEntity<>("success",HttpStatus.OK);

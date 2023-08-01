@@ -24,6 +24,8 @@ public class AddBoardRequestDto {
 
 	private String categoryName;
 
+	private List<String> fileUrlList;
+
 	public Board toEntity(){
 		return Board.builder()
 			.boardTitle(this.boardTitle)

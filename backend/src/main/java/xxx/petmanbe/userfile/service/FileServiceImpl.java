@@ -28,16 +28,16 @@ public class FileServiceImpl implements FileService{
 
 	@Transactional
 	@Override
-	public String keepFile(MultipartFile image, String email) throws IOException {
+	public String keepFile(String file, String email) throws IOException {
 
-		if(!image.isEmpty()){
+		if(!file.isEmpty()){
 			// user파일에 들어가 있음
-			String storedFileName = s3Uploader.upload(image, "user");
+			// String storedFileName = s3Uploader.upload(image, "user");
 
 			User user = userRepository.findByEmail(email).orElseThrow(()-> new IllegalArgumentException());
 
 			UserFile file1 = UserFile.builder()
-				.userUrl(storedFileName)
+				.userUrl(file)
 				.user(user)
 				.build();
 
@@ -48,7 +48,7 @@ public class FileServiceImpl implements FileService{
 			//why?
 			// userFileRepository.save(file1);
 			
-			return storedFileName;
+			return file;
 		}
 		else{
 			System.out.println("image is null!");

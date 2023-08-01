@@ -37,7 +37,7 @@ public class UserController {
 
 
 	@PostMapping(value="/new")
-	public ResponseEntity<String> PostNewUser(@RequestPart("dto") RegistDto request) throws Exception {
+	public ResponseEntity<String> PostNewUser(@RequestBody RegistDto request) throws Exception {
 
 		Long userId = userService.postnewUser(request);
 
@@ -47,7 +47,7 @@ public class UserController {
 
 	@PostMapping("/login")
 	// public ResponseEntity<RefreshJwtDto> PostLoginUser(@RequestBody LoginDto loginDto, HttpServletRequest httpServletRequest) throws Exception{
-	public ResponseEntity PostLoginUser(@RequestPart("dto") LoginDto request, HttpServletRequest httpServletRequest) throws Exception{
+	public ResponseEntity PostLoginUser(@RequestBody LoginDto request, HttpServletRequest httpServletRequest) throws Exception{
 		// Optional<RefreshJwtDto> refreshJwtDto = userService.postLoginUser(loginDto);
 		// if(refreshJwtDto.isEmpty()) {
 		// 	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -68,13 +68,13 @@ public class UserController {
 
 	//이메일은 못 바꿈
 	@PutMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<String> PutUser(@RequestPart("dto") UserModifyDto request, @RequestPart("file")MultipartFile file) throws Exception {
+	public ResponseEntity<String> PutUser(@RequestBody UserModifyDto request) throws Exception {
 
 		String userFile = null;
 
 		if(userService.putUser(request)){
-			if(!file.isEmpty()){
-				userFile = fileService.keepFile(file, request.getEmail());
+			if(!request.getFileUrl().isEmpty()){
+				userFile = fileService.keepFile(request.getFileUrl(), request.getEmail());
 			}
 		}
 
@@ -109,7 +109,7 @@ public class UserController {
 	}
 
 	@PostMapping("/token/refresh")
-	public ResponseEntity<String> PostRefreshToken(@RequestPart("dto") RefreshTokenDto request){
+	public ResponseEntity<String> PostRefreshToken(@RequestBody RefreshTokenDto request){
 
 		String newAccessToken = jwtService.refreshToken(request.getRefreshToken());
 
@@ -120,7 +120,7 @@ public class UserController {
 	
 	// level 내리기
 	@PutMapping("/level")
-	public ResponseEntity<String> PutUserLevel(@RequestPart("dto") LevelModifyDto request){
+	public ResponseEntity<String> PutUserLevel(@RequestBody LevelModifyDto request){
 
 		String msg = userService.putUserLevel(request);
 
