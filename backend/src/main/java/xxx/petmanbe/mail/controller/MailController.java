@@ -2,6 +2,7 @@ package xxx.petmanbe.mail.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import xxx.petmanbe.mail.service.MailService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/mail")
+@CrossOrigin("*")
 public class MailController {
 
 	private final MailService mailService;
