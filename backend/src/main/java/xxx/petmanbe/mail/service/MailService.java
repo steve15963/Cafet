@@ -27,7 +27,7 @@ public class MailService {
 	@Value("${spring.mail.properties.mail.sender}")
 	private String FROM_ADDRESS;
 
-	@Value("${email.regist.ExpirationTime.int}")
+	@Value("${mail.regist.ExpirationTime.int}")
 	private int registExpirationTime;
 
 	@Autowired
