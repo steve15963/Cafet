@@ -3,6 +3,7 @@ package xxx.petmanbe.BusinessNumber.Controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,8 +23,8 @@ public class BusinessNumberController {
 	 * @param num 사업자 번호
 	 * @return 200 : 있는 사업자 번호, 400 : 없는 사업자 번호
 	 */
-	@GetMapping("/simple")
-	public ResponseEntity<String> simpleBusinessNumJoin(@RequestParam String num) {
+	@GetMapping("/simple/{num}")
+	public ResponseEntity<String> simpleBusinessNumJoin(@PathVariable String num) {
 		if (businessNumberService.CheckBsuinessNumber(num)) {
 			return new ResponseEntity<>("", HttpStatus.OK);
 		}
@@ -38,9 +39,9 @@ public class BusinessNumberController {
 	 * @param name 대표자이름
 	 * @return 200 : 있는 사업자 번호, 400 : 없는 사업자 번호
 	 */
-	@GetMapping("/detail")
-	public ResponseEntity<String> detailBusinessNumJoin(@RequestParam String num, @RequestParam String startDt,
-		@RequestParam String name) {
+	@GetMapping("/detail/{num}/{startDt}/{name}")
+	public ResponseEntity<String> detailBusinessNumJoin(@PathVariable String num, @PathVariable String startDt,
+		@PathVariable String name) {
 		if (businessNumberService.CheckBsuinessNumber(num, startDt, name)) {
 			return new ResponseEntity<>("", HttpStatus.OK);
 		}
