@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 import javax.transaction.Transactional;
 
@@ -25,23 +28,25 @@ public class FileServiceImpl implements FileService{
 
 	@Transactional
 	@Override
-	public String keepFile(MultipartFile image, Long userId) throws IOException {
+	public String keepFile(MultipartFile image, String email) throws IOException {
 
 		if(!image.isEmpty()){
 			// user파일에 들어가 있음
 			String storedFileName = s3Uploader.upload(image, "user");
 
+			User user = userRepository.findByEmail(email).orElseThrow(()-> new IllegalArgumentException());
+
 			UserFile file1 = UserFile.builder()
 				.userUrl(storedFileName)
+				.user(user)
 				.build();
-
-			User user = userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException());
 
 			user.setUserFile(file1);
 
 			userRepository.save(user);
 
-			userFileRepository.save(file1);
+			//why?
+			// userFileRepository.save(file1);
 			
 			return storedFileName;
 		}

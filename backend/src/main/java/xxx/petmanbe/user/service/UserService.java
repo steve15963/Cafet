@@ -19,7 +19,7 @@ public interface UserService {
 
 	// public Optional<RefreshJwtDto> postLoginUser(LoginDto loginDto) throws Exception;
 
-	public String putUser(UserModifyDto userModifyDto) throws Exception;
+	public boolean putUser(UserModifyDto userModifyDto) throws Exception;
 
 	public UserInformationDto getUser(long userId) throws Exception;
 

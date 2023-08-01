@@ -1,5 +1,5 @@
 import React from "react";
-import "./MainPage.css";
+import "./MainPage.scoped.css";
 import Header from "../../components/Header/Header";
 import MainList from "../../components/MainList/MainList";
 import Footer from "../../components/Footer/Footer";

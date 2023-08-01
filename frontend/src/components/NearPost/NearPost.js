@@ -1,5 +1,5 @@
 import React from "react";
-import "./NearPost.css";
+import "./NearPost.scoped.css";
 
 const mockPost = [
   {

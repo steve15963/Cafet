@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./CommentList.css";
+import "./CommentList.scoped.css";
 
 const CommentList = ({ commentList }) => {
   const [commentCount] = useState(commentList.length);
@@ -14,6 +14,7 @@ const CommentList = ({ commentList }) => {
               <div className="cmt_left">
                 <strong>{value.nickname}</strong>
               </div>
+              <div className="cmt_picture">{value.boardfileId}</div>
               <div className="cmt_center">{value.content}</div>
               <div className="cmt_right">{value.createdTime}</div>
             </div>

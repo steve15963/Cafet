@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./TestPage.scoped.css";
 // import Header from "../components/Header/Header";
 // import Button from "../components/Button/Button";
 // import SearchBar from "../components/SearchBar/SearchBar";

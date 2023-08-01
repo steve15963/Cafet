@@ -3,15 +3,13 @@ package xxx.petmanbe.board.dto.response;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.swing.text.html.Option;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xxx.petmanbe.board.entity.Board;
+import xxx.petmanbe.boardfile.dto.responseDto.BoardFileDto;
 import xxx.petmanbe.comment.dto.response.CommentResponseDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
 import xxx.petmanbe.tag.dto.response.TagListResponseDto;
@@ -38,10 +36,11 @@ public class BoardResponseDto {
 	private List<CommentResponseDto> commentList;
 	private List<TagListResponseDto> tagList;
 	private Optional<GetShopDto> shop;
+	private List<BoardFileDto> boardFileList;
 
 	@Builder
 	// entity to dto
-	public BoardResponseDto(Board board, List<CommentResponseDto> commentList, List<TagListResponseDto> tagList, Optional<GetShopDto> shop){
+	public BoardResponseDto(Board board, List<CommentResponseDto> commentList, List<TagListResponseDto> tagList, Optional<GetShopDto> shop, List<BoardFileDto> boardFileList){
 		this.boardTitle = board.getBoardTitle();
 		this.boardContent = board.getBoardContent();
 		this.nickname = board.getUser().getNickname();
@@ -55,5 +54,6 @@ public class BoardResponseDto {
 		this.commentList = commentList;
 		this.tagList = tagList;
 		this.shop = shop;
+		this.boardFileList = boardFileList;
 	}
 }

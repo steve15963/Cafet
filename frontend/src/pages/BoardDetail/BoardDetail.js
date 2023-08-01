@@ -1,5 +1,5 @@
 import React from "react";
-import "./BoardDetail.css";
+import "./BoardDetail.scoped.css";
 import { useParams } from "react-router-dom";
 
 import Header from "../../components/Header/Header";
@@ -24,6 +24,7 @@ const BoardDetail = () => {
       <Header />
       <div className="header-save" />
       <Post boardDetail={boardDetail} />
+      {/* <img src ="https://picturepractice.s3.ap-northeast-2.amazonaws.com/user/logowhite.png" alt=""></img> */}
       <CommentList commentList={boardDetail.commentList} />
       <div className="input-button-container">
         <div className="input-container">

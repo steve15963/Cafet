@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { boardMenuList } from "../../hooks/useBoardPageMenu/useBoardPageMenu";
 import Menu from "../../components/Menu/Menu";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./BoardPage.css";
+import "./BoardPage.scoped.css";
 import Pagination from "react-bootstrap/Pagination";
 import Table from "react-bootstrap/Table";
 import Header from "../../components/Header/Header";
@@ -26,7 +26,7 @@ const BoardPage = () => {
   const [boardData, setboardData] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/board/list")
+      .get("http://i9a105.p.ssafy.io:8080/api/board/list")
       .then(function (response) {
         setboardData(response.data);
       })

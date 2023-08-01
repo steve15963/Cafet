@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import handleLogin from "../../utils/handleLogin";
-import "./LoginForm.css";
+import handleLogin from "../../utils/handleLogin/handleLogin";
+import "./LoginForm.scoped.css";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
@@ -28,7 +28,7 @@ const LoginForm = () => {
         type="email"
         className="input-field"
         placeholder="Email"
-        name="email"
+        name="이메일"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
@@ -36,12 +36,12 @@ const LoginForm = () => {
         type="password"
         className="input-field"
         placeholder="Password"
-        name="password"
+        name="비밀번호"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
       <button className="login-button" onClick={onLoginButtonClick}>
-        Login
+        로그인
       </button>
     </div>
   );

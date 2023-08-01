@@ -28,17 +28,17 @@ public class VisitedController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> PostVisitedDate(@RequestBody PostVisitedDateDto postVisitedDateDto){
+    public ResponseEntity<String> PostVisitedDate(@RequestPart("dto") PostVisitedDateDto request){
 
-        String msg = visitedService.postVisitedDate(postVisitedDateDto);
+        String msg = visitedService.postVisitedDate(request);
 
         return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 
     @DeleteMapping("")
-    public ResponseEntity<String> DeleteVisitedDate(@RequestBody DeleteVisitedDateDto deleteVisitedDateDto){
+    public ResponseEntity<String> DeleteVisitedDate(@RequestPart("dto") DeleteVisitedDateDto request){
 
-        String msg = visitedService.deleteVisitedDate(deleteVisitedDateDto);
+        String msg = visitedService.deleteVisitedDate(request);
 
         return new ResponseEntity<>(msg, HttpStatus.OK);
     }

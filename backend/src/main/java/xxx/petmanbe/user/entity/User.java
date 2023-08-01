@@ -1,5 +1,7 @@
 package xxx.petmanbe.user.entity;
 
+import java.util.List;
+
 import lombok.*;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.userfile.entity.UserFile;
@@ -11,7 +13,7 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table
+@Table(name = "user")
 @Getter
 @Setter
 @Builder
@@ -56,8 +58,8 @@ public class User extends BaseTimeEntity {
     private Token token;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "userfile_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="userfile_id")
     private UserFile userFile;
 
     public void updateUser( String phoneNo, String nickname) {

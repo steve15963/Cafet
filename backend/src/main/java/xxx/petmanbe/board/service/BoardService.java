@@ -18,6 +18,8 @@ import xxx.petmanbe.board.entity.Board;
 import xxx.petmanbe.board.entity.Category;
 import xxx.petmanbe.board.repository.BoardRepository;
 import xxx.petmanbe.board.repository.CategoryRepository;
+import xxx.petmanbe.boardfile.dto.responseDto.BoardFileDto;
+import xxx.petmanbe.boardfile.repository.BoardFileRepository;
 import xxx.petmanbe.comment.dto.response.CommentResponseDto;
 import xxx.petmanbe.comment.repository.CommentRepository;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
@@ -43,10 +45,11 @@ public class BoardService {
 	private final AttachRepository attachRepository;
 	private final TagRepository tagRepository;
 	private final ShopRepository shopRepository;
+	private final BoardFileRepository boardFileRepository;
 
 	// 게시글 생성
 	@Transactional
-	public Board postBoard(AddBoardRequestDto request){
+	public Long postBoard(AddBoardRequestDto request){
 
 		// 일단 게시글 제목과 내용으로 게시글 객체 생성
 		Board board = boardRepository.save(request.toEntity());
@@ -93,7 +96,7 @@ public class BoardService {
 		}
 
 		// 생성 정보 전달
-		return board;
+		return board.getBoardId();
 	}
 
 	// 카테고리 생성
@@ -141,12 +144,18 @@ public class BoardService {
 			.map(GetShopDto::new)
 			.findFirst();
 
+		// 사진 정보 가져오기
+		List<BoardFileDto> boardFileList = boardFileRepository.findAllByBoard_BoardId(boardId).stream()
+			.map(BoardFileDto::new)
+			.collect(Collectors.toList());
+
 		// 게시글 정보 반환
 		return BoardResponseDto.builder()
 			.board(board)
 			.commentList(commentList)
 			.tagList(taglist)
 			.shop(shop)
+			.boardFileList(boardFileList)
 			.build();
 	}
 
