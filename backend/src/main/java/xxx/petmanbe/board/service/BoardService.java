@@ -1,6 +1,7 @@
 package xxx.petmanbe.board.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,7 @@ import xxx.petmanbe.board.entity.Category;
 import xxx.petmanbe.board.repository.BoardRepository;
 import xxx.petmanbe.board.repository.CategoryRepository;
 import xxx.petmanbe.boardfile.dto.responseDto.BoardFileDto;
+import xxx.petmanbe.boardfile.entity.BoardFile;
 import xxx.petmanbe.boardfile.repository.BoardFileRepository;
 import xxx.petmanbe.comment.dto.response.CommentResponseDto;
 import xxx.petmanbe.comment.repository.CommentRepository;
@@ -145,9 +147,15 @@ public class BoardService {
 			.findFirst();
 
 		// 사진 정보 가져오기
-		List<BoardFileDto> boardFileList = boardFileRepository.findAllByBoard_BoardId(boardId).stream()
-			.map(BoardFileDto::new)
-			.collect(Collectors.toList());
+		List<BoardFile> boardFiles = boardFileRepository.findAllByBoard_BoardId(boardId);
+
+		List<BoardFileDto> boardFileList = null;
+
+		if(!Objects.isNull(boardFiles)){
+			boardFileList=boardFiles.stream()
+				.map(BoardFileDto::new)
+				.collect(Collectors.toList());
+		}
 
 		// 게시글 정보 반환
 		return BoardResponseDto.builder()

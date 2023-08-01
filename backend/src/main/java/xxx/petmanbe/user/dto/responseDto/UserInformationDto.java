@@ -34,7 +34,7 @@ public class UserInformationDto {
 
 	private String status;
 
-	private Level level;
+	private int levelCode;
 
 	private LocalDateTime createdTime;
 

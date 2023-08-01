@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService{
 				.phoneNo(user.getPhoneNo())
 				.nickname(user.getNickname())
 				.status(user.getStatus())
-				.level(user.getLevel())
+				.levelCode(user.getLevel().getLevelCode())
 				.createdTime(user.getCreatedTime())
 				.updatedTime(user.getUpdatedTime())
 				.userFile(userFilesListDto)
