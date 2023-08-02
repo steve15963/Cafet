@@ -1,10 +1,6 @@
-.Editor {
-  margin: 0 auto;
+.editor-wrapper {
   max-width: 1200px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin: 20px auto;
 }
 
 .CreatePage .button-wrapper {

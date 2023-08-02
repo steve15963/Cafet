@@ -1,11 +1,10 @@
-import React, { Component } from "react";
 import "./Editor.scoped.css";
 
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import React from 'react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-class Editor extends Component {
-  render() {
+const Editor = () => {
     return (
       <div className="Editor">
         <CKEditor
@@ -27,7 +26,6 @@ class Editor extends Component {
         />
       </div>
     );
-  }
 }
 
 export default Editor;
