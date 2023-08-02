@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const handleLogin = (email, password) => {
-  console.log(email + " " + password + " handle");
+  // console.log(email + " " + password + " handle");
   const data = {
     email: email,
     password: password,

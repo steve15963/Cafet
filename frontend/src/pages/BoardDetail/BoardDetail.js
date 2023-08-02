@@ -8,7 +8,7 @@ import CommentList from "../../components/CommentList/CommentList";
 import NearPost from "../../components/NearPost/NearPost";
 import Footer from "../../components/Footer/Footer";
 
-import useBoardDetail from "../../hooks/useBoardDetail/useBoardDetail";
+import useBoardDetail from "../../hooks/useBoardDetail";
 import Button from "../../components/Button/Button";
 
 const BoardDetail = () => {

@@ -1,12 +1,16 @@
-import React, { Component } from "react";
 import "./Editor.scoped.css";
 
+<<<<<<< HEAD
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Button from "../Button/Button";
+=======
+import React from 'react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+>>>>>>> feature/front/board
 
-class Editor extends Component {
-  render() {
+const Editor = () => {
     return (
       <div className="Editor">
         <h2>Editor 컴포넌트 입니다.</h2>
@@ -32,7 +36,6 @@ class Editor extends Component {
         </div>
       </div>
     );
-  }
 }
 
 export default Editor;
