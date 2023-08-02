@@ -37,11 +37,4 @@ public class Attach extends BaseTimeEntity {
 	@JoinColumn(name = "tag_id")
 	private Tag tag;
 
-	@Column(name = "status", nullable = false, columnDefinition = "boolean default false")
-	private boolean status;
-
-	// 삭제여부 변수 수정
-	public void changeDeleteStatus(){
-		this.status = !this.status;
-	}
 }
