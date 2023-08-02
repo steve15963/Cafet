@@ -41,10 +41,6 @@ const Header = () => {
             <Link to={"/login"} className="link">
               로그인
             </Link>
-            &nbsp;&nbsp;
-            <Link to={"/login"} className="link">
-              회원가입
-            </Link>
           </div>
         </div>
       </nav>

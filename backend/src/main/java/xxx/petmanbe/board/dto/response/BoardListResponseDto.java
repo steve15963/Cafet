@@ -13,11 +13,9 @@ public class BoardListResponseDto {
 	private Long boardId;
 	private String boardTitle;
 	private String nickname;
-	// shop과 mapping 이후 resolve
-	// private String shopTitle;
 	private String categoryName;
 	// 좋아요 생성시 resolve
-	// private int likeSum;
+	private int likeSum;
 	private int commentSum;
 	private int viewCnt;
 	private LocalDateTime createdTime;
@@ -30,6 +28,7 @@ public class BoardListResponseDto {
 		this.boardTitle = board.getBoardTitle();
 		this.nickname = board.getUser().getNickname();
 		this.categoryName = board.getCategory().getCategoryName();
+		this.likeSum = board.getLikeSum();
 		this.viewCnt = board.getViewCnt();
 		this.commentSum = board.getCommentSum();
 		this.createdTime = board.getCreatedTime();

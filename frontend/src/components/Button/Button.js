@@ -1,9 +1,11 @@
 import React from "react";
 import "./Button.scoped.css";
 
-const Button = ({ text, onClick }) => {
+const Button = ({ text, type, onClick }) => {
+  const btnType = ["common"].includes(type) ? type : "default";
+
   return (
-    <button className="Button" onClick={onClick}>
+    <button className={[`button_${btnType}`].join(" ")} onClick={onClick}>
       {text}
     </button>
   );

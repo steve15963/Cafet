@@ -7,6 +7,7 @@ import java.util.Objects;
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,14 +40,14 @@ public class BoardController {
 	private final BoardFileService boardFileService;
 
 	// 게시글 생성
-	@PostMapping("/new")
+	@PostMapping(value="/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@Transactional
-	public ResponseEntity<String> postBoard(@RequestBody AddBoardRequestDto request) throws IOException {
+	public ResponseEntity<String> postBoard(@RequestPart(value="dto") AddBoardRequestDto request, @RequestPart(value="files", required = false) List<MultipartFile> files) throws IOException {
 		// 게시글 생성
 		long boardId = boardService.postBoard(request);
 
-		if(!Objects.isNull(request.getFileUrlList())){
-			if(boardFileService.keepFile(request.getFileUrlList(), boardId)){
+		if(!Objects.isNull(files)){
+			if(boardFileService.keepFile(files, boardId)){
 				return new ResponseEntity<>("Success pictures in!",HttpStatus.OK);
 			}
 		}

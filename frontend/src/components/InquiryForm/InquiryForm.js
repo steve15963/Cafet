@@ -6,6 +6,7 @@ import Select from "@mui/material/Select";
 import { InputLabel, MenuItem } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
+import Button from "../Button/Button";
 
 const InquiryForm = () => {
   const [category, setCategory] = React.useState("");
@@ -15,6 +16,7 @@ const InquiryForm = () => {
     setCategory(event.target.value);
   };
   const handleSubmit = (e) => {
+    e.preventDefault();
     alert("문의사항이 등록되었습니다.");
     navigate("/");
   };
@@ -27,7 +29,7 @@ const InquiryForm = () => {
           <TextField
             label="이름"
             variant="outlined"
-            placeholder="이름을 쓰세요"
+            placeholder="이름을 입력해주세요"
             fullWidth
             size="small"
           />
@@ -38,7 +40,7 @@ const InquiryForm = () => {
         <div className="input-container">
           <TextField
             label="이메일"
-            placeholder="이메일을 쓰세요"
+            placeholder="이메일을 입력해주세요"
             variant="outlined"
             inputProps={{
               type: "email",
@@ -58,14 +60,14 @@ const InquiryForm = () => {
                 strokeWidth="2"
                 strokeLinejoin="round"
                 strokeLinecap="round"
-              ></path>
+              />
             </svg>
           </span>
         </div>
         <div className="input-container">
           <TextField
             label="전화번호"
-            placeholder="전화번호를 적으세요"
+            placeholder="전화번호를 입력해주세요"
             variant="outlined"
             size="small"
             fullWidth
@@ -80,7 +82,7 @@ const InquiryForm = () => {
           <TextField
             label="제목"
             variant="outlined"
-            placeholder="제목을 쓰세요"
+            placeholder="제목을 입력해주세요"
             fullWidth
             size="small"
           />
@@ -103,21 +105,23 @@ const InquiryForm = () => {
             </Select>
           </FormControl>
         </div>
-
         <div className="input-container">
           <TextField
             id="outlined-textarea"
             label="문의내용"
-            placeholder="내용을 입력하세요"
+            placeholder="내용을 입력해주세요"
             multiline
             fullWidth
             rows={5}
           />
         </div>
         <div className="input-container">
-          <button className="submit" onClick={handleSubmit}>
-            등록하기
-          </button>
+          <Button
+            type="common"
+            text={"등록하기"}
+            className="button"
+            onClick={handleSubmit}
+          />
         </div>
       </form>
     </div>
