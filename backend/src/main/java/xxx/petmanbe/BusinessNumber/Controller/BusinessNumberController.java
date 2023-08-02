@@ -3,6 +3,7 @@ package xxx.petmanbe.BusinessNumber.Controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,7 @@ public class BusinessNumberController {
 	 * @param num 사업자 번호
 	 * @return 200 : 있는 사업자 번호, 400 : 없는 사업자 번호
 	 */
-	@GetMapping("/simple")
+	@PostMapping("/simple")
 	public ResponseEntity<String> simpleBusinessNumJoin(@RequestBody simpleRequestDto requestDto) {
 		if (businessNumberService.CheckBsuinessNumber(requestDto.getNum())) {
 			return new ResponseEntity<>("", HttpStatus.OK);
@@ -39,7 +40,7 @@ public class BusinessNumberController {
 	 * @param requestDto 사업자 정보 객체
 	 * @return 200 : 있는 사업자 번호, 400 : 없는 사업자 번호
 	 */
-	@GetMapping("/detail")
+	@PostMapping("/detail")
 	public ResponseEntity<String> detailBusinessNumJoin(@RequestBody detailRequestDto requestDto) {
 		if (businessNumberService.CheckBsuinessNumber(requestDto.getNum(), requestDto.getStartDt(), requestDto.getCEOName())) {
 			return new ResponseEntity<>("", HttpStatus.OK);
