@@ -85,6 +85,16 @@ public class Board extends BaseTimeEntity {
 		this.viewCnt += 1;
 	}
 
+	// 게시글 좋아요 수 증가 메소드
+	public void plusLikeSum() {
+		this.likeSum += 1;
+	}
+
+	// 게시글 좋아요 수 감소 메소드
+	public void minusLikeSum(){
+		this.likeSum -= 1;
+	}
+
 	// 게시글 댓글 수 증가 메소드
 	public void plusCommentSum() {
 		this.commentSum += 1;
