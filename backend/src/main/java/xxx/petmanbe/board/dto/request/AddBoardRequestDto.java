@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import xxx.petmanbe.board.entity.Board;
+import xxx.petmanbe.boardfile.dto.responseDto.BoardFileDto;
 import xxx.petmanbe.tag.dto.response.TagListResponseDto;
 
 @Getter
@@ -23,8 +24,6 @@ public class AddBoardRequestDto {
 	private String shopTitle;
 
 	private String categoryName;
-
-	private List<String> fileUrlList;
 
 	public Board toEntity(){
 		return Board.builder()
