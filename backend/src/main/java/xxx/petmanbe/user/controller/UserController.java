@@ -80,14 +80,14 @@ public class UserController {
 	}
 
 	//이메일은 못 바꿈
-	@PutMapping(value="")
-	public ResponseEntity<String> PutUser(@RequestBody UserModifyDto request) throws Exception {
+	@PutMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<String> PutUser(@RequestPart(value="dto") UserModifyDto request, @RequestPart(value="file") MultipartFile file) throws Exception {
 
 		String userFile = null;
 
 		if(userService.putUser(request)){
-			if(!request.getFileUrl().isEmpty()){
-				userFile = fileService.keepFile(request.getFileUrl(), request.getEmail());
+			if(!file.isEmpty()){
+				userFile = fileService.keepFile(file, request.getEmail());
 			}
 		}
 

@@ -29,29 +29,34 @@ public class BoardFileServiceImpl implements BoardFileService{
 
 	@Transactional
 	@Override
-	public Boolean keepFile(List<String> file, Long boardId) throws IOException {
+	public Boolean keepFile(List<MultipartFile> files, Long boardId) throws IOException {
 
-		if(!file.isEmpty()){
-			// String storedFileName = s3Uploader.upload(file, "board" );
+		if(!files.isEmpty()){
 
 			Board board = boardRepository.findById(boardId).orElseThrow(()->new IllegalArgumentException());
+			List<BoardFile> boardFileList = new LinkedList<>();
 
-			List<BoardFile> boardFileList = null;
+			files.stream().forEach((file)->{
+				try {
+					String storedFileName = s3Uploader.upload(file, "board" );
 
-			for(int i=0 ; i<file.size(); i++){
-				BoardFile file1 = BoardFile.builder()
-					.boardUrl(file.get(i))
-					.build();
+					System.out.println(storedFileName);
 
-				boardFileList = board.getBoardFileList();
-				boardFileList.add(file1);
+					BoardFile file1 = BoardFile.builder()
+						.boardUrl(storedFileName)
+						.board(board)
+						.build();
 
+					boardFileList.add(file1);
 
-				boardFileRepository.save(file1);
-			}
+					boardFileRepository.save(file1);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			});
 
 			boardRepository.save(board);
-
 
 			return true;
 
