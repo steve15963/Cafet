@@ -46,15 +46,6 @@ const ManageUsers = () => {
         </div>
         <div className="manage-user-form-div">
           <TextField
-            label="이름"
-            variant="outlined"
-            placeholder="이름으로 검색"
-            fullWidth
-            size="small"
-          />
-        </div>
-        <div className="manage-user-form-div">
-          <TextField
             label="닉네임"
             variant="outlined"
             placeholder="닉네임으로 검색"

@@ -4,8 +4,8 @@ import "./ManagePage.scoped.css";
 import SideBar from "./../../components/SideBar/SideBar";
 import Header from "./../../components/Header/Header";
 import ManageUsers from "../../components/ManageUsers/ManageUsers";
-import ManageShops from "./ManageShops";
-import ManageRequests from "./ManageRequests";
+import ManageShops from "../../components/ManageShops/ManageShops";
+import ManageRequests from "../../components/ManageRequests/ManageRequests";
 
 const ManagePage = () => {
   const { path } = useParams();
