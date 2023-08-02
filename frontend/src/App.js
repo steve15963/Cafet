@@ -20,10 +20,14 @@ const App = () => {
         <Route path="/board/detail/:id" element={<BoardDetail />} />
         <Route path="/board" element={<BoardPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/login/:path" element={<LoginPage />} />
         <Route path="/" element={<MainPage />} />
+        <Route path="/:path" element={<MainPage />} />
         <Route path="/manage" element={<ManagePage />} />
         <Route path="/manage/:path" element={<ManagePage />} />
+        <Route path="/manage/:path/:id" element={<ManagePage />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/:path" element={<MyPage />} />
         <Route path="/store" element={<StorePage />} />
         <Route path="/test" element={<TestPage />} />
         <Route path="/inquiry" element={<InquiryPage />} />

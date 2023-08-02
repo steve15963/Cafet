@@ -1,6 +1,6 @@
 import React from "react";
 import "./MainList.scoped.css";
-import useBoardList from "../../hooks/useBoardList/useBoardList";
+import useBoardList from "../../hooks/useBoardList";
 import Masonry from "@mui/lab/Masonry";
 import { Link } from "react-router-dom";
 
