@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,18 +69,30 @@ public class UserController {
 	}
 
 	@PostMapping("/login/1")
-	public ResponseEntity<RefreshJwtDto> login(@RequestBody LoginDto loginDto, HttpServletResponse httpServletResponse) throws Exception {
+	public ResponseEntity<?> login(@RequestBody LoginDto loginDto, HttpServletResponse httpServletResponse) throws Exception {
+
+		System.out.println(loginDto.getEmail());
 
 		RefreshJwtDto refreshJwtDto = userService.postLoginUser(loginDto);
 
-		Cookie cookie = new Cookie();
+		System.out.println(refreshJwtDto.getRefreshToken());
+
+		ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshJwtDto.getRefreshToken())
+				.maxAge(3000)
+				.path("/")
+//				.secure(true)
+				.sameSite("None")
+//				.httpOnly(true)
+				.build();
+
+		httpServletResponse.setHeader("Set-Cookie",cookie.toString());
 
 		if(Objects.isNull(refreshJwtDto)){
 
 
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(refreshJwtDto, HttpStatus.OK);
+		return new ResponseEntity<>(refreshJwtDto.getAccessToken(), HttpStatus.OK);
 	}
 
 
@@ -147,12 +160,27 @@ public class UserController {
 
 	}
 
+
+
+
+	// refreshToken이 유효한지 확인 -> 유효하면 엑세스 토큰 반환
+	// 유효하지 않으면 재 로그인
 	@PostMapping("/token/refresh")
-	public ResponseEntity<String> PostRefreshToken(@RequestBody RefreshTokenDto request){
+	public ResponseEntity<?> PostRefreshToken(@RequestHeader(value = "cookie") String refreshToken, HttpServletResponse response){
 
-		String newAccessToken = jwtService.refreshToken(request.getRefreshToken());
+		String newAccessToken = jwtService.refreshToken(refreshToken);
 
-		return new ResponseEntity<>(newAccessToken,HttpStatus.OK);
+		ResponseCookie cookie = ResponseCookie.from("refreshToken", newAccessToken)
+				.maxAge(3000)
+				.path("/")
+//				.secure(true)
+				.sameSite("None")
+//				.httpOnly(true)
+				.build();
+
+		response.setHeader("Set-Cookie",cookie.toString());
+
+		return new ResponseEntity<>(HttpStatus.OK);
 
 	}
 	

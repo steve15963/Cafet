@@ -1,8 +1,11 @@
 package xxx.petmanbe.user.service;
 
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
@@ -17,6 +20,8 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2Res
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
@@ -75,45 +80,29 @@ public class JwtUtil {
 
 	}
 
-	//-----------------------
-	public Cookie createCookie(String email){
-
-		ResponseCookie cookie = ResponseCookie.from("refreshToken",refresh)
-			.maxAge()
-			.path("/")
-			.sameSite("None")
-			.httpOnly(true)
-			.build();
-
-		String cookieName = "refreshtoken";
-		String cookieValue = generateRefreshToken(email);
-
-		Cookie cookie = new Cookie(cookieName,cookieValue);
-
-		cookie.setHttpOnly(true);
-		cookie.setSecure(true);
-		cookie.setPath("/");
-		cookie.setMaxAge(refreshTokenExpirationTime);
-		return cookie;
-
-	}
-
-	//-----------------------
-
-	// public String getAccessToken(Long userId){
-	//
-	// 	User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
-	//
-	// 	return generateAccessToken(user);
-	//
-	// }
-
 	// JWT 토큰에서 인증 정보 조회
 	public Authentication getAuthentication(String token){
+
+		Claims claims = parseClaims(token);
+
+		// 권한 정보 유무 체크
+//		if(claims.get("roles") == null){}
+
+//		Collections<? extends GrantedAuthority> authorities = Arrays.stream(claims.get("roles").toString().split(","))
+//				.map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
 		UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
 
 		return new UsernamePasswordAuthenticationToken(userDetails, "",userDetails.getAuthorities());
+	}
+
+	public Claims parseClaims(String token){
+
+		try{
+			return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+		}catch(ExpiredJwtException e){
+			return e.getClaims();
+		}
 	}
 
 	//토큰에서 회원 정보 추출

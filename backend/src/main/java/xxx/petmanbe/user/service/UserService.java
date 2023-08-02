@@ -18,7 +18,7 @@ public interface UserService {
 
 	public boolean checkUserLogin(LoginDto loginDto) throws Exception;
 
-	// public Optional<RefreshJwtDto> postLoginUser(LoginDto loginDto) throws Exception;
+	 public RefreshJwtDto postLoginUser(LoginDto loginDto) throws Exception;
 
 	public boolean putUser(UserModifyDto userModifyDto) throws Exception;
 
@@ -32,6 +32,5 @@ public interface UserService {
 
 	public String putUserLevel(LevelModifyDto levelModifyDto);
 
-	public RefreshJwtDto postLoginUser(LoginDto loginDto) throws Exception;
 
 }

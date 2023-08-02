@@ -1,13 +1,13 @@
 package xxx.petmanbe.user.service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,7 @@ import xxx.petmanbe.user.dto.responseDto.UserFilesListDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
 import xxx.petmanbe.user.entity.Level;
+import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.LevelRepository;
 import xxx.petmanbe.user.repository.UserRepository;
@@ -39,6 +40,8 @@ public class UserServiceImpl implements UserService{
 	private final LevelRepository levelRepository;
 
 	private final UserFileRepository userFileRepository;
+
+	private final CustomUserDetailService customUserDetailService;
 
 	@Transactional
 	@Override
@@ -73,35 +76,43 @@ public class UserServiceImpl implements UserService{
 
 		return false;
 
-	// }
+	 }
 
-	// @Transactional
-	// @Override
-	// public Optional<RefreshJwtDto> postLoginUser(LoginDto loginDto) throws Exception {
-	//
-	// 	User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()->new IllegalArgumentException());
-	//
-	// 	if(!Objects.equals(loginDto.getPassword(), user.getPassword())) {
-	// 		return null;
-	// 	}
-	//
-	// 	String accessToken = jwtUtil.generateAccessToken(user);
-	//
-	// 	String refreshToken = jwtUtil.generateRefreshToken(user);
-	//
-	// 	// Token token = jwtService.saveToken(user, accessToken, refreshToken);
-	//
-	// 	// LoginRequestDto loginRequestDto = LoginRequestDto.builder()
-	// 	// 	.userId(user.getUserId())
-	// 	// 	.token(token)
-	// 	// 	.build();
-	//
-	// 	return Optional.ofNullable(
-	// 		new RefreshJwtDto(
-	// 			new AccessJwtTokenDto(accessToken),
-	// 			refreshToken
-	// 		)
-	// 	);
+	 @Transactional
+	 @Override
+	 public RefreshJwtDto postLoginUser(LoginDto loginDto) throws Exception {
+
+	 	User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()->new IllegalArgumentException());
+
+	 	if(!Objects.equals(loginDto.getPassword(), user.getPassword())) {
+	 		return null;
+	 	}
+
+//		 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(),loginDto.getPassword());
+//		 Authentication authentication = AuthenticationManagerBuilder.getObject().authenticate(authenticationToken);
+		 //		 Token token = jwtUtil.generateAccessToken(authentication);
+
+		 List<String> role = new LinkedList<>();
+		 role.add("ADMIN");
+
+	 	String accessToken = jwtUtil.generateAccessToken(user.getEmail(),role);
+
+	 	String refreshToken = jwtUtil.generateRefreshToken(user.getEmail());
+
+	 	 Token token = jwtService.saveToken(user, accessToken, refreshToken);
+
+		  RefreshJwtDto refreshJwtDto = RefreshJwtDto.builder()
+				  .refreshToken(refreshToken)
+				  .accessToken(accessToken)
+				  .build();
+
+		  user.setToken(token);
+
+		  userRepository.save(user);
+
+		  System.out.println(refreshToken);
+
+	 	return refreshJwtDto;
 	}
 
 	@Transactional
@@ -211,9 +222,5 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
-	@Override
-	public RefreshJwtDto postLoginUser(LoginDto loginDto) throws Exception {
-		return null;
-	}
 
 }

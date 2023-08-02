@@ -3,10 +3,14 @@ package xxx.petmanbe.user.service;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import xxx.petmanbe.user.dto.requestDto.RefreshTokenDto;
 import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.TokenRepository;
 import xxx.petmanbe.user.repository.UserRepository;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +39,7 @@ public class JwtServiceImpl implements JwtService{
 		return token;
 	}
 
+
 	@Override
 	public String refreshToken(String refreshToken) {
 
@@ -42,14 +47,17 @@ public class JwtServiceImpl implements JwtService{
 
 			Token token = tokenRepository.findByRefreshToken(refreshToken).orElseThrow(()->new IllegalArgumentException());
 
-			// String newAccessToken = jwtUtil.getAccessToken(
-			// 		token.getUser().getUserId()
-			// );
-			//
-			// token.setAccessToken(newAccessToken);
-			// tokenRepository.save(token);
-			// return newAccessToken;
-			return null;
+			List<String> roles = new LinkedList<>();
+			roles.add("ADMIN");
+
+			User user = token.getUser();
+
+			 String newAccessToken = jwtUtil.generateAccessToken(user.getEmail(),roles);
+
+			 token.setAccessToken(newAccessToken);
+			 tokenRepository.save(token);
+			 return newAccessToken;
+
 		}
 		return null;
 	}

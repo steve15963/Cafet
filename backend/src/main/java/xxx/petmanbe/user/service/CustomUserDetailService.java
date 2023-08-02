@@ -1,5 +1,6 @@
 package xxx.petmanbe.user.service;
 
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,5 +18,15 @@ public class CustomUserDetailService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		return userRepository.findByEmail(email).orElseThrow(()->new IllegalArgumentException());
+	}
+
+	private UserDetails createUserDetails(User user){
+		return User.builder()
+				.username(user.getUsername())
+				.password(user.getPassword())
+				.roles(user.getAuthorities().toArray(new String[0]))
+				.build();
+
+
 	}
 }
