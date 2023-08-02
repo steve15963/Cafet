@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { useNavigate } from "react-router-dom";
 
-
 import axios from "axios";
 
 import './CreatePage.scoped.css'
@@ -9,6 +8,10 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Editor from '../../components/Editor/Editor';
 import Button from '../../components/Button/Button';
+
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+
 
 const CreatePage = () => {
   let navigate = useNavigate();
@@ -65,10 +68,25 @@ const CreatePage = () => {
       <Header />
       <div className='header-save'/>
       <div className='title-wrapper'>
-        <input placeholder="제목을 입력하세요" 
-               type='text' value={inputValues.boardTitle} onChange={onChangeTitle}/>
+        <div className='p' />
+        <Box className='title-center'
+        component="form"
+        sx={{
+          width: 500, maxWidth: '100%',
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField fullWidth id="outlined-basic" 
+                   label="제목" 
+                   variant="outlined"
+                   type='text' 
+                   value={inputValues.boardTitle} 
+                   onChange={onChangeTitle} />
+       </Box>
         <br />
         <p>{inputValues.boardTitle}</p>
+        <div className='title-right' />
       </div>
       <div className='editor-wrapper'>
         <Editor onChange={onChangeContent} />
