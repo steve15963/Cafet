@@ -79,11 +79,6 @@ public class MailService {
 			.expiredTime(LocalDateTime.now().plusMinutes(registExpirationTime))
 			.build();
 
-
-		System.out.println(mailDto.getMail());
-
-		System.out.println(registMail);
-
 		mailRegistRepository.save(registMail);
 
 		if(mailSend(mailDto)){
