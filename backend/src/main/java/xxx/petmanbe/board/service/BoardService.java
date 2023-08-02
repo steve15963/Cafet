@@ -17,6 +17,7 @@ import xxx.petmanbe.board.dto.response.BoardListResponseDto;
 import xxx.petmanbe.board.dto.response.BoardResponseDto;
 import xxx.petmanbe.board.entity.Board;
 import xxx.petmanbe.board.entity.Category;
+import xxx.petmanbe.board.entity.LikeBoard;
 import xxx.petmanbe.board.repository.BoardRepository;
 import xxx.petmanbe.board.repository.CategoryRepository;
 import xxx.petmanbe.board.repository.LikeBoardRepository;
@@ -367,6 +368,63 @@ public class BoardService {
 
 		// 수정된 정보 반환
 		return board.get();
+	}
+
+	// 게시글 좋아요 누르기
+	@Transactional
+	public Board putLike(Long boardId, Long userId){
+
+		// id로 게시글 찾고
+		Optional<Board> board = boardRepository.findById(boardId);
+
+		// 일단 좋아요가 눌려있는지 확인, 누른 적 없으면
+		if (likeBoardRepository.countByBoard_BoardIdAndUser_UserId(boardId, userId) == 0) {
+			// 유저 찾고
+			Optional<User> user = userRepository.findById(userId);
+
+			// 비즈니스 로직 상 null일 수 없으므로 검사 안함
+			LikeBoard newLike = LikeBoard.builder()
+				.board(board.get())
+				.user(user.get())
+				.build();
+
+			// 좋아요 데이터 만들어서 넣기
+			likeBoardRepository.save(newLike);
+
+			// 게시글 좋아요+1
+			board.ifPresent(Board::plusLikeSum);
+
+			// 수정된 정보 반환
+			return board.get();
+		}
+
+		// 없으면 데이터 그대로
+		return boardRepository.findById(boardId).get();
+	}
+
+	// 게시글 좋아요 취소
+	public Board putLikeCancel(Long boardId, Long userId) {
+
+		// id로 게시글 찾고
+		Optional<Board> board = boardRepository.findById(boardId);
+
+		// 일단 좋아요가 눌려있는지 확인, 누른 적 있으면
+		if (likeBoardRepository.countByBoard_BoardIdAndUser_UserId(boardId, userId) > 0) {
+
+			// 유저 찾고
+			Optional<User> user = userRepository.findById(userId);
+
+			// 좋아요 데이터 삭제
+			likeBoardRepository.deleteByBoard_BoardIdAndUser_UserId(boardId, userId);
+
+			// 게시글 좋아요-1
+			board.ifPresent(Board::minusLikeSum);
+
+			// 수정된 정보 반환
+			return board.get();
+		}
+
+		return boardRepository.findById(boardId).get();
 	}
 
 	// 게시글 삭제 및 복구, update 메소드를 이용해 삭제 여부 값 변경
