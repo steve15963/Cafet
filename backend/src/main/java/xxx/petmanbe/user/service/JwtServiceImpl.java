@@ -42,13 +42,14 @@ public class JwtServiceImpl implements JwtService{
 
 			Token token = tokenRepository.findByRefreshToken(refreshToken).orElseThrow(()->new IllegalArgumentException());
 
-			String newAccessToken = jwtUtil.getAccessToken(
-					token.getUser().getUserId()
-			);
-
-			token.setAccessToken(newAccessToken);
-			tokenRepository.save(token);
-			return newAccessToken;
+			// String newAccessToken = jwtUtil.getAccessToken(
+			// 		token.getUser().getUserId()
+			// );
+			//
+			// token.setAccessToken(newAccessToken);
+			// tokenRepository.save(token);
+			// return newAccessToken;
+			return null;
 		}
 		return null;
 	}

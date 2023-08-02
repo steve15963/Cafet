@@ -1,10 +1,15 @@
 package xxx.petmanbe.user.controller;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +23,12 @@ import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RefreshTokenDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
+import xxx.petmanbe.user.dto.responseDto.RefreshJwtDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.service.JwtService;
+import xxx.petmanbe.user.service.JwtUtil;
 import xxx.petmanbe.user.service.UserService;
 import xxx.petmanbe.userfile.service.FileService;
 
@@ -37,6 +44,8 @@ public class UserController {
 	private final FileService fileService;
 
 	private final MailService mailService;
+
+	private final JwtUtil jwtUtil;
 
 
 	@PostMapping(value="/new")
@@ -57,6 +66,23 @@ public class UserController {
 		// }
 
 	}
+
+	@PostMapping("/login/1")
+	public ResponseEntity<RefreshJwtDto> login(@RequestBody LoginDto loginDto, HttpServletResponse httpServletResponse) throws Exception {
+
+		RefreshJwtDto refreshJwtDto = userService.postLoginUser(loginDto);
+
+		Cookie cookie = new Cookie();
+
+		if(Objects.isNull(refreshJwtDto)){
+
+
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(refreshJwtDto, HttpStatus.OK);
+	}
+
+
 
 	@PostMapping("/login")
 	// public ResponseEntity<RefreshJwtDto> PostLoginUser(@RequestBody LoginDto loginDto, HttpServletRequest httpServletRequest) throws Exception{

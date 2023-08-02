@@ -7,6 +7,7 @@ import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
+import xxx.petmanbe.user.dto.responseDto.RefreshJwtDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
 import xxx.petmanbe.user.entity.User;
@@ -30,5 +31,7 @@ public interface UserService {
 	public String deleteUser(long userId);
 
 	public String putUserLevel(LevelModifyDto levelModifyDto);
+
+	public RefreshJwtDto postLoginUser(LoginDto loginDto) throws Exception;
 
 }
