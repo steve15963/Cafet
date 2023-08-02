@@ -24,12 +24,12 @@ public class BoardResponseDto {
 	private String nickname;
 
 	// shop과 mapping 이후 resolve
-	// private String shopTitle;
+	private String shopTitle;
 	private String categoryName;
 	private LocalDateTime createdTime;
 	private LocalDateTime updatedTime;
 	// 좋아요 기능 생성시 resolve
-	// private int likeSum;
+	private int likeSum;
 	private int commentSum;
 	private int viewCnt;
 	private boolean status;
@@ -47,7 +47,7 @@ public class BoardResponseDto {
 		this.categoryName = board.getCategory().getCategoryName();
 		this.createdTime = board.getCreatedTime();
 		this.updatedTime = board.getUpdatedTime();
-		// this.likeSum = board.getLikeSum();
+		this.likeSum = board.getLikeSum();
 		this.commentSum = board.getCommentSum();
 		this.viewCnt = board.getViewCnt();
 		this.status = board.isStatus();
