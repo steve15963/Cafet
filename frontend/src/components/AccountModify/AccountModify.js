@@ -1,9 +1,12 @@
+//회원정보 수정을 위한 component
+
 import React, { useState } from "react";
-import "./AccountSettings.scoped.css";
-import handleUserUpdate from "../../utils/handleUserUpdate";
+import "./AccountModify.scoped.css";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
+
+import handleUserUpdate from "../../utils/handleUserUpdate";
 
 const AccountSettings = () => {
   const [email, setEmail] = useState("");
@@ -11,9 +14,10 @@ const AccountSettings = () => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [nickname, setNickname] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
-  const [fileUrl, setFileUrl] = useState("");
+  const [fileUrl] = useState(""); /*setFileUrl 기능 구현시 추가 필요*/
   const navigate = useNavigate();
 
+  //회원정보 수정버튼 클릭시 동작
   const onUpdateClick = async (event) => {
     event.preventDefault();
     try {
@@ -26,7 +30,7 @@ const AccountSettings = () => {
       const token = response.data.token;
       console.log("Update success", token);
       alert("회원정보 수정에 성공하셨습니다.");
-      navigate("/mypage");
+      navigate("/mypage", { replace: true });
     } catch (error) {
       console.error("Update failed:", error);
       alert("회원정보 수정에 실패하셨습니다.");
@@ -34,10 +38,10 @@ const AccountSettings = () => {
   };
 
   return (
-    <div className="signUp">
-      <form className="signUp-form">
-        <p className="signUp-form-title">회원 정보 수정</p>
-        <div className="signUp-container">
+    <div className="acsettings">
+      <form className="acsettings-form">
+        <p className="acsettings-form-title">회원 정보 수정</p>
+        <div className="acsettings-container">
           <TextField
             label="이메일"
             placeholder="이메일을 입력해주세요"
@@ -48,7 +52,7 @@ const AccountSettings = () => {
             fullWidth
           />
         </div>
-        <div className="signUp-container">
+        <div className="acsettings-container">
           <TextField
             label="비밀번호"
             placeholder="비밀번호를 입력해주세요"
@@ -59,7 +63,7 @@ const AccountSettings = () => {
             fullWidth
           />
         </div>
-        <div className="signUp-container">
+        <div className="acsettings-container">
           <TextField
             label="비밀번호 확인"
             placeholder="비밀번호를 다시 한번 입력해주세요"
@@ -70,7 +74,7 @@ const AccountSettings = () => {
             fullWidth
           />
         </div>
-        <div className="signUp-container">
+        <div className="acsettings-container">
           <TextField
             label="닉네임"
             placeholder="닉네임을 입력해주세요"
@@ -81,7 +85,7 @@ const AccountSettings = () => {
             fullWidth
           />
         </div>
-        <div className="signUp-container">
+        <div className="acsettings-container">
           <TextField
             label="전화번호"
             placeholder="전화번호를 입력해주세요"
@@ -93,7 +97,7 @@ const AccountSettings = () => {
           />
         </div>
         <br />
-        <div className="signUp-container">
+        <div className="acsettings-container">
           <Button
             type="common"
             text={"수정하기"}

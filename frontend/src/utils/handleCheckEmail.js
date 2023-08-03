@@ -1,3 +1,5 @@
+//인증번호 유효성 검사
+
 import axios from "axios";
 
 const handleCheckEmail = (mail, mailToken) => {

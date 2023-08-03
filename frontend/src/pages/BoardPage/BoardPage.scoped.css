@@ -12,7 +12,7 @@
   display: flex;
   justify-content: flex-end;
   padding-bottom: 10px;
-  padding-top: 10px
+  padding-top: 10px;
 }
 
 .menu_wrapper .menu-right-save {
@@ -44,14 +44,6 @@
   align-items: center;
   justify-content: center;
   padding: 10px;
-}
-
-.header-save {
-  padding-top: 80px;
-}
-
-.footer-save {
-  padding-bottom: 50px;
 }
 
 .group {

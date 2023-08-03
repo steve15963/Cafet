@@ -1,3 +1,5 @@
+//Header Component
+
 import React from "react";
 import "./Header.scoped.css";
 
@@ -5,41 +7,45 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="Header">
-      <nav className="Header_guest">
+    <div className="header">
+      <nav className="header_guest">
         <div className="header-container">
-          <div className="logo-container">
+          <div className="header-logo-container">
             <Link to={"/"}>
-              <img src="/images/logo/logo192.png" alt="로고" className="logo" />
+              <img
+                src="/images/logo/logo192.png"
+                alt="로고"
+                className="header-logo"
+              />
             </Link>
             <p>capet</p>
           </div>
-          <div className="category-container">
+          <div className="header-category-container">
             <div>
-              <Link to={"/login"} className="link">
-                동물별로 찾기
+              <Link to={"/login"} className="header-link">
+                카페 찾기
               </Link>
               &nbsp;&nbsp;| &nbsp;
-              <Link to={"/login"} className="link">
-                가게별로 찾기
-              </Link>
-              &nbsp;&nbsp;| &nbsp;
-              <Link to={"/board"} className="link">
+              <Link to={"/board"} className="header-link">
                 커뮤니티
               </Link>
               &nbsp;&nbsp;| &nbsp;
-              <Link to={"/login"} className="link">
+              <Link to={"/login"} className="header-link">
                 카페소식
               </Link>
               &nbsp;&nbsp;| &nbsp;
-              <Link to={"/login"} className="link">
+              <Link to={"/login"} className="header-link">
                 검색
               </Link>
             </div>
           </div>
-          <div className="link-container">
-            <Link to={"/login"} className="link">
+          <div className="header-link-container">
+            <Link to={"/login"} className="header-link">
               로그인
+            </Link>
+            &nbsp;
+            <Link to={"/mypage"} className="header-link">
+              마이페이지
             </Link>
           </div>
         </div>

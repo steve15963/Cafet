@@ -5,10 +5,14 @@
   align-items: center;
 }
 
-.header-save {
-  padding-top: 100px;
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
 }
 
-.footer-save {
-  padding-bottom: 50px;
+.logo {
+  width: 75px;
+  height: 75px;
 }

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const handleStore = (num, startDt, CEOName) => {
+const handleShop = (num, startDt, CEOName) => {
   const data = {
     num: num,
     startDt: startDt,
@@ -13,4 +13,4 @@ const handleStore = (num, startDt, CEOName) => {
   return axios.post(serverUrl, data);
 };
 
-export default handleStore;
+export default handleShop;

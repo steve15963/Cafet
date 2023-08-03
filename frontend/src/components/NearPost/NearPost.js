@@ -1,3 +1,4 @@
+//이전글과 다음글로 이동하기 위한 component(수정 필요)
 import React from "react";
 import "./NearPost.scoped.css";
 
@@ -26,10 +27,10 @@ const NearPost = () => {
       <ul>
         {mockPost.map((value) => (
           <li key={value.comment_id}>
-            <div className="cmt">
-              <div className="cmt_left">{value.text}</div>
-              <div className="cmt_center">{value.title}</div>
-              <div className="cmt_right">{value.created_time}</div>
+            <div className="nearpost">
+              <div className="nearpost_left">{value.text}</div>
+              <div className="nearpost_center">{value.title}</div>
+              <div className="nearpost_right">{value.created_time}</div>
             </div>
           </li>
         ))}

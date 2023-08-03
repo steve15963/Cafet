@@ -1,4 +1,4 @@
-.cmt {
+.nearpost {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,19 +8,19 @@
   list-style: none;
 }
 
-.cmt_left {
+.nearpost_left {
   display: flex;
   justify-content: center;
   width: 20%;
 }
 
-.cmt_center {
+.nearpost_center {
   display: flex;
   justify-content: center;
   width: 60%;
 }
 
-.cmt_right {
+.nearpost_right {
   display: flex;
   justify-content: center;
   width: 20%;

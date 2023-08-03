@@ -1,3 +1,5 @@
+//개인정보 수정
+
 import axios from "axios";
 
 const handleUserUpdate = (email, nickname, phoneNo, fileUrl) => {

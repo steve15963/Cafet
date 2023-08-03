@@ -1,3 +1,5 @@
+//게시글 작성을 위한 component
+
 import "./Editor.scoped.css";
 import React from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -5,7 +7,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const Editor = () => {
   return (
-    <div className="Editor">
+    <div className="editor">
       <CKEditor
         editor={ClassicEditor}
         data=""

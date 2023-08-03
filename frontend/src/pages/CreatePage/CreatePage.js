@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import axios from "axios";
-
 import "./CreatePage.scoped.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -11,6 +9,7 @@ import Button from "../../components/Button/Button";
 
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import handleCreatePost from "../../utils/handleCreatePost";
 
 const CreatePage = () => {
   let navigate = useNavigate();
@@ -34,8 +33,7 @@ const CreatePage = () => {
   });
   console.log(inputValues);
 
-  // const {boardTitle, boardContent, tagList, nickname, shopTitle, categoryName, fileUrlList} = inputValues
-
+  //제목 변경시 동작
   const onChangeTitle = (e) => {
     setInputValues({
       ...inputValues,
@@ -43,6 +41,7 @@ const CreatePage = () => {
     });
   };
 
+  //내용 변경시 동작
   const onChangeContent = (e) => {
     setInputValues({
       ...inputValues,
@@ -50,17 +49,19 @@ const CreatePage = () => {
     });
   };
 
-  const requestPost = (data) => {
-    const serverUrl = "http://i9a105.p.ssafy.io:8080/api/board/new";
-    axios
-      .post(serverUrl, data)
-      .then((res) => {
-        alert("성공");
-        navigate("/board");
-      })
-      .catch((err) => {
-        alert("fail");
-      });
+  //작성 버튼 클릭 시 동작 (현재 응답이 따로 오지 않아서 성공 실패 판단 불가 백에서 수정 중)
+  const onCreateButtonClick = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await handleCreatePost(inputValues);
+      const token = response.data.token;
+      console.log("Post Create Success", token);
+      alert("게시글이 성공적으로 등록되었습니다.");
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.error("Post Create failed");
+      alert("게시글 등록에 실패했습니다.");
+    }
   };
 
   return (
@@ -104,7 +105,7 @@ const CreatePage = () => {
         />
         <Button
           className="submitBtn"
-          onClick={() => requestPost(inputValues)}
+          onClick={onCreateButtonClick}
           text={"작성하기"}
         />
       </div>

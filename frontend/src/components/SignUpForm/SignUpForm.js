@@ -1,3 +1,5 @@
+//회원 가입 component
+
 import React, { useState } from "react";
 import "./SignUpForm.scoped.css";
 import handleSignUp from "../../utils/handleSignUp";
@@ -17,6 +19,7 @@ const SignUpForm = () => {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const navigate = useNavigate();
 
+  // 이메일 전송 버튼 클릭 동작
   const onEmailSendClick = async (event) => {
     event.preventDefault();
     try {
@@ -30,6 +33,7 @@ const SignUpForm = () => {
     }
   };
 
+  // 이메일 인증 버튼 클릭 동작
   const onCheckEmailClick = async (event) => {
     event.preventDefault();
     try {
@@ -44,6 +48,7 @@ const SignUpForm = () => {
     }
   };
 
+  //회원가입 버튼 클릭 동작
   const onSignUpButtonClick = async (event) => {
     event.preventDefault();
     if (isEmailVerified) {
@@ -65,10 +70,10 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="signUp">
-      <form className="signUp-form">
-        <p className="signUp-form-title">회원가입</p>
-        <div className="signUp-container">
+    <div className="signup">
+      <form className="signup-form">
+        <p className="signup-form-title">회원가입</p>
+        <div className="signup-container">
           <TextField
             label="이메일"
             placeholder="이메일을 입력해주세요"
@@ -85,7 +90,7 @@ const SignUpForm = () => {
             onClick={onEmailSendClick}
           />
         </div>
-        <div className="signUp-container">
+        <div className="signup-container">
           <TextField
             label="인증번호"
             placeholder="인증번호를 입력해주세요"
@@ -102,7 +107,7 @@ const SignUpForm = () => {
             onClick={onCheckEmailClick}
           />
         </div>
-        <div className="signUp-container">
+        <div className="signup-container">
           <TextField
             label="비밀번호"
             placeholder="비밀번호를 입력해주세요"
@@ -113,7 +118,7 @@ const SignUpForm = () => {
             fullWidth
           />
         </div>
-        <div className="signUp-container">
+        <div className="signup-container">
           <TextField
             label="비밀번호 확인"
             placeholder="비밀번호를 다시 한번 입력해주세요"
@@ -124,7 +129,7 @@ const SignUpForm = () => {
             fullWidth
           />
         </div>
-        <div className="signUp-container">
+        <div className="signup-container">
           <TextField
             label="닉네임"
             placeholder="닉네임을 입력해주세요"
@@ -135,7 +140,7 @@ const SignUpForm = () => {
             fullWidth
           />
         </div>
-        <div className="signUp-container">
+        <div className="signup-container">
           <TextField
             label="전화번호"
             placeholder="전화번호를 입력해주세요"
@@ -147,7 +152,7 @@ const SignUpForm = () => {
           />
         </div>
         <br />
-        <div className="signUp-container">
+        <div className="signup-container">
           <Button
             type="common"
             text={"가입하기"}

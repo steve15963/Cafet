@@ -1,3 +1,5 @@
+//게시글 component
+
 import React from "react";
 import "./Post.scoped.css";
 
