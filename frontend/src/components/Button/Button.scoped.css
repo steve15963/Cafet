@@ -47,3 +47,7 @@
   border-radius: 0.5rem;
   text-transform: uppercase;
 }
+
+.button_gray:hover {
+  background-color: rgb(111, 105, 105);
+}

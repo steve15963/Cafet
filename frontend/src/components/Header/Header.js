@@ -1,3 +1,5 @@
+//Header Component
+
 import React from "react";
 import "./Header.scoped.css";
 
@@ -40,6 +42,10 @@ const Header = () => {
           <div className="link-container">
             <Link to={"/login"} className="link">
               로그인
+            </Link>
+            &nbsp;
+            <Link to={"/mypage"} className="link">
+              마이페이지
             </Link>
           </div>
         </div>

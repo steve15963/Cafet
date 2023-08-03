@@ -1,3 +1,5 @@
+//이메일 인증
+
 import axios from "axios";
 
 const handleEmailSend = (mail) => {

@@ -1,3 +1,5 @@
+//버튼 component
+
 import React from "react";
 import "./Button.scoped.css";
 

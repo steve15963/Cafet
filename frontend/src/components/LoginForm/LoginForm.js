@@ -1,3 +1,5 @@
+//로그인을 위한 component
+
 import React, { useState } from "react";
 import handleLogin from "../../utils/handleLogin";
 import "./LoginForm.scoped.css";
@@ -10,6 +12,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  //로그인 버튼 클릭시 동작
   const onLoginButtonClick = async (event) => {
     event.preventDefault();
     try {
