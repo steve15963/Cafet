@@ -1,15 +1,17 @@
-.SideBar {
-  padding-top: 100px;
-
+.sideBar {
+  padding-top: 80px;
+  background-color: white;
+  border: solid;
+  border-right-width: 1;
   height: 100%;
   width: 200px;
   position: fixed;
-  z-index: -1;
+  z-index: 0;
   top: 0;
   left: 0;
   overflow-x: hidden;
-  border-right: solid 1px;
 }
+
 .linkdiv {
   border: solid;
   border-width: 0 0 1px 0;

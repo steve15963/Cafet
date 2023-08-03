@@ -1,25 +1,25 @@
-.BoardDetail-container {
+.boarddetail-container {
   width: 80%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
 }
 
-.input-button-container {
+.boarddetail-input-button-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
 }
 
-.input-container {
+.boarddetail-input-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 80%;
 }
 
-.input-container input {
+.boarddetail-input-container input {
   width: 100%;
   padding: 8px;
   font-size: 14px;
@@ -28,17 +28,9 @@
   outline: none;
 }
 
-.button-container {
+.boarddetail-button-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 20%;
-}
-
-.header-save {
-  padding-top: 120px;
-}
-
-.footer-save {
-  padding-bottom: 50px;
 }

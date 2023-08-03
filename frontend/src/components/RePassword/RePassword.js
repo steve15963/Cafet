@@ -39,7 +39,7 @@ const RePasswordForm = () => {
             fullWidth
           />
         </div>
-        <div className="signUp-container">
+        <div className="repassword-container">
           <TextField
             label="비밀번호 확인"
             placeholder="비밀번호를 다시 한번 입력해주세요"
