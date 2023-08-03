@@ -21,6 +21,7 @@ public class ShopServiceImpl implements ShopService{
 
 	private final UserRepository userRepository;
 
+	// shop 정보를 가져오기
 	@Transactional
 	@Override
 	public GetShopDto getShop(long shopId) {
@@ -30,6 +31,7 @@ public class ShopServiceImpl implements ShopService{
 			.shopId(shop.getShopId())
 			.shopTitle(shop.getShopTitle())
 			.gradeCount(shop.getGradeCount())
+			.totalScore(shop.getTotalScore())
 			.longitude(shop.getLongitude())
 			.latitude(shop.getLatitude())
 			.address(shop.getAddress())
@@ -40,11 +42,11 @@ public class ShopServiceImpl implements ShopService{
 			.sns(shop.getSns())
 			.homepage(shop.getHomepage())
 			.build();
-
-
+		
 		return getShopDto;
 	}
 
+	// shop 정보 추가하기
 	@Transactional
 	@Override
 	public boolean postShopNew(PostNewShopDto postNewShopDto) {
@@ -81,6 +83,7 @@ public class ShopServiceImpl implements ShopService{
 		}
 	}
 
+	// sho 정보 수정하기
 	@Transactional
 	@Override
 	public boolean putShop(PutShopDto request) {
@@ -96,6 +99,7 @@ public class ShopServiceImpl implements ShopService{
 		return true;
 	}
 
+	// shop 정보 수정하기
 	@Transactional
 	public Shop putShopStatus(Long shopId){
 

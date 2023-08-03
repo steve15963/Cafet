@@ -2,14 +2,23 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
+#include <ArduinoJson.h>
 
-#define MAX_CIRCULAR_SIZE 5
+#define MAX_CIRCULAR_SIZE 2
 #define BEACON_COUNT 4
 
-
-
 SoftwareSerial BTSerial(2, 3);  // SoftwareSerial(RX, TX)
+SoftwareSerial WFSerial(4, 5);
 
+int searchFlag[BEACON_COUNT] = {0,};
+
+DynamicJsonDocument doc(200);
+
+typedef struct{
+  double x;
+  double y;
+  double radius;
+} Anchor;
 
 typedef struct {
     int insertIndex;
@@ -35,7 +44,8 @@ void setData(CircularArray *target,int data){
 CircularArray Beacon[BEACON_COUNT];
 
 double calculateDistance(int rssi,int index) {
-  double offset[BEACON_COUNT] = {-53,-49,-49};
+  // double offset[BEACON_COUNT] = {-53,-49,-49};
+  double offset[BEACON_COUNT] = {-49,-49,-49};
   double n = 2.0;
   double constant = offset[index-1];
   double distance = pow(10, (constant - rssi) / (10 * n));
@@ -47,30 +57,26 @@ void setup()
 {
 
   Serial.begin(9600);
+  BTSerial.begin(9600);
+  WFSerial.begin(9600);
 
   Serial.println("Hello!");
-
-
-
-  // set the data rate for the BT port
-
-  BTSerial.begin(9600);
 
   for(int i = 0 ; i < BEACON_COUNT; i++){
     InitCircularArray(&Beacon[i]);
   }
+  BTSerial.listen();
+  BTSerial.println("AT+RESET");
+  BTSerial.println("AT+DISI?");
   
 }
 
 void loop() {
   int i = 0;
-
-  
-  int searchFlag[BEACON_COUNT] = {0,};
-
+  // Serial.print("시작");
   while (BTSerial.available()) {  // if BT sends something
     String inputStr = BTSerial.readStringUntil('\n');
-    //Serial.println(inputStr);
+    // Serial.println(inputStr);
     char* response = inputStr.c_str();
     // Serial.println(data);
 
@@ -91,19 +97,19 @@ void loop() {
       char beaconNum[9] = {0,};
       strncpy(mark,data[2],16);
       if(strcmp(mark,"AAAAAAAAAAAAAAAA") == 0){
-        Serial.print("주소 : ");
-        Serial.println(data[2]);
+        // Serial.print("주소 : ");
+        // Serial.println(data[2]);
         strncpy(storeNum, data[2]+16,8);
-        Serial.print("가게 번호 : ");
-        Serial.println(atoi(storeNum));
+        // Serial.print("가게 번호 : ");
+        // Serial.println(atoi(storeNum));
         strncpy(beaconNum,data[2]+24,8);
         Serial.print("비콘 번호 : ");
         int beaconIndex = atoi(beaconNum);
         Serial.println(beaconIndex);  
-        Serial.print("신호 세기 : ");
+        // Serial.print("신호 세기 : ");
 
         int power = atoi(data[5]);
-        Serial.println(power);
+        // Serial.println(power);
         
 
         setData(&Beacon[beaconIndex], power);
@@ -112,22 +118,34 @@ void loop() {
         int avgPower = getAvg(&Beacon[beaconIndex]);
         Serial.println(avgPower);
 
-        Serial.print("거리 : ");
-        Serial.println(calculateDistance(avgPower,beaconIndex));
+        // Serial.print("거리 : ");
+        // Serial.println(calculateDistance(avgPower,beaconIndex));
 
         searchFlag[beaconIndex] = 1;
-
-        if(searchFlag[1] == 1 && searchFlag[2] == 1 && searchFlag[3] == 1){
-          searchFlag[1] = searchFlag[2] = searchFlag[3] = 0;
-          Serial.println("위치계산 시작");
-
-        }
-
         Serial.println("-------------------------------------");
 
       }
     }
     else if(strcmp(token,"OK+DISCE\r") == 0){
+      // delay(50);
+      if(searchFlag[1] == 1 && searchFlag[2] == 1 && searchFlag[3] == 1){
+          Serial.println("***********전송**********");
+          for(int i = 0; i < BEACON_COUNT; i++ ){
+            searchFlag[i] = 0;
+            int avgPower = getAvg(&Beacon[i]);
+            doc["b" + i ] = calculateDistance(avgPower,i);
+            String json  = "";
+            serializeJson(doc,json);
+            WFSerial.listen();
+            WFSerial.println("AT+CIPSTART=\"TCP\",\"43.201.102.130\",8080");
+            WFSerial.print("AT+CIPSEND=");
+            WFSerial.println(json.length());
+            WFSerial.println(json);
+            WFSerial.println("AT+CIPCLOSE");
+            BTSerial.listen();
+          }
+
+        }
       Serial.println("================재검색=====================");
       BTSerial.println("AT+DISI?");
     }
@@ -143,7 +161,6 @@ void loop() {
 
 
   while (Serial.available()) {  // if Serial has input(from serial monitor)
-
     byte data = Serial.read();
 
     BTSerial.write(data);  // write it to BT
