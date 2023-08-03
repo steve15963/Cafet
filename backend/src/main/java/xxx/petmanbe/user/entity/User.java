@@ -29,8 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements UserDetails
-    // extends BaseTimeEntity
+public class User extends BaseTimeEntity implements UserDetails
 {
 
     @Id
@@ -74,12 +73,6 @@ public class User implements UserDetails
     @JoinColumn(name="userfile_id")
     private UserFile userFile;
 
-    ///
-    @CreatedDate
-    private LocalDateTime createdTime;
-
-    @LastModifiedDate
-    private LocalDateTime updatedTime;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService{
 
 		List<String> roles= new ArrayList<>();
 
-		roles.add("ADMIN");
+		roles.add("USER");
 
 		User user = User.builder()
 				.email(registDto.getEmail())
@@ -68,7 +68,6 @@ public class UserServiceImpl implements UserService{
 
 		Level level = Level.builder().levelCode(100).build();
 
-		System.out.println(level);
 
 		user.setLevel(level);
 
@@ -94,13 +93,6 @@ public class UserServiceImpl implements UserService{
 	 public Token postLoginUser(LoginDto loginDto) throws Exception {
 
 	 	User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()->new IllegalArgumentException());
-
-		//  System.out.println(passwordEncoder.encode(loginDto.getPassword()));
-		//  System.out.println(user.getPassword());
-		//
-	 	// if(!Objects.equals(passwordEncoder.encode(loginDto.getPassword()), user.getPassword())) {
-	 	// 	return null;
-	 	// }
 
 		 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
@@ -158,23 +150,24 @@ public class UserServiceImpl implements UserService{
 		return userInformationDto;
 	}
 
-	@Override
-	public User SessionLogin(LoginDto loginDto) throws Exception {
-		Optional<User> findUser = userRepository.findByEmail(loginDto.getEmail());
-
-		System.out.println(findUser.get().getUserId());
-
-		if(findUser.isEmpty()){
-			return null;
-		}
-		else{
-			User user = findUser.get();
-			if(loginDto.getPassword().equals(user.getPassword())){
-				return user;
-			}
-			return null;
-		}
-	}
+	// 없앨 예정
+//	@Override
+//	public User SessionLogin(LoginDto loginDto) throws Exception {
+//		Optional<User> findUser = userRepository.findByEmail(loginDto.getEmail());
+//
+//		System.out.println(findUser.get().getUserId());
+//
+//		if(findUser.isEmpty()){
+//			return null;
+//		}
+//		else{
+//			User user = findUser.get();
+//			if(loginDto.getPassword().equals(user.getPassword())){
+//				return user;
+//			}
+//			return null;
+//		}
+//	}
 
 	@Transactional
 	@Override
@@ -212,7 +205,14 @@ public class UserServiceImpl implements UserService{
 
 		level.setLevelCode(levelModifyDto.getLevel());
 
-		levelRepository.save(level);
+		// role
+		if(200<= levelModifyDto.getLevel() && levelModifyDto.getLevel() <300 ){
+			user.getRoles().set(0, "Shop");
+		}else if(300<= levelModifyDto.getLevel()){
+			user.getRoles().set(0,"ADMIN");
+		}
+
+		userRepository.save(user);
 
 		if(user.getLevel().getLevelCode()== level.getLevelCode()){
 			return "success";
@@ -220,6 +220,8 @@ public class UserServiceImpl implements UserService{
 		}else{
 			return "fail";
 		}
+
+
 	}
 
 

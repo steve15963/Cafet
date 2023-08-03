@@ -25,7 +25,7 @@ public interface UserService {
 
 	public UserInformationDto getUser(long userId) throws Exception;
 
-	public User SessionLogin(LoginDto loginDto) throws Exception;
+//	public User SessionLogin(LoginDto loginDto) throws Exception;
 
 	public List<UserListDto> getUserList();
 

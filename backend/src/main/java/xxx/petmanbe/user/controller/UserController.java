@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -80,7 +81,7 @@ public class UserController {
 
 		Token token = userService.postLoginUser(loginDto);
 
-		ResponseCookie cookie = ResponseCookie.from("refreshToken", token.getRefreshToken())
+		ResponseCookie cookie1 = ResponseCookie.from("refreshToken", token.getRefreshToken())
 				.maxAge(3000)
 				.path("/")
 //				.secure(true)
@@ -88,8 +89,19 @@ public class UserController {
 //				.httpOnly(true)
 				.build();
 
+		ResponseCookie cookie2 = ResponseCookie.from("AccessToken", token.getAccessToken())
+				.maxAge(3000)
+				.path("/")
+//				.secure(true)
+				.sameSite("None")
+//				.httpOnly(true)
+				.build();
+
+
+
 		httpServletResponse.addHeader("Authorization",token.getRefreshToken());
-		httpServletResponse.setHeader("Set-Cookie",cookie.toString());
+		httpServletResponse.setHeader("Set-Cookie",cookie1.toString()); //refreshToken
+		httpServletResponse.setHeader("Access", cookie2.toString()); // AccessToken
 
 		if(Objects.isNull(token)){
 
@@ -135,6 +147,7 @@ public class UserController {
 		return new ResponseEntity<>(userFile,HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasAnyRole('USER','SHOP','ADMIN')")
 	@GetMapping("/{userId}")
 	public ResponseEntity<UserInformationDto> GetUser(@PathVariable long userId) throws Exception {
 
@@ -144,6 +157,7 @@ public class UserController {
 
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("")
 	public ResponseEntity<List<UserListDto>> GetUserList(){
 
@@ -179,7 +193,7 @@ public class UserController {
 
 		response.setHeader("Set-Cookie",cookie.toString());
 
-		return new ResponseEntity<>(newAccessToken, HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 
 	}
 	
