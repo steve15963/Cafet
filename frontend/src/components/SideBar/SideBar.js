@@ -1,3 +1,5 @@
+//관리자 페이지 사이드 바 component
+
 import React from "react";
 import "./SideBar.scoped.css";
 

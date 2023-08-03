@@ -1,3 +1,5 @@
+//메인 페이지 게시글 component
+
 import React from "react";
 import "./MainList.scoped.css";
 import useBoardList from "../../hooks/useBoardList";

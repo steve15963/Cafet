@@ -1,9 +1,12 @@
+//회원정보 수정을 위한 component
+
 import React, { useState } from "react";
-import "./AccountSettings.scoped.css";
-import handleUserUpdate from "../../utils/handleUserUpdate";
+import "./AccountModify.scoped.css";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
+
+import handleUserUpdate from "../../utils/handleUserUpdate";
 
 const AccountSettings = () => {
   const [email, setEmail] = useState("");
@@ -11,9 +14,10 @@ const AccountSettings = () => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [nickname, setNickname] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
-  const [fileUrl, setFileUrl] = useState("");
+  const [fileUrl] = useState(""); /*setFileUrl 기능 구현시 추가 필요*/
   const navigate = useNavigate();
 
+  //회원정보 수정버튼 클릭시 동작
   const onUpdateClick = async (event) => {
     event.preventDefault();
     try {
@@ -26,7 +30,7 @@ const AccountSettings = () => {
       const token = response.data.token;
       console.log("Update success", token);
       alert("회원정보 수정에 성공하셨습니다.");
-      navigate("/mypage");
+      navigate("/mypage", { replace: true });
     } catch (error) {
       console.error("Update failed:", error);
       alert("회원정보 수정에 실패하셨습니다.");

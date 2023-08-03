@@ -1,11 +1,12 @@
+//가게 등업 페이지 API 수정중으로 페이지 전체 임시 주석 처리
 // import React, { useState } from "react";
-// import "./StoreUp.scoped.css";
+// import "./ShopUp.scoped.css";
 // import handleStore from "../../utils/handleStore";
 // import TextField from "@mui/material/TextField";
 // import { useNavigate } from "react-router-dom";
 // import Button from "../Button/Button";
 
-// const StoreUp = () => {
+// const ShopUp = () => {
 //   const [businessTypes, setBusinessTypes] = useState("");
 //   const [CEOName, setCEOName] = useState("");
 //   const [num, setNum] = useState("");
@@ -153,4 +154,4 @@
 //   );
 // };
 
-// export default StoreUp;
+// export default ShopUp;

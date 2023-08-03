@@ -1,3 +1,5 @@
+//컴퍼넌트 확인을 위한 테스트 페이지
+
 import React from "react";
 import "./TestPage.scoped.css";
 // import Header from "../components/Header/Header";

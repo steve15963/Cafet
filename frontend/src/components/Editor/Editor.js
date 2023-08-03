@@ -1,3 +1,5 @@
+//게시글 작성을 위한 component
+
 import "./Editor.scoped.css";
 import React from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";

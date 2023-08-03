@@ -1,3 +1,4 @@
+//이전글과 다음글로 이동하기 위한 component(수정 필요)
 import React from "react";
 import "./NearPost.scoped.css";
 

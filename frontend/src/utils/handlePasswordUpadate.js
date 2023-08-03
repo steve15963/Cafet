@@ -1,9 +1,8 @@
-//login
+//비밀번호 업데이트(API 미구현 수정 필요)
 
 import axios from "axios";
 
-const handleLogin = (email, password) => {
-  // console.log(email + " " + password + " handle");
+const handlePasswordUpdate = (email, password) => {
   const data = {
     email: email,
     password: password,
@@ -14,4 +13,4 @@ const handleLogin = (email, password) => {
   return axios.post(serverUrl, data);
 };
 
-export default handleLogin;
+export default handlePasswordUpdate;

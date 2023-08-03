@@ -1,16 +1,20 @@
+//이메일 인증을 위한 component
+
 import React, { useState } from "react";
 import "./EmailCheckForm.scoped.css";
-import handleEmailSend from "../../utils/handleEmailSend";
-import handleCheckEmail from "../../utils/handleCheckEmail";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
+
+import handleEmailSend from "../../utils/handleEmailSend";
+import handleCheckEmail from "../../utils/handleCheckEmail";
 
 const EmailCheckForm = () => {
   const [email, setEmail] = useState("");
   const [emailToken, setEmailToken] = useState("");
   const navigate = useNavigate();
 
+  //이메일 전송 버튼 클릭시 동작
   const onEmailSendClick = async (event) => {
     event.preventDefault();
     try {
@@ -24,6 +28,7 @@ const EmailCheckForm = () => {
     }
   };
 
+  //이메일 인증번호 확인 버튼 클릭시 동작
   const onCheckEmailClick = async (event) => {
     event.preventDefault();
     try {
