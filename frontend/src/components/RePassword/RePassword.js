@@ -1,26 +1,29 @@
+//비밀번호 재설정 component
+
 import React, { useState } from "react";
-import handleLogin from "../../utils/handleLogin";
 import "./RePassword.scoped.css";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
+import handlePasswordUpdate from "../../utils/handlePasswordUpadate";
 
 const RePasswordForm = () => {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const navigate = useNavigate();
 
-  const onLoginButtonClick = async (event) => {
+  //비밀번호 변경 버튼 클릭 시 동작(API 미구현)
+  const onPasswordUpdateClick = async (event) => {
     event.preventDefault();
     try {
-      const response = await handleLogin(password);
+      const response = await handlePasswordUpdate(password);
       const token = response.data.token;
-      console.log("Login success", token);
-      alert("로그인에 성공하셨습니다.");
+      console.log("Password Modify success", token);
+      alert("비밀번호 재설정에 성공하셨습니다.");
       navigate("/", { replace: true });
     } catch (error) {
-      console.error("Login failed:");
-      alert("로그인에 실패하셨습니다.");
+      console.error("Password Modify failed:");
+      alert("비밀번호 재설정에 실패하셨습니다.");
     }
   };
 
@@ -54,9 +57,9 @@ const RePasswordForm = () => {
         <div className="repassword-container">
           <Button
             type="common"
-            text={"이메일 전송"}
+            text={"비밀번호 변경"}
             className="button"
-            onClick={onLoginButtonClick}
+            onClick={onPasswordUpdateClick}
           />
         </div>
       </form>
