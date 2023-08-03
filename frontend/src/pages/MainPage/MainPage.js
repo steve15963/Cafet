@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 
 const MainPage = () => {
   return (
-    <div style={{ backgroundColor: "#fdfdfd" }}>
+    <div className="mainpage">
       <Header />
       <Outlet />
       <div className="footer-save" />

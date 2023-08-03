@@ -44,10 +44,10 @@ const EmailCheckForm = () => {
   };
 
   return (
-    <div className="signUp">
-      <form className="signUp-form">
-        <p className="signUp-form-title">비밀번호 재설정</p>
-        <div className="signUp-container">
+    <div className="emailcheck">
+      <form className="emailcheck-form">
+        <p className="emailcheck-form-title">비밀번호 재설정</p>
+        <div className="emailcheck-container">
           <TextField
             label="이메일"
             placeholder="이메일을 입력해주세요"
@@ -64,7 +64,7 @@ const EmailCheckForm = () => {
             onClick={onEmailSendClick}
           />
         </div>
-        <div className="signUp-container">
+        <div className="emailcheck-container">
           <TextField
             label="인증번호"
             placeholder="인증번호를 입력해주세요"

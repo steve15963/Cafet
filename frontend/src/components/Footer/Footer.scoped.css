@@ -1,4 +1,4 @@
-.Footer {
+.footer {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -19,9 +19,19 @@
   height: 40px;
 }
 
-.text {
+.footer-text {
   color: black;
   font-weight: bold;
   font-size: 18px;
   text-decoration: none;
+}
+.footer-link {
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: blue;
 }

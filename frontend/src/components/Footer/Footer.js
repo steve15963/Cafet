@@ -7,10 +7,10 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="Footer">
+    <div className="footer">
       <nav className="footer-common">
         <div className="footer-container">
-          <p className="text">
+          <p className="footer-text">
             회사소개 | 제휴제안 | 이용약관 | 개인정보처리방침 |
           </p>
           &nbsp;

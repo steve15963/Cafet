@@ -8,7 +8,7 @@ const Menu = ({ id, name }) => {
   return (
     <div>
       <button
-        className={"Menu"}
+        className={"menu"}
         // onClick={handleOnClick}
       >
         <span>{name}</span>

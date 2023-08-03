@@ -38,10 +38,10 @@ const AccountSettings = () => {
   };
 
   return (
-    <div className="signUp">
-      <form className="signUp-form">
-        <p className="signUp-form-title">회원 정보 수정</p>
-        <div className="signUp-container">
+    <div className="acsettings">
+      <form className="acsettings-form">
+        <p className="acsettings-form-title">회원 정보 수정</p>
+        <div className="acsettings-container">
           <TextField
             label="이메일"
             placeholder="이메일을 입력해주세요"
@@ -52,7 +52,7 @@ const AccountSettings = () => {
             fullWidth
           />
         </div>
-        <div className="signUp-container">
+        <div className="acsettings-container">
           <TextField
             label="비밀번호"
             placeholder="비밀번호를 입력해주세요"
@@ -63,7 +63,7 @@ const AccountSettings = () => {
             fullWidth
           />
         </div>
-        <div className="signUp-container">
+        <div className="acsettings-container">
           <TextField
             label="비밀번호 확인"
             placeholder="비밀번호를 다시 한번 입력해주세요"
@@ -74,7 +74,7 @@ const AccountSettings = () => {
             fullWidth
           />
         </div>
-        <div className="signUp-container">
+        <div className="acsettings-container">
           <TextField
             label="닉네임"
             placeholder="닉네임을 입력해주세요"
@@ -85,7 +85,7 @@ const AccountSettings = () => {
             fullWidth
           />
         </div>
-        <div className="signUp-container">
+        <div className="acsettings-container">
           <TextField
             label="전화번호"
             placeholder="전화번호를 입력해주세요"
@@ -97,7 +97,7 @@ const AccountSettings = () => {
           />
         </div>
         <br />
-        <div className="signUp-container">
+        <div className="acsettings-container">
           <Button
             type="common"
             text={"수정하기"}
