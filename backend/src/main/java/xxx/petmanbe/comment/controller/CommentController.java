@@ -10,20 +10,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.comment.dto.request.AddCommentRequestDto;
 import xxx.petmanbe.comment.dto.request.UpdateCommentRequestDto;
 import xxx.petmanbe.comment.dto.response.CommentResponseDto;
-import xxx.petmanbe.comment.service.CommentService;
+import xxx.petmanbe.comment.service.CommentServiceImpl;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/comment")
 public class CommentController {
-	private final CommentService commentService;
+	private final CommentServiceImpl commentService;
 
 	// 해당 게시글에 댓글 추가
 	@PostMapping("/{boardId}/new/{userId}")
