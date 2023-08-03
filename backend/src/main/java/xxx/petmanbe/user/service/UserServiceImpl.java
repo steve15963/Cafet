@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -43,16 +45,25 @@ public class UserServiceImpl implements UserService{
 
 	private final CustomUserDetailService customUserDetailService;
 
+	private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+	private final PasswordEncoder passwordEncoder;
+
 	@Transactional
 	@Override
 	public long postnewUser(RegistDto registDto) throws Exception {
 
+		List<String> roles= new ArrayList<>();
+
+		roles.add("ADMIN");
+
 		User user = User.builder()
 				.email(registDto.getEmail())
-				.password(registDto.getPassword())
+				.password(passwordEncoder.encode(registDto.getPassword()))
 				.phoneNo(registDto.getPhoneNo())
 				.nickname(registDto.getNickname())
 				.status("no")
+				.roles(roles)
 				.build();
 
 		Level level = Level.builder().levelCode(100).build();
@@ -80,39 +91,28 @@ public class UserServiceImpl implements UserService{
 
 	 @Transactional
 	 @Override
-	 public RefreshJwtDto postLoginUser(LoginDto loginDto) throws Exception {
+	 public Token postLoginUser(LoginDto loginDto) throws Exception {
 
 	 	User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()->new IllegalArgumentException());
 
-	 	if(!Objects.equals(loginDto.getPassword(), user.getPassword())) {
-	 		return null;
-	 	}
+		//  System.out.println(passwordEncoder.encode(loginDto.getPassword()));
+		//  System.out.println(user.getPassword());
+		//
+	 	// if(!Objects.equals(passwordEncoder.encode(loginDto.getPassword()), user.getPassword())) {
+	 	// 	return null;
+	 	// }
 
-//		 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(),loginDto.getPassword());
-//		 Authentication authentication = AuthenticationManagerBuilder.getObject().authenticate(authenticationToken);
-		 //		 Token token = jwtUtil.generateAccessToken(authentication);
+		 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
-		 List<String> role = new LinkedList<>();
-		 role.add("ADMIN");
+		 Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-	 	String accessToken = jwtUtil.generateAccessToken(user.getEmail(),role);
-
-	 	String refreshToken = jwtUtil.generateRefreshToken(user.getEmail());
-
-	 	 Token token = jwtService.saveToken(user, accessToken, refreshToken);
-
-		  RefreshJwtDto refreshJwtDto = RefreshJwtDto.builder()
-				  .refreshToken(refreshToken)
-				  .accessToken(accessToken)
-				  .build();
+		 Token token = jwtUtil.generateToken(authentication);
 
 		  user.setToken(token);
 
 		  userRepository.save(user);
 
-		  System.out.println(refreshToken);
-
-	 	return refreshJwtDto;
+	 	return token;
 	}
 
 	@Transactional

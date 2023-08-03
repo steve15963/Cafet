@@ -43,21 +43,19 @@ public class JwtServiceImpl implements JwtService{
 	@Override
 	public String refreshToken(String refreshToken) {
 
+		System.out.println(refreshToken);
+
 		if(jwtUtil.validateToken(refreshToken)){
 
 			Token token = tokenRepository.findByRefreshToken(refreshToken).orElseThrow(()->new IllegalArgumentException());
 
-			List<String> roles = new LinkedList<>();
-			roles.add("ADMIN");
-
 			User user = token.getUser();
 
-			 String newAccessToken = jwtUtil.generateAccessToken(user.getEmail(),roles);
+			 String newAccessToken = jwtUtil.generateAccessToken(user.getEmail(), user.getRoles());
 
 			 token.setAccessToken(newAccessToken);
 			 tokenRepository.save(token);
 			 return newAccessToken;
-
 		}
 		return null;
 	}

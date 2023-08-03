@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +28,7 @@ import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.dto.responseDto.RefreshJwtDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
+import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.service.JwtService;
 import xxx.petmanbe.user.service.JwtUtil;
@@ -68,16 +70,17 @@ public class UserController {
 
 	}
 
+	@PostMapping("/test")
+	public String test(){
+		return "success";
+	}
+
 	@PostMapping("/login/1")
 	public ResponseEntity<?> login(@RequestBody LoginDto loginDto, HttpServletResponse httpServletResponse) throws Exception {
 
-		System.out.println(loginDto.getEmail());
+		Token token = userService.postLoginUser(loginDto);
 
-		RefreshJwtDto refreshJwtDto = userService.postLoginUser(loginDto);
-
-		System.out.println(refreshJwtDto.getRefreshToken());
-
-		ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshJwtDto.getRefreshToken())
+		ResponseCookie cookie = ResponseCookie.from("refreshToken", token.getRefreshToken())
 				.maxAge(3000)
 				.path("/")
 //				.secure(true)
@@ -85,38 +88,37 @@ public class UserController {
 //				.httpOnly(true)
 				.build();
 
+		httpServletResponse.addHeader("Authorization",token.getRefreshToken());
 		httpServletResponse.setHeader("Set-Cookie",cookie.toString());
 
-		if(Objects.isNull(refreshJwtDto)){
-
+		if(Objects.isNull(token)){
 
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(refreshJwtDto.getAccessToken(), HttpStatus.OK);
+		return new ResponseEntity<>(token.getAccessToken(), HttpStatus.OK);
 	}
 
 
-
-	@PostMapping("/login")
-	// public ResponseEntity<RefreshJwtDto> PostLoginUser(@RequestBody LoginDto loginDto, HttpServletRequest httpServletRequest) throws Exception{
-	public ResponseEntity PostLoginUser(@RequestBody LoginDto request, HttpServletRequest httpServletRequest) throws Exception{
-		// Optional<RefreshJwtDto> refreshJwtDto = userService.postLoginUser(loginDto);
-		// if(refreshJwtDto.isEmpty()) {
-		// 	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		//
-		// }
-		// return new ResponseEntity<RefreshJwtDto>(refreshJwtDto.get(), HttpStatus.OK);
-		User findUser = userService.SessionLogin(request);
-
-		httpServletRequest.getSession().setAttribute("user",
-			findUser
-		);
-		if(Objects.isNull(findUser)) {
-			return new ResponseEntity<>("",HttpStatus.BAD_REQUEST);
-		}
-		else
-			return new ResponseEntity<>("",HttpStatus.OK);
-	}
+	// @PostMapping("/login")
+	// // public ResponseEntity<RefreshJwtDto> PostLoginUser(@RequestBody LoginDto loginDto, HttpServletRequest httpServletRequest) throws Exception{
+	// public ResponseEntity PostLoginUser(@RequestBody LoginDto request, HttpServletRequest httpServletRequest) throws Exception{
+	// 	// Optional<RefreshJwtDto> refreshJwtDto = userService.postLoginUser(loginDto);
+	// 	// if(refreshJwtDto.isEmpty()) {
+	// 	// 	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	// 	//
+	// 	// }
+	// 	// return new ResponseEntity<RefreshJwtDto>(refreshJwtDto.get(), HttpStatus.OK);
+	// 	User findUser = userService.SessionLogin(request);
+	//
+	// 	httpServletRequest.getSession().setAttribute("user",
+	// 		findUser
+	// 	);
+	// 	if(Objects.isNull(findUser)) {
+	// 		return new ResponseEntity<>("",HttpStatus.BAD_REQUEST);
+	// 	}
+	// 	else
+	// 		return new ResponseEntity<>("",HttpStatus.OK);
+	// }
 
 	//이메일은 못 바꿈
 	@PutMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -160,18 +162,15 @@ public class UserController {
 
 	}
 
-
-
-
 	// refreshToken이 유효한지 확인 -> 유효하면 엑세스 토큰 반환
 	// 유효하지 않으면 재 로그인
 	@PostMapping("/token/refresh")
-	public ResponseEntity<?> PostRefreshToken(@RequestHeader(value = "cookie") String refreshToken, HttpServletResponse response){
+	public ResponseEntity<?> PostRefreshToken(@RequestHeader(value = "Refresh") String refreshToken, HttpServletResponse response){
 
 		String newAccessToken = jwtService.refreshToken(refreshToken);
 
-		ResponseCookie cookie = ResponseCookie.from("refreshToken", newAccessToken)
-				.maxAge(3000)
+		ResponseCookie cookie = ResponseCookie.from("accessToken", newAccessToken)
+				.maxAge(300000)
 				.path("/")
 //				.secure(true)
 				.sameSite("None")
@@ -180,7 +179,7 @@ public class UserController {
 
 		response.setHeader("Set-Cookie",cookie.toString());
 
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(newAccessToken, HttpStatus.OK);
 
 	}
 	

@@ -10,6 +10,7 @@ import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.dto.responseDto.RefreshJwtDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
+import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 
 public interface UserService {
@@ -18,7 +19,7 @@ public interface UserService {
 
 	public boolean checkUserLogin(LoginDto loginDto) throws Exception;
 
-	 public RefreshJwtDto postLoginUser(LoginDto loginDto) throws Exception;
+	 public Token postLoginUser(LoginDto loginDto) throws Exception;
 
 	public boolean putUser(UserModifyDto userModifyDto) throws Exception;
 
