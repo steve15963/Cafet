@@ -28,6 +28,7 @@ public class GradeServiceImpl implements GradeService{
 
     private final UserRepository userRepository;
 
+    // 유저의 가게 평점 주기
     @Transactional
     @Override
     public boolean postShopGrade(PostShopGradeDto postShopGradeDto) {
@@ -51,6 +52,7 @@ public class GradeServiceImpl implements GradeService{
         return true;
     }
 
+    // 유저별 가게 평점 조회하기
     @Override
     public GetShopUserGradeDto getShopGrade(long shopId, long userId) {
 
@@ -60,6 +62,7 @@ public class GradeServiceImpl implements GradeService{
         return getShopUserGradeDto;
     }
 
+    // 유저별 가게 평점 수정하기
     @Override
     public boolean putShopGrade(PutShopGradeDto putShopGradeDto) {
 
@@ -76,6 +79,7 @@ public class GradeServiceImpl implements GradeService{
         return true;
     }
 
+    // 유저 별 가게 평점 삭제하기
     @Override
     public boolean deleteShopGrade(DeleteShopGradeDto deleteShopGradeDto) {
 

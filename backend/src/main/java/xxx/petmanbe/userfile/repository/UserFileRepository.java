@@ -10,6 +10,5 @@ import xxx.petmanbe.userfile.entity.UserFile;
 
 public interface UserFileRepository extends JpaRepository<UserFile, Long> {
 
-	// Optional<UserFile> findByUser_UserId(Long userId);
 
 }
