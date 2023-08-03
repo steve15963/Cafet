@@ -1,12 +1,8 @@
 package xxx.petmanbe.shopPet.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.checkerframework.checker.units.qual.C;
 
 import lombok.AllArgsConstructor;
@@ -14,6 +10,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import xxx.petmanbe.common.entity.BaseTimeEntity;
+import xxx.petmanbe.shop.entity.Grade;
+import xxx.petmanbe.shop.entity.Shop;
+
+import java.util.List;
 
 @Entity
 @Table
@@ -22,7 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ShopPet {
+public class ShopPet extends BaseTimeEntity {
 
 	@Id
 	@Column(name="shopPet_id")
@@ -46,6 +47,10 @@ public class ShopPet {
 
 	@Column
 	private String birth;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "shop_id")
+	private Shop shop;
 
 
 }
