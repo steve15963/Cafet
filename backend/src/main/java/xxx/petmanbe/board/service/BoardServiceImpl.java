@@ -411,10 +411,11 @@ public class BoardServiceImpl implements BoardService{
 
 			// 좋아요 데이터 만들어서 넣기
 			LikeBoard newLike = LikeBoard.builder().build();
-			likeBoardRepository.save(newLike);
 
 			board.ifPresent(newLike::setBoard);
 			user.ifPresent(newLike::setUser);
+
+			likeBoardRepository.save(newLike);
 
 			// 게시글 좋아요+1
 			board.ifPresent(Board::plusLikeSum);
