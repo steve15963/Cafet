@@ -1,4 +1,4 @@
-.Menu {
+.menu {
   cursor: pointer;
   padding: 20px;
   font-size: 18px;
@@ -8,13 +8,13 @@
   border: none;
 }
 
-.Menu {
+.menu {
   background-color: transparent;
   padding-bottom: 10px;
-  padding-top: 10px
+  padding-top: 10px;
 }
 
-.Menu :hover {
+.menu :hover {
   /* background-color: transparent; */
   border-bottom: 3px solid #0067a3;
   color: black;
