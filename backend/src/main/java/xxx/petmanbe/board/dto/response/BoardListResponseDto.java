@@ -14,12 +14,10 @@ public class BoardListResponseDto {
 	private String boardTitle;
 	private String nickname;
 	private String categoryName;
-	// 좋아요 생성시 resolve
 	private int likeSum;
 	private int commentSum;
 	private int viewCnt;
 	private LocalDateTime createdTime;
-	private boolean status;
 
 	@Builder
 	// entity to dto
@@ -32,6 +30,5 @@ public class BoardListResponseDto {
 		this.viewCnt = board.getViewCnt();
 		this.commentSum = board.getCommentSum();
 		this.createdTime = board.getCreatedTime();
-		this.status = board.isStatus();
 	}
 }

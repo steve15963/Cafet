@@ -1,17 +1,20 @@
 package xxx.petmanbe.board.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.board.dto.request.AddBoardRequestDto;
 import xxx.petmanbe.board.dto.request.AddCategoryRequestDto;
+import xxx.petmanbe.board.dto.request.LikeRequestDto;
 import xxx.petmanbe.board.dto.request.UpdateBoardRequestDto;
 import xxx.petmanbe.board.dto.response.BoardListResponseDto;
 import xxx.petmanbe.board.dto.response.BoardResponseDto;
@@ -64,7 +67,7 @@ public class BoardService {
 		category.ifPresent(board::setCategory);
 
 		// 유저 정보 찾고
-		Optional<User> user = userRepository.findByNickname(request.getNickname());
+		Optional<User> user = userRepository.findById(request.getUserId());
 
 		// 작성자 정보 저장
 		user.ifPresent(board::setUser);
@@ -136,6 +139,7 @@ public class BoardService {
 		return board.getBoardId();
 	}
 
+	@Transactional
 	// 카테고리 생성
 	public Category postCategory(AddCategoryRequestDto request){
 		return categoryRepository.save(request.toEntity());
@@ -245,6 +249,16 @@ public class BoardService {
 	public List<BoardListResponseDto> getBoardListByShopId(Long shopId){
 
 		return boardRepository.findByStatusFalseAndShop_ShopId(shopId).stream()
+			.map(BoardListResponseDto::new)
+			.collect(Collectors.toList());
+	}
+
+	// 좋아요 한 유저별 게시글 검색
+	public List<BoardListResponseDto> getLikeBoardListByUserId(Long userId){
+
+		// 반환
+		return likeBoardRepository.findByUser_UserId(userId).stream()
+			.map(LikeBoard::getBoard)
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
 	}
@@ -372,59 +386,51 @@ public class BoardService {
 
 	// 게시글 좋아요 누르기
 	@Transactional
-	public Board putLike(Long boardId, Long userId){
+	public void postLike(LikeRequestDto request){
+		System.out.println(request.getBoardId());
+		System.out.println(request.getUserId());
 
 		// id로 게시글 찾고
-		Optional<Board> board = boardRepository.findById(boardId);
+		Optional<Board> board = boardRepository.findById(request.getBoardId());
+		// 유저 찾고
+		Optional<User> user = userRepository.findById(request.getUserId());
 
 		// 일단 좋아요가 눌려있는지 확인, 누른 적 없으면
-		if (likeBoardRepository.countByBoard_BoardIdAndUser_UserId(boardId, userId) == 0) {
-			// 유저 찾고
-			Optional<User> user = userRepository.findById(userId);
-
-			// 비즈니스 로직 상 null일 수 없으므로 검사 안함
-			LikeBoard newLike = LikeBoard.builder()
-				.board(board.get())
-				.user(user.get())
-				.build();
+		if (likeBoardRepository.findByBoard_BoardIdAndUser_UserId(request.getBoardId(), request.getUserId()).isEmpty()) {
 
 			// 좋아요 데이터 만들어서 넣기
+			LikeBoard newLike = LikeBoard.builder().build();
 			likeBoardRepository.save(newLike);
+
+			board.ifPresent(newLike::setBoard);
+			user.ifPresent(newLike::setUser);
 
 			// 게시글 좋아요+1
 			board.ifPresent(Board::plusLikeSum);
-
-			// 수정된 정보 반환
-			return board.get();
+		} else {
+			throw new IllegalArgumentException("not found");
 		}
-
-		// 없으면 데이터 그대로
-		return boardRepository.findById(boardId).get();
 	}
 
+	@Transactional
 	// 게시글 좋아요 취소
-	public Board putLikeCancel(Long boardId, Long userId) {
+	public void deleteLike(LikeRequestDto request) {
 
 		// id로 게시글 찾고
-		Optional<Board> board = boardRepository.findById(boardId);
+		Optional<Board> board = boardRepository.findById(request.getBoardId());
 
 		// 일단 좋아요가 눌려있는지 확인, 누른 적 있으면
-		if (likeBoardRepository.countByBoard_BoardIdAndUser_UserId(boardId, userId) > 0) {
-
-			// 유저 찾고
-			Optional<User> user = userRepository.findById(userId);
-
-			// 좋아요 데이터 삭제
-			likeBoardRepository.deleteByBoard_BoardIdAndUser_UserId(boardId, userId);
-
-			// 게시글 좋아요-1
-			board.ifPresent(Board::minusLikeSum);
-
-			// 수정된 정보 반환
-			return board.get();
-		}
-
-		return boardRepository.findById(boardId).get();
+		likeBoardRepository.findByBoard_BoardIdAndUser_UserId(request.getBoardId(), request.getUserId())
+			.ifPresentOrElse(
+				// 해당 좋아요 정보가 있으면 삭제
+				likeBoard -> {
+					likeBoardRepository.deleteByBoard_BoardIdAndUser_UserId(request.getBoardId(), request.getUserId());
+					board.ifPresent(Board::minusLikeSum);
+				},
+				// 없으면 예외처리
+				() -> {
+					throw new IllegalArgumentException("not found");
+				});
 	}
 
 	// 게시글 삭제 및 복구, update 메소드를 이용해 삭제 여부 값 변경
