@@ -30,6 +30,7 @@ public class ShopServiceImpl implements ShopService{
 			.shopId(shop.getShopId())
 			.shopTitle(shop.getShopTitle())
 			.gradeCount(shop.getGradeCount())
+			.totalScore(shop.getTotalScore())
 			.longitude(shop.getLongitude())
 			.latitude(shop.getLatitude())
 			.address(shop.getAddress())

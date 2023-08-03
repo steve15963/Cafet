@@ -21,6 +21,8 @@ public class GetShopDto {
 
     private String shopTitle;
 
+    private long totalScore;
+
     private int gradeCount;
 
     private double longitude;

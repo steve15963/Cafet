@@ -46,3 +46,5 @@ mail:
   regist:
     ExpirationTime:
       int: 5
+    CheckExpirationTime:
+      int: 5
