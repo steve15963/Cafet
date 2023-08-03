@@ -37,14 +37,18 @@ public class S3Uploader {
 
 	private String upload_file(File uploadFile, String dirName) {
 
+		// UUID 로 같은 파일 이름 구분
 		String name = UUID.randomUUID()+"#"+uploadFile.getName();
 
+		// file 루트 설정 및 S3에 추가
 		String fileName = dirName + "/" + name;
 		String uploadImageUrl = putS3(uploadFile, fileName);
 
-		removeNewFile(uploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+		// 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+		removeNewFile(uploadFile);
 
-		return uploadImageUrl;      // 업로드된 파일의 S3 URL 주소 반환
+		// 업로드된 파일의 S3 URL 주소 반환
+		return uploadImageUrl;
 	}
 
 	private String putS3(File uploadFile, String fileName) {

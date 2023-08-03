@@ -27,6 +27,7 @@ public class S3Config {
 	public AmazonS3 amazonS3Client(){
 		AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
 
+		// S3 설정
 		return AmazonS3ClientBuilder
 			.standard()
 			.withCredentials(new AWSStaticCredentialsProvider(credentials))
