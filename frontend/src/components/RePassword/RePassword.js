@@ -22,7 +22,7 @@ const RePasswordForm = () => {
       alert("비밀번호 재설정에 성공하셨습니다.");
       navigate("/", { replace: true });
     } catch (error) {
-      console.error("Password Modify failed:");
+      console.error("Password Modify failed");
       alert("비밀번호 재설정에 실패하셨습니다.");
     }
   };

@@ -1,3 +1,5 @@
+//마이페이지
+
 import React from "react";
 import "./MyPage.scoped.css";
 

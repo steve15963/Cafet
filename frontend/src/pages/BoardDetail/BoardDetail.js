@@ -1,3 +1,5 @@
+//게시글 상세 페이지
+
 import React from "react";
 import "./BoardDetail.scoped.css";
 import { useParams } from "react-router-dom";
@@ -24,7 +26,6 @@ const BoardDetail = () => {
       <Header />
       <div className="header-save" />
       <Post boardDetail={boardDetail} />
-      {/* <img src ="https://picturepractice.s3.ap-northeast-2.amazonaws.com/user/logowhite.png" alt=""></img> */}
       <CommentList commentList={boardDetail.commentList} />
       <div className="boarddetail-input-button-container">
         <div className="boarddetail-input-container">

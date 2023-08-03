@@ -1,3 +1,5 @@
+//회원 가입 component
+
 import React, { useState } from "react";
 import "./SignUpForm.scoped.css";
 import handleSignUp from "../../utils/handleSignUp";
@@ -17,6 +19,7 @@ const SignUpForm = () => {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const navigate = useNavigate();
 
+  // 이메일 전송 버튼 클릭 동작
   const onEmailSendClick = async (event) => {
     event.preventDefault();
     try {
@@ -30,6 +33,7 @@ const SignUpForm = () => {
     }
   };
 
+  // 이메일 인증 버튼 클릭 동작
   const onCheckEmailClick = async (event) => {
     event.preventDefault();
     try {
@@ -44,6 +48,7 @@ const SignUpForm = () => {
     }
   };
 
+  //회원가입 버튼 클릭 동작
   const onSignUpButtonClick = async (event) => {
     event.preventDefault();
     if (isEmailVerified) {

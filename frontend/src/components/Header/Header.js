@@ -23,11 +23,7 @@ const Header = () => {
           <div className="header-category-container">
             <div>
               <Link to={"/login"} className="header-link">
-                동물별로 찾기
-              </Link>
-              &nbsp;&nbsp;| &nbsp;
-              <Link to={"/login"} className="header-link">
-                가게별로 찾기
+                카페 찾기
               </Link>
               &nbsp;&nbsp;| &nbsp;
               <Link to={"/board"} className="header-link">
@@ -48,7 +44,7 @@ const Header = () => {
               로그인
             </Link>
             &nbsp;
-            <Link to={"/mypage"} className="link">
+            <Link to={"/mypage"} className="header-link">
               마이페이지
             </Link>
           </div>

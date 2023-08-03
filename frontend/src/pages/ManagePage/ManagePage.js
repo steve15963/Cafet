@@ -1,3 +1,5 @@
+//관리자 페이지
+
 import React from "react";
 import "./ManagePage.scoped.css";
 import Header from "../../components/Header/Header";

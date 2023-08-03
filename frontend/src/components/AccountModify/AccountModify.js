@@ -14,7 +14,7 @@ const AccountSettings = () => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [nickname, setNickname] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
-  const [fileUrl, setFileUrl] = useState("");
+  const [fileUrl] = useState(""); /*setFileUrl 기능 구현시 추가 필요*/
   const navigate = useNavigate();
 
   //회원정보 수정버튼 클릭시 동작

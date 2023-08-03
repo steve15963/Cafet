@@ -1,3 +1,5 @@
+//회원가입
+
 import axios from "axios";
 
 const handleSignUp = (email, password, phoneNo, nickname) => {

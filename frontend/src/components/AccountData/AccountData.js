@@ -1,3 +1,5 @@
+//마이페이지 기본 정보 component
+
 import React from "react";
 import "./AccountData.scoped.css";
 import BasicTabs from "../../components/MyPageTabs/MyPageTabs";
