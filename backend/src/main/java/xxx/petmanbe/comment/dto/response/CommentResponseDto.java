@@ -12,7 +12,6 @@ import xxx.petmanbe.comment.entity.Comment;
 public class CommentResponseDto {
 	private Long commentId;
 	private String content;
-	// user와 연동시 resolve
 	private String nickname;
 	private LocalDateTime createdTime;
 	private boolean status;
