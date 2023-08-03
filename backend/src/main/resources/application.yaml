@@ -47,4 +47,4 @@ mail:
     ExpirationTime:
       int: 5
     CheckExpirationTime:
-      int: 5
+      int: 1
