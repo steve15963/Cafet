@@ -8,5 +8,4 @@ import lombok.NoArgsConstructor;
 public class LikeRequestDto {
 	private Long boardId;
 	private Long userId;
-
 }
