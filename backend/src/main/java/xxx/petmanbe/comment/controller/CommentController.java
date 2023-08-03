@@ -46,11 +46,11 @@ public class CommentController {
 	}
 
 	// 작성자가 쓴 댓글 목록 가져오기
-	@GetMapping("/user/{nickname}")
-	public ResponseEntity<List<CommentResponseDto>> getCommentListByNickname(@PathVariable String nickname){
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<List<CommentResponseDto>> getCommentListByNickname(@PathVariable Long userId){
 
 		// 목록 가져오기
-		List<CommentResponseDto> commentList = commentService.getCommentListByNickname(nickname);
+		List<CommentResponseDto> commentList = commentService.getCommentListById(userId);
 		return new ResponseEntity<>(commentList, HttpStatus.OK);
 	}
 

@@ -59,9 +59,9 @@ public class CommentService {
 	}
 
 	// 사용자가 작성한 댓글 목록 가져오기
-	public List<CommentResponseDto> getCommentListByNickname(String nickname){
+	public List<CommentResponseDto> getCommentListById(Long userId){
 
-		return commentRepository.findByStatusFalseAndUser_Nickname(nickname).stream()
+		return commentRepository.findByStatusFalseAndUser_UserId(userId).stream()
 			.map(CommentResponseDto::new)
 			.collect(Collectors.toList());
 	}
