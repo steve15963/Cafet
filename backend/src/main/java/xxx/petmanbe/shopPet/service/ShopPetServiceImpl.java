@@ -2,6 +2,9 @@ package xxx.petmanbe.shopPet.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import xxx.petmanbe.shop.entity.Shop;
+import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.shopPet.dto.request.PostShopPetDto;
 import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
 import xxx.petmanbe.shopPet.entity.ShopPet;
@@ -15,11 +18,13 @@ public class ShopPetServiceImpl implements ShopPetService{
 
     private final ShopPetRepository shopPetRepository;
 
+    private final ShopRepository shopRepository;
+
     @Transactional
     @Override
-    public GetShopPetDto getShopPet(long shopId) {
+    public GetShopPetDto getShopPet(long shopPetId) {
 
-        ShopPet shopPet = shopPetRepository.findByShop_ShopId(shopId).orElseThrow(()->new IllegalArgumentException());
+        ShopPet shopPet = shopPetRepository.findByShop_ShopId(shopPetId).orElseThrow(()->new IllegalArgumentException());
         
         GetShopPetDto getShopPetDto = GetShopPetDto.builder()
                 .petAge(shopPet.getPetAge())
@@ -36,11 +41,24 @@ public class ShopPetServiceImpl implements ShopPetService{
     @Override
     public boolean postShopPet(PostShopPetDto postShopPetDto) {
 
-//        Sh = shopPetRepository.findByShop_ShopId()
+        Shop shop = shopRepository.findById(postShopPetDto.getShopId()).orElseThrow(()-> new IllegalArgumentException());
 
+        ShopPet shopPet = ShopPet.builder()
+            .shopPetId(postShopPetDto.getShopId())
+            .petName(postShopPetDto.getPetName())
+            .gender(postShopPetDto.getGender())
+            .species(postShopPetDto.getGender())
+            .petAge(postShopPetDto.getPetAge())
+            .description(postShopPetDto.getDescription())
+            .birth(postShopPetDto.getBirth())
+            .build();
 
-        return false;
+        shopRepository.save(shop);
+
+        return true;
     }
+    // 가게 별
+
 
 
 }
