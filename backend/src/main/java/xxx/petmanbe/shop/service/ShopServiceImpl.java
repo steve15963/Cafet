@@ -1,11 +1,19 @@
 package xxx.petmanbe.shop.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +37,9 @@ public class ShopServiceImpl implements ShopService{
 	private final UserRepository userRepository;
 
 	private final ShopPetRepository shopPetRepository;
+
+	@Value("${kakao.map.key}")
+	String key;
 
 	// shop 정보를 가져오기
 	@Transactional
@@ -136,5 +147,24 @@ public class ShopServiceImpl implements ShopService{
 	//
 	// 	return shop;
 	// }
+
+
+	public String addressToPosition(String address) throws IOException {
+
+		HttpClient client = HttpClientBuilder.create().build();
+
+		HttpGet getRequest = new HttpGet("https://dapi.kakao.com/v2/local/search/address.json?query="+address);
+		getRequest.addHeader("Authorization","KakaoAk "+key);
+
+		HttpResponse response = client.execute(getRequest);
+
+		ResponseHandler<String> handler = new BasicResponseHandler();
+		String body = handler.handleResponse(response);
+
+		System.out.println(body);
+
+		return body;
+
+	}
 
 }
