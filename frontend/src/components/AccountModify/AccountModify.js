@@ -14,19 +14,20 @@ const AccountSettings = () => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [nickname, setNickname] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
-  const [fileUrl] = useState(""); /*setFileUrl 기능 구현시 추가 필요*/
+  const [file, setFile] = useState(null);
   const navigate = useNavigate();
+
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+  };
 
   //회원정보 수정버튼 클릭시 동작
   const onUpdateClick = async (event) => {
     event.preventDefault();
     try {
-      const response = await handleUserUpdate(
-        email,
-        nickname,
-        phoneNo,
-        fileUrl
-      );
+      console.log("react " + email + nickname + phoneNo + file);
+      const response = await handleUserUpdate(email, nickname, phoneNo, file);
       const token = response.data.token;
       console.log("Update success", token);
       alert("회원정보 수정에 성공하셨습니다.");
@@ -41,6 +42,15 @@ const AccountSettings = () => {
     <div className="acsettings">
       <form className="acsettings-form">
         <p className="acsettings-form-title">회원 정보 수정</p>
+        <div className="acsettings-container">
+          <label htmlFor="fileInput">프로필 사진 선택</label>
+          <input
+            type="file"
+            id="fileInput"
+            onChange={handleFileChange}
+            accept="image/*"
+          />
+        </div>
         <div className="acsettings-container">
           <TextField
             label="이메일"
