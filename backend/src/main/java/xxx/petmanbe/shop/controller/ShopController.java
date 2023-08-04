@@ -1,6 +1,16 @@
 package xxx.petmanbe.shop.controller;
 
+import java.io.IOException;
+
 import lombok.RequiredArgsConstructor;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +32,9 @@ public class ShopController {
 
     private final GradeService gradeService;
 
+    @Value("${kakao.map.key}")
+    String key;
+
 	//지역별로 찾기
 	// @GetMapping("/list/{sidoName}/{gugunName}/{dongName}")
 	// public ResponseEntity<List<Shop>> GetShopRegionList(@PathVariable String sidoName, String gugunName, String dongName){
@@ -30,6 +43,25 @@ public class ShopController {
 	//
 	// 	return new ResponseEntity<>(shop,HttpStatus.OK);
 	// }
+
+    @GetMapping("address/{address}")
+    public ResponseEntity<String> GetAdress(@PathVariable String address) throws IOException {
+
+        HttpClient client = HttpClientBuilder.create().build();
+
+        HttpGet getRequest = new HttpGet("https://dapi.kakao.com/v2/local/search/address.json?query="+address);
+        getRequest.addHeader("Authorization",key);
+
+        HttpResponse response = client.execute(getRequest);
+
+        ResponseHandler<String> handler = new BasicResponseHandler();
+        String body = handler.handleResponse(response);
+
+        System.out.println(body);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
 
     // 가게 하나의 리스트 가져오기
     @GetMapping("/{shopId}")

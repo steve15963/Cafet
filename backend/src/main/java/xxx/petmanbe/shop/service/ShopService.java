@@ -1,5 +1,6 @@
 package xxx.petmanbe.shop.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,8 @@ public interface ShopService {
 
 	// 가게 정보 삭제하기
 	public Shop putShopStatus(Long shopId);
+
+	public String addressToPosition(String address) throws IOException;
 
 	// public List<Shop> getShopRegionList(String sidoName, String gugunName, String dongName);
 
