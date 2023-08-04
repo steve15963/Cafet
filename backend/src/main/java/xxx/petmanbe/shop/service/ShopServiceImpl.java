@@ -1,11 +1,16 @@
 package xxx.petmanbe.shop.service;
 
+import java.net.http.HttpClient;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +34,9 @@ public class ShopServiceImpl implements ShopService{
 	private final UserRepository userRepository;
 
 	private final ShopPetRepository shopPetRepository;
+
+	@Value("${kakao.map.key}")
+	String key;
 
 	// shop 정보를 가져오기
 	@Transactional
@@ -136,5 +144,17 @@ public class ShopServiceImpl implements ShopService{
 	//
 	// 	return shop;
 	// }
+
+
+	public Shop addressToPosition(String address){
+
+		HttpClient client = HttpClientBuilder.create().build();
+
+		HttpGet getRequest = new HttpGet("https://dapi.kakao.com/v2/local/search/address.json?query="+address);
+		getRequest.addHeader("Authorization",key);
+
+		HttpResponse response = client.execute()
+
+	}
 
 }
