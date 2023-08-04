@@ -36,6 +36,8 @@ public class UserInformationDto {
 
 	private int levelCode;
 
+	private List<String> role;
+
 	private LocalDateTime createdTime;
 
 	private LocalDateTime updatedTime;

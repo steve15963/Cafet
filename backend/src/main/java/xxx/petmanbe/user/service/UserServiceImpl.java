@@ -135,6 +135,8 @@ public class UserServiceImpl implements UserService{
 			.map(UserFilesListDto::new)
 			.findFirst().orElseThrow(()->new IllegalArgumentException());
 
+		List<String> role = user.getRoles();
+
 
 		UserInformationDto userInformationDto = UserInformationDto.builder()
 				.email(user.getEmail())
@@ -145,6 +147,7 @@ public class UserServiceImpl implements UserService{
 				.createdTime(user.getCreatedTime())
 				.updatedTime(user.getUpdatedTime())
 				.userFile(userFilesListDto)
+				.role(role)
 				.build();
 
 		return userInformationDto;
