@@ -88,13 +88,13 @@ public class UserController {
 //				.httpOnly(true)
 				.build();
 
-// 		ResponseCookie cookie2 = ResponseCookie.from("AccessToken", token.getAccessToken())
-// 				.maxAge(3000)
-// 				.path("/")
-// //				.secure(true)
-// 				.sameSite("None")
-// //				.httpOnly(true)
-// 				.build();
+		ResponseCookie cookie2 = ResponseCookie.from("AccessToken", token.getAccessToken())
+				.maxAge(3000)
+				.path("/")
+//				.secure(true)
+				.sameSite("None")
+//				.httpOnly(true)
+				.build();
 
 
 
