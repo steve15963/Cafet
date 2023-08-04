@@ -7,7 +7,7 @@ import "./ShopPage.scoped.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 
-import AnimalList from "../AnimalListPage/AnimalListPage";
+import AnimalList from "../../components/AnimalList/AnimalList";
 import ShopInfoPage from "../ShopInfoPage/ShopInfoPage";
 
 import PropTypes from 'prop-types';

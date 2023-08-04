@@ -7,7 +7,6 @@ import PlaceIcon from '@mui/icons-material/Place';
 import MapIcon from '@mui/icons-material/Map';
 import PetsIcon from '@mui/icons-material/Pets';
 
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import KakaoMap from '../../components/KakaoMap/KakaoMap';
 

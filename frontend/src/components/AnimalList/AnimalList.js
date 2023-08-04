@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import ContentCard from "../../components/ContentCard/ContentCard";
+import ContentCard from "../ContentCard/ContentCard";
 
 import axios from "axios";
 
