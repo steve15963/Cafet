@@ -12,9 +12,11 @@ import xxx.petmanbe.shopPet.entity.ShopPet;
 @Builder
 public class GetShopPetDto {
 
+    private Long shopPetId;
+
     private String petName;
 
-    private String petAge;
+    private int petAge;
 
     private String gender;
 
@@ -26,6 +28,7 @@ public class GetShopPetDto {
 
 
     public GetShopPetDto(ShopPet shopPet){
+        this.shopPetId = shopPet.getShopPetId();
         this.petName = shopPet.getPetName();
         this.petAge = shopPet.getPetAge();
         this.gender = shopPet.getGender();
