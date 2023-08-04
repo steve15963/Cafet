@@ -1,6 +1,5 @@
 package xxx.petmanbe.user.service;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,7 +16,6 @@ import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
-import xxx.petmanbe.user.dto.responseDto.RefreshJwtDto;
 import xxx.petmanbe.user.dto.responseDto.UserFilesListDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
@@ -26,7 +24,6 @@ import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.LevelRepository;
 import xxx.petmanbe.user.repository.UserRepository;
-import xxx.petmanbe.userfile.entity.UserFile;
 import xxx.petmanbe.userfile.repository.UserFileRepository;
 
 @Service
@@ -71,18 +68,16 @@ public class UserServiceImpl implements UserService{
 
 		user.setLevel(level);
 
-		long userId = userRepository.save(user).getUserId();
-
-		return userId;
+		return userRepository.save(user).getUserId();
 	}
 
 	@Transactional
 	@Override
 	public boolean checkUserLogin(LoginDto loginDto) throws Exception{
 
-		User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()->new IllegalArgumentException());
+		User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(IllegalArgumentException::new);
 
-		if(loginDto.getPassword()==user.getPassword()) return true;
+		if(Objects.equals(loginDto.getPassword(), user.getPassword())) return true;
 
 		return false;
 
@@ -92,7 +87,7 @@ public class UserServiceImpl implements UserService{
 	 @Override
 	 public Token postLoginUser(LoginDto loginDto) throws Exception {
 
-	 	User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()->new IllegalArgumentException());
+	 	User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(IllegalArgumentException::new);
 
 		 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
@@ -111,7 +106,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean putUser(UserModifyDto userModifyDto) throws Exception {
 
-		User user = userRepository.findByEmail(userModifyDto.getEmail()).orElseThrow(()->new IllegalArgumentException());
+		User user = userRepository.findByEmail(userModifyDto.getEmail()).orElseThrow(IllegalArgumentException::new);
 
 		user.updateUser(userModifyDto.phoneNo,userModifyDto.nickname);
 
@@ -129,16 +124,15 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserInformationDto getUser(long userId) throws Exception {
 
-		User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
+		User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
 
 		UserFilesListDto userFilesListDto = userFileRepository.findById(user.getUserFile().getUserfileId()).stream()
 			.map(UserFilesListDto::new)
-			.findFirst().orElseThrow(()->new IllegalArgumentException());
+			.findFirst().orElseThrow(IllegalArgumentException::new);
 
 		List<String> role = user.getRoles();
 
-
-		UserInformationDto userInformationDto = UserInformationDto.builder()
+		return UserInformationDto.builder()
 				.email(user.getEmail())
 				.phoneNo(user.getPhoneNo())
 				.nickname(user.getNickname())
@@ -149,8 +143,6 @@ public class UserServiceImpl implements UserService{
 				.userFile(userFilesListDto)
 				.role(role)
 				.build();
-
-		return userInformationDto;
 	}
 
 	// 없앨 예정
@@ -176,16 +168,16 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<UserListDto> getUserList() {
 
-		List<UserListDto> userList = userRepository.findAllBy().orElseThrow(()-> new IllegalArgumentException());
-
-		return userList;
+		return userRepository.findAll().stream()
+			.map(UserListDto::new)
+			.collect(Collectors.toList());
 	}
 
 	@Transactional
 	@Override
 	public String deleteUser(long userId) {
 
-		User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
+		User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
 
 		user.setStatus("yes");
 
@@ -202,7 +194,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String putUserLevel(LevelModifyDto levelModifyDto) {
 
-		User user = userRepository.findById(levelModifyDto.getUserId()).orElseThrow(()->new IllegalArgumentException());
+		User user = userRepository.findById(levelModifyDto.getUserId()).orElseThrow(IllegalArgumentException::new);
 
 		Level level = user.getLevel();
 
@@ -227,5 +219,18 @@ public class UserServiceImpl implements UserService{
 
 	}
 
+	@Override
+	public List<UserListDto> getUserListByEmail(String email) {
+		return userRepository.findUsersByEmailContaining(email).stream()
+			.map(UserListDto::new)
+			.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<UserListDto> getUserListByNickname(String nickname) {
+		return userRepository.findUsersByNicknameContaining(nickname).stream()
+			.map(UserListDto::new)
+			.collect(Collectors.toList());
+	}
 
 }

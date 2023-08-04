@@ -207,6 +207,24 @@ public class UserController {
 		return new ResponseEntity<>(msg,HttpStatus.OK);
 	}
 
+	// 관리자 기능: 이메일로 검색
+	@GetMapping("/email/{email}")
+	public ResponseEntity<List<UserListDto>> getUserListByEmail(@PathVariable String email){
 
+		// 목록 받아오기
+		List<UserListDto> userList = userService.getUserListByEmail(email);
+
+		return new ResponseEntity<>(userList, HttpStatus.OK);
+	}
+
+	// 관리자 기능: 닉네임으로 검색
+	@GetMapping("/nickname/{nickname}")
+	public ResponseEntity<List<UserListDto>> getUserListByNickname(@PathVariable String nickname){
+
+		// 목록 받아오기
+		List<UserListDto> userList = userService.getUserListByNickname(nickname);
+
+		return new ResponseEntity<>(userList, HttpStatus.OK);
+	}
 }
 
