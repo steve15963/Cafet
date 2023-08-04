@@ -11,15 +11,6 @@ import xxx.petmanbe.shop.dto.responseDto.GetShopListDto;
 import xxx.petmanbe.shop.entity.Shop;
 
 public interface ShopService {
-<<<<<<< backend/src/main/java/xxx/petmanbe/shop/service/ShopService.java
-    GetShopDto getShop(long shopId);
-    boolean postShopNew(PostNewShopDto postNewShopDto);
-    boolean putShop(PutShopDto putShopDto);
-
-	Shop putShopStatus(Long shopId);
-
-	// List<Shop> getShopRegionList(String sidoName, String gugunName, String dongName);
-
 
 	// 가게 정보 조회하기
     public GetShopDto getShop(long shopId);
