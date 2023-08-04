@@ -14,7 +14,7 @@ SoftwareSerial WFSerial(4, 5);
 
 int searchFlag[BEACON_COUNT] = {0,};
 
-DynamicJsonDocument doc(200);
+DynamicJsonDocument doc(100);
 
 char ssid[] = "MULTI_GUEST_2";            // your network SSID (name)
 char pass[] = "guest1357";        // your network password
