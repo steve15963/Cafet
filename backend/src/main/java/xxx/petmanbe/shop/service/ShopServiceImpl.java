@@ -1,5 +1,8 @@
 package xxx.petmanbe.shop.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.shop.dto.requestDto.PostNewShopDto;
 import xxx.petmanbe.shop.dto.requestDto.PutShopDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
+import xxx.petmanbe.shop.dto.responseDto.GetShopListDto;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.user.entity.User;
@@ -118,4 +122,19 @@ public class ShopServiceImpl implements ShopService{
 	// 	return shop;
 	// }
 
+	// 관리자 기능: 가게 이름으로 검색
+	@Override
+	public List<GetShopListDto> getShopListByTitle(String shopTitle) {
+		return shopRepository.findByStatusFalseAndShopTitleContaining(shopTitle).stream()
+			.map(GetShopListDto::new)
+			.collect(Collectors.toList());
+	}
+
+	// 관리자 기능: 가게 주소로 검색
+	@Override
+	public List<GetShopListDto> getShopListByAddress(String address) {
+		return shopRepository.findByStatusFalseAndAddressContaining(address).stream()
+			.map(GetShopListDto::new)
+			.collect(Collectors.toList());
+	}
 }

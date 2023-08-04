@@ -1,11 +1,14 @@
 package xxx.petmanbe.shop.controller;
 
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xxx.petmanbe.shop.dto.requestDto.*;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
+import xxx.petmanbe.shop.dto.responseDto.GetShopListDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopUserGradeDto;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.service.GradeService;
@@ -119,4 +122,21 @@ public class ShopController {
 
     }
 
+    // 관리자 기능: 가게 이름으로 검색
+    @GetMapping("/shopTitle/{key}")
+    public ResponseEntity<List<GetShopListDto>> getShopListByShopTitle(@PathVariable String key){
+
+        List<GetShopListDto> shopList = shopService.getShopListByTitle(key);
+
+        return new ResponseEntity<>(shopList, HttpStatus.OK);
+    }
+
+    // 관리자 기능: 가게 주소로 검색
+    @GetMapping("/address/{key}")
+    public ResponseEntity<List<GetShopListDto>> getShopListByAddress(@PathVariable String key){
+
+        List<GetShopListDto> shopList = shopService.getShopListByAddress(key);
+
+        return new ResponseEntity<>(shopList, HttpStatus.OK);
+    }
 }
