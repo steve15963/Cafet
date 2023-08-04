@@ -122,6 +122,16 @@ public class ShopController {
 
     }
 
+    // 전체 가게 보기
+    @GetMapping("")
+    public ResponseEntity<List<GetShopListDto>> getShopList(){
+
+        // 전체 가게 목록 가져오기
+        List<GetShopListDto> shopList = shopService.getShopList();
+
+        return new ResponseEntity<>(shopList, HttpStatus.OK);
+    }
+
     // 관리자 기능: 가게 이름으로 검색
     @GetMapping("/shopTitle/{key}")
     public ResponseEntity<List<GetShopListDto>> getShopListByShopTitle(@PathVariable String key){

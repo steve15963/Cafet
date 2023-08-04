@@ -18,6 +18,8 @@ public interface ShopService {
 
 	// List<Shop> getShopRegionList(String sidoName, String gugunName, String dongName);
 
+	List<GetShopListDto> getShopList();
+
 	List<GetShopListDto> getShopListByTitle(String shopTitle);
 
 	List<GetShopListDto> getShopListByAddress(String address);

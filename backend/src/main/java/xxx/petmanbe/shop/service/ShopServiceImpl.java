@@ -122,6 +122,14 @@ public class ShopServiceImpl implements ShopService{
 	// 	return shop;
 	// }
 
+	// 전체 가게 보기
+	@Override
+	public List<GetShopListDto> getShopList() {
+		return shopRepository.findByStatusFalse().stream()
+			.map(GetShopListDto::new)
+			.collect(Collectors.toList());
+	}
+
 	// 관리자 기능: 가게 이름으로 검색
 	@Override
 	public List<GetShopListDto> getShopListByTitle(String shopTitle) {
