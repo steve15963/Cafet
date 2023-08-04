@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.shopPet.dto.request.PostShopPetDto;
+import xxx.petmanbe.shopPet.dto.request.PutShopPetDto;
 import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
 import xxx.petmanbe.shopPet.entity.ShopPet;
 import xxx.petmanbe.shopPet.repository.ShopPetRepository;
@@ -27,6 +28,7 @@ public class ShopPetServiceImpl implements ShopPetService{
         ShopPet shopPet = shopPetRepository.findById(shopPetId).orElseThrow(()->new IllegalArgumentException());
         
         GetShopPetDto getShopPetDto = GetShopPetDto.builder()
+                .shopPetId(shopPet.getShopPetId())
                 .petAge(shopPet.getPetAge())
                 .petName(shopPet.getPetName())
                 .gender(shopPet.getGender())
@@ -38,6 +40,7 @@ public class ShopPetServiceImpl implements ShopPetService{
         return getShopPetDto;
     }
 
+    @Transactional
     @Override
     public boolean postShopPet(PostShopPetDto postShopPetDto) {
 
@@ -62,12 +65,28 @@ public class ShopPetServiceImpl implements ShopPetService{
         return true;
     }
 
+    @Transactional
+    @Override
+    public boolean putShopPet(PutShopPetDto putShopPetDto) {
+
+        ShopPet shopPet = shopPetRepository.findById(putShopPetDto.getShopPetId()).orElseThrow(()-> new IllegalArgumentException());
+
+        shopPet.updateShopPet(putShopPetDto);
+
+        shopPetRepository.save(shopPet);
+
+        return true;
+    }
+
+    @Transactional
     @Override
     public boolean deleteShopPet(Long shopPetId) {
 
         ShopPet shopPet = shopPetRepository.findById(shopPetId).orElseThrow(()->new IllegalArgumentException());
 
         shopPet.changeDeleteStatus();
+
+        shopPetRepository.save(shopPet);
 
         return true;
     }
