@@ -1,13 +1,20 @@
 package xxx.petmanbe.user.controller;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,10 +25,13 @@ import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RefreshTokenDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
+import xxx.petmanbe.user.dto.responseDto.RefreshJwtDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
+import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.service.JwtService;
+import xxx.petmanbe.user.service.JwtUtil;
 import xxx.petmanbe.user.service.UserService;
 import xxx.petmanbe.userfile.service.FileService;
 
@@ -37,6 +47,8 @@ public class UserController {
 	private final FileService fileService;
 
 	private final MailService mailService;
+
+	private final JwtUtil jwtUtil;
 
 
 	@PostMapping(value="/new")
@@ -58,26 +70,66 @@ public class UserController {
 
 	}
 
-	@PostMapping("/login")
-	// public ResponseEntity<RefreshJwtDto> PostLoginUser(@RequestBody LoginDto loginDto, HttpServletRequest httpServletRequest) throws Exception{
-	public ResponseEntity PostLoginUser(@RequestBody LoginDto request, HttpServletRequest httpServletRequest) throws Exception{
-		// Optional<RefreshJwtDto> refreshJwtDto = userService.postLoginUser(loginDto);
-		// if(refreshJwtDto.isEmpty()) {
-		// 	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		//
-		// }
-		// return new ResponseEntity<RefreshJwtDto>(refreshJwtDto.get(), HttpStatus.OK);
-		User findUser = userService.SessionLogin(request);
-
-		httpServletRequest.getSession().setAttribute("user",
-			findUser
-		);
-		if(Objects.isNull(findUser)) {
-			return new ResponseEntity<>("",HttpStatus.BAD_REQUEST);
-		}
-		else
-			return new ResponseEntity<>("",HttpStatus.OK);
+	@PostMapping("/test")
+	public String test(){
+		return "success";
 	}
+
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody LoginDto loginDto, HttpServletResponse httpServletResponse) throws Exception {
+
+		Token token = userService.postLoginUser(loginDto);
+
+		ResponseCookie cookie1 = ResponseCookie.from("refreshToken", token.getRefreshToken())
+				.maxAge(3000)
+				.path("/")
+//				.secure(true)
+				.sameSite("None")
+//				.httpOnly(true)
+				.build();
+
+		ResponseCookie cookie2 = ResponseCookie.from("AccessToken", token.getAccessToken())
+				.maxAge(3000)
+				.path("/")
+//				.secure(true)
+				.sameSite("None")
+//				.httpOnly(true)
+				.build();
+
+
+
+		httpServletResponse.addHeader("Authorization",token.getRefreshToken());
+		httpServletResponse.setHeader("Set-Cookie",cookie1.toString()); //refreshToken
+		httpServletResponse.setHeader("Access", token.getAccessToken()); // AccessToken
+
+		if(Objects.isNull(token)){
+
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(token.getAccessToken(), HttpStatus.OK);
+	}
+
+
+	// @PostMapping("/login")
+	// // public ResponseEntity<RefreshJwtDto> PostLoginUser(@RequestBody LoginDto loginDto, HttpServletRequest httpServletRequest) throws Exception{
+	// public ResponseEntity PostLoginUser(@RequestBody LoginDto request, HttpServletRequest httpServletRequest) throws Exception{
+	// 	// Optional<RefreshJwtDto> refreshJwtDto = userService.postLoginUser(loginDto);
+	// 	// if(refreshJwtDto.isEmpty()) {
+	// 	// 	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	// 	//
+	// 	// }
+	// 	// return new ResponseEntity<RefreshJwtDto>(refreshJwtDto.get(), HttpStatus.OK);
+	// 	User findUser = userService.SessionLogin(request);
+	//
+	// 	httpServletRequest.getSession().setAttribute("user",
+	// 		findUser
+	// 	);
+	// 	if(Objects.isNull(findUser)) {
+	// 		return new ResponseEntity<>("",HttpStatus.BAD_REQUEST);
+	// 	}
+	// 	else
+	// 		return new ResponseEntity<>("",HttpStatus.OK);
+	// }
 
 	//이메일은 못 바꿈
 	@PutMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -94,6 +146,7 @@ public class UserController {
 		return new ResponseEntity<>(userFile,HttpStatus.OK);
 	}
 
+	// @PreAuthorize("hasAnyRole('USER','SHOP','ADMIN')")
 	@GetMapping("/{userId}")
 	public ResponseEntity<UserInformationDto> GetUser(@PathVariable long userId) throws Exception {
 
@@ -103,6 +156,7 @@ public class UserController {
 
 	}
 
+	// @PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("")
 	public ResponseEntity<List<UserListDto>> GetUserList(){
 
@@ -121,12 +175,24 @@ public class UserController {
 
 	}
 
+	// refreshToken이 유효한지 확인 -> 유효하면 엑세스 토큰 반환
+	// 유효하지 않으면 재 로그인
 	@PostMapping("/token/refresh")
-	public ResponseEntity<String> PostRefreshToken(@RequestBody RefreshTokenDto request){
+	public ResponseEntity<?> PostRefreshToken(@RequestHeader(value = "Refresh") String refreshToken, HttpServletResponse response){
 
-		String newAccessToken = jwtService.refreshToken(request.getRefreshToken());
+		String newAccessToken = jwtService.refreshToken(refreshToken);
 
-		return new ResponseEntity<>(newAccessToken,HttpStatus.OK);
+		ResponseCookie cookie = ResponseCookie.from("accessToken", newAccessToken)
+				.maxAge(300000)
+				.path("/")
+//				.secure(true)
+				.sameSite("None")
+//				.httpOnly(true)
+				.build();
+
+		response.setHeader("Set-Cookie",cookie.toString());
+
+		return new ResponseEntity<>(HttpStatus.OK);
 
 	}
 	
@@ -140,6 +206,24 @@ public class UserController {
 		return new ResponseEntity<>(msg,HttpStatus.OK);
 	}
 
+	// 관리자 기능: 이메일로 검색
+	@GetMapping("/email/{email}")
+	public ResponseEntity<List<UserListDto>> getUserListByEmail(@PathVariable String email){
 
+		// 목록 받아오기
+		List<UserListDto> userList = userService.getUserListByEmail(email);
+
+		return new ResponseEntity<>(userList, HttpStatus.OK);
+	}
+
+	// 관리자 기능: 닉네임으로 검색
+	@GetMapping("/nickname/{nickname}")
+	public ResponseEntity<List<UserListDto>> getUserListByNickname(@PathVariable String nickname){
+
+		// 목록 받아오기
+		List<UserListDto> userList = userService.getUserListByNickname(nickname);
+
+		return new ResponseEntity<>(userList, HttpStatus.OK);
+	}
 }
 

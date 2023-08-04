@@ -2,24 +2,39 @@ package xxx.petmanbe.user.dto.responseDto;
 
 import java.time.LocalDateTime;
 
-import xxx.petmanbe.user.entity.Level;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import xxx.petmanbe.user.entity.User;
 
-public interface UserListDto {
-	long getUserId();
+@Getter
+@NoArgsConstructor
+public class UserListDto {
+	private long userId;
 
-	String getEmail();
+	private String email;
 
-	String getPhoneNo();
+	private String phoneNo;
 
-	String getNickname();
+	private String nickname;
 
-	String getStatus();
+	private String status;
 
-	int getLevel_LevelCode();
+	private int levelCode;
 
-	LocalDateTime getCreatedTime();
+	private LocalDateTime createdTime;
 
-	LocalDateTime getUpdatedTime();
+	private LocalDateTime updatedTime;
 
+	// entity to dto
+	public UserListDto (User user){
+		this.userId = user.getUserId();
+		this.email = user.getEmail();
+		this.phoneNo = user.getPhoneNo();
+		this.nickname = user.getNickname();
+		this.status = user.getStatus();
+		this.levelCode = user.getLevel().getLevelCode();
+		this.createdTime = user.getCreatedTime();
+		this.updatedTime = user.getUpdatedTime();
+	}
 }
 

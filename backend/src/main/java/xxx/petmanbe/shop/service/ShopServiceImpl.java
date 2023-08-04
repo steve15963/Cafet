@@ -1,5 +1,7 @@
 package xxx.petmanbe.shop.service;
 
+import java.util.List;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.shop.dto.requestDto.PostNewShopDto;
 import xxx.petmanbe.shop.dto.requestDto.PutShopDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
+import xxx.petmanbe.shop.dto.responseDto.GetShopListDto;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
@@ -147,6 +150,30 @@ public class ShopServiceImpl implements ShopService{
 	//
 	// 	return shop;
 	// }
+
+	// 전체 가게 보기
+	@Override
+	public List<GetShopListDto> getShopList() {
+		return shopRepository.findByStatusFalse().stream()
+			.map(GetShopListDto::new)
+			.collect(Collectors.toList());
+	}
+
+	// 관리자 기능: 가게 이름으로 검색
+	@Override
+	public List<GetShopListDto> getShopListByTitle(String shopTitle) {
+		return shopRepository.findByStatusFalseAndShopTitleContaining(shopTitle).stream()
+			.map(GetShopListDto::new)
+			.collect(Collectors.toList());
+	}
+
+	// 관리자 기능: 가게 주소로 검색
+	@Override
+	public List<GetShopListDto> getShopListByAddress(String address) {
+		return shopRepository.findByStatusFalseAndAddressContaining(address).stream()
+			.map(GetShopListDto::new)
+			.collect(Collectors.toList());
+	}
 
 
 	public String addressToPosition(String address) throws IOException {

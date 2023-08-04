@@ -1,6 +1,10 @@
 package xxx.petmanbe.user.entity;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.*;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
@@ -9,6 +13,12 @@ import xxx.petmanbe.userfile.entity.UserFile;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -19,7 +29,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User extends BaseTimeEntity {
+public class User extends BaseTimeEntity implements UserDetails
+{
 
     @Id
     @Column(length = 20, nullable = false, name="user_id")
@@ -62,8 +73,49 @@ public class User extends BaseTimeEntity {
     @JoinColumn(name="userfile_id")
     private UserFile userFile;
 
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
+    ///
+
     public void updateUser( String phoneNo, String nickname) {
         this.phoneNo = phoneNo;
         this.nickname = nickname;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream()
+            .map(SimpleGrantedAuthority::new)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public String getPassword(){return this.password;}
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
