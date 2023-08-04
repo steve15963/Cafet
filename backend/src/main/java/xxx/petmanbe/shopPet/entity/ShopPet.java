@@ -13,6 +13,7 @@ import lombok.Setter;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.shop.entity.Grade;
 import xxx.petmanbe.shop.entity.Shop;
+import xxx.petmanbe.shopPet.dto.request.PutShopPetDto;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class ShopPet extends BaseTimeEntity {
 	private String petName;
 
 	@Column
-	private String petAge;
+	private int petAge;
 
 	@Column
 	private String gender;
@@ -55,6 +56,18 @@ public class ShopPet extends BaseTimeEntity {
 	@JoinColumn(name = "shop_id")
 	private Shop shop;
 
+
+	public void updateShopPet(PutShopPetDto request){
+		this.petName = request.getPetName();
+		this.petAge = request.getPetAge();
+		this.gender = request.getGender();
+		this.species = request.getSpecies();
+		this.description = request.getDescription();
+		this.birth = request.getBirth();
+	}
+
+
+	//soft-delete
 	public void changeDeleteStatus(){
 		this.status = !this.status;
 	}

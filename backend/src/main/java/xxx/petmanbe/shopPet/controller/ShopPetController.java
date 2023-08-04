@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xxx.petmanbe.shop.service.ShopService;
 import xxx.petmanbe.shopPet.dto.request.PostShopPetDto;
+import xxx.petmanbe.shopPet.dto.request.PutShopPetDto;
 import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
 import xxx.petmanbe.shopPet.service.ShopPetService;
 
@@ -38,13 +39,27 @@ public class ShopPetController {
 
     }
 
+    //soft-delete
     @DeleteMapping("{shopPetId}")
     public ResponseEntity<?> DeleteShopPet(@PathVariable Long shopPetId ){
 
         boolean check = shopPetService.deleteShopPet(shopPetId);
 
         if(check){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @PutMapping("")
+    public ResponseEntity<?> PutShopPet(@RequestBody PutShopPetDto putShopPetDto){
+
+        boolean check = shopPetService.putShopPet(putShopPetDto);
+
+        if(check){
+            return new ResponseEntity<>(HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

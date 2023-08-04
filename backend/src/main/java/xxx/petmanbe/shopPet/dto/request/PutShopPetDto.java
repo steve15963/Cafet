@@ -7,15 +7,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PostShopPetDto {
+public class PutShopPetDto {
 
-	private long shopId;
+	private long shopPetId;
 
 	private String petName;
 
 	private int petAge;
 
 	private String gender;
+
+	private String species;
 
 	private String description;
 
