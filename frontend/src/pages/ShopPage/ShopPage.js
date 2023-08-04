@@ -107,7 +107,6 @@ const ShopPage = () => {
           <h1>카페 소식</h1>
         </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={3}>
-          <h1>카페 정보</h1>
           <ShopInfoPage key={shopId} {...shopData} />
         </CustomTabPanel>
       </Box>

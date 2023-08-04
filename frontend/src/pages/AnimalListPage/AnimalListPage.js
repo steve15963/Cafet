@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import ContentCard from "../../components/ContentCard/ContentCard";
+
 import axios from "axios";
 
 const AnimalList = () => {
@@ -10,19 +13,24 @@ const AnimalList = () => {
   const goToAnimalDetail = (animalId) => {
     navigate(`/shop/animal/${animalId}`)
   }
+  useEffect(() => {
+    axios.get('')
+      .then(function (response) {
+        setAnimalList(response.data)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })  
+  }, [])
 
   return (
-    useEffect(() => {
-      axios.get('')
-        .then(function (response) {
-          setAnimalList(response.data)
-        })
-        .catch(function (error) {
-          console.log(error)
-        })  
-    }, [])
+    <div>
+      <ContentCard />
+    </div>
+
+    
+    
   );
-  
 }
 
 export default AnimalList;
