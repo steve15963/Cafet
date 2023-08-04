@@ -1,6 +1,9 @@
 package xxx.petmanbe.shopPet.dto.response;
 
 import lombok.*;
+import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
+import xxx.petmanbe.shop.entity.Shop;
+import xxx.petmanbe.shopPet.entity.ShopPet;
 
 @Getter
 @Setter
@@ -20,5 +23,15 @@ public class GetShopPetDto {
     private String description;
 
     private String birth;
+
+
+    public GetShopPetDto(ShopPet shopPet){
+        this.petName = shopPet.getPetName();
+        this.petAge = shopPet.getPetAge();
+        this.gender = shopPet.getGender();
+        this.species = shopPet.getSpecies();
+        this.description = shopPet.getDescription();
+        this.birth = shopPet.getBirth();
+    }
 
 }

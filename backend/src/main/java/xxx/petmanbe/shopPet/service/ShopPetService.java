@@ -9,4 +9,6 @@ public interface ShopPetService {
 
     public boolean postShopPet(PostShopPetDto postShopPetDto);
 
+    public boolean deleteShopPet(Long shopPetId);
+
 }

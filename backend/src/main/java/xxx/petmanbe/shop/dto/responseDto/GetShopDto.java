@@ -1,5 +1,7 @@
 package xxx.petmanbe.shop.dto.responseDto;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
@@ -9,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xxx.petmanbe.shop.entity.Shop;
+import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
 
 @Getter
 @Setter
@@ -42,6 +45,8 @@ public class GetShopDto {
     private String sns;
 
     private String homepage;
+
+    private List<GetShopPetDto> shopPetList;
 
     // entity to dto
     public GetShopDto (Shop shop){

@@ -24,7 +24,7 @@ public class ShopPetServiceImpl implements ShopPetService{
     @Override
     public GetShopPetDto getShopPet(long shopPetId) {
 
-        ShopPet shopPet = shopPetRepository.findByShop_ShopId(shopPetId).orElseThrow(()->new IllegalArgumentException());
+        ShopPet shopPet = shopPetRepository.findById(shopPetId).orElseThrow(()->new IllegalArgumentException());
         
         GetShopPetDto getShopPetDto = GetShopPetDto.builder()
                 .petAge(shopPet.getPetAge())
@@ -44,7 +44,7 @@ public class ShopPetServiceImpl implements ShopPetService{
         Shop shop = shopRepository.findById(postShopPetDto.getShopId()).orElseThrow(()-> new IllegalArgumentException());
 
         ShopPet shopPet = ShopPet.builder()
-            .shopPetId(postShopPetDto.getShopId())
+            .shop(shop)
             .petName(postShopPetDto.getPetName())
             .gender(postShopPetDto.getGender())
             .species(postShopPetDto.getGender())
@@ -53,12 +53,24 @@ public class ShopPetServiceImpl implements ShopPetService{
             .birth(postShopPetDto.getBirth())
             .build();
 
+        shop.getShopPetList().add(shopPet);
+
+        shopPetRepository.save(shopPet);
+
         shopRepository.save(shop);
 
         return true;
     }
+
+    @Override
+    public boolean deleteShopPet(Long shopPetId) {
+
+        ShopPet shopPet = shopPetRepository.findById(shopPetId).orElseThrow(()->new IllegalArgumentException());
+
+        shopPet.changeDeleteStatus();
+
+        return true;
+    }
     // 가게 별
-
-
 
 }

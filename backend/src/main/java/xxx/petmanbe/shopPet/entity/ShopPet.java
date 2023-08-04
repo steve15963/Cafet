@@ -48,9 +48,15 @@ public class ShopPet extends BaseTimeEntity {
 	@Column
 	private String birth;
 
+	@Column(name = "status", nullable = false, columnDefinition = "boolean default false")
+	private boolean status;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shop_id")
 	private Shop shop;
 
+	public void changeDeleteStatus(){
+		this.status = !this.status;
+	}
 
 }

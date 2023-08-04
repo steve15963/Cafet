@@ -28,9 +28,26 @@ public class ShopPetController {
     @PostMapping("")
     public ResponseEntity<?> PostShopPet(@RequestBody PostShopPetDto request){
 
+        boolean check = shopPetService.postShopPet(request);
 
+        if(check){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
+    }
 
+    @DeleteMapping("{shopPetId}")
+    public ResponseEntity<?> DeleteShopPet(@PathVariable Long shopPetId ){
+
+        boolean check = shopPetService.deleteShopPet(shopPetId);
+
+        if(check){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
     }
 

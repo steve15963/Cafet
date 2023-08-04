@@ -1,5 +1,9 @@
 package xxx.petmanbe.shop.service;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -10,6 +14,9 @@ import xxx.petmanbe.shop.dto.requestDto.PutShopDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
+import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
+import xxx.petmanbe.shopPet.entity.ShopPet;
+import xxx.petmanbe.shopPet.repository.ShopPetRepository;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.UserRepository;
 
@@ -21,11 +28,18 @@ public class ShopServiceImpl implements ShopService{
 
 	private final UserRepository userRepository;
 
+	private final ShopPetRepository shopPetRepository;
+
 	// shop 정보를 가져오기
 	@Transactional
 	@Override
 	public GetShopDto getShop(long shopId) {
 		Shop shop = shopRepository.findById(shopId).orElseThrow(()->new IllegalArgumentException());
+
+
+		List<GetShopPetDto> getShopPetList = shopPetRepository.findByShop_ShopId(shopId).stream()
+			.map(GetShopPetDto::new).collect(Collectors.toList());
+
 
 		GetShopDto getShopDto = GetShopDto.builder()
 			.shopId(shop.getShopId())
@@ -41,6 +55,7 @@ public class ShopServiceImpl implements ShopService{
 			.closedTime(shop.getClosedTime())
 			.sns(shop.getSns())
 			.homepage(shop.getHomepage())
+			.shopPetList(getShopPetList)
 			.build();
 		
 		return getShopDto;
