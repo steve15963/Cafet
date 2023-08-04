@@ -12,12 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.*;
 import xxx.petmanbe.board.entity.Board;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
+import xxx.petmanbe.shopPet.entity.ShopPet;
 import xxx.petmanbe.user.entity.User;
 
 @Entity
@@ -74,10 +74,13 @@ public class Shop extends BaseTimeEntity {
 	private boolean status;
 
 	@OneToMany(cascade = CascadeType.REMOVE)
-	private List<Grade>	shopList;
+	private List<Grade> shopGradeList;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<Board> boardList;
+
+	@OneToMany(cascade = CascadeType.REMOVE)
+	private List<ShopPet> shopPetList;
 
 	@ManyToOne
 	@JoinColumn(name="user_id")
