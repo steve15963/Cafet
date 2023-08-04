@@ -4,6 +4,8 @@
 #include <math.h>
 #include <ArduinoJson.h>
 
+#include "WiFiEsp.h"
+
 #define MAX_CIRCULAR_SIZE 2
 #define BEACON_COUNT 4
 
@@ -13,6 +15,18 @@ SoftwareSerial WFSerial(4, 5);
 int searchFlag[BEACON_COUNT] = {0,};
 
 DynamicJsonDocument doc(200);
+
+char ssid[] = "MULTI_GUEST_2";            // your network SSID (name)
+char pass[] = "guest1357";        // your network password
+int status = WL_IDLE_STATUS;     // the Wifi radio's status
+
+char server[] = "jsonplaceholder.typicode.com";
+
+unsigned long lastConnectionTime = 0;         // last time you connected to the server, in milliseconds
+const unsigned long postingInterval = 10000L;
+
+// Initialize the Ethernet client object
+WiFiEspClient client;
 
 typedef struct{
   double x;
@@ -52,22 +66,61 @@ double calculateDistance(int rssi,int index) {
   return distance;
 }
 
+void printWifiStatus()
+{
+  // print the SSID of the network you're attached to
+  Serial.print("SSID: ");
+  Serial.println(WiFi.SSID());
+
+  // print your WiFi shield's IP address
+  IPAddress ip = WiFi.localIP();
+  Serial.print("IP Address: ");
+  Serial.println(ip);
+
+  // print the received signal strength
+  long rssi = WiFi.RSSI();
+  Serial.print("Signal strength (RSSI):");
+  Serial.print(rssi);
+  Serial.println(" dBm");
+}
+
+
 void setup()
 
 {
 
   Serial.begin(9600);
   BTSerial.begin(9600);
+  
   WFSerial.begin(9600);
+  WFSerial.listen();
 
-  Serial.println("Hello!");
+  WiFi.init(&WFSerial);
+  if (WiFi.status() == WL_NO_SHIELD) {
+    Serial.println("WiFi shield not present");
+    // don't continue
+    while (true);
+  }
+
+  while ( status != WL_CONNECTED) {
+    Serial.print("Attempting to connect to WPA SSID: ");
+    Serial.println(ssid);
+    // Connect to WPA/WPA2 network
+    status = WiFi.begin(ssid, pass);
+  }
+  delay(500);
+
+  
 
   for(int i = 0 ; i < BEACON_COUNT; i++){
     InitCircularArray(&Beacon[i]);
+    setData(&Beacon[i],-50);
   }
   BTSerial.listen();
   BTSerial.println("AT+RESET");
   BTSerial.println("AT+DISI?");
+
+  Serial.println("준비 완료!");
   
 }
 
@@ -84,7 +137,7 @@ void loop() {
  
     char* data[6];
     if(strcmp(token,"OK+DISIS\r") == 0){
-      Serial.println("===============스캔 시작=============");
+      Serial.println("===============비콘 스캔 시작=============");
     }
     else if(strcmp(token,"OK+DISC") == 0){
       while (token != NULL) {
@@ -128,25 +181,42 @@ void loop() {
     }
     else if(strcmp(token,"OK+DISCE\r") == 0){
       // delay(50);
-      if(searchFlag[1] == 1 && searchFlag[2] == 1 && searchFlag[3] == 1){
+      if(searchFlag[1] == 0 && searchFlag[2] == 0 && searchFlag[3] == 0){
           Serial.println("***********전송**********");
+          WFSerial.listen();
+          delay(10);
+          String json  = "";
+          client.stop();
           for(int i = 0; i < BEACON_COUNT; i++ ){
             searchFlag[i] = 0;
             int avgPower = getAvg(&Beacon[i]);
             doc["b" + i ] = calculateDistance(avgPower,i);
-            String json  = "";
-            serializeJson(doc,json);
-            WFSerial.listen();
-            WFSerial.println("AT+CIPSTART=\"TCP\",\"43.201.102.130\",8080");
-            WFSerial.print("AT+CIPSEND=");
-            WFSerial.println(json.length());
-            WFSerial.println(json);
-            WFSerial.println("AT+CIPCLOSE");
-            BTSerial.listen();
           }
-
+          if (client.connect(server, 80)) {
+            // printWifiStatus();
+            Serial.println("커넥션 확보 성공");
+            serializeJson(doc,json);
+            Serial.println("Connecting...");
+            
+            // send the HTTP PUT request
+            client.println("POST /api/Animal/Location HTTP/1.1");
+            client.println("Host: jsonplaceholder.typicode.com");
+            client.println("Accept: */*");
+            client.println("Content-Length: " + json.length());
+            client.println("Content-Type: application/x-www-form-urlencoded");
+            client.println("Connection: close");
+            client.println();
+            client.println(json);
+            Serial.println("***********전송 완료**********");
+          }
+          else {
+            Serial.println("커넥션 확보 실패");
+            Serial.println("***********전송 실패**********");
+          }
+          BTSerial.listen();
+          delay(10);
         }
-      Serial.println("================재검색=====================");
+      Serial.println("================비콘 재검색=====================");
       BTSerial.println("AT+DISI?");
     }
     else{
