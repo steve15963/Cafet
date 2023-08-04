@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 const { kakao } = window;
 
-mockData = [
+const mockData = [
   {
     id: 0,
     shop: '고양이 다락방',
@@ -19,8 +19,12 @@ mockData = [
   },
 ]
 
+const imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 
-const KakaoMap = () => {
+
+const SearchMap = () => {
+
+  // const [data, setData] = useState(mockData)
   useEffect(() => {
     const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
     const options = { //지도를 생성할 때 필요한 기본 옵션
@@ -29,7 +33,21 @@ const KakaoMap = () => {
     };
   
     const map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+    mockData.forEach((el) => {
+      const imageSize = new kakao.maps.Size(24, 35); 
+  
+      // 마커 이미지를 생성합니다    
+      const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+  
+      new kakao.maps.Marker({
+        map: map, // 마커를 표시할 지도
+        position: new kakao.maps.LatLng(el.latitude, el.longitude), // 마커를 표시할 위치
+        title : el.shop, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+        image : markerImage // 마커 이미지 
+      })
+    })
   }, [])
+  
 
   return(
     <div>
@@ -38,4 +56,4 @@ const KakaoMap = () => {
   );
 };
 
-export default KakaoMap;
+export default SearchMap;

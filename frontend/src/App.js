@@ -10,8 +10,8 @@ import ManagePage from "./pages/ManagePage/ManagePage";
 import MyPage from "./pages/MyPage/MyPage";
 import ShopPage from "./pages/ShopPage/ShopPage";
 import TestPage from "./pages/TestPage/TestPage";
-import AnimalList from "./pages/AnimalListPage/AnimalListPage";
-import AnimalDetail from "./pages/AnimalDetailPage/AnimalDetailPage";
+// import AnimalList from "./pages/AnimalListPage/AnimalListPage";
+// import AnimalDetail from "./pages/AnimalDetailPage/AnimalDetailPage";
 import ShopInfoPage from "./pages/ShopInfoPage/ShopInfoPage";
 import InquiryPage from "./pages/InquiryPage/InquiryPage";
 import CreatePage from "./pages/CreatePage/CreatePage";
@@ -32,8 +32,8 @@ const App = () => {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/:path" element={<MyPage />} />
         <Route path="/shop/:shopId" element={<ShopPage />} />
-        <Route path="/shop/animal" element={<AnimalList />} />
-        <Route path="/shop/animal/:id" element={<AnimalDetail />} />
+        {/* <Route path="/shop/animal" element={<AnimalList />} />
+        <Route path="/shop/animal/:id" element={<AnimalDetail />} /> */}
         <Route path="/shop/animal/:id/info" element={<ShopInfoPage />} />
         <Route path="/test" element={<TestPage />} />
         <Route path="/inquiry" element={<InquiryPage />} />
