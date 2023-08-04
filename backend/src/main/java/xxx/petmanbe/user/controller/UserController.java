@@ -100,7 +100,7 @@ public class UserController {
 
 		httpServletResponse.addHeader("Authorization",token.getRefreshToken());
 		httpServletResponse.setHeader("Set-Cookie",cookie1.toString()); //refreshToken
-		httpServletResponse.setHeader("Access", token.getAccessToken()); // AccessToken
+		httpServletResponse.setHeader("Access", cookie2.toString()); // AccessToken
 
 		if(Objects.isNull(token)){
 
@@ -109,27 +109,27 @@ public class UserController {
 		return new ResponseEntity<>(token.getAccessToken(), HttpStatus.OK);
 	}
 
+	// refreshToken이 유효한지 확인 -> 유효하면 엑세스 토큰 반환
+	// 유효하지 않으면 재 로그인
+	@PostMapping("/token/refresh")
+	public ResponseEntity<?> PostRefreshToken(@RequestHeader(value = "Refresh") String refreshToken, HttpServletResponse response){
 
-	// @PostMapping("/login")
-	// // public ResponseEntity<RefreshJwtDto> PostLoginUser(@RequestBody LoginDto loginDto, HttpServletRequest httpServletRequest) throws Exception{
-	// public ResponseEntity PostLoginUser(@RequestBody LoginDto request, HttpServletRequest httpServletRequest) throws Exception{
-	// 	// Optional<RefreshJwtDto> refreshJwtDto = userService.postLoginUser(loginDto);
-	// 	// if(refreshJwtDto.isEmpty()) {
-	// 	// 	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	// 	//
-	// 	// }
-	// 	// return new ResponseEntity<RefreshJwtDto>(refreshJwtDto.get(), HttpStatus.OK);
-	// 	User findUser = userService.SessionLogin(request);
-	//
-	// 	httpServletRequest.getSession().setAttribute("user",
-	// 		findUser
-	// 	);
-	// 	if(Objects.isNull(findUser)) {
-	// 		return new ResponseEntity<>("",HttpStatus.BAD_REQUEST);
-	// 	}
-	// 	else
-	// 		return new ResponseEntity<>("",HttpStatus.OK);
-	// }
+		String newAccessToken = jwtService.refreshToken(refreshToken);
+
+		ResponseCookie cookie = ResponseCookie.from("accessToken", newAccessToken)
+			.maxAge(300000)
+			.path("/")
+			//				.secure(true)
+			.sameSite("None")
+			//				.httpOnly(true)
+			.build();
+
+		response.setHeader("Set-Cookie",cookie.toString());
+
+		return new ResponseEntity<>(HttpStatus.OK);
+
+	}
+
 
 	//이메일은 못 바꿈
 	@PutMapping(value="")
@@ -174,28 +174,6 @@ public class UserController {
 		return new ResponseEntity<>(msg,HttpStatus.OK);
 
 	}
-
-	// refreshToken이 유효한지 확인 -> 유효하면 엑세스 토큰 반환
-	// 유효하지 않으면 재 로그인
-	@PostMapping("/token/refresh")
-	public ResponseEntity<?> PostRefreshToken(@RequestHeader(value = "Refresh") String refreshToken, HttpServletResponse response){
-
-		String newAccessToken = jwtService.refreshToken(refreshToken);
-
-		ResponseCookie cookie = ResponseCookie.from("accessToken", newAccessToken)
-				.maxAge(300000)
-				.path("/")
-//				.secure(true)
-				.sameSite("None")
-//				.httpOnly(true)
-				.build();
-
-		response.setHeader("Set-Cookie",cookie.toString());
-
-		return new ResponseEntity<>(HttpStatus.OK);
-
-	}
-	
 	
 	// level 내리기
 	@PutMapping("/level")
