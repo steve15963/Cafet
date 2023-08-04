@@ -1,3 +1,5 @@
+//문의내용 작성 component
+
 import React from "react";
 import "./InquiryForm.scoped.css";
 import { MdPerson, MdCall } from "react-icons/md";
@@ -6,18 +8,34 @@ import Select from "@mui/material/Select";
 import { InputLabel, MenuItem } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
+import Button from "../Button/Button";
+
+import handleSubmit from "../../utils/handleSubmit";
 
 const InquiryForm = () => {
   const [category, setCategory] = React.useState("");
   const navigate = useNavigate();
 
+  //카테고리 변경 handle
   const handleChange = (event) => {
     setCategory(event.target.value);
   };
-  const handleSubmit = (e) => {
-    alert("문의사항이 등록되었습니다.");
-    navigate("/");
+
+  //문의하기 버튼 클릭시 동작(API 미구현 추후 수정 필요)
+  const onSubmitClick = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await handleSubmit(event);
+      const token = response.data.token;
+      console.log("Inquiry submit success", token);
+      alert("문의사항이 등록되었습니다.");
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.error("Inquiry submit failed:");
+      alert("문의사항 등록에 실패했습니다.");
+    }
   };
+
   return (
     <div className="inquire">
       <form className="inquiry-form">
@@ -27,7 +45,7 @@ const InquiryForm = () => {
           <TextField
             label="이름"
             variant="outlined"
-            placeholder="이름을 쓰세요"
+            placeholder="이름을 입력해주세요"
             fullWidth
             size="small"
           />
@@ -38,7 +56,7 @@ const InquiryForm = () => {
         <div className="input-container">
           <TextField
             label="이메일"
-            placeholder="이메일을 쓰세요"
+            placeholder="이메일을 입력해주세요"
             variant="outlined"
             inputProps={{
               type: "email",
@@ -58,14 +76,14 @@ const InquiryForm = () => {
                 strokeWidth="2"
                 strokeLinejoin="round"
                 strokeLinecap="round"
-              ></path>
+              />
             </svg>
           </span>
         </div>
         <div className="input-container">
           <TextField
             label="전화번호"
-            placeholder="전화번호를 적으세요"
+            placeholder="전화번호를 입력해주세요"
             variant="outlined"
             size="small"
             fullWidth
@@ -80,7 +98,7 @@ const InquiryForm = () => {
           <TextField
             label="제목"
             variant="outlined"
-            placeholder="제목을 쓰세요"
+            placeholder="제목을 입력해주세요"
             fullWidth
             size="small"
           />
@@ -103,21 +121,23 @@ const InquiryForm = () => {
             </Select>
           </FormControl>
         </div>
-
         <div className="input-container">
           <TextField
             id="outlined-textarea"
             label="문의내용"
-            placeholder="내용을 입력하세요"
+            placeholder="내용을 입력해주세요"
             multiline
             fullWidth
             rows={5}
           />
         </div>
         <div className="input-container">
-          <button className="submit" onClick={handleSubmit}>
-            등록하기
-          </button>
+          <Button
+            type="common"
+            text={"등록하기"}
+            className="button"
+            onClick={onSubmitClick}
+          />
         </div>
       </form>
     </div>

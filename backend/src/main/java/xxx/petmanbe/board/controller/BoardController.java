@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,10 +24,11 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.board.dto.request.AddBoardRequestDto;
 import xxx.petmanbe.board.dto.request.AddCategoryRequestDto;
+import xxx.petmanbe.board.dto.request.LikeRequestDto;
 import xxx.petmanbe.board.dto.request.UpdateBoardRequestDto;
 import xxx.petmanbe.board.dto.response.BoardListResponseDto;
 import xxx.petmanbe.board.dto.response.BoardResponseDto;
-import xxx.petmanbe.board.service.BoardService;
+import xxx.petmanbe.board.service.BoardServiceImpl;
 import xxx.petmanbe.boardfile.service.BoardFileService;
 
 @RestController
@@ -35,12 +37,12 @@ import xxx.petmanbe.boardfile.service.BoardFileService;
 @CrossOrigin("*")
 public class BoardController {
 
-	private final BoardService boardService;
+	private final BoardServiceImpl boardService;
 
 	private final BoardFileService boardFileService;
 
 	// 게시글 생성
-	@PostMapping(value="/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value="/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
 	public ResponseEntity<String> postBoard(@RequestPart(value="dto") AddBoardRequestDto request, @RequestPart(value="files", required = false) List<MultipartFile> files) throws IOException {
 		// 게시글 생성
@@ -64,6 +66,28 @@ public class BoardController {
 
 		// 결과 전달
 		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+
+	// 게시글 좋아요
+	@PostMapping("/like")
+	public ResponseEntity<Integer> postLike(@RequestBody LikeRequestDto request){
+
+		System.out.println(request.getBoardId());
+
+		// 해당 게시글 좋아요 생성
+		boardService.postLike(request);
+		
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+
+	// 게시글 좋아요 삭제
+	@DeleteMapping("/like")
+	public ResponseEntity<Integer> deleteLike(@RequestBody LikeRequestDto request){
+
+		// 해당 게시글 삭제
+		boardService.deleteLike(request);
+
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	// 게시글 상세 보기
@@ -140,6 +164,16 @@ public class BoardController {
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardList = boardService.getBoardListByShopId(shopId);
 
+		return new ResponseEntity<>(boardList, HttpStatus.OK);
+	}
+
+	// 게시글 검색 기능: 유저 좋아요별 보기
+	@GetMapping("/like/{userId}")
+	public ResponseEntity<List<BoardListResponseDto>> getLikeBoardListByUserId(@PathVariable Long userId){
+		// 게시글 목록 가져오기
+		List<BoardListResponseDto> boardList = boardService.getLikeBoardListByUserId(userId);
+
+		// 반환
 		return new ResponseEntity<>(boardList, HttpStatus.OK);
 	}
 

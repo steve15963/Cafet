@@ -36,11 +36,10 @@ public class BoardFileServiceImpl implements BoardFileService{
 			Board board = boardRepository.findById(boardId).orElseThrow(()->new IllegalArgumentException());
 			List<BoardFile> boardFileList = new LinkedList<>();
 
+			// files을 file로 바꿔서 S3에 넣는다.
 			files.stream().forEach((file)->{
 				try {
 					String storedFileName = s3Uploader.upload(file, "board" );
-
-					System.out.println(storedFileName);
 
 					BoardFile file1 = BoardFile.builder()
 						.boardUrl(storedFileName)

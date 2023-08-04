@@ -1,10 +1,21 @@
 package xxx.petmanbe.shop.service;
 
 import java.util.List;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -14,6 +25,9 @@ import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopListDto;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
+import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
+import xxx.petmanbe.shopPet.entity.ShopPet;
+import xxx.petmanbe.shopPet.repository.ShopPetRepository;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.UserRepository;
 
@@ -25,15 +39,27 @@ public class ShopServiceImpl implements ShopService{
 
 	private final UserRepository userRepository;
 
+	private final ShopPetRepository shopPetRepository;
+
+	@Value("${kakao.map.key}")
+	String key;
+
+	// shop 정보를 가져오기
 	@Transactional
 	@Override
 	public GetShopDto getShop(long shopId) {
 		Shop shop = shopRepository.findById(shopId).orElseThrow(()->new IllegalArgumentException());
 
+
+		List<GetShopPetDto> getShopPetList = shopPetRepository.findByShop_ShopId(shopId).stream()
+			.map(GetShopPetDto::new).collect(Collectors.toList());
+
+
 		GetShopDto getShopDto = GetShopDto.builder()
 			.shopId(shop.getShopId())
 			.shopTitle(shop.getShopTitle())
 			.gradeCount(shop.getGradeCount())
+			.totalScore(shop.getTotalScore())
 			.longitude(shop.getLongitude())
 			.latitude(shop.getLatitude())
 			.address(shop.getAddress())
@@ -43,12 +69,13 @@ public class ShopServiceImpl implements ShopService{
 			.closedTime(shop.getClosedTime())
 			.sns(shop.getSns())
 			.homepage(shop.getHomepage())
+			.shopPetList(getShopPetList)
 			.build();
-
-
+		
 		return getShopDto;
 	}
 
+	// shop 정보 추가하기
 	@Transactional
 	@Override
 	public boolean postShopNew(PostNewShopDto postNewShopDto) {
@@ -85,6 +112,7 @@ public class ShopServiceImpl implements ShopService{
 		}
 	}
 
+	// sho 정보 수정하기
 	@Transactional
 	@Override
 	public boolean putShop(PutShopDto request) {
@@ -100,6 +128,7 @@ public class ShopServiceImpl implements ShopService{
 		return true;
 	}
 
+	// shop 정보 수정하기
 	@Transactional
 	public Shop putShopStatus(Long shopId){
 
@@ -145,4 +174,24 @@ public class ShopServiceImpl implements ShopService{
 			.map(GetShopListDto::new)
 			.collect(Collectors.toList());
 	}
+
+
+	public String addressToPosition(String address) throws IOException {
+
+		HttpClient client = HttpClientBuilder.create().build();
+
+		HttpGet getRequest = new HttpGet("https://dapi.kakao.com/v2/local/search/address.json?query="+address);
+		getRequest.addHeader("Authorization","KakaoAk "+key);
+
+		HttpResponse response = client.execute(getRequest);
+
+		ResponseHandler<String> handler = new BasicResponseHandler();
+		String body = handler.handleResponse(response);
+
+		System.out.println(body);
+
+		return body;
+
+	}
+
 }

@@ -33,7 +33,7 @@ spring:
             required: true
         sender:
 jwt:
-  key: asdfasdfasdfafsdadsfdaffasdsadffasdfasdfasdfafsdadsfdaffasdsadffasdfasdfasdfafsdadsfdaffasdsadff
+  key:
   accessTokenExpirationTime:
     int: 30000
   refreshTokenExpirationTime:

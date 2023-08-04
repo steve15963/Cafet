@@ -1,14 +1,16 @@
+//메인 페이지
+
 import React from "react";
 import "./MainPage.scoped.css";
 import Header from "../../components/Header/Header";
-import MainList from "../../components/MainList/MainList";
 import Footer from "../../components/Footer/Footer";
+import { Outlet } from "react-router-dom";
 
 const MainPage = () => {
   return (
-    <div style={{ backgroundColor: "#fdfdfd" }}>
+    <div className="mainpage">
       <Header />
-      <MainList />
+      <Outlet />
       <div className="footer-save" />
       <Footer />
     </div>

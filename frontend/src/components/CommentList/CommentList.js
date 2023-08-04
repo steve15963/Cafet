@@ -1,3 +1,5 @@
+//댓글 리스트를 받아오기 위한 component
+
 import React, { useState } from "react";
 import "./CommentList.scoped.css";
 

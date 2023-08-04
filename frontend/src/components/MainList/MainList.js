@@ -1,6 +1,8 @@
+//메인 페이지 게시글 component
+
 import React from "react";
 import "./MainList.scoped.css";
-import useBoardList from "../../hooks/useBoardList/useBoardList";
+import useBoardList from "../../hooks/useBoardList";
 import Masonry from "@mui/lab/Masonry";
 import { Link } from "react-router-dom";
 
@@ -16,7 +18,7 @@ const MainList = () => {
   };
 
   return (
-    <div className="MainPage">
+    <div className="mainlist">
       <Masonry columns={3} spacing={2}>
         {boardList.map((item) => (
           <Link
@@ -25,9 +27,9 @@ const MainList = () => {
             state={item}
             onClick={() => logLinkClick(item.boardId)}
           >
-            <div className="card-container">
-              <div className="card">
-                <div className="front-content">
+            <div className="mainlist-card-container">
+              <div className="mainlist-card">
+                <div className="mainlist-front-content">
                   <img
                     src={`${item.thumbnail}?auto=format`}
                     alt={item.boardTitle}
@@ -35,8 +37,8 @@ const MainList = () => {
                     loading="lazy"
                   />
                 </div>
-                <div className="content">
-                  <p className="heading">{item.boardTitle}</p>
+                <div className="mainlist-content">
+                  <p className="mainlist-heading">{item.boardTitle}</p>
                   <p>{item.boardContent}</p>
                 </div>
               </div>

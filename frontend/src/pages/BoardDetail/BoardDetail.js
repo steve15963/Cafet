@@ -1,3 +1,5 @@
+//게시글 상세 페이지
+
 import React from "react";
 import "./BoardDetail.scoped.css";
 import { useParams } from "react-router-dom";
@@ -8,7 +10,7 @@ import CommentList from "../../components/CommentList/CommentList";
 import NearPost from "../../components/NearPost/NearPost";
 import Footer from "../../components/Footer/Footer";
 
-import useBoardDetail from "../../hooks/useBoardDetail/useBoardDetail";
+import useBoardDetail from "../../hooks/useBoardDetail";
 import Button from "../../components/Button/Button";
 
 const BoardDetail = () => {
@@ -20,17 +22,16 @@ const BoardDetail = () => {
   }
 
   return (
-    <div className="BoardDetail-container">
+    <div className="boarddetail-container">
       <Header />
       <div className="header-save" />
       <Post boardDetail={boardDetail} />
-      {/* <img src ="https://picturepractice.s3.ap-northeast-2.amazonaws.com/user/logowhite.png" alt=""></img> */}
       <CommentList commentList={boardDetail.commentList} />
-      <div className="input-button-container">
-        <div className="input-container">
+      <div className="boarddetail-input-button-container">
+        <div className="boarddetail-input-container">
           <input type="text" placeholder="댓글을 적어주세요" />
         </div>
-        <div className="button-container">
+        <div className="boarddetail-button-container">
           <Button text={"입력하기"} />
         </div>
       </div>

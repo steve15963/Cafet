@@ -4,3 +4,15 @@
   justify-content: center;
   align-items: center;
 }
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+}
+
+.logo {
+  width: 75px;
+  height: 75px;
+}

@@ -1,4 +1,4 @@
-.Header {
+.header {
   position: fixed;
   top: 0;
   left: 0;
@@ -7,7 +7,7 @@
   z-index: 1;
 }
 
-.Header_guest {
+.header_guest {
   font-family: Arial, Helvetica, sans-serif;
   border-bottom: 2px solid #0067a3;
 }
@@ -19,37 +19,37 @@
   height: 75px;
 }
 
-.logo-container {
+.header-logo-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 20%;
 }
 
-.logo {
+.header-logo {
   width: 75px;
   height: 75px;
 }
 
-.category-container {
+.header-category-container {
   display: flex;
   justify-content: center;
   width: 60%;
 }
 
-.link-container {
+.header-link-container {
   display: flex;
   justify-content: center;
   width: 20%;
 }
 
-.link {
+.header-link {
   color: black;
   font-weight: bold;
   font-size: 18px;
   text-decoration: none;
 }
 
-.link:hover {
+.header-link:hover {
   color: blue;
 }
