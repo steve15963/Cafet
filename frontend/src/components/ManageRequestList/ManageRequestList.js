@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 // function createData(name, calories, fat, carbs, protein) {
 //   return { name, calories, fat, carbs, protein };
@@ -21,6 +22,10 @@ import { Button } from "@mui/material";
 // ];
 
 const ManageRequestList = (props) => {
+  const navigate = useNavigate();
+  const handleRequestDetail = (e, id) => {
+    navigate(`${id}`);
+  };
   return (
     <div>
       <TableContainer component={Paper}>
@@ -36,7 +41,14 @@ const ManageRequestList = (props) => {
                 </TableCell>
 
                 <TableCell align="right">
-                  <Button variant="outlined">상세 보기</Button>
+                  <Button
+                    variant="outlined"
+                    onClick={(event) =>
+                      handleRequestDetail(event, row.requestId)
+                    }
+                  >
+                    상세 보기
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

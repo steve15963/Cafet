@@ -2,8 +2,16 @@ import React from "react";
 import { TextField } from "@mui/material";
 
 import ManagerShopTable from "../ManageShopTable/ManageShopTable";
+import useShopList from "./../../hooks/useShopList";
 
 const ManageShops = () => {
+  const { shopList, loading } = useShopList();
+  // const [nickname, setNickname] = useState("");
+  // const [email, setEmail] = useState("");
+
+  if (loading) {
+    return <div>로딩중...</div>;
+  }
   return (
     <div>
       <form className="manage-user-form">
@@ -40,7 +48,7 @@ const ManageShops = () => {
 
         <p className="signin" />
       </form>
-      <ManagerShopTable />
+      <ManagerShopTable rows={shopList} />
     </div>
   );
 };

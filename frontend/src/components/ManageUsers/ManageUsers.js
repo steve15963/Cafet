@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { TextField } from "@mui/material";
 import ManagerUserTable from "../ManagerUserTable/ManageUserTable";
+// import handleManagerUserList from "../../utils/handleManagerUserList";
+import useUserList from "../../hooks/useUserList";
+import handleManagerUserSearchEmail from "../../utils/handleManagerUserSearchEmail";
+import handleManagerUserSearchNickname from "../../utils/handleManagerUserSearchNickname";
 // import Button from "@mui/material/Button";
 
 // const rows = [
@@ -21,17 +25,74 @@ import ManagerUserTable from "../ManagerUserTable/ManageUserTable";
 //   createData("superconductor@google.com", "초전도체"),
 //   createData("z_kick@naver.com", "그걸믿었음쩨트킥"),
 // ];
-
 const ManageUsers = () => {
-  const [rows, setRows] = useState([
-    { email: "asdf@bsdf.com", nickname: "asdf" },
-  ]);
-  // const [userData, loading] = useManagerUserList();
-  console.log("rows: ", rows);
-  const handleClick = (e) => {
-    setRows();
-    e.preventDefault();
+  // const [rows, searchQuery, loading] = useManagerUserList();
+  const { userList, loading } = useUserList();
+  // const { list1 } = handleManagerUserSearchEmail();
+  // const { list2 } = handleManagerUserSearchNickname();
+  const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // const [rows, setRows] = useState([
+  //   // { email: "asdf@bsdf.com", nickname: "asdf" },
+  // ]);
+  const onChangeNickname = (e) => {
+    setNickname(e.target.value);
   };
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  console.log("email", email);
+  console.log("nickname", nickname);
+
+  const onHandleClick = async (event) => {
+    event.preventDefault();
+    try {
+      if (email) {
+        try {
+          const response = await handleManagerUserSearchEmail(email);
+          // list1 = response.data;
+        } catch (error) {
+          console.log("이메일 검색 에러");
+        }
+      } else if (nickname) {
+        try {
+          const response = await handleManagerUserSearchNickname(nickname);
+          // list2 = response.data;
+        } catch (error) {
+          console.log("닉네임 검색 에러");
+        }
+      }
+      // const response = await handleManagerUserList();
+      // // const token = response.data.token;
+      // console.log(response.data);
+      // // console.log("email: ", response.data.email);
+      // // console.log("nickname: ", response.data.nickname);
+      // // setRows(response.data);
+      // if(email){
+      //   try{
+      //   }
+      //   catch(error){
+      //   }
+      //   axios.get("http://localhost:8080/api/user/nickname")
+      // }
+      // if (nickname) {
+      //   axios.get("http://localhost:8080/api/user/nickname");
+      // }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data); // => the response payload
+      }
+      console.error("Search Failed");
+      alert("유저 검색에 실패했습니다.");
+    }
+  };
+
+  console.log("rows: ", userList);
   return (
     <div>
       <form className="manage-user-form">
@@ -42,6 +103,7 @@ const ManageUsers = () => {
             placeholder="이메일로 검색"
             fullWidth
             size="small"
+            onChange={onChangeEmail}
           />
         </div>
         <div className="manage-user-form-div">
@@ -51,17 +113,20 @@ const ManageUsers = () => {
             placeholder="닉네임으로 검색"
             fullWidth
             size="small"
+            onChange={onChangeNickname}
           />
         </div>
         <div>
-          <button className="manage-user-form-button" onClick={handleClick}>
+          <button className="manage-user-form-button" onClick={onHandleClick}>
             검색
           </button>
         </div>
 
         <p className="signin" />
       </form>
-      <ManagerUserTable rows={rows} />
+      <ManagerUserTable rows={userList} />
+      {/* <ManagerUserTable rows={list1} />
+      <ManagerUserTable rows={list2} /> */}
     </div>
   );
 };
