@@ -1,9 +1,9 @@
 spring:
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    username: S09P11A105
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
     password: Gy8zn152Yh
-    url: jdbc:mariadb://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S09P11A105?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://i9a105.p.ssafy.io:3306/S09P11A105?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
     hikari:
       maximum-pool-size: 2
   jpa:
@@ -33,7 +33,7 @@ spring:
             required: true
         sender:
 jwt:
-  key: asdfasdfasdfafsdadsfdaffasdsadffasdfasdfasdfafsdadsfdaffasdsadffasdfasdfasdfafsdadsfdaffasdsadff
+  key:
   accessTokenExpirationTime:
     int: 30000
   refreshTokenExpirationTime:
