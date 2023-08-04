@@ -80,7 +80,7 @@ public class UserController {
 	}
 
 	//이메일은 못 바꿈
-	@PutMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PutMapping(value="")
 	public ResponseEntity<String> PutUser(@RequestPart(value="dto") UserModifyDto request, @RequestPart(value="file") MultipartFile file) throws Exception {
 
 		String userFile = null;
