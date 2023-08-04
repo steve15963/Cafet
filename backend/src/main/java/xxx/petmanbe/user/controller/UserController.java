@@ -88,19 +88,19 @@ public class UserController {
 //				.httpOnly(true)
 				.build();
 
-		ResponseCookie cookie2 = ResponseCookie.from("AccessToken", token.getAccessToken())
-				.maxAge(3000)
-				.path("/")
-//				.secure(true)
-				.sameSite("None")
-//				.httpOnly(true)
-				.build();
+// 		ResponseCookie cookie2 = ResponseCookie.from("AccessToken", token.getAccessToken())
+// 				.maxAge(3000)
+// 				.path("/")
+// //				.secure(true)
+// 				.sameSite("None")
+// //				.httpOnly(true)
+// 				.build();
 
 
 
 		httpServletResponse.addHeader("Authorization",token.getRefreshToken());
 		httpServletResponse.setHeader("Set-Cookie",cookie1.toString()); //refreshToken
-		httpServletResponse.setHeader("Access", cookie2.toString()); // AccessToken
+		httpServletResponse.setHeader("Access", token.getAccessToken()); // AccessToken
 
 		if(Objects.isNull(token)){
 
