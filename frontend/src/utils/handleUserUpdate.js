@@ -12,18 +12,13 @@ const handleUserUpdate = async (email, nickname, phoneNo, file) => {
 
   const serverUrl = "http://localhost:8080/api/user";
 
-  try {
-    const response = await axios.put(serverUrl, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+  const response = await axios.put(serverUrl, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
-    return response.data;
-  } catch (error) {
-    console.error("Error updating user:", error);
-    throw error;
-  }
+  return response;
 };
 
 export default handleUserUpdate;
