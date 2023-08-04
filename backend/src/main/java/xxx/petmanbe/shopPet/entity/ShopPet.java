@@ -3,7 +3,6 @@ package xxx.petmanbe.shopPet.entity;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.checkerframework.checker.units.qual.C;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
