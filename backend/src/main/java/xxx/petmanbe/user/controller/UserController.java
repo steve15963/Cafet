@@ -76,7 +76,7 @@ public class UserController {
 		return "success";
 	}
 
-	@PostMapping("/login/1")
+	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginDto loginDto, HttpServletResponse httpServletResponse) throws Exception {
 
 		Token token = userService.postLoginUser(loginDto);
