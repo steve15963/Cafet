@@ -199,7 +199,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<BoardListResponseDto> getBoardList(){
 
-		return boardRepository.findByStatusFalse().stream()
+		return boardRepository.findByStatusFalseOrderByBoardIdDesc().stream()
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
 	}
@@ -208,7 +208,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<BoardListResponseDto> getBoardListByBoardTitle(String key){
 
-		return boardRepository.findByStatusFalseAndBoardTitleContaining(key).stream()
+		return boardRepository.findByStatusFalseAndBoardTitleContainingOrderByBoardIdDesc(key).stream()
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
 	}
@@ -217,7 +217,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<BoardListResponseDto> getBoardListByBoardContent(String key){
 
-		return boardRepository.findByStatusFalseAndBoardContentContaining(key).stream()
+		return boardRepository.findByStatusFalseAndBoardContentContainingOrderByBoardIdDesc(key).stream()
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
 	}
@@ -238,7 +238,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<BoardListResponseDto> getBoardListByNickname(String nickname){
 
-		return boardRepository.findByStatusFalseAndUser_Nickname(nickname).stream()
+		return boardRepository.findByStatusFalseAndUser_NicknameOrderByBoardIdDesc(nickname).stream()
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
 	}
@@ -247,7 +247,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<BoardListResponseDto> getBoardListByCategoryId(Long categoryId){
 
-		return boardRepository.findByStatusFalseAndCategory_CategoryId(categoryId).stream()
+		return boardRepository.findByStatusFalseAndCategory_CategoryIdOrderByBoardIdDesc(categoryId).stream()
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
 	}
@@ -256,7 +256,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<BoardListResponseDto> getBoardListByShopId(Long shopId){
 
-		return boardRepository.findByStatusFalseAndShop_ShopId(shopId).stream()
+		return boardRepository.findByStatusFalseAndShop_ShopIdOrderByBoardIdDesc(shopId).stream()
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
 	}

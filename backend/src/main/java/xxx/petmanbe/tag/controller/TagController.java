@@ -33,7 +33,7 @@ public class TagController {
 	}
 
 	// 태그 보기
-	@GetMapping("/list")
+	@GetMapping("")
 	public ResponseEntity<List<TagListResponseDto>> getTagList(){
 
 		List<TagListResponseDto> tagList = tagService.getTagList().stream()

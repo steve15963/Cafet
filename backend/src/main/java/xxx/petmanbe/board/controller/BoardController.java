@@ -101,7 +101,7 @@ public class BoardController {
 	}
 
 	// 게시글 목록 보기
-	@GetMapping("/list")
+	@GetMapping("")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardList(){
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardList = boardService.getBoardList();

@@ -7,15 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import xxx.petmanbe.board.entity.Board;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
-	List<Board> findByStatusFalse();
+	List<Board> findByStatusFalseOrderByBoardIdDesc();
 
-	List<Board> findByStatusFalseAndBoardTitleContaining(String boardTitle);
+	List<Board> findByStatusFalseAndBoardTitleContainingOrderByBoardIdDesc(String boardTitle);
 
-	List<Board> findByStatusFalseAndBoardContentContaining(String boardContent);
+	List<Board> findByStatusFalseAndBoardContentContainingOrderByBoardIdDesc(String boardContent);
 
-	List<Board> findByStatusFalseAndUser_Nickname(String nickname);
+	List<Board> findByStatusFalseAndUser_NicknameOrderByBoardIdDesc(String nickname);
 
-	List<Board> findByStatusFalseAndCategory_CategoryId(Long categoryId);
+	List<Board> findByStatusFalseAndCategory_CategoryIdOrderByBoardIdDesc(Long categoryId);
 
-	List<Board> findByStatusFalseAndShop_ShopId(Long shopId);
+	List<Board> findByStatusFalseAndShop_ShopIdOrderByBoardIdDesc(Long shopId);
 }

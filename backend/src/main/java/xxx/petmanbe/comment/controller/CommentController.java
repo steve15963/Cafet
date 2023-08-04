@@ -36,7 +36,7 @@ public class CommentController {
 	}
 
 	// 댓글 목록 가져오기
-	@GetMapping("/list/{boardId}")
+	@GetMapping("/board/{boardId}")
 	public ResponseEntity<List<CommentResponseDto>> getCommentList(@PathVariable Long boardId){
 
 		// 목록 가져오기
