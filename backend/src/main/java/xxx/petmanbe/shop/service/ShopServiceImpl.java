@@ -83,7 +83,7 @@ public class ShopServiceImpl implements ShopService{
 	// shop 정보 추가하기
 	@Transactional
 	@Override
-	public boolean postShopNew(PostNewShopDto postNewShopDto) {
+	public boolean postShopNew(PostNewShopDto postNewShopDto) throws IOException {
 
 		//중복 체크 들어가야 함
 
@@ -91,12 +91,17 @@ public class ShopServiceImpl implements ShopService{
 
 		if(user.getLevel().getLevelCode() >100){
 
+			// address에서 road 구해주고
+			String road = getRoad(postNewShopDto.getAddress());
+			// longitude, latitude 구해줌
+			Position position = addressToPosition(road);
+
 			Shop shop = Shop.builder()
 				.shopTitle(postNewShopDto.getShopTitle())
 				.totalScore(0)
 				.gradeCount(0)
-				.longitude(postNewShopDto.getLongitude())
-				.latitude(postNewShopDto.getLatitude())
+				.longitude(position.getLongitude())
+				.latitude(position.getLatitude())
 				.address(postNewShopDto.getAddress())
 				.phoneNo(postNewShopDto.getPhoneNo())
 				.descriptions(postNewShopDto.getDescriptions())
@@ -170,15 +175,18 @@ public class ShopServiceImpl implements ShopService{
 	}
 
 	// 지역별로 받기
-//	 @Override
-//	 public List<Shop> getShopRegionList(String address) {
-//
-//	 	String dongCode = dongCodeRepository.findDongCodeBySidoNameAndGugunNameAndDongName(sidoName, gugunName, dongName);
-//
-//	 	List<Shop> shop = shopRepository.findByDongCode(dongCode).orElseThrow(()->new IllegalArgumentException());
-//
-//	 	return shop;
-//	 }
+	 @Override
+	 public String getRoad(String address) {
+
+		String[] divide = address.split(" ");
+		String road = "";
+
+		for(int i=0 ; i< divide.length; i++){
+			if(divide[i].charAt(-1)=='로' || divide[i].charAt(-1)=='길') road = divide[i];
+		}
+
+	 	return road;
+	 }
 
 
 	// 주소(도로명 주소만)를 위도, 경도로 바꾸기

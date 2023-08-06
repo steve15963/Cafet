@@ -17,7 +17,7 @@ public interface ShopService {
     public GetShopDto getShop(long shopId);
     
 	// 가게 정보 추가하기
-	public boolean postShopNew(PostNewShopDto postNewShopDto);
+	public boolean postShopNew(PostNewShopDto postNewShopDto) throws IOException;
 
 	// 가게 정보 수정하기
 	public boolean putShop(PutShopDto putShopDto);
@@ -26,8 +26,6 @@ public interface ShopService {
 	public Shop putShopStatus(Long shopId);
 
 
-	// public List<Shop> getShopRegionList(String sidoName, String gugunName, String dongName);
-
 	List<GetShopListDto> getShopList();
 
 	List<GetShopListDto> getShopListByTitle(String shopTitle);
@@ -35,4 +33,6 @@ public interface ShopService {
 	List<GetShopListDto> getShopListByAddress(String address);
 
 	public Position addressToPosition(String address) throws IOException;
+
+	public String getRoad(String address);
 }

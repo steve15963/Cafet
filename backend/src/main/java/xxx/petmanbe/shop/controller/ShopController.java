@@ -86,7 +86,7 @@ public class ShopController {
 
     //가게 추가하기
     @PostMapping("/new")
-    public ResponseEntity<String> PostShopNew(@RequestBody PostNewShopDto request){
+    public ResponseEntity<String> PostShopNew(@RequestBody PostNewShopDto request) throws IOException {
 
         if(shopService.postShopNew(request)){
             return new ResponseEntity<>("sucess",HttpStatus.OK);
