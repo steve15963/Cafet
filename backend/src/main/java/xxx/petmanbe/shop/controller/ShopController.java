@@ -4,6 +4,7 @@ import java.util.List;
 
 import java.io.IOException;
 
+import io.swagger.v3.core.util.Json;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.http.HttpResponse;
@@ -15,7 +16,10 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import xxx.petmanbe.shop.dto.others.JsonResponse;
 import xxx.petmanbe.shop.dto.requestDto.*;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopListDto;
@@ -23,8 +27,10 @@ import xxx.petmanbe.shop.dto.responseDto.GetShopUserGradeDto;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.service.GradeService;
 import xxx.petmanbe.shop.service.ShopService;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.transaction.Transactional;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value="/api/shop")
@@ -47,7 +53,7 @@ public class ShopController {
 	// 	return new ResponseEntity<>(shop,HttpStatus.OK);
 	// }
 
-    @GetMapping("address/{address}")
+    @GetMapping("position/address/{address}")
     public ResponseEntity<String> GetAdress(@PathVariable String address) throws IOException {
 
         HttpClient client = HttpClientBuilder.create().build();
@@ -58,12 +64,35 @@ public class ShopController {
         HttpResponse response = client.execute(getRequest);
 
         ResponseHandler<String> handler = new BasicResponseHandler();
+
         String body = handler.handleResponse(response);
 
         System.out.println(body);
 
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+    @GetMapping("position/1/{address}")
+    public ResponseEntity<String> GetAddressPoistion(@PathVariable String address) throws IOException{
+
+        WebClient webClient = WebClient.builder()
+                .baseUrl("https://dapi.kakao.com/v2/local/search/address.json?query="+address)
+                .defaultHeader("Authorization",key)
+                .build();
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+
+        JsonResponse s = webClient.get()
+                .uri(uriBuilder -> uriBuilder.path("").build())
+                .retrieve()
+                .bodyToMono(JsonResponse.class).block();
+
+        System.out.println(s.getDocuments().get(0).x);
+        System.out.println(s.getDocuments().get(0).y);
+
+
+        return new ResponseEntity<>("s",HttpStatus.OK);
     }
 
     // 가게 하나의 리스트 가져오기

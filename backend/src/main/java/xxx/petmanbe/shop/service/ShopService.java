@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import xxx.petmanbe.shop.dto.others.Position;
 import xxx.petmanbe.shop.dto.requestDto.PostNewShopDto;
 import xxx.petmanbe.shop.dto.requestDto.PutShopDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
@@ -24,7 +25,6 @@ public interface ShopService {
 	// 가게 정보 삭제하기
 	public Shop putShopStatus(Long shopId);
 
-	public String addressToPosition(String address) throws IOException;
 
 	// public List<Shop> getShopRegionList(String sidoName, String gugunName, String dongName);
 
@@ -34,4 +34,5 @@ public interface ShopService {
 
 	List<GetShopListDto> getShopListByAddress(String address);
 
+	public Position addressToPosition(String address) throws IOException;
 }
