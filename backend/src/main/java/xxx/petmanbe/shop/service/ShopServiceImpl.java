@@ -171,7 +171,7 @@ public class ShopServiceImpl implements ShopService{
 
 	// 지역별로 받기
 //	 @Override
-//	 public List<Shop> getShopRegionList(String sidoName, String gugunName, String dongName) {
+//	 public List<Shop> getShopRegionList(String address) {
 //
 //	 	String dongCode = dongCodeRepository.findDongCodeBySidoNameAndGugunNameAndDongName(sidoName, gugunName, dongName);
 //

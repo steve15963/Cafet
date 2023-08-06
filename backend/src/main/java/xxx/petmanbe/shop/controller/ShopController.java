@@ -53,26 +53,6 @@ public class ShopController {
 	// 	return new ResponseEntity<>(shop,HttpStatus.OK);
 	// }
 
-    @GetMapping("position/address/{address}")
-    public ResponseEntity<String> GetAdress(@PathVariable String address) throws IOException {
-
-        HttpClient client = HttpClientBuilder.create().build();
-
-        HttpGet getRequest = new HttpGet("https://dapi.kakao.com/v2/local/search/address.json?query="+address);
-        getRequest.addHeader("Authorization",key);
-
-        HttpResponse response = client.execute(getRequest);
-
-        ResponseHandler<String> handler = new BasicResponseHandler();
-
-        String body = handler.handleResponse(response);
-
-        System.out.println(body);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-
-    }
-
     @GetMapping("position/1/{address}")
     public ResponseEntity<String> GetAddressPoistion(@PathVariable String address) throws IOException{
 
