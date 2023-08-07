@@ -27,6 +27,8 @@ import handleManagerUserSearchNickname from "../../utils/handleManagerUserSearch
 // ];
 const ManageUsers = () => {
   // const [rows, searchQuery, loading] = useManagerUserList();
+
+  //eslint-disable-next-line
   const { userList, searchEmail, searchNickname, loading } = useUserList();
   // const { list1 } = handleManagerUserSearchEmail();
   // const { list2 } = handleManagerUserSearchNickname();
@@ -54,6 +56,7 @@ const ManageUsers = () => {
     try {
       if (email) {
         try {
+          //eslint-disable-next-line
           const response = await handleManagerUserSearchEmail(email);
           // list1 = response.data;
         } catch (error) {
@@ -61,6 +64,7 @@ const ManageUsers = () => {
         }
       } else if (nickname) {
         try {
+          //eslint-disable-next-line
           const response = await handleManagerUserSearchNickname(nickname);
           // list2 = response.data;
         } catch (error) {
