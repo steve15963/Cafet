@@ -27,7 +27,7 @@ import handleManagerUserSearchNickname from "../../utils/handleManagerUserSearch
 // ];
 const ManageUsers = () => {
   // const [rows, searchQuery, loading] = useManagerUserList();
-  const { userList, loading } = useUserList();
+  const { userList, searchEmail, searchNickname, loading } = useUserList();
   // const { list1 } = handleManagerUserSearchEmail();
   // const { list2 } = handleManagerUserSearchNickname();
   const [nickname, setNickname] = useState("");
