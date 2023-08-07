@@ -129,13 +129,17 @@ public class UserController {
 
 		String newAccessToken = jwtService.refreshToken(refreshToken);
 
+		response.setHeader("Acess-Control-Allow-origin","*");
+		response.setHeader("Access-Control-Allow-Credentials","true");
+		response.setHeader("Access-Control-Allow-Methods","POST,GET,PUT,DELETE");
+
 		if(Objects.isNull(newAccessToken)){
 			ResponseCookie cookie = ResponseCookie.from("accessToken", newAccessToken)
-				.maxAge(300000)
+				.maxAge(3000000)
 				.path("/")
-				//				.secure(true)
+				//.secure(true)
 				.sameSite("None")
-				//				.httpOnly(true)
+				//.httpOnly(true)
 				.build();
 
 			response.setHeader("Set-Cookie",cookie.toString());
