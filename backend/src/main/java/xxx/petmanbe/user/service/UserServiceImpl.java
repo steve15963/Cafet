@@ -12,10 +12,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
+import xxx.petmanbe.user.dto.responseDto.LoginResponseDto;
 import xxx.petmanbe.user.dto.responseDto.UserFilesListDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
@@ -85,7 +87,7 @@ public class UserServiceImpl implements UserService{
 
 	 @Transactional
 	 @Override
-	 public Token postLoginUser(LoginDto loginDto) throws Exception {
+	 public LoginReturnDto postLoginUser(LoginDto loginDto) throws Exception {
 
 	 	User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(IllegalArgumentException::new);
 
@@ -99,7 +101,18 @@ public class UserServiceImpl implements UserService{
 
 		  userRepository.save(user);
 
-	 	return token;
+		 LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+			 .userId(user.getUserId())
+			 .level(user.getLevel().getLevelCode())
+			 .build();
+
+		  LoginReturnDto loginReturnDto = LoginReturnDto.builder()
+			  .loginResponseDto(loginResponseDto)
+			  .token(token)
+			  .build();
+
+
+	 	return loginReturnDto;
 	}
 
 	@Transactional
@@ -128,7 +141,7 @@ public class UserServiceImpl implements UserService{
 
 		UserFilesListDto userFilesListDto = userFileRepository.findById(user.getUserFile().getUserfileId()).stream()
 			.map(UserFilesListDto::new)
-			.findFirst().orElseThrow(IllegalArgumentException::new);
+			.findFirst().orElse(new UserFilesListDto());
 
 		List<String> role = user.getRoles();
 

@@ -3,6 +3,7 @@ package xxx.petmanbe.user.service;
 import java.util.List;
 import java.util.Optional;
 
+import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
@@ -19,7 +20,7 @@ public interface UserService {
 
 	boolean checkUserLogin(LoginDto loginDto) throws Exception;
 
-	Token postLoginUser(LoginDto loginDto) throws Exception;
+	LoginReturnDto postLoginUser(LoginDto loginDto) throws Exception;
 
 	boolean putUser(UserModifyDto userModifyDto) throws Exception;
 

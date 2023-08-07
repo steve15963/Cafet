@@ -89,7 +89,7 @@ public class ShopServiceImpl implements ShopService{
 
 		User user = userRepository.findById(postNewShopDto.getUserId()).orElseThrow(()->new IllegalArgumentException());
 
-		if(user.getLevel().getLevelCode() >100){
+		// if(user.getLevel().getLevelCode() >100){
 
 			// address에서 road 구해주고
 			String road = getRoad(postNewShopDto.getAddress());
@@ -116,10 +116,10 @@ public class ShopServiceImpl implements ShopService{
 
 			return true;
 
-		}else{
-
-			return false;
-		}
+		// }else{
+		//
+		// 	return false;
+		// }
 	}
 
 	// sho 정보 수정하기
@@ -180,10 +180,17 @@ public class ShopServiceImpl implements ShopService{
 
 		String[] divide = address.split(" ");
 		String road = "";
+		int start = -1;
 
 		for(int i=0 ; i< divide.length; i++){
-			if(divide[i].charAt(-1)=='로' || divide[i].charAt(-1)=='길') road = divide[i];
+			int len = divide[i].length();
+			if(divide[i].charAt(len-1)=='로' || divide[i].charAt(len-1)=='길') {
+				start=i;
+				break;
+			}
 		}
+
+		road = divide[start]+divide[start+1];
 
 	 	return road;
 	 }
@@ -206,6 +213,8 @@ public class ShopServiceImpl implements ShopService{
 
 		double longitude = s.getDocuments().get(0).x;
 		double latitude = s.getDocuments().get(0).y;
+
+		
 
 
 		return new Position(longitude,latitude);

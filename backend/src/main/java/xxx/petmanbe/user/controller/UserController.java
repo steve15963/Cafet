@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.mail.service.MailService;
+import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
@@ -78,9 +79,9 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginDto loginDto, HttpServletResponse httpServletResponse) throws Exception {
 
-		Token token = userService.postLoginUser(loginDto);
+		LoginReturnDto loginReturnDto = userService.postLoginUser(loginDto);
 
-		ResponseCookie cookie1 = ResponseCookie.from("refreshToken", token.getRefreshToken())
+		ResponseCookie cookie1 = ResponseCookie.from("refreshToken", loginReturnDto.getToken().getRefreshToken())
 				.maxAge(30000000)
 				.path("/")
 //				.secure(true)
@@ -88,7 +89,7 @@ public class UserController {
 				.httpOnly(true)
 				.build();
 
-		ResponseCookie cookie2 = ResponseCookie.from("accessToken", token.getAccessToken())
+		ResponseCookie cookie2 = ResponseCookie.from("accessToken", loginReturnDto.getToken().getAccessToken())
 				.maxAge(300000)
 				.path("/")
 //				.secure(true)
@@ -105,11 +106,11 @@ public class UserController {
 		httpServletResponse.setHeader("Access-Control-Allow-Credentials","true");
 		httpServletResponse.setHeader("Access-Control-Allow-Methods","POST,GET,PUT,DELETE");
 
-		if(Objects.isNull(token)){
+		if(Objects.isNull(loginReturnDto.getToken())){
 
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(loginReturnDto.getLoginResponseDto(),HttpStatus.OK);
 	}
 
 	// refreshToken이 유효한지 확인 -> 유효하면 엑세스 토큰 반환
@@ -125,8 +126,6 @@ public class UserController {
 				refreshToken=token[i].substring(13);
 			}
 		}
-
-		System.out.println(refreshToken);
 
 		String newAccessToken = jwtService.refreshToken(refreshToken);
 
