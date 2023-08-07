@@ -45,6 +45,12 @@ public class Shop extends BaseTimeEntity {
 	private int gradeCount;
 
 	@Column
+	private String sidoName;
+
+	@Column
+	private String gugunName;
+
+	@Column
 	private double longitude;
 
 	@Column
