@@ -2,6 +2,7 @@ package xxx.petmanbe.BusinessNumber.Controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import xxx.petmanbe.BusinessNumber.Service.BusinessNumberService;
 @RestController
 @RequestMapping("/business/num")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class BusinessNumberController {
 	private BusinessNumberService businessNumberService;
 

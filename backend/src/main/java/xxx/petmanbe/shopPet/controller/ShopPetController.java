@@ -20,6 +20,7 @@ import xxx.petmanbe.shopPetFile.service.ShopPetFileService;
 @RestController
 @RequestMapping(value="/api/shopPet")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class ShopPetController {
 
     private final ShopPetService shopPetService;

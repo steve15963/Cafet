@@ -15,6 +15,7 @@ import xxx.petmanbe.visited.service.VisitedService;
 @RestController
 @RequestMapping(value="/api/visited")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class VisitedController {
 
     private final VisitedService visitedService;

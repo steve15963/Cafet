@@ -35,6 +35,7 @@ import java.util.Map;
 @RestController
 @RequestMapping(value="/api/shop")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class ShopController {
 
     private final ShopService shopService;
