@@ -1,6 +1,9 @@
 import React from "react";
+// import { useParams } from "react-router-dom";
 
 const ManageRequestDetail = (props) => {
+  // const { id } = useParams();
+
   return (
     <div>
       <p>신청자 정보</p>

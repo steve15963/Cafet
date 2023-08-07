@@ -22,6 +22,8 @@ import AccountModify from "./components/AccountModify/AccountModify";
 import ShopPage from "./pages/ShopPage/ShopPage";
 import CreatePage from "./pages/CreatePage/CreatePage";
 import TestPage from "./pages/TestPage/TestPage";
+import ManageRequestDetail from "./components/ManageRequestDetail/ManageRequestDetail";
+import ManageRequestList from "./components/ManageRequestList/ManageRequestList";
 
 const App = () => {
   return (
@@ -42,7 +44,10 @@ const App = () => {
         <Route path="/manage" element={<ManagePage />}>
           <Route path="" element={<ManageUsers />} />
           <Route path="shops" element={<ManageShops />} />
-          <Route path="requests" element={<ManageRequest />} />
+          <Route path="requests" element={<ManageRequest />}>
+            <Route path="" element={<ManageRequestList />} />
+          </Route>
+          <Route path="requests/:id" element={<ManageRequestDetail />} />
         </Route>
         <Route path="/mypage" element={<MyPage />}>
           <Route path="" element={<AccountData />} />
