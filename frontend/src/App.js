@@ -27,6 +27,7 @@ import ShopInfoPage from "./pages/ShopInfoPage/ShopInfoPage";
 import CreatePage from "./pages/CreatePage/CreatePage";
 import ManageRequestDetail from "./components/ManageRequestDetail/ManageRequestDetail";
 import ManageRequestList from "./components/ManageRequestList/ManageRequestList";
+import SearchShop from "./pages/SearchShopPage/SearchShopPage";
 
 const App = () => {
   return (
@@ -63,6 +64,7 @@ const App = () => {
         <Route path="/shop/animal/:id" element={<AnimalDetail />} /> */}
         <Route path="/create" element={<CreatePage />} />
         <Route path="/test" element={<TestPage />} />
+        <Route path="/search" element={<SearchShop />} />
       </Routes>
     </div>
   );
