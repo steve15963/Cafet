@@ -13,30 +13,11 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-// import useManagerUserList from "../../hooks/useManagerUserList/useManagerUserList";
-
-// function createData(email, name, nickname) {
-//   return {
-//     email,
-//     name,
-//     nickname,
-//   };
-// }
-
-// const rows = [
-//   createData("ssafy@ssafy.com", "냥타벅스", "강남구"),
-//   createData("lovecat@man.com", "러브캣", "고양시"),
-//   createData("catgoodday@pet.net", "고양이라좋은날", "아산시"),
-//   createData("likedog@pet.net", "개같은날", "관악구"),
-//   createData("critters@gallery.com", "축생박물관", "여수시"),
-//   createData("animal@go.cafe", "아님말고", "충주시"),
-// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -67,13 +48,7 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "email",
-    alignLeft: true,
-    disablePadding: true,
-    label: "점주 이메일",
-  },
-  {
-    id: "name",
+    id: "shopTitle",
     alignLeft: true,
     disablePadding: false,
     label: "가게 이름",
@@ -87,14 +62,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const {
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -102,17 +70,6 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "모두선택",
-            }}
-          />
-        </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -165,25 +122,14 @@ function EnhancedTableToolbar(props) {
         }),
       }}
     >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected}개 선택됨
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          유저 검색 결과
-        </Typography>
-      )}
+      <Typography
+        sx={{ flex: "1 1 100%" }}
+        variant="h6"
+        id="tableTitle"
+        component="div"
+      >
+        지점 검색 결과
+      </Typography>
 
       {numSelected > 0 ? (
         <Tooltip title="삭제">
@@ -298,7 +244,6 @@ const ManagerShopTable = (props) => {
             <TableBody>
               {visibleRows.map((row, index) => {
                 const isItemSelected = isSelected(row.shopId);
-                const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
@@ -311,23 +256,6 @@ const ManagerShopTable = (props) => {
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          "aria-labelledby": labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                    >
-                      {row.email}
-                    </TableCell>
                     <TableCell align="left">{row.shopTitle}</TableCell>
                     <TableCell align="right">{row.address}</TableCell>
                   </TableRow>

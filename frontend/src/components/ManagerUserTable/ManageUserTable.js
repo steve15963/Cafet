@@ -94,9 +94,7 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
-  // numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  // onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
@@ -119,25 +117,14 @@ function EnhancedTableToolbar(props) {
         }),
       }}
     >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected}개 선택됨
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          유저 검색 결과
-        </Typography>
-      )}
+      <Typography
+        sx={{ flex: "1 1 100%" }}
+        variant="h6"
+        id="tableTitle"
+        component="div"
+      >
+        유저 검색 결과
+      </Typography>
     </Toolbar>
   );
 }
@@ -150,7 +137,6 @@ const ManagerUserTable = (rows) => {
   const data = rows.rows;
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("email");
-  // const [selected, setSelected] = useState([]);
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
 
@@ -164,21 +150,6 @@ const ManagerUserTable = (rows) => {
 
   const handleClick = (event, id) => {
     navigate(`/mypage/${id}`);
-    // const selectedIndex = selected.indexOf(name);
-    // let newSelected = [];
-    // if (selectedIndex === -1) {
-    //   newSelected = newSelected.concat(selected, name);
-    // } else if (selectedIndex === 0) {
-    //   newSelected = newSelected.concat(selected.slice(1));
-    // } else if (selectedIndex === selected.length - 1) {
-    //   newSelected = newSelected.concat(selected.slice(0, -1));
-    // } else if (selectedIndex > 0) {
-    //   newSelected = newSelected.concat(
-    //     selected.slice(0, selectedIndex),
-    //     selected.slice(selectedIndex + 1)
-    //   );
-    // }
-    // setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -189,8 +160,6 @@ const ManagerUserTable = (rows) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  // const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -207,10 +176,7 @@ const ManagerUserTable = (rows) => {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar
-        // numSelected={selected.length}
-        // selected={selected}
-        />
+        <EnhancedTableToolbar />
         <TableContainer>
           <Table
             sx={{ minWidth: 600 }}
@@ -225,7 +191,6 @@ const ManagerUserTable = (rows) => {
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                // const isItemSelected = isSelected(row.email);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
@@ -233,10 +198,8 @@ const ManagerUserTable = (rows) => {
                     hover
                     onClick={(event) => handleClick(event, row.nickname)} // 해당 유저의 마이페이지로 navigate
                     role="checkbox"
-                    // aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={row.email}
-                    // selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
                     <TableCell
