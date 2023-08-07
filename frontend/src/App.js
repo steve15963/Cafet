@@ -55,7 +55,6 @@ const App = () => {
         <Route path="/mypage" element={<MyPage />}>
           <Route path="" element={<AccountData />} />
           <Route path="modify" element={<AccountModify />} />
-          <Route path="/mypage/:path" element={<MyPage />} />
         </Route>
         <Route path="/shop/:shopId" element={<ShopPage />} />
         <Route path="/animal/:id/info" element={<ShopInfoPage />} />

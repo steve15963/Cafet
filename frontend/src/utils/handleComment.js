@@ -1,12 +1,11 @@
 import axios from "axios";
 
-const handleComment = (boardId, userId) => {
+const handleComment = (boardId, content) => {
   const data = {
-    boardId: boardId,
-    userId: userId,
+    content: content,
   };
 
-  const serverUrl = `http://i9a105.p.ssafy.io:8080/api/comment/${boardId}/new/${userId}`;
+  const serverUrl = `http://i9a105.p.ssafy.io/api/comment/${boardId}/new/1`;
 
   return axios.post(serverUrl, data);
 };
