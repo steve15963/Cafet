@@ -43,8 +43,6 @@ public class JwtServiceImpl implements JwtService{
 	@Override
 	public String refreshToken(String refreshToken) {
 
-		System.out.println(refreshToken);
-
 		if(jwtUtil.validateToken(refreshToken)){
 
 			Token token = tokenRepository.findByRefreshToken(refreshToken).orElseThrow(()->new IllegalArgumentException());

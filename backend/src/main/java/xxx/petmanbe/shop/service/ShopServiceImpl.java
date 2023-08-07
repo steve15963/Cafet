@@ -19,6 +19,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient;
+import xxx.petmanbe.shop.dto.others.JsonResponse;
+import xxx.petmanbe.shop.dto.others.Position;
 import xxx.petmanbe.shop.dto.requestDto.PostNewShopDto;
 import xxx.petmanbe.shop.dto.requestDto.PutShopDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
@@ -78,7 +83,7 @@ public class ShopServiceImpl implements ShopService{
 	// shop 정보 추가하기
 	@Transactional
 	@Override
-	public boolean postShopNew(PostNewShopDto postNewShopDto) {
+	public boolean postShopNew(PostNewShopDto postNewShopDto) throws IOException {
 
 		//중복 체크 들어가야 함
 
@@ -86,12 +91,17 @@ public class ShopServiceImpl implements ShopService{
 
 		if(user.getLevel().getLevelCode() >100){
 
+			// address에서 road 구해주고
+			String road = getRoad(postNewShopDto.getAddress());
+			// longitude, latitude 구해줌
+			Position position = addressToPosition(road);
+
 			Shop shop = Shop.builder()
 				.shopTitle(postNewShopDto.getShopTitle())
 				.totalScore(0)
 				.gradeCount(0)
-				.longitude(postNewShopDto.getLongitude())
-				.latitude(postNewShopDto.getLatitude())
+				.longitude(position.getLongitude())
+				.latitude(position.getLatitude())
 				.address(postNewShopDto.getAddress())
 				.phoneNo(postNewShopDto.getPhoneNo())
 				.descriptions(postNewShopDto.getDescriptions())
@@ -140,17 +150,6 @@ public class ShopServiceImpl implements ShopService{
 		return shop;
 	}
 
-	// 지역별로 받기
-	// @Override
-	// public List<Shop> getShopRegionList(String sidoName, String gugunName, String dongName) {
-	//
-	// 	String dongCode = dongCodeRepository.findDongCodeBySidoNameAndGugunNameAndDongName(sidoName, gugunName, dongName);
-	//
-	// 	List<Shop> shop = shopRepository.findByDongCode(dongCode).orElseThrow(()->new IllegalArgumentException());
-	//
-	// 	return shop;
-	// }
-
 	// 전체 가게 보기
 	@Override
 	public List<GetShopListDto> getShopList() {
@@ -175,22 +174,41 @@ public class ShopServiceImpl implements ShopService{
 			.collect(Collectors.toList());
 	}
 
+	// 지역별로 받기
+	 @Override
+	 public String getRoad(String address) {
 
-	public String addressToPosition(String address) throws IOException {
+		String[] divide = address.split(" ");
+		String road = "";
 
-		HttpClient client = HttpClientBuilder.create().build();
+		for(int i=0 ; i< divide.length; i++){
+			if(divide[i].charAt(-1)=='로' || divide[i].charAt(-1)=='길') road = divide[i];
+		}
 
-		HttpGet getRequest = new HttpGet("https://dapi.kakao.com/v2/local/search/address.json?query="+address);
-		getRequest.addHeader("Authorization","KakaoAk "+key);
+	 	return road;
+	 }
 
-		HttpResponse response = client.execute(getRequest);
 
-		ResponseHandler<String> handler = new BasicResponseHandler();
-		String body = handler.handleResponse(response);
+	// 주소(도로명 주소만)를 위도, 경도로 바꾸기
+	public Position addressToPosition(String address) throws IOException {
 
-		System.out.println(body);
+		WebClient webClient = WebClient.builder()
+				.baseUrl("https://dapi.kakao.com/v2/local/search/address.json?query="+address)
+				.defaultHeader("Authorization",key)
+				.build();
 
-		return body;
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+
+		JsonResponse s = webClient.get()
+				.uri(uriBuilder -> uriBuilder.path("").build())
+				.retrieve()
+				.bodyToMono(JsonResponse.class).block();
+
+		double longitude = s.getDocuments().get(0).x;
+		double latitude = s.getDocuments().get(0).y;
+
+
+		return new Position(longitude,latitude);
 
 	}
 

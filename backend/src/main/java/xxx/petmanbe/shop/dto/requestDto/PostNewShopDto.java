@@ -15,10 +15,6 @@ public class PostNewShopDto {
 
     String shopTitle;
 
-    double longitude;
-
-    double latitude;
-
     String address;
 
     String phoneNo;

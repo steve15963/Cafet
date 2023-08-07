@@ -81,52 +81,72 @@ public class UserController {
 		Token token = userService.postLoginUser(loginDto);
 
 		ResponseCookie cookie1 = ResponseCookie.from("refreshToken", token.getRefreshToken())
-				.maxAge(3000)
+				.maxAge(30000000)
 				.path("/")
 //				.secure(true)
 				.sameSite("None")
-//				.httpOnly(true)
+				.httpOnly(true)
 				.build();
 
-		ResponseCookie cookie2 = ResponseCookie.from("AccessToken", token.getAccessToken())
-				.maxAge(3000)
+		ResponseCookie cookie2 = ResponseCookie.from("accessToken", token.getAccessToken())
+				.maxAge(300000)
 				.path("/")
 //				.secure(true)
 				.sameSite("None")
-//				.httpOnly(true)
+				.httpOnly(true)
 				.build();
 
-
-
-		httpServletResponse.addHeader("Authorization",token.getRefreshToken());
+//		httpServletResponse.addHeader("Authorization",token.getRefreshToken());
 		httpServletResponse.setHeader("Set-Cookie",cookie1.toString()); //refreshToken
-		httpServletResponse.setHeader("Access", cookie2.toString()); // AccessToken
+		httpServletResponse.addHeader("Set-Cookie",cookie2.toString()); // accessToken
+
+		//CORS
+		httpServletResponse.setHeader("Acess-Control-Allow-origin","*");
+		httpServletResponse.setHeader("Access-Control-Allow-Credentials","true");
+		httpServletResponse.setHeader("Access-Control-Allow-Methods","POST,GET,PUT,DELETE");
 
 		if(Objects.isNull(token)){
 
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(token.getAccessToken(), HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	// refreshToken이 유효한지 확인 -> 유효하면 엑세스 토큰 반환
 	// 유효하지 않으면 재 로그인
 	@PostMapping("/token/refresh")
-	public ResponseEntity<?> PostRefreshToken(@RequestHeader(value = "Refresh") String refreshToken, HttpServletResponse response){
+	public ResponseEntity<?> PostRefreshToken(@RequestHeader(value = "Cookie") String refreshToken, HttpServletResponse response){
+		//header에서 client에서 보낸 refreshToken cookie를 받는다.(client 에서 header에서 Cookie로 설정)
+
+		String[] token= refreshToken.split("; ");
+
+		for(int i=0 ; i<token.length ; i++) {
+			if(token[i].substring(0,12).equals("refreshToken")){
+				refreshToken=token[i].substring(13);
+			}
+		}
+
+		System.out.println(refreshToken);
 
 		String newAccessToken = jwtService.refreshToken(refreshToken);
 
-		ResponseCookie cookie = ResponseCookie.from("accessToken", newAccessToken)
-			.maxAge(300000)
-			.path("/")
-			//				.secure(true)
-			.sameSite("None")
-			//				.httpOnly(true)
-			.build();
+		if(Objects.isNull(newAccessToken)){
+			ResponseCookie cookie = ResponseCookie.from("accessToken", newAccessToken)
+				.maxAge(300000)
+				.path("/")
+				//				.secure(true)
+				.sameSite("None")
+				//				.httpOnly(true)
+				.build();
 
-		response.setHeader("Set-Cookie",cookie.toString());
+			response.setHeader("Set-Cookie",cookie.toString());
 
-		return new ResponseEntity<>(HttpStatus.OK);
+
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else{
+			// 재 로그인 해야 함
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 
 	}
 
