@@ -43,6 +43,29 @@ public class ShopController {
 	// 	return new ResponseEntity<>(shop,HttpStatus.OK);
 	// }
 
+    @GetMapping("/get/address/{address}")
+    public ResponseEntity<String> GetAdress(@PathVariable String address) throws IOException{
+
+        WebClient webClient = WebClient.builder()
+            .baseUrl("https://dapi.kakao.com/v2/local/search/address.json?query="+address)
+            .defaultHeader("Authorization",key)
+            .build();
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+
+        JsonResponse s = webClient.get()
+            .uri(uriBuilder -> uriBuilder.path("").build())
+            .retrieve()
+            .bodyToMono(JsonResponse.class).block();
+
+        System.out.println(s.getDocuments().get(0).address.region_1depth_name);
+        System.out.println(s.getDocuments().get(0).address.region_2depth_name);
+        System.out.println(s.getDocuments().get(0).address.region_3depth_name);
+
+        return new ResponseEntity<>("s",HttpStatus.OK);
+    }
+
+
     @GetMapping("position/1/{address}")
     public ResponseEntity<String> GetAddressPoistion(@PathVariable String address) throws IOException{
 
