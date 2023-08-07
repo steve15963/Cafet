@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.shop.entity.Shop;
 
 @Getter
@@ -20,7 +21,7 @@ import xxx.petmanbe.shop.entity.Shop;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class AttachShop {
+public class AttachShop extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long attachShopId;
