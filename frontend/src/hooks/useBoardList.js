@@ -9,7 +9,7 @@ const useBoardList = () => {
     const getBoardList = async () => {
       try {
         const response = await axios.get(
-          "http://i9a105.p.ssafy.io:8080/api/board/list"
+          "http://i9a105.p.ssafy.io:8080/api/board"
         );
         setBoardList(response.data);
         setLoading(false);
