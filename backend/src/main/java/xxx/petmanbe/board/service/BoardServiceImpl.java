@@ -31,9 +31,9 @@ import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.tag.dto.request.AddTagRequestDto;
 import xxx.petmanbe.tag.dto.response.TagListResponseDto;
-import xxx.petmanbe.tag.entity.Attach;
+import xxx.petmanbe.tag.entity.AttachBoard;
 import xxx.petmanbe.tag.entity.Tag;
-import xxx.petmanbe.tag.repository.AttachRepository;
+import xxx.petmanbe.tag.repository.AttachBoardRepository;
 import xxx.petmanbe.tag.repository.TagRepository;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.UserRepository;
@@ -45,7 +45,7 @@ public class BoardServiceImpl implements BoardService{
 	private final BoardRepository boardRepository;
 	private final UserRepository userRepository;
 	private final CategoryRepository categoryRepository;
-	private final AttachRepository attachRepository;
+	private final AttachBoardRepository attachBoardRepository;
 	private final TagRepository tagRepository;
 	private final ShopRepository shopRepository;
 	private final BoardFileRepository boardFileRepository;
@@ -85,30 +85,6 @@ public class BoardServiceImpl implements BoardService{
 		}
 
 		// 해당 게시글에 태그 붙이기, 없으면 태그 생성
-		// request.getTagList().stream() // Stream<List<TagListResponseDto>>
-		// 	.map(response -> {
-		// 		Optional<Tag> tag = Optional.of(
-		// 			tagRepository.findByStatusFalseAndTagName(response.getTagName()) // 태그가 검색이 되면 가져오기
-		// 				.orElseGet(() -> {
-		// 					// 태그가 없으면 생성
-		// 					AddTagRequestDto tagRequest = AddTagRequestDto.builder()
-		// 						.tagName(response.getTagName())
-		// 						.build();
-		// 					return tagRepository.save(tagRequest.toEntity());
-		// 				}));
-		//
-		// 		// 생성된 태그 부착데이터 만들기
-		// 		Attach attach = Attach.builder()
-		// 			.board(board)
-		// 			.tag(tag.get())
-		// 			.build();
-		//
-		// 		// 부착데이터 추가
-		// 		attachRepository.save(attach);
-		// 		return attach;
-		// 	})
-		// 	.collect(Collectors.toList()); // 연산 수행을 위한 최종연산 (사용은 안함)
-
 		for (TagListResponseDto response : request.getTagList()){
 			// 만약 해당하는 이름의 태그가 없다면
 			if (tagRepository.findByStatusFalseAndTagName(response.getTagName()).isEmpty()){
@@ -122,13 +98,13 @@ public class BoardServiceImpl implements BoardService{
 			Tag tag = tagRepository.findByStatusFalseAndTagName(response.getTagName())
 				.orElseThrow(() -> new IllegalArgumentException("not found"));
 
-			Attach attach = Attach.builder()
+			AttachBoard attachBoard = AttachBoard.builder()
 				.board(board)
 				.tag(tag)
 				.build();
 
 			// 태그 부착 데이터 생성
-			attachRepository.save(attach);
+			attachBoardRepository.save(attachBoard);
 		}
 
 		// 게시글 생성
@@ -166,11 +142,11 @@ public class BoardServiceImpl implements BoardService{
 		Optional<GetShopDto> shop = Optional.ofNullable(board.get().getShop()).map(GetShopDto::new);
 
 		// 게시글에 달린 태그 목록을 가져오기 위해 가져오는 부착 기록
-		List<Attach> attachList = attachRepository.findByBoard_BoardId(boardId);
+		List<AttachBoard> attachBoardList = attachBoardRepository.findByBoard_BoardId(boardId);
 
 		// 태그 dto로 전환
-		List<TagListResponseDto> taglist = attachList.stream()
-			.map(Attach::getTag)
+		List<TagListResponseDto> taglist = attachBoardList.stream()
+			.map(AttachBoard::getTag)
 			.map(TagListResponseDto::new)
 			.collect(Collectors.toList());
 
@@ -228,8 +204,8 @@ public class BoardServiceImpl implements BoardService{
 
 		// attachRespository를 이용해 해당 태그가 달려있는 목록을 가져오고
 		// stream을 통해 자료형을 변환해 게시글 list 반환
-		return attachRepository.findByTag_TagName(tagName).stream()
-			.map(Attach::getBoard)
+		return attachBoardRepository.findByTag_TagName(tagName).stream()
+			.map(AttachBoard::getBoard)
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
 	}
@@ -288,59 +264,8 @@ public class BoardServiceImpl implements BoardService{
 		Optional<Category> category = categoryRepository.findByCategoryName(request.getCategoryName());
 		category.ifPresent(cat -> board.get().updateCategory(cat));
 
-		// // 업데이트할 태그들의 id 리스트
-		// List<Long> updatedTagIdList = request.getTagList().stream()
-		// 	.map(TagListResponseDto::getTagId)
-		// 		.collect(Collectors.toList());
-		//
-		// // 기존 태그 목록 확인
-		// attachRepository.findByBoard_BoardId(boardId).stream()
-		// 	.filter(attach -> !updatedTagIdList.contains(attach.getTag().getTagId())) // 태그 리스트에 없는 애들만 가져와서
-		// 	.forEach(attach -> attachRepository.deleteByBoard_BoardIdAndTag_TagId(boardId, attach.getTag().getTagId())); // attach 목록에서 삭제
-		//
-		// // 현재 태그 목록에 새로운 태그 등록
-		// List<Long> currentTagIdList = attachRepository.findByBoard_BoardId(boardId).stream()
-		// 	.map(Attach::getTag)
-		// 	.map(Tag::getTagId)
-		// 	.collect(Collectors.toList());
-		//
-		// // 만약 태그목록에 없으면 생성
-		// attachRepository.findByBoard_BoardId(boardId).stream()
-		// 	// 일단 태그를 가져와보자
-		// 	.map(Attach::getTag)
-		// 	// 현재 게시글에 달린 태그 리스트에 지금 태그가 없는 경우
-		// 	.filter(curTag -> !currentTagIdList.contains(curTag.getTagId()))
-		// 	.forEach(curTag -> {
-		// 		// 입력받은 태그 이름으로 검색해서
-		// 		tagRepository.findByStatusFalseAndTagName(curTag.getTagName())
-		// 			.ifPresentOrElse(
-		// 				tag -> {
-		// 					// 태그가 존재하면 그대로 부착 정보 생성하고 저장
-		// 					Attach attach = Attach.builder()
-		// 						.board(board.get())
-		// 						.tag(tag)
-		// 						.build();
-		// 					attachRepository.save(attach);
-		// 				},
-		// 				() -> {
-		// 					// 태그가 존재하지 않으면 request로 들어온 태그 이름으로 새 태그 생성
-		// 					Tag newTag = Tag.builder()
-		// 						.tagName(curTag.getTagName())
-		// 						.build();
-		// 					tagRepository.save(newTag);
-		//
-		// 					// 부착정보 생성하고 저장
-		// 					Attach attach = Attach.builder()
-		// 						.board(board.get())
-		// 						.tag(newTag)
-		// 						.build();
-		// 					attachRepository.save(attach);
-		// 				}
-		// 			);
-		// 	});
-
 		// 기존 태그 목록 확인
-		for (Attach curTag : attachRepository.findByBoard_BoardId(boardId)) {
+		for (AttachBoard curTag : attachBoardRepository.findByBoard_BoardId(boardId)) {
 
 			// 수정된 태그들의 id 리스트
 			List<Long> tagIdList = request.getTagList().stream()
@@ -349,7 +274,7 @@ public class BoardServiceImpl implements BoardService{
 			// 만약 해당 id가 없으면
 			if (!tagIdList.contains(curTag.getTag().getTagId())){
 				// 태그 리스트에서 제거
-				attachRepository.deleteByBoard_BoardIdAndTag_TagId(boardId, curTag.getTag().getTagId());
+				attachBoardRepository.deleteByBoard_BoardIdAndTag_TagId(boardId, curTag.getTag().getTagId());
 			}
 		}
 
@@ -357,8 +282,8 @@ public class BoardServiceImpl implements BoardService{
 		for (TagListResponseDto updatedTag : request.getTagList()){
 
 			// 현재 등록되어 있는 태그 id 목록
-			List<Long> tagList = attachRepository.findByBoard_BoardId(boardId).stream()
-				.map(Attach::getTag)
+			List<Long> tagList = attachBoardRepository.findByBoard_BoardId(boardId).stream()
+				.map(AttachBoard::getTag)
 				.map(Tag::getTagId)
 				.collect(Collectors.toList());
 
@@ -380,13 +305,13 @@ public class BoardServiceImpl implements BoardService{
 				}
 				
 				// 부착정보 생성
-				Attach attach = Attach.builder()
+				AttachBoard attachBoard = AttachBoard.builder()
 					.tag(tagRepository.findByStatusFalseAndTagName(updatedTag.getTagName())
 						.orElseThrow(() -> new IllegalArgumentException("not found")))
 					.board(board.get())
 					.build();
 
-				attachRepository.save(attach);
+				attachBoardRepository.save(attachBoard);
 			}
 		}
 

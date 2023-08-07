@@ -22,12 +22,12 @@ import xxx.petmanbe.common.entity.BaseTimeEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Attach extends BaseTimeEntity {
+public class AttachBoard extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "attach_id")
-	private Long attachId;
+	@Column(name = "attach_board_id")
+	private Long attachBoardId;
 
 	@ManyToOne
 	@JoinColumn(name = "board_id")
