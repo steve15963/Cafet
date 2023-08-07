@@ -8,29 +8,29 @@ import axios from "axios";
 const AnimalList = () => {
   let navigate = useNavigate();
 
-  const [animalList, setAnimalList] = useState([])
+  //eslint-disable-next-line
+  const [animalList, setAnimalList] = useState([]);
 
+  //eslint-disable-next-line
   const goToAnimalDetail = (animalId) => {
-    navigate(`/shop/animal/${animalId}`)
-  }
+    navigate(`/shop/animal/${animalId}`);
+  };
   useEffect(() => {
-    axios.get('')
+    axios
+      .get("")
       .then(function (response) {
-        setAnimalList(response.data)
+        setAnimalList(response.data);
       })
       .catch(function (error) {
-        console.log(error)
-      })  
-  }, [])
+        console.log(error);
+      });
+  }, []);
 
   return (
     <div>
       <ContentCard />
     </div>
-
-    
-    
   );
-}
+};
 
 export default AnimalList;

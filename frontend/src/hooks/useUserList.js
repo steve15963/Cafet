@@ -3,7 +3,9 @@ import axios from "axios";
 
 const useUserList = () => {
   const [userList, setUserList] = useState([]);
+  //eslint-disable-next-line
   const [searchEmail, setsearchEmail] = useState(true);
+  //eslint-disable-next-line
   const [searchNickname, setsearchNickname] = useState(true);
   const [loading, setLoading] = useState(true);
 
