@@ -1,21 +1,18 @@
 package xxx.petmanbe.shopPet.entity;
 
-import javax.persistence.*;
+import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.checkerframework.checker.units.qual.C;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import xxx.petmanbe.Location.entity.PetLocation;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
-import xxx.petmanbe.shop.entity.Grade;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shopPet.dto.request.PutShopPetDto;
-
-import java.util.List;
 
 @Entity
 @Table
@@ -55,6 +52,10 @@ public class ShopPet extends BaseTimeEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shop_id")
 	private Shop shop;
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "pet_location_id")
+	private List<PetLocation> petLocationList;
 
 
 	public void updateShopPet(PutShopPetDto request){
