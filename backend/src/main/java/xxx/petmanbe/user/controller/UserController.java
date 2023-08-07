@@ -103,7 +103,7 @@ public class UserController {
 				.httpOnly(true)
 				.build();
 
-//		httpServletResponse.addHeader("Authorization",token.getRefreshToken());
+		httpServletResponse.addHeader("Authorization",loginReturnDto.getToken().getRefreshToken());
 		httpServletResponse.setHeader("Set-Cookie",cookie1.toString()); //refreshToken
 		httpServletResponse.addHeader("Set-Cookie",cookie2.toString()); // accessToken
 
