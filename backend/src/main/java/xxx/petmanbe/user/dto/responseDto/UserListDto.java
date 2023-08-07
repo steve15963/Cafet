@@ -1,6 +1,7 @@
 package xxx.petmanbe.user.dto.responseDto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,8 @@ public class UserListDto {
 
 	private LocalDateTime updatedTime;
 
+	private List<String> roles;
+
 	// entity to dto
 	public UserListDto (User user){
 		this.userId = user.getUserId();
@@ -35,6 +38,7 @@ public class UserListDto {
 		this.levelCode = user.getLevel().getLevelCode();
 		this.createdTime = user.getCreatedTime();
 		this.updatedTime = user.getUpdatedTime();
+		this.roles = user.getRoles();
 	}
 }
 

@@ -139,9 +139,14 @@ public class UserServiceImpl implements UserService{
 
 		User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
 
-		UserFilesListDto userFilesListDto = userFileRepository.findById(user.getUserFile().getUserfileId()).stream()
-			.map(UserFilesListDto::new)
-			.findFirst().orElse(new UserFilesListDto());
+		UserFilesListDto userFilesListDto=null;
+
+		if(!Objects.isNull(user.getUserFile())){
+			userFilesListDto = userFileRepository.findById(user.getUserFile().getUserfileId()).stream()
+				.map(UserFilesListDto::new)
+				.findFirst().orElse(new UserFilesListDto());
+		}
+
 
 		List<String> role = user.getRoles();
 
@@ -157,25 +162,6 @@ public class UserServiceImpl implements UserService{
 				.role(role)
 				.build();
 	}
-
-	// 없앨 예정
-//	@Override
-//	public User SessionLogin(LoginDto loginDto) throws Exception {
-//		Optional<User> findUser = userRepository.findByEmail(loginDto.getEmail());
-//
-//		System.out.println(findUser.get().getUserId());
-//
-//		if(findUser.isEmpty()){
-//			return null;
-//		}
-//		else{
-//			User user = findUser.get();
-//			if(loginDto.getPassword().equals(user.getPassword())){
-//				return user;
-//			}
-//			return null;
-//		}
-//	}
 
 	@Transactional
 	@Override
