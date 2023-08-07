@@ -23,7 +23,7 @@ public interface ShopService {
 	public boolean putShop(PutShopDto putShopDto);
 
 	// 가게 정보 삭제하기
-	public Shop putShopStatus(Long shopId);
+	public boolean putShopStatus(Long shopId);
 
 
 	List<GetShopListDto> getShopList();
@@ -35,4 +35,7 @@ public interface ShopService {
 	public Position addressToPosition(String address) throws IOException;
 
 	public String getRoad(String address);
+
+	// 태그에 맞는 가게 목록 가져오기
+	List<GetShopListDto> getShopListByTag(String tagName);
 }

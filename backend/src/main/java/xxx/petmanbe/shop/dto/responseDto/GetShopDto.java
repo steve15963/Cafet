@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
+import xxx.petmanbe.tag.dto.response.TagListResponseDto;
 
 @Getter
 @Setter
@@ -47,6 +48,8 @@ public class GetShopDto {
     private String homepage;
 
     private List<GetShopPetDto> shopPetList;
+
+    private List<TagListResponseDto> tagList;
 
     // entity to dto
     public GetShopDto (Shop shop){
