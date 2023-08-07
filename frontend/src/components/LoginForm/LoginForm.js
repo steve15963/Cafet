@@ -17,8 +17,7 @@ const LoginForm = () => {
     event.preventDefault();
     try {
       const response = await handleLogin(email, password);
-      const token = response.data.token;
-      console.log("Login success", token);
+      console.log("Login success : ", response);
       alert("로그인에 성공하셨습니다.");
       navigate("/", { replace: true });
     } catch (error) {
