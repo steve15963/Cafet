@@ -32,11 +32,11 @@ spring:
             required: true
         sender:
 jwt:
-  key:
+  key: 
   accessTokenExpirationTime:
-    int: 30000
+    int: 3000000
   refreshTokenExpirationTime:
-    int: 3000
+    int: 300000
 
 opendata:
   key:

@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
@@ -51,6 +52,11 @@ public class UserController {
 
 	private final JwtUtil jwtUtil;
 
+	@Value("${jwt.accessTokenExpirationTime.int}")
+	private int accessTokenExpirationTime;
+
+	@Value("${jwt.refreshTokenExpirationTime.int}")
+	private int refreshTokenExpirationTime;
 
 	@PostMapping(value="/new")
 	public ResponseEntity<String> PostNewUser(@RequestBody RegistDto request) throws Exception {
@@ -82,7 +88,7 @@ public class UserController {
 		LoginReturnDto loginReturnDto = userService.postLoginUser(loginDto);
 
 		ResponseCookie cookie1 = ResponseCookie.from("refreshToken", loginReturnDto.getToken().getRefreshToken())
-				.maxAge(30000000)
+				.maxAge(accessTokenExpirationTime)
 				.path("/")
 //				.secure(true)
 				.sameSite("None")
@@ -90,7 +96,7 @@ public class UserController {
 				.build();
 
 		ResponseCookie cookie2 = ResponseCookie.from("accessToken", loginReturnDto.getToken().getAccessToken())
-				.maxAge(300000)
+				.maxAge(refreshTokenExpirationTime)
 				.path("/")
 //				.secure(true)
 				.sameSite("None")
@@ -133,9 +139,9 @@ public class UserController {
 		response.setHeader("Access-Control-Allow-Credentials","true");
 		response.setHeader("Access-Control-Allow-Methods","POST,GET,PUT,DELETE");
 
-		if(Objects.isNull(newAccessToken)){
+		if(!Objects.isNull(newAccessToken)){
 			ResponseCookie cookie = ResponseCookie.from("accessToken", newAccessToken)
-				.maxAge(3000000)
+				.maxAge(accessTokenExpirationTime)
 				.path("/")
 				//.secure(true)
 				.sameSite("None")
