@@ -21,22 +21,22 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 // import useManagerUserList from "../../hooks/useManagerUserList/useManagerUserList";
 
-function createData(email, name, nickname) {
-  return {
-    email,
-    name,
-    nickname,
-  };
-}
+// function createData(email, name, nickname) {
+//   return {
+//     email,
+//     name,
+//     nickname,
+//   };
+// }
 
-const rows = [
-  createData("ssafy@ssafy.com", "냥타벅스", "강남구"),
-  createData("lovecat@man.com", "러브캣", "고양시"),
-  createData("catgoodday@pet.net", "고양이라좋은날", "아산시"),
-  createData("likedog@pet.net", "개같은날", "관악구"),
-  createData("critters@gallery.com", "축생박물관", "여수시"),
-  createData("animal@go.cafe", "아님말고", "충주시"),
-];
+// const rows = [
+//   createData("ssafy@ssafy.com", "냥타벅스", "강남구"),
+//   createData("lovecat@man.com", "러브캣", "고양시"),
+//   createData("catgoodday@pet.net", "고양이라좋은날", "아산시"),
+//   createData("likedog@pet.net", "개같은날", "관악구"),
+//   createData("critters@gallery.com", "축생박물관", "여수시"),
+//   createData("animal@go.cafe", "아님말고", "충주시"),
+// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -53,11 +53,6 @@ function getComparator(order, orderBy) {
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
-
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
@@ -211,13 +206,15 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-const ManagerShopTable = () => {
+const ManagerShopTable = (props) => {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("email");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
 
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const data = props.rows;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -227,7 +224,7 @@ const ManagerShopTable = () => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = data.map((n) => n.name);
       setSelected(newSelected);
       return;
     }
@@ -267,15 +264,15 @@ const ManagerShopTable = () => {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(data, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage]
+    [data, order, orderBy, page, rowsPerPage]
   );
   // if (loading) {
   //   return <p>로딩중...</p>;
@@ -296,21 +293,21 @@ const ManagerShopTable = () => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={data.length}
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.name);
+                const isItemSelected = isSelected(row.shopId);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.name)}
+                    onClick={(event) => handleClick(event, row.shopId)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.email}
+                    key={row.shopId}
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
@@ -331,8 +328,8 @@ const ManagerShopTable = () => {
                     >
                       {row.email}
                     </TableCell>
-                    <TableCell align="left">{row.name}</TableCell>
-                    <TableCell align="right">{row.nickname}</TableCell>
+                    <TableCell align="left">{row.shopTitle}</TableCell>
+                    <TableCell align="right">{row.address}</TableCell>
                   </TableRow>
                 );
               })}
@@ -351,7 +348,7 @@ const ManagerShopTable = () => {
         <TablePagination
           rowsPerPageOptions={[10, 50, 100]}
           component="div"
-          count={rows.length}
+          count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{ title: "이전 페이지로" }}
