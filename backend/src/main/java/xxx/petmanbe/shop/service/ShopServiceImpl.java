@@ -27,7 +27,6 @@ import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
 import xxx.petmanbe.shopPet.repository.ShopPetRepository;
 import xxx.petmanbe.tag.dto.request.AddTagRequestDto;
 import xxx.petmanbe.tag.dto.response.TagListResponseDto;
-import xxx.petmanbe.tag.entity.Attach;
 import xxx.petmanbe.tag.entity.AttachShop;
 import xxx.petmanbe.tag.entity.Tag;
 import xxx.petmanbe.tag.repository.AttachShopRepository;
