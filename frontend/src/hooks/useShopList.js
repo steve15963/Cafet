@@ -21,7 +21,7 @@ const useShopList = () => {
         setShopList(response.data);
         setLoading(false);
       } catch (error) {
-        console.error("유저 목록을 불러오는 중 에러가 발생했습니다.", error);
+        console.error("지점 목록을 불러오는 중 에러가 발생했습니다.", error);
         setLoading(false);
       }
     };
