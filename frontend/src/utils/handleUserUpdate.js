@@ -1,18 +1,24 @@
-//개인정보 수정
-
 import axios from "axios";
 
-const handleUserUpdate = (email, nickname, phoneNo, fileUrl) => {
-  const data = {
-    email: email,
-    nickname: nickname,
-    phoneNo: phoneNo,
-    fileUrl: fileUrl,
-  };
+const handleUserUpdate = async (email, nickname, phoneNo, file) => {
+  const formData = new FormData();
+  console.log("handle " + email);
+  console.log(file);
+  formData.append("dto", JSON.stringify({ email, phoneNo, nickname }));
+  if (file) {
+    formData.append("file", file);
+  }
+  console.log(formData.get("dto"));
 
-  const serverUrl = "http://i9a105.p.ssafy.io:8080/api/user";
+  const serverUrl = "http://localhost:8080/api/user";
 
-  return axios.put(serverUrl, data);
+  const response = await axios.put(serverUrl, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response;
 };
 
 export default handleUserUpdate;

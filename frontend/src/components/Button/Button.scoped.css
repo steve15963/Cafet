@@ -2,13 +2,14 @@
   display: block;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  background-color: white;
   color: black;
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 500;
-  width: 25%;
+  width: 100%;
   border-radius: 0.5rem;
   text-transform: uppercase;
 }
