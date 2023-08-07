@@ -8,7 +8,7 @@ public interface ShopPetService {
 
     public GetShopPetDto getShopPet(long shopId);
 
-    public boolean postShopPet(PostShopPetDto postShopPetDto);
+    public long postShopPet(PostShopPetDto postShopPetDto);
 
     public boolean putShopPet(PutShopPetDto putShopPetDto);
 

@@ -1,5 +1,7 @@
 package xxx.petmanbe.shopPet.service;
 
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +44,12 @@ public class ShopPetServiceImpl implements ShopPetService{
 
     @Transactional
     @Override
-    public boolean postShopPet(PostShopPetDto postShopPetDto) {
+    public long postShopPet(PostShopPetDto postShopPetDto) {
 
         Shop shop = shopRepository.findById(postShopPetDto.getShopId()).orElseThrow(()-> new IllegalArgumentException());
+
+
+
 
         ShopPet shopPet = ShopPet.builder()
             .shop(shop)
@@ -62,7 +67,7 @@ public class ShopPetServiceImpl implements ShopPetService{
 
         shopRepository.save(shop);
 
-        return true;
+        return shopPet.getShopPetId();
     }
 
     @Transactional

@@ -73,13 +73,13 @@ public class Shop extends BaseTimeEntity {
 	@Column(name = "status", nullable = false, columnDefinition = "boolean default false")
 	private boolean status;
 
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "shop")
 	private List<Grade> shopGradeList;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shop")
 	private List<Board> boardList;
 
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "shop")
 	private List<ShopPet> shopPetList;
 
 	@ManyToOne
