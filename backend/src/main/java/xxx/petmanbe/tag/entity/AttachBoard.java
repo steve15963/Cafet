@@ -1,7 +1,9 @@
 package xxx.petmanbe.tag.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,11 +31,11 @@ public class AttachBoard extends BaseTimeEntity {
 	@Column(name = "attach_board_id")
 	private Long attachBoardId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "board_id")
 	private Board board;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "tag_id")
 	private Tag tag;
 
