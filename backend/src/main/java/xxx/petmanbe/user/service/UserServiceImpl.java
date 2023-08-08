@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
+import xxx.petmanbe.user.dto.requestDto.UpdateUserPasswordDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.dto.responseDto.LoginResponseDto;
@@ -230,6 +231,22 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findUsersByNicknameContaining(nickname).stream()
 			.map(UserListDto::new)
 			.collect(Collectors.toList());
+	}
+
+	@Transactional
+	@Override
+	public boolean changeUserPassword(UpdateUserPasswordDto request) {
+		// user 정보로 가져오기
+		Optional<User> user = userRepository.findById(request.getUserId());
+
+		// 정보가 있으면 변경하기
+		if (user.isPresent()){
+			user.get().updateUserPassword(passwordEncoder.encode(request.getPassword()));
+			return true;
+		}
+
+		// 없으면 예외처리를 위해 false 반환
+		return false;
 	}
 
 }

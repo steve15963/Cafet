@@ -24,6 +24,7 @@ import xxx.petmanbe.mail.service.MailService;
 import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
+import xxx.petmanbe.user.dto.requestDto.UpdateUserPasswordDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RefreshTokenDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
@@ -157,6 +158,19 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
+	}
+
+	// 비밀번호 변경
+	@PutMapping("/changepassword")
+	public ResponseEntity<String> putUserPassword(@RequestBody UpdateUserPasswordDto request){
+
+		// 만약 변경이 되면
+		if (userService.changeUserPassword(request)){
+			return new ResponseEntity<>("success!", HttpStatus.OK);
+		}
+
+		// 안되면
+		return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
 	}
 
 
