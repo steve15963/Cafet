@@ -96,11 +96,10 @@ public class ShopServiceImpl implements ShopService{
 		//중복 체크 들어가야 함
 		User user = userRepository.findById(postNewShopDto.getUserId()).orElseThrow(IllegalArgumentException::new);
 
-		// String address = changeAddress(postNewShopDto.getAddress());
+		String address = changeAddress(postNewShopDto.getAddress());
 		// address에서 road 구해주고
-		// String road = getRoad(postNewShopDto.getAddress());
+		String road = getRoad(postNewShopDto.getAddress());
 		// longitude, latitude 구해줌
-		String road = "테헤란로 231";
 		Position position = addressToPosition(road);
 
 		// System.out.println(address);
