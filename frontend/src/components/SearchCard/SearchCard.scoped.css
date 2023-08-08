@@ -1,0 +1,39 @@
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card-wrapper .red {
+  background-color: #ececec;
+}
+
+
+.card-wrapper .card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  height: 100px;
+  width: 250px;
+  border-radius: 10px;
+  color: black;
+  cursor: pointer;
+  transition: 400ms;
+  margin-left: 20px;
+  margin-bottom: 5px;
+}
+
+.card-wrapper .card p.tip {
+  font-size: 1em;
+  font-weight: 700;
+}
+
+.card-wrapper .card p.second-text {
+  font-size: .7em;
+}
+
+.card-wrapper .card:hover {
+  transform: scale(1.1, 1.1);
+}

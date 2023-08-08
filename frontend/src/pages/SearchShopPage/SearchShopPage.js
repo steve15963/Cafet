@@ -1,83 +1,126 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { Map } from 'react-kakao-maps-sdk';
+
+import axios from 'axios';
+
+// import useGeolocation from 'react-hook-geolocation';
 
 import './SearchShopPage.scoped.css'
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+import SearchCard from '../../components/SearchCard/SearchCard';
 
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import Grid from '@mui/material/Grid';
 
-const SearchShop = () => {
-  const [animal, setAnimal] = useState('')
+
+// const { kakao } = window;
+
+// const mockData = [
+//   {
+//     id: 0,
+//     shop: '고양이 다락방',
+//     lat: 37.555970,
+//     lng: 126.923110,
+//     petClassify: '고양이',
+//   },
+//   {
+//     id: 1,
+//     shop: '포포앤미루',
+//     lat: 37.525396,
+//     lng: 127.134214,
+//     petClassify: '강아지',
+//   },
+// ]
+
+const SearchShopPage = () => {
+
+  // const [animal, setAnimal] = useState('')
   const [region, setRegion] = useState('')
+  const [cafeList, setCafeList] = useState([])
 
-  const handleChangeAnimal = (event) => {
-    setAnimal(event.target.value);
-  };
+  const onChangeSearch = (e) => {
+    setRegion(e.target.value)
+  }
 
-  const handleChangeRegion = (event) => {
-    setRegion(event.target.value);
-  };
+  const searchResult = (place) => {
+    axios.get(`http://i9a105.p.ssafy.io:8080/api/shop/address/${place}`)
+      .then(function(res) {
+        setCafeList(res.data)
+        setRegion("")
+      })
+      .catch(function(err) {
+        console.log(err)
+      })
+  }
+  console.log('cafeList :', cafeList)
 
-  // useEffect(()=> {
+  // useEffect(() => {
+  //   let container = document.getElementById("map");
+  //   let options = {
+  //     center: new kakao.maps.LatLng(37.544293, 127.076089),
+  //     level: 7,
+  //   };
 
-  // }, [])
+  //   //map
+  //   const map = new kakao.maps.Map(container, options);
+    
+  //   mockData.forEach((el) => {
+  //     // 마커 생성
+  //     new kakao.maps.Marker({
+  //       //마커가 표시 될 지도
+  //       map: map,
+  //       //마커가 표시 될 위치
+  //       position: new kakao.maps.LatLng(el.lat, el.lng),
+  //       //마커에 hover시 나타날 title
+  //       title: el.shop,
+  //     });
+  //   });
+  // }, []);
+
+  // const moveCenter = () => {
+  //   let moveLatLon = new kakao.maps.LatLng(geolocation.latitude, geolocation.longitude);
+  //   // map.setCenter(moveLatLon)
+  // }
   return (
     <div className='SearchShop'>
       <Header />
       <div className="header-save"/>
-      <div>
-        <div className='search-container'>
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="selector-region-label">Region</InputLabel>
-            <Select
-              labelId="selector-region-label"
-              id="selector-region"
-              value={region}
-              label="Region"
-              onChange={handleChangeRegion}
-            >
-              <MenuItem value={'서울'}>서울</MenuItem>
-              <MenuItem value={'경기'}>경기</MenuItem>
-              <MenuItem value={'강원'}>강원</MenuItem>
-              <MenuItem value={'충청'}>충청</MenuItem>
-              <MenuItem value={'전라'}>전라</MenuItem>
-              <MenuItem value={'경상'}>경상</MenuItem>
-              <MenuItem value={'인천'}>인천</MenuItem>
-              <MenuItem value={'울산'}>울산</MenuItem>
-              <MenuItem value={'대전'}>대전</MenuItem>
-              <MenuItem value={'광주'}>광주</MenuItem>
-              <MenuItem value={'대구'}>대구</MenuItem>
-              <MenuItem value={'부산'}>부산</MenuItem>
-              <MenuItem value={'세종'}>세종</MenuItem>
-              <MenuItem value={'제주'}>제주</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="selector-animal-label">Animal</InputLabel>
-            <Select
-              labelId="selector-animal-label"
-              id="selector-animal"
-              value={animal}
-              label="Animal"
-              onChange={handleChangeAnimal}
-            >
-              <MenuItem value={'전체'}>전체</MenuItem>
-              <MenuItem value={'강아지'}>강아지</MenuItem>
-              <MenuItem value={'고양이'}>고양이</MenuItem>
-              <MenuItem value={'기타'}>기타</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <div className="map-container">
-      </div>
-      </div>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <div className='search-wrapper'>
+            <div className='region-input'>
+              <input value={region} onChange={onChangeSearch}/>
+              <button onClick={() => {searchResult(region)}}>검색</button>
+            </div>
+          </div>
+          <div className='list-wrapper'>
+            {
+              cafeList.map((el) => 
+                <SearchCard {...el} />
+              )
+            }
+          </div>
+        </Grid>
+        <Grid item xs={6}>
+        <Map // 지도를 표시할 Container
+          center={{
+            // 지도의 중심좌표
+            lat: 33.450701,
+            lng: 126.570667,
+          }}
+          style={{
+            // 지도의 크기
+            width: "100%",
+            height: "450px",
+          }}
+          level={3} // 지도의 확대 레벨
+        />
+        </Grid>
+      </Grid>
       <div className="footer-save"/>
       <Footer />
     </div>
   );
 }
 
-export default SearchShop;
+export default SearchShopPage;
