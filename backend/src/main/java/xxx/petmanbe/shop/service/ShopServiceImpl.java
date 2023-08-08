@@ -96,13 +96,13 @@ public class ShopServiceImpl implements ShopService{
 		//중복 체크 들어가야 함
 		User user = userRepository.findById(postNewShopDto.getUserId()).orElseThrow(IllegalArgumentException::new);
 
-		String address = changeAddress(postNewShopDto.getAddress());
+		// String address = changeAddress(postNewShopDto.getAddress());
 		// address에서 road 구해주고
 		String road = getRoad(postNewShopDto.getAddress());
 		// longitude, latitude 구해줌
 		Position position = addressToPosition(road);
 
-		System.out.println(address);
+		// System.out.println(address);
 
 		Shop shop = Shop.builder()
 			.shopTitle(postNewShopDto.getShopTitle())
@@ -110,7 +110,7 @@ public class ShopServiceImpl implements ShopService{
 			.gradeCount(0)
 			.longitude(position.getLongitude())
 			.latitude(position.getLatitude())
-			.address(address)
+			.address(postNewShopDto.getAddress())
 			.phoneNo(postNewShopDto.getPhoneNo())
 			.descriptions(postNewShopDto.getDescriptions())
 			.openedTime(postNewShopDto.getOpenedTime())
