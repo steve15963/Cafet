@@ -92,22 +92,27 @@ const CreatePage = () => {
         </Box>
         <br />
         <p>{inputValues.boardTitle}</p>
-        <div className="title-right" />
       </div>
       <div className="editor-wrapper">
         <Editor onChange={onChangeContent} />
       </div>
       <div className="button-wrapper">
-        <Button
-          className="backBtn"
-          text={"뒤로가기"}
-          onClick={() => goToBack()}
-        />
-        <Button
-          className="submitBtn"
-          onClick={onCreateButtonClick}
-          text={"작성하기"}
-        />
+        <div className="button-right">
+          <Button
+            type="grays"
+            className="backBtn"
+            text={"뒤로가기"}
+            onClick={() => goToBack()}
+          />
+        </div>
+        <div className="button-left">
+          <Button
+            type="grays"
+            className="submitBtn"
+            onClick={onCreateButtonClick}
+            text={"작성하기"}
+          />
+        </div>
       </div>
       <div className="footer-save" />
       <Footer />
