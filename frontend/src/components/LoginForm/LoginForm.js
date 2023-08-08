@@ -16,8 +16,9 @@ const LoginForm = () => {
   const onLoginButtonClick = async (event) => {
     event.preventDefault();
     try {
+      //eslint-disable-next-line
       const response = await handleLogin(email, password);
-      console.log("Login success : ", response);
+      console.log("Login success : ");
       alert("로그인에 성공하셨습니다.");
       navigate("/", { replace: true });
     } catch (error) {
