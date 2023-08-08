@@ -89,10 +89,6 @@ public class Shop extends BaseTimeEntity {
 
 	public void updateShop(PutShopDto request){
 		this.shopTitle = request.getShopTitle();
-		this.totalScore = request.getTotalScore();
-		this.gradeCount = request.getGradeCount();
-		this.longitude = request.getLongitude();
-		this.latitude = request.getLatitude();
 		this.address = request.getAddress();
 		this.phoneNo=request.getPhoneNo();
 		this.descriptions=request.getDescriptions();
