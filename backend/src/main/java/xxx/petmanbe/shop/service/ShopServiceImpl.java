@@ -123,17 +123,17 @@ public class ShopServiceImpl implements ShopService{
 
 		// 태그 부착정보 생성
 		for (TagListResponseDto response : postNewShopDto.getTagList()){
-			// 태그 정보 가져오기
-			Optional<Tag> tag = tagRepository.findByStatusFalseAndTagName(response.getTagName());
-			
 			// 만약 해당하는 이름의 태그가 없다면
-			if (tag.isEmpty()){
+			if (tagRepository.findByStatusFalseAndTagName(response.getTagName()).isEmpty()){
 				// 태그 생성
 				AddTagRequestDto tagRequest = AddTagRequestDto.builder()
 					.tagName(response.getTagName())
 					.build();
 				tagRepository.save(tagRequest.toEntity());
 			}
+
+			// 태그 정보 가져오기
+			Optional<Tag> tag = tagRepository.findByStatusFalseAndTagName(response.getTagName());
 
 			// 태그 부착
 			AttachShop attachShop = AttachShop.builder()
