@@ -96,10 +96,13 @@ public class ShopServiceImpl implements ShopService{
 		//중복 체크 들어가야 함
 		User user = userRepository.findById(postNewShopDto.getUserId()).orElseThrow(IllegalArgumentException::new);
 
+		String address = changeAddress(postNewShopDto.getAddress());
 		// address에서 road 구해주고
 		String road = getRoad(postNewShopDto.getAddress());
 		// longitude, latitude 구해줌
 		Position position = addressToPosition(road);
+
+		System.out.println(address);
 
 		Shop shop = Shop.builder()
 			.shopTitle(postNewShopDto.getShopTitle())
@@ -107,7 +110,7 @@ public class ShopServiceImpl implements ShopService{
 			.gradeCount(0)
 			.longitude(position.getLongitude())
 			.latitude(position.getLatitude())
-			.address(postNewShopDto.getAddress())
+			.address(address)
 			.phoneNo(postNewShopDto.getPhoneNo())
 			.descriptions(postNewShopDto.getDescriptions())
 			.openedTime(postNewShopDto.getOpenedTime())
@@ -146,6 +149,30 @@ public class ShopServiceImpl implements ShopService{
 		shopRepository.save(shop);
 
 		return true;
+	}
+
+	private String changeAddress(String address) {
+
+		String[] divide = address.split(" ");
+
+		for(int i=0 ; i<divide.length ; i++){
+
+			if(divide[0]=="세종특별자치시") divide[0]="세종";
+			else if(divide[0]=="제주특별자치도") divide[0]="제주";
+
+			int len = divide[i].length();
+			char s = divide[i].charAt(len-1);
+			if(s=='시' || s=='구' || s=='군'){
+				divide[i]=divide[i].substring(0,len-1);
+			}
+		}
+
+		String add ="";
+		for(int i=0 ; i<divide.length ; i++){
+			add=add.concat(divide[i]+" ");
+		}
+
+		return add;
 	}
 
 	// shop 정보 수정하기
