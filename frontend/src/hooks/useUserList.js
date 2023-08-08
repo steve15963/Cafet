@@ -12,8 +12,8 @@ const useUserList = () => {
   useEffect(() => {
     const getUserList = async () => {
       try {
-        //   "http://i9a105.p.ssafy.io:8080/api/user"
-        const response = await axios.get("http://localhost:8080/api/user");
+        //   "http://i9a105.p.ssafy.io/api/user"
+        const response = await axios.get("http://localhost/api/user");
         setUserList(response.data);
         setLoading(false);
       } catch (error) {
@@ -29,9 +29,9 @@ const useUserList = () => {
     setLoading(true);
     const getUserList = async () => {
       try {
-        //   "http://i9a105.p.ssafy.io:8080/api/user"
+        //   "http://i9a105.p.ssafy.io/api/user"
         const response = await axios.get(
-          `http://localhost:8080/api/user/email/${searchEmail}`
+          `http://i9a105.p.ssafy.io/api/user/email/${searchEmail}`
         );
         setUserList(response.data);
         setLoading(false);

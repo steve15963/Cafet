@@ -82,10 +82,10 @@ const ManageUsers = () => {
       //   }
       //   catch(error){
       //   }
-      //   axios.get("http://localhost:8080/api/user/nickname")
+      //   axios.get("http://i9a105.p.ssafy.io/api/user/nickname")
       // }
       // if (nickname) {
-      //   axios.get("http://localhost:8080/api/user/nickname");
+      //   axios.get("http://i9a105.p.ssafy.io/api/user/nickname");
       // }
     } catch (error) {
       if (error.response) {

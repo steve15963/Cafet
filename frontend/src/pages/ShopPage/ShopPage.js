@@ -10,17 +10,16 @@ import Footer from "../../components/Footer/Footer";
 import AnimalList from "../../components/AnimalList/AnimalList";
 import ShopInfoPage from "../ShopInfoPage/ShopInfoPage";
 
-import PropTypes from 'prop-types';
-import Stack from '@mui/material/Stack';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import StarIcon from '@mui/icons-material/Star';
-import { yellow } from '@mui/material/colors';
+import PropTypes from "prop-types";
+import Stack from "@mui/material/Stack";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import StarIcon from "@mui/icons-material/Star";
+import { yellow } from "@mui/material/colors";
 
 import SearchMap from "../../components/SearchMap/SearchMap";
-
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,25 +50,26 @@ CustomTabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
 const ShopPage = () => {
   const { shopId } = useParams();
   const [tabValue, setTabValue] = useState(0);
-  const [shopData, setShopData] = useState([])
+  const [shopData, setShopData] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://i9a105.p.ssafy.io:8080/api/shop/${shopId}`)
-      .then(function(response) {
-        setShopData(response.data)
+    axios
+      .get(`http://i9a105.p.ssafy.io/api/shop/${shopId}`)
+      .then(function (response) {
+        setShopData(response.data);
       })
-      .catch(function(error) {
-        console.log(error)
-      })
-  }, [shopId])
-  console.log('shopData', shopData)
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [shopId]);
+  console.log("shopData", shopData);
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
@@ -87,33 +87,37 @@ const ShopPage = () => {
         <Typography>
           {Math.round((shopData.totalScore / shopData.gradeCount) * 10) / 10}점
         </Typography>
-        </Stack>
+      </Stack>
       <div className="tab-wrapper">
-      <Box sx={{ width: '100%' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={tabValue} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="카페 가족" {...a11yProps(0)} />
-            <Tab label="갤러리" {...a11yProps(1)} />
-            <Tab label="카페 소식" {...a11yProps(2)} />
-            <Tab label="카페 정보" {...a11yProps(3)} />
-          </Tabs>
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={tabValue}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="카페 가족" {...a11yProps(0)} />
+              <Tab label="갤러리" {...a11yProps(1)} />
+              <Tab label="카페 소식" {...a11yProps(2)} />
+              <Tab label="카페 정보" {...a11yProps(3)} />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={tabValue} index={0}>
+            <h1>카페 가족</h1>
+            <AnimalList />
+          </CustomTabPanel>
+          <CustomTabPanel value={tabValue} index={1}>
+            <h1>갤러리</h1>
+            <SearchMap />
+          </CustomTabPanel>
+          <CustomTabPanel value={tabValue} index={2}>
+            <h1>카페 소식</h1>
+          </CustomTabPanel>
+          <CustomTabPanel value={tabValue} index={3}>
+            <ShopInfoPage key={shopId} {...shopData} />
+          </CustomTabPanel>
         </Box>
-        <CustomTabPanel value={tabValue} index={0}>
-          <h1>카페 가족</h1>
-          <AnimalList />
-        </CustomTabPanel>
-        <CustomTabPanel value={tabValue} index={1}>
-          <h1>갤러리</h1>
-          <SearchMap />
-        </CustomTabPanel>
-        <CustomTabPanel value={tabValue} index={2}>
-          <h1>카페 소식</h1>
-        </CustomTabPanel>
-        <CustomTabPanel value={tabValue} index={3}>
-          <ShopInfoPage key={shopId} {...shopData} />
-        </CustomTabPanel>
-      </Box>
-    </div>
+      </div>
       <div className="footer-save" />
       <Footer />
     </div>

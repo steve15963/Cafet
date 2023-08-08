@@ -8,7 +8,7 @@ const handlePasswordUpdate = (email, password) => {
     password: password,
   };
 
-  const serverUrl = "http://i9a105.p.ssafy.io:8080/api/user/login";
+  const serverUrl = "http://i9a105.p.ssafy.io/api/user/login";
 
   return axios.post(serverUrl, data);
 };
