@@ -4,7 +4,7 @@ import React from "react";
 import "./Button.scoped.css";
 
 const Button = ({ text, type, onClick }) => {
-  const btnType = ["common", "gray", "small"].includes(type) ? type : "default";
+  const btnType = ["common", "gray", "grays"].includes(type) ? type : "default";
 
   return (
     <button className={[`button_${btnType}`].join(" ")} onClick={onClick}>
