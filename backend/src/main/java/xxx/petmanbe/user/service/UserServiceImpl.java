@@ -12,10 +12,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
+import xxx.petmanbe.user.dto.requestDto.UpdateUserPasswordDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
+import xxx.petmanbe.user.dto.responseDto.LoginResponseDto;
 import xxx.petmanbe.user.dto.responseDto.UserFilesListDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
@@ -85,7 +88,7 @@ public class UserServiceImpl implements UserService{
 
 	 @Transactional
 	 @Override
-	 public Token postLoginUser(LoginDto loginDto) throws Exception {
+	 public LoginReturnDto postLoginUser(LoginDto loginDto) throws Exception {
 
 	 	User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(IllegalArgumentException::new);
 
@@ -99,7 +102,18 @@ public class UserServiceImpl implements UserService{
 
 		  userRepository.save(user);
 
-	 	return token;
+		 LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+			 .userId(user.getUserId())
+			 .level(user.getLevel().getLevelCode())
+			 .build();
+
+		  LoginReturnDto loginReturnDto = LoginReturnDto.builder()
+			  .loginResponseDto(loginResponseDto)
+			  .token(token)
+			  .build();
+
+
+	 	return loginReturnDto;
 	}
 
 	@Transactional
@@ -126,9 +140,14 @@ public class UserServiceImpl implements UserService{
 
 		User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
 
-		UserFilesListDto userFilesListDto = userFileRepository.findById(user.getUserFile().getUserfileId()).stream()
-			.map(UserFilesListDto::new)
-			.findFirst().orElseThrow(IllegalArgumentException::new);
+		UserFilesListDto userFilesListDto=null;
+
+		if(!Objects.isNull(user.getUserFile())){
+			userFilesListDto = userFileRepository.findById(user.getUserFile().getUserfileId()).stream()
+				.map(UserFilesListDto::new)
+				.findFirst().orElse(new UserFilesListDto());
+		}
+
 
 		List<String> role = user.getRoles();
 
@@ -144,25 +163,6 @@ public class UserServiceImpl implements UserService{
 				.role(role)
 				.build();
 	}
-
-	// 없앨 예정
-//	@Override
-//	public User SessionLogin(LoginDto loginDto) throws Exception {
-//		Optional<User> findUser = userRepository.findByEmail(loginDto.getEmail());
-//
-//		System.out.println(findUser.get().getUserId());
-//
-//		if(findUser.isEmpty()){
-//			return null;
-//		}
-//		else{
-//			User user = findUser.get();
-//			if(loginDto.getPassword().equals(user.getPassword())){
-//				return user;
-//			}
-//			return null;
-//		}
-//	}
 
 	@Transactional
 	@Override
@@ -231,6 +231,22 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findUsersByNicknameContaining(nickname).stream()
 			.map(UserListDto::new)
 			.collect(Collectors.toList());
+	}
+
+	@Transactional
+	@Override
+	public boolean changeUserPassword(UpdateUserPasswordDto request) {
+		// user 정보로 가져오기
+		Optional<User> user = userRepository.findById(request.getUserId());
+
+		// 정보가 있으면 변경하기
+		if (user.isPresent()){
+			user.get().updateUserPassword(passwordEncoder.encode(request.getPassword()));
+			return true;
+		}
+
+		// 없으면 예외처리를 위해 false 반환
+		return false;
 	}
 
 }

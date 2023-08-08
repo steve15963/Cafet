@@ -1,9 +1,13 @@
 package xxx.petmanbe.shopPet.dto.response;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.*;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shopPet.entity.ShopPet;
+import xxx.petmanbe.shopPetFile.dto.ShopPetFileDto;
 
 @Getter
 @Setter
@@ -26,6 +30,7 @@ public class GetShopPetDto {
 
     private String birth;
 
+    private List<ShopPetFileDto> shopPetFileDtoList;
 
     public GetShopPetDto(ShopPet shopPet){
         this.shopPetId = shopPet.getShopPetId();
@@ -35,6 +40,7 @@ public class GetShopPetDto {
         this.species = shopPet.getSpecies();
         this.description = shopPet.getDescription();
         this.birth = shopPet.getBirth();
+        this.shopPetFileDtoList = shopPet.getShopPetFileList().stream().map(ShopPetFileDto::new).collect(Collectors.toList());
     }
 
 }

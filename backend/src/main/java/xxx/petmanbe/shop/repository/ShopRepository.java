@@ -18,4 +18,6 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
 	List<Shop> findByStatusFalseAndShopTitleContaining(String shopTitle);
 
 	List<Shop> findByStatusFalseAndAddressContaining(String address);
+
+
 }

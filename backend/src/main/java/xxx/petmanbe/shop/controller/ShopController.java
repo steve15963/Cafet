@@ -4,15 +4,8 @@ import java.util.List;
 
 import java.io.IOException;
 
-import io.swagger.v3.core.util.Json;
 import lombok.RequiredArgsConstructor;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,22 +17,22 @@ import xxx.petmanbe.shop.dto.requestDto.*;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopListDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopUserGradeDto;
-import xxx.petmanbe.shop.entity.Shop;
+import xxx.petmanbe.address.repository.AddressRepository;
 import xxx.petmanbe.shop.service.GradeService;
 import xxx.petmanbe.shop.service.ShopService;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import javax.transaction.Transactional;
-import java.util.Map;
-
 @RestController
 @RequestMapping(value="/api/shop")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class ShopController {
 
     private final ShopService shopService;
 
     private final GradeService gradeService;
+
+    private final AddressRepository addressRepository;
 
     @Value("${kakao.map.key}")
     String key;
@@ -53,6 +46,38 @@ public class ShopController {
 	// 	return new ResponseEntity<>(shop,HttpStatus.OK);
 	// }
 
+
+
+
+//    @GetMapping("/get/address/{address}")
+//    public ResponseEntity<String> GetAdress(@PathVariable String address) throws IOException{
+//
+//        WebClient webClient = WebClient.builder()
+//            .baseUrl("https://dapi.kakao.com/v2/local/search/address.json?query="+address)
+//            .defaultHeader("Authorization",key)
+//            .build();
+//
+//        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+//
+//        JsonResponse s = webClient.get()
+//            .uri(uriBuilder -> uriBuilder.path("").build())
+//            .retrieve()
+//            .bodyToMono(JsonResponse.class).block();
+//
+//        Address address1 = Address.builder()
+//                .sidoName(s.getDocuments().get(0).address.region_1depth_name)
+//                .gugunName(s.getDocuments().get(0).address.region_2depth_name)
+//                        .build();
+//
+//        addressRepository.save(address1);
+//
+//        System.out.println(s.getDocuments().get(0).address.region_1depth_name);
+//        System.out.println(s.getDocuments().get(0).address.region_2depth_name);
+//
+//        return new ResponseEntity<>(address1.getSidoName()+address1.getGugunName(),HttpStatus.OK);
+//    }
+
+    //test 용도
     @GetMapping("position/1/{address}")
     public ResponseEntity<String> GetAddressPoistion(@PathVariable String address) throws IOException{
 
@@ -75,9 +100,9 @@ public class ShopController {
         return new ResponseEntity<>("s",HttpStatus.OK);
     }
 
-    // 가게 하나의 리스트 가져오기
+    // 가게 하나 가져오기
     @GetMapping("/{shopId}")
-    public ResponseEntity<GetShopDto> GetShop(@PathVariable long shopId){
+    public ResponseEntity<GetShopDto> getShop(@PathVariable long shopId){
 
         GetShopDto getShopDto = shopService.getShop(shopId);
 
@@ -107,15 +132,17 @@ public class ShopController {
 
     }
 
-
 	//가게 삭제(soft-delete)
 	@DeleteMapping("/status/{shopId}")
-	public ResponseEntity<Integer> putBoardStatus(@PathVariable Long shopId){
-		// 삭제 상태로 전환
-		shopService.putShopStatus(shopId);
+	public ResponseEntity<String> putBoardStatus(@PathVariable Long shopId){
 
-		// 결과 전달
-		return new ResponseEntity<>(HttpStatus.OK);
+        // 결과 전달
+        if (shopService.putShopStatus(shopId)) {
+            return new ResponseEntity<>("success", HttpStatus.NO_CONTENT);
+        }
+        else {
+            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+        }
 	}
 
     // 가게 평점 주기
@@ -187,6 +214,15 @@ public class ShopController {
     public ResponseEntity<List<GetShopListDto>> getShopListByAddress(@PathVariable String key){
 
         List<GetShopListDto> shopList = shopService.getShopListByAddress(key);
+
+        return new ResponseEntity<>(shopList, HttpStatus.OK);
+    }
+
+    // 해당 태그가 들어가는 가게 리스트 가져오기
+    @GetMapping("/tag/{tagName}")
+    public ResponseEntity<List<GetShopListDto>> getShopListByTag(String tagName){
+
+        List<GetShopListDto> shopList = shopService.getShopListByTag(tagName);
 
         return new ResponseEntity<>(shopList, HttpStatus.OK);
     }

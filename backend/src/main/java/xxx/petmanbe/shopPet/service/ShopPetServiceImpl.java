@@ -1,5 +1,10 @@
 package xxx.petmanbe.shopPet.service;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +15,9 @@ import xxx.petmanbe.shopPet.dto.request.PutShopPetDto;
 import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
 import xxx.petmanbe.shopPet.entity.ShopPet;
 import xxx.petmanbe.shopPet.repository.ShopPetRepository;
+import xxx.petmanbe.shopPetFile.dto.ShopPetFileDto;
+import xxx.petmanbe.shopPetFile.entity.ShopPetFile;
+import xxx.petmanbe.shopPetFile.repository.ShopPetFileRepository;
 
 import javax.transaction.Transactional;
 
@@ -21,12 +29,23 @@ public class ShopPetServiceImpl implements ShopPetService{
 
     private final ShopRepository shopRepository;
 
+    private final ShopPetFileRepository shopPetFileRepository;
+
     @Transactional
     @Override
     public GetShopPetDto getShopPet(long shopPetId) {
 
         ShopPet shopPet = shopPetRepository.findById(shopPetId).orElseThrow(()->new IllegalArgumentException());
-        
+
+        List<ShopPetFile> shopPetFile = shopPet.getShopPetFileList();
+        List<ShopPetFileDto> shopPetFileDtoList = null;
+
+        if(!Objects.isNull(shopPetFile)){
+            shopPetFileDtoList = shopPetFile
+                .stream()
+                .map(ShopPetFileDto::new).collect(Collectors.toList());
+        }
+
         GetShopPetDto getShopPetDto = GetShopPetDto.builder()
                 .shopPetId(shopPet.getShopPetId())
                 .petAge(shopPet.getPetAge())
@@ -35,6 +54,7 @@ public class ShopPetServiceImpl implements ShopPetService{
                 .species(shopPet.getSpecies())
                 .description(shopPet.getDescription())
                 .birth(shopPet.getBirth())
+            .shopPetFileDtoList(shopPetFileDtoList)
                 .build();
 
         return getShopPetDto;
@@ -42,9 +62,12 @@ public class ShopPetServiceImpl implements ShopPetService{
 
     @Transactional
     @Override
-    public boolean postShopPet(PostShopPetDto postShopPetDto) {
+    public long postShopPet(PostShopPetDto postShopPetDto) {
 
         Shop shop = shopRepository.findById(postShopPetDto.getShopId()).orElseThrow(()-> new IllegalArgumentException());
+
+
+
 
         ShopPet shopPet = ShopPet.builder()
             .shop(shop)
@@ -62,7 +85,7 @@ public class ShopPetServiceImpl implements ShopPetService{
 
         shopRepository.save(shop);
 
-        return true;
+        return shopPet.getShopPetId();
     }
 
     @Transactional

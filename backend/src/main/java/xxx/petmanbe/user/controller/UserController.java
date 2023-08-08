@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
@@ -20,8 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.mail.service.MailService;
+import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
+import xxx.petmanbe.user.dto.requestDto.UpdateUserPasswordDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RefreshTokenDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
@@ -50,6 +53,11 @@ public class UserController {
 
 	private final JwtUtil jwtUtil;
 
+	@Value("${jwt.accessTokenExpirationTime.int}")
+	private int accessTokenExpirationTime;
+
+	@Value("${jwt.refreshTokenExpirationTime.int}")
+	private int refreshTokenExpirationTime;
 
 	@PostMapping(value="/new")
 	public ResponseEntity<String> PostNewUser(@RequestBody RegistDto request) throws Exception {
@@ -78,25 +86,25 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginDto loginDto, HttpServletResponse httpServletResponse) throws Exception {
 
-		Token token = userService.postLoginUser(loginDto);
+		LoginReturnDto loginReturnDto = userService.postLoginUser(loginDto);
 
-		ResponseCookie cookie1 = ResponseCookie.from("refreshToken", token.getRefreshToken())
-				.maxAge(30000000)
+		ResponseCookie cookie1 = ResponseCookie.from("refreshToken", loginReturnDto.getToken().getRefreshToken())
+				.maxAge(accessTokenExpirationTime)
 				.path("/")
 				.secure(true)
 				.sameSite("None")
 				.httpOnly(true)
 				.build();
 
-		ResponseCookie cookie2 = ResponseCookie.from("accessToken", token.getAccessToken())
-				.maxAge(300000)
+		ResponseCookie cookie2 = ResponseCookie.from("accessToken", loginReturnDto.getToken().getAccessToken())
+				.maxAge(refreshTokenExpirationTime)
 				.path("/")
 				.secure(true)
 				.sameSite("None")
 				.httpOnly(true)
 				.build();
 
-//		httpServletResponse.addHeader("Authorization",token.getRefreshToken());
+		httpServletResponse.addHeader("Authorization",loginReturnDto.getToken().getRefreshToken());
 		httpServletResponse.setHeader("Set-Cookie",cookie1.toString()); //refreshToken
 		httpServletResponse.addHeader("Set-Cookie",cookie2.toString()); // accessToken
 
@@ -105,11 +113,11 @@ public class UserController {
 		httpServletResponse.setHeader("Access-Control-Allow-Credentials","true");
 		httpServletResponse.setHeader("Access-Control-Allow-Methods","POST,GET,PUT,DELETE");
 
-		if(Objects.isNull(token)){
+		if(Objects.isNull(loginReturnDto.getToken())){
 
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(loginReturnDto.getLoginResponseDto(),HttpStatus.OK);
 	}
 
 	// refreshToken이 유효한지 확인 -> 유효하면 엑세스 토큰 반환
@@ -126,17 +134,19 @@ public class UserController {
 			}
 		}
 
-		System.out.println(refreshToken);
-
 		String newAccessToken = jwtService.refreshToken(refreshToken);
 
-		if(Objects.isNull(newAccessToken)){
+		response.setHeader("Acess-Control-Allow-origin","*");
+		response.setHeader("Access-Control-Allow-Credentials","true");
+		response.setHeader("Access-Control-Allow-Methods","POST,GET,PUT,DELETE");
+
+		if(!Objects.isNull(newAccessToken)){
 			ResponseCookie cookie = ResponseCookie.from("accessToken", newAccessToken)
-				.maxAge(300000)
+				.maxAge(accessTokenExpirationTime)
 				.path("/")
-				//				.secure(true)
+				//.secure(true)
 				.sameSite("None")
-				//				.httpOnly(true)
+				//.httpOnly(true)
 				.build();
 
 			response.setHeader("Set-Cookie",cookie.toString());
@@ -148,6 +158,19 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
+	}
+
+	// 비밀번호 변경
+	@PutMapping("/changepassword")
+	public ResponseEntity<String> putUserPassword(@RequestBody UpdateUserPasswordDto request){
+
+		// 만약 변경이 되면
+		if (userService.changeUserPassword(request)){
+			return new ResponseEntity<>("success!", HttpStatus.OK);
+		}
+
+		// 안되면
+		return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
 	}
 
 

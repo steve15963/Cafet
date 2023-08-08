@@ -18,6 +18,10 @@ public class GetShopListDto {
 
 	private String phoneNo;
 
+	private double longitude;
+
+	private double latitude;
+
 	// entity to dto
 	public GetShopListDto (Shop shop){
 		this.shopId = shop.getShopId();
@@ -25,5 +29,7 @@ public class GetShopListDto {
 		this.gradeCount = shop.getGradeCount();
 		this.address = shop.getAddress();
 		this.phoneNo = shop.getPhoneNo();
+		this.longitude = shop.getLongitude();
+		this.latitude = shop.getLatitude();
 	}
 }

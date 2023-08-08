@@ -13,6 +13,7 @@ import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.shop.entity.Grade;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shopPet.dto.request.PutShopPetDto;
+import xxx.petmanbe.shopPetFile.entity.ShopPetFile;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ import java.util.List;
 public class ShopPet extends BaseTimeEntity {
 
 	@Id
-	@Column(name="shopPet_id")
+	@Column(name="shop_pet_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long shopPetId;
 
@@ -55,6 +56,8 @@ public class ShopPet extends BaseTimeEntity {
 	@JoinColumn(name = "shop_id")
 	private Shop shop;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopPet")
+	private List<ShopPetFile> shopPetFileList;
 
 	public void updateShopPet(PutShopPetDto request){
 		this.petName = request.getPetName();

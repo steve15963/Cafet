@@ -84,6 +84,10 @@ public class User extends BaseTimeEntity implements UserDetails
         this.nickname = nickname;
     }
 
+    public void updateUserPassword (String newPassword){
+        this.password = newPassword;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream()

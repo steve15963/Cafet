@@ -1,17 +1,15 @@
 package xxx.petmanbe.user.service;
 
 import java.util.List;
-import java.util.Optional;
 
+import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
+import xxx.petmanbe.user.dto.requestDto.UpdateUserPasswordDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
-import xxx.petmanbe.user.dto.responseDto.RefreshJwtDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
 import xxx.petmanbe.user.dto.responseDto.UserListDto;
-import xxx.petmanbe.user.entity.Token;
-import xxx.petmanbe.user.entity.User;
 
 public interface UserService {
 
@@ -19,7 +17,7 @@ public interface UserService {
 
 	boolean checkUserLogin(LoginDto loginDto) throws Exception;
 
-	Token postLoginUser(LoginDto loginDto) throws Exception;
+	LoginReturnDto postLoginUser(LoginDto loginDto) throws Exception;
 
 	boolean putUser(UserModifyDto userModifyDto) throws Exception;
 
@@ -36,4 +34,6 @@ public interface UserService {
 	List<UserListDto> getUserListByEmail(String email);
 
 	List<UserListDto> getUserListByNickname(String nickname);
+
+	boolean changeUserPassword(UpdateUserPasswordDto request);
 }

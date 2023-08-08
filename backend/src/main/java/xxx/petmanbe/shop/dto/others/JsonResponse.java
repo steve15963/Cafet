@@ -10,10 +10,26 @@ public class JsonResponse {
     private Data2 meta;
 
     public static class Data1 {
-        public String address;
+        public Data4 address;
         public String address_name;
         public String address_type;
         public Data3 road_address;
+        public double x;
+        public double y;
+
+    }
+
+    public static class Data4{
+        public String address_name;
+        public String b_code;
+        public String h_code;
+        public String main_address_no;
+        public String mountain_yn;
+        public String region_1depth_name;
+        public String region_2depth_name;
+        public String region_3depth_h_name;
+        public String region_3depth_name;
+        public String sub_address_no;
         public double x;
         public double y;
 

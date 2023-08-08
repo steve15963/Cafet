@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import lombok.*;
 import xxx.petmanbe.board.entity.Board;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
+import xxx.petmanbe.shop.dto.requestDto.PutShopDto;
 import xxx.petmanbe.shopPet.entity.ShopPet;
 import xxx.petmanbe.user.entity.User;
 
@@ -73,34 +74,28 @@ public class Shop extends BaseTimeEntity {
 	@Column(name = "status", nullable = false, columnDefinition = "boolean default false")
 	private boolean status;
 
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "shop")
 	private List<Grade> shopGradeList;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shop")
 	private List<Board> boardList;
 
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "shop")
 	private List<ShopPet> shopPetList;
 
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
 
-	public void updateShop(String shopTitle, long totalScore, int gradeCount,  double longitude,
-		double latitude, String address, String phoneNo, String descriptions, String openedTime,
-		String closedTime, String sns, String homepage){
-		this.shopTitle=shopTitle;
-		this.totalScore=totalScore;
-		this.gradeCount=gradeCount;
-		this.longitude=longitude;
-		this.latitude=latitude;
-		this.address=address;
-		this.phoneNo=phoneNo;
-		this.descriptions=descriptions;
-		this.openedTime=openedTime;
-		this.closedTime=closedTime;
-		this.sns=sns;
-		this.homepage=homepage;
+	public void updateShop(PutShopDto request){
+		this.shopTitle = request.getShopTitle();
+		this.address = request.getAddress();
+		this.phoneNo=request.getPhoneNo();
+		this.descriptions=request.getDescriptions();
+		this.openedTime=request.getOpenedTime();
+		this.closedTime=request.getClosedTime();
+		this.sns=request.getSns();
+		this.homepage=request.getHomepage();
 	}
 
 	public void updateGrade(long totalScore, int gradeCount){
