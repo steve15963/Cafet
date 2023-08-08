@@ -83,7 +83,7 @@ public class UserController {
 		ResponseCookie cookie1 = ResponseCookie.from("refreshToken", token.getRefreshToken())
 				.maxAge(30000000)
 				.path("/")
-//				.secure(true)
+				.secure(true)
 				.sameSite("None")
 				.httpOnly(true)
 				.build();
@@ -91,7 +91,7 @@ public class UserController {
 		ResponseCookie cookie2 = ResponseCookie.from("accessToken", token.getAccessToken())
 				.maxAge(300000)
 				.path("/")
-//				.secure(true)
+				.secure(true)
 				.sameSite("None")
 				.httpOnly(true)
 				.build();
