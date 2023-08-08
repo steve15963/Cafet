@@ -6,29 +6,19 @@ import "./LoginForm.scoped.css";
 import TextField from "@mui/material/TextField";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
-import { useCookies } from "react-cookie"; // Import the useCookies hook
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  //eslint-disable-next-line
-  const [cookies, setCookies] = useCookies(["refreshToken", "accessToken"]); // Initialize the cookies
 
+  //로그인 버튼 클릭시 동작
   const onLoginButtonClick = async (event) => {
     event.preventDefault();
     try {
       const response = await handleLogin(email, password);
       console.log("Login success : ", response);
       alert("로그인에 성공하셨습니다.");
-
-      setCookies("refreshToken", response.data.refreshToken, {
-        maxAge: 30 * 24 * 60 * 60,
-      });
-      setCookies("accessToken", response.data.accessToken, {
-        maxAge: 24 * 60 * 60,
-      });
-
       navigate("/", { replace: true });
     } catch (error) {
       console.error("Login failed:");
