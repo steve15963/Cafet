@@ -11,6 +11,7 @@ import EmailCheckForm from "./components/EmailCheckForm/EmailCheckForm";
 import RePasswordForm from "./components/RePassword/RePassword";
 import MainPage from "./pages/MainPage/MainPage";
 import MainList from "./components/MainList/MainList";
+import Rule from "./components/Rule/Rule";
 import InquiryForm from "./components/InquiryForm/InquiryForm";
 import ManagePage from "./pages/ManagePage/ManagePage";
 import ManageUsers from "./components/ManageUsers/ManageUsers";
@@ -42,6 +43,7 @@ const App = () => {
         </Route>
         <Route path="/" element={<MainPage />}>
           <Route path="" element={<MainList />} />
+          <Route path="rule" element={<Rule />} />
           <Route path="inquiry" element={<InquiryForm />} />
         </Route>
         <Route path="/manage" element={<ManagePage />}>
