@@ -19,8 +19,7 @@ const EmailCheckForm = () => {
     event.preventDefault();
     try {
       const response = await handleEmailSend(email);
-      const token = response.data.token;
-      console.log("Email send success", token);
+      console.log("Email send success", response);
       alert("이메일이 전송되었습니다. 5분 이내에 인증번호를 입력해주세요");
     } catch (error) {
       console.error("Email send failed:");
@@ -33,8 +32,7 @@ const EmailCheckForm = () => {
     event.preventDefault();
     try {
       const response = await handleCheckEmail(email, emailToken);
-      const token = response.data.token;
-      console.log("Email Check success", token);
+      console.log("Email Check success", response);
       alert("이메일 인증에 성공했습니다.");
       navigate("/login/repassword", { replace: true });
     } catch (error) {
