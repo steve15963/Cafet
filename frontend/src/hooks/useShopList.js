@@ -8,7 +8,7 @@ const useShopList = () => {
   useEffect(() => {
     const getShopList = async () => {
       try {
-        const response = await axios.get("http://i9a105.p.ssafy.io/api/shop");
+        const response = await axios.get("https://i9a105.p.ssafy.io/api/shop");
         console.log(response.data);
         setShopList(response.data);
         setLoading(false);

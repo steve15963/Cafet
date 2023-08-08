@@ -7,7 +7,7 @@ const handleSubmit = (event) => {
     event: event,
   };
 
-  const serverUrl = `http://i9a105.p.ssafy.io/business/num/detail/`;
+  const serverUrl = `https://i9a105.p.ssafy.io/business/num/detail/`;
 
   return axios.post(serverUrl, data);
 };

@@ -10,7 +10,7 @@ const handleUserUpdate = async (email, nickname, phoneNo, file) => {
   }
   console.log(formData.get("dto"));
 
-  const serverUrl = "http://i9a105.p.ssafy.io/api/user";
+  const serverUrl = "https://i9a105.p.ssafy.io/api/user";
 
   const response = await axios.put(serverUrl, formData, {
     headers: {

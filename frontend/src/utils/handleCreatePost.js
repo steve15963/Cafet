@@ -3,7 +3,7 @@ import axios from "axios";
 
 const handleCreatePost = (inputValues) => {
   console.log(inputValues);
-  const serverUrl = "http://i9a105.p.ssafy.io/api/board/new";
+  const serverUrl = "https://i9a105.p.ssafy.io/api/board/new";
 
   return axios.post(serverUrl, inputValues);
 };

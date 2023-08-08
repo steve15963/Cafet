@@ -8,7 +8,7 @@ const useBoardList = () => {
   useEffect(() => {
     const getBoardList = async () => {
       try {
-        const response = await axios.get("http://i9a105.p.ssafy.io/api/board");
+        const response = await axios.get("https://i9a105.p.ssafy.io/api/board");
         setBoardList(response.data);
         setLoading(false);
       } catch (error) {

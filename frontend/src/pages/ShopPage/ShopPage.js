@@ -61,7 +61,7 @@ const ShopPage = () => {
 
   useEffect(() => {
     axios
-      .get(`http://i9a105.p.ssafy.io/api/shop/${shopId}`)
+      .get(`https://i9a105.p.ssafy.io/api/shop/${shopId}`)
       .then(function (response) {
         setShopData(response.data);
       })

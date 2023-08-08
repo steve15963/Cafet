@@ -9,7 +9,7 @@ const handleCheckEmail = (mail, mailToken) => {
     mailToken: mailToken,
   };
 
-  const serverUrl = "http://i9a105.p.ssafy.io/api/mail/check/regist";
+  const serverUrl = "https://i9a105.p.ssafy.io/api/mail/check/regist";
 
   return axios.post(serverUrl, data);
 };

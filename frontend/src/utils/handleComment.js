@@ -5,7 +5,7 @@ const handleComment = (boardId, content) => {
     content: content,
   };
 
-  const serverUrl = `http://i9a105.p.ssafy.io/api/comment/${boardId}/new/1`;
+  const serverUrl = `https://i9a105.p.ssafy.io/api/comment/${boardId}/new/1`;
 
   return axios.post(serverUrl, data);
 };
