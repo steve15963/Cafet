@@ -20,14 +20,6 @@ public class PutShopDto {
 
     String shopTitle;
 
-    long totalScore;
-
-    int gradeCount;
-
-    double longitude;
-
-    double latitude;
-
     String address;
 
     String phoneNo;
