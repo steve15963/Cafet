@@ -45,6 +45,7 @@ const LoginForm = () => {
         </div>
         <div className="login-container">
           <TextField
+            type="password"
             label="비밀번호"
             placeholder="비밀번호를 입력해주세요"
             variant="outlined"
