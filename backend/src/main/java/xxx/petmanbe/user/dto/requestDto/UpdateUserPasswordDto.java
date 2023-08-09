@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UpdateUserPasswordDto {
-	private Long userId;
+	private String email;
 	private String password;
 }

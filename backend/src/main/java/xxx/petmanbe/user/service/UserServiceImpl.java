@@ -237,7 +237,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean changeUserPassword(UpdateUserPasswordDto request) {
 		// user 정보로 가져오기
-		Optional<User> user = userRepository.findById(request.getUserId());
+		Optional<User> user = userRepository.findByEmail(request.getEmail());
 
 		// 정보가 있으면 변경하기
 		if (user.isPresent()){
