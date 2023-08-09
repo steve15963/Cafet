@@ -1,5 +1,3 @@
-//Header Component
-
 import React from "react";
 import "./Header.scoped.css";
 import { useCookies } from "react-cookie";
@@ -8,14 +6,17 @@ import { Link } from "react-router-dom";
 import { Divider, Stack } from "@mui/material";
 
 const HeaderShopMenu = () => {
-  const [removeCookies] = useCookies();
+  //eslint-disable-next-line
+  const [cookies, setCookie] = useCookies();
 
   const onLogoutClick = (event) => {
     event.preventDefault();
     localStorage.removeItem("userId");
     localStorage.removeItem("level");
-    removeCookies("accessToken");
-    removeCookies("refreshToken");
+
+    setCookie("accessToken", "", { maxAge: 1 });
+    setCookie("refreshToken", "", { maxAge: 1 });
+
     console.log("Logout success : ");
     alert("로그아웃에 성공하셨습니다.");
     window.location.reload();
