@@ -7,16 +7,15 @@ import { Divider, Stack } from "@mui/material";
 
 const HeaderUserMenu = () => {
   //eslint-disable-next-line
-  const [cookies, setCookie] = useCookies();
+  const [cookies, removeCookie] = useCookies();
 
   const onLogoutClick = (event) => {
     event.preventDefault();
     localStorage.removeItem("userId");
     localStorage.removeItem("level");
 
-    // Set cookies to expire in 1 second
-    setCookie("accessToken", "", { maxAge: 1 });
-    setCookie("refreshToken", "", { maxAge: 1 });
+    removeCookie("accessToken");
+    removeCookie("refreshToken");
 
     console.log("Logout success : ");
     alert("로그아웃에 성공하셨습니다.");
