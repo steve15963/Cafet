@@ -1,15 +1,65 @@
 //마이페이지 기본 정보 component
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./AccountData.scoped.css";
-import BasicTabs from "../../components/MyPageTabs/MyPageTabs";
+
+import Button from "../Button/Button";
+import UserBoards from "../UserBoards/UserBoards"
+import UserComments from "../UserComments/UserComments"
+import UserLike from "../UserLike/UserLike"
+
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import Container from "@mui/material/Container";
-import Button from "../Button/Button";
-import { useNavigate } from "react-router-dom";
+
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 const AccountData = () => {
+  const [tabValue, setTabValue] = React.useState(0);
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
+
   const navigate = useNavigate();
 
   //임시 이동 handler
@@ -41,7 +91,36 @@ const AccountData = () => {
         </Grid>
       </div>
       <div className="tab-wrapper">
-        <BasicTabs />
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={tabValue}
+              onChange={handleTabChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="게시물" {...a11yProps(0)} />
+              <Tab label="댓글" {...a11yProps(1)} />
+              <Tab label="좋아요" {...a11yProps(2)} />
+              <Tab label="팔로우" {...a11yProps(3)} />
+              <Tab label="별점" {...a11yProps(4)} />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={tabValue} index={0}>
+            <UserBoards />
+          </CustomTabPanel>
+          <CustomTabPanel value={tabValue} index={1}>
+            <UserComments />
+          </CustomTabPanel>
+          <CustomTabPanel value={tabValue} index={2}>
+            <UserLike />
+          </CustomTabPanel>
+          <CustomTabPanel value={tabValue} index={3}>
+            팔로우
+          </CustomTabPanel>
+          <CustomTabPanel value={tabValue} index={4}>
+            별점
+          </CustomTabPanel>
+        </Box>
       </div>
     </Container>
   );
