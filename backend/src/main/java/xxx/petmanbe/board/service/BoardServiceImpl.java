@@ -26,10 +26,6 @@ import xxx.petmanbe.boardfile.dto.responseDto.BoardFileDto;
 import xxx.petmanbe.boardfile.entity.BoardFile;
 import xxx.petmanbe.boardfile.repository.BoardFileRepository;
 import xxx.petmanbe.comment.dto.response.CommentResponseDto;
-import xxx.petmanbe.comment.entity.Comment;
-import xxx.petmanbe.exception.RestApiException;
-import xxx.petmanbe.exception.errorcode.CommonErrorCode;
-import xxx.petmanbe.exception.errorcode.ErrorCode;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
@@ -70,7 +66,7 @@ public class BoardServiceImpl implements BoardService{
 		category.ifPresentOrElse(
 			board::setCategory,
 			() -> {
-				throw new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND);
+				throw new IllegalArgumentException();
 			}
 		);
 
@@ -81,7 +77,7 @@ public class BoardServiceImpl implements BoardService{
 		user.ifPresentOrElse(
 			board::setUser,
 			() -> {
-				throw new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND);
+				throw new IllegalArgumentException();
 			}
 		);
 
@@ -110,7 +106,7 @@ public class BoardServiceImpl implements BoardService{
 			}
 			// 있으면 해당하는 태그 가져오기
 			Tag tag = tagRepository.findByStatusFalseAndTagName(response.getTagName())
-				.orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+				.orElseThrow(IllegalArgumentException::new);
 
 			AttachBoard attachBoard = AttachBoard.builder()
 				.board(board)
@@ -183,8 +179,9 @@ public class BoardServiceImpl implements BoardService{
 				.boardFileList(boardFileList)
 				.build();
 
-		} else {
-			throw new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND);
+		}
+		else {
+			throw new IllegalArgumentException();
 		}
 	}
 
