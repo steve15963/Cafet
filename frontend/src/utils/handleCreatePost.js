@@ -1,11 +1,25 @@
-//이메일 인증(response 방식 변경 중)
+// 게시글 등록
 import axios from "axios";
 
-const handleCreatePost = (inputValues) => {
-  console.log(inputValues);
+const handleCreatePost = async (email, nickname, phoneNo, file) => {
+  const formData = new FormData();
+  console.log("handle " + email);
+  console.log(file);
+  formData.append("dto", JSON.stringify({ email, phoneNo, nickname }));
+  if (file) {
+    formData.append("file", file);
+  }
+  console.log(formData.get("dto"));
+
   const serverUrl = "https://i9a105.p.ssafy.io/api/board/new";
 
-  return axios.post(serverUrl, inputValues);
+  const response = await axios.put(serverUrl, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response;
 };
 
 export default handleCreatePost;
