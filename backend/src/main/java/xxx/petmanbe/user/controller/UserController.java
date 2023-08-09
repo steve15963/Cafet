@@ -144,9 +144,9 @@ public class UserController {
 			ResponseCookie cookie = ResponseCookie.from("accessToken", newAccessToken)
 				.maxAge(accessTokenExpirationTime)
 				.path("/")
-				//.secure(true)
+				.secure(true)
 				.sameSite("None")
-				//.httpOnly(true)
+				.httpOnly(true)
 				.build();
 
 			response.setHeader("Set-Cookie",cookie.toString());
