@@ -2,9 +2,10 @@ package xxx.petmanbe.Location.dto.requestDto;
 
 import java.util.List;
 
+import lombok.Data;
 import lombok.Setter;
 
-@Setter
+@Data
 public class AddPetLocationRequestDto {
 	public long shopId;
 	public long petId;
