@@ -18,6 +18,8 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
 import { yellow } from "@mui/material/colors";
+import { Avatar, Container } from "@mui/material";
+import PetsIcon from "@mui/icons-material/Pets";
 
 // import SearchMap from "../../components/SearchMap/SearchMap";
 
@@ -32,7 +34,7 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{}}>{children}</Box>}
     </div>
   );
 }
@@ -57,7 +59,7 @@ const ShopPage = () => {
 
   useEffect(() => {
     axios
-      .get(`http://i9a105.p.ssafy.io:8080/api/shop/${shopId}`)
+      .get(`https://i9a105.p.ssafy.io/api/shop/${shopId}`)
       .then(function (response) {
         setShopData(response.data);
       })
@@ -70,50 +72,74 @@ const ShopPage = () => {
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
-
+  const stars =
+    Math.round((shopData.totalScore / shopData.gradeCount) * 10) / 10;
+  const displayStars = (stars) => {
+    if (stars > 0) {
+      return [...Array(stars)].map((e, i) => (
+        <StarIcon sx={{ color: yellow[700] }} />
+      ));
+    }
+    return null;
+  };
   return (
     <div>
       <Header />
       <div className="header-save" />
-      <div className="shop-name">
-        <h1>{shopData.shopTitle}</h1>
-      </div>
-      <Stack direction="row" alignItems="center" gap={1}>
-        <StarIcon sx={{ color: yellow[700] }} />
-        <Typography>
-          {Math.round((shopData.totalScore / shopData.gradeCount) * 10) / 10}점
-        </Typography>
-      </Stack>
-      <div className="tab-wrapper">
-        <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs
-              value={tabValue}
-              onChange={handleChange}
-              aria-label="basic tabs example"
-            >
-              <Tab label="카페 가족" {...a11yProps(0)} />
-              <Tab label="갤러리" {...a11yProps(1)} />
-              <Tab label="카페 소식" {...a11yProps(2)} />
-              <Tab label="카페 정보" {...a11yProps(3)} />
-            </Tabs>
-          </Box>
-          <CustomTabPanel value={tabValue} index={0}>
-            <h1>카페 가족</h1>
-            <AnimalList />
-          </CustomTabPanel>
-          <CustomTabPanel value={tabValue} index={1}>
-            <h1>갤러리</h1>
-            {/* <SearchMap /> */}
-          </CustomTabPanel>
-          <CustomTabPanel value={tabValue} index={2}>
-            <h1>카페 소식</h1>
-          </CustomTabPanel>
-          <CustomTabPanel value={tabValue} index={3}>
-            <ShopInfoPage key={shopId} {...shopData} />
-          </CustomTabPanel>
+      <Container justifyContent="center" sx={{ width: "80%" }}>
+        <Stack
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          gap={1}
+        >
+          <Avatar>
+            <PetsIcon />
+          </Avatar>
+          <Typography
+            variant="h5"
+            sx={{ display: "flex", alignItems: "center", gap: "15px" }}
+          >
+            {shopData.shopTitle}
+          </Typography>
+          <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            gap={0}
+          >
+            {displayStars(stars)}
+          </Stack>
+        </Stack>
+        <Box sx={{ width: "100%", borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            variant="fullWidth"
+            value={tabValue}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="카페 가족" {...a11yProps(0)} />
+            <Tab label="갤러리" {...a11yProps(1)} />
+            <Tab label="카페 소식" {...a11yProps(2)} />
+            <Tab label="카페 정보" {...a11yProps(3)} />
+          </Tabs>
         </Box>
-      </div>
+        <CustomTabPanel value={tabValue} index={0}>
+          <h1>카페 가족</h1>
+          <AnimalList />
+        </CustomTabPanel>
+        <CustomTabPanel value={tabValue} index={1}>
+          <h1>갤러리</h1>
+          {/* <SearchMap /> */}
+        </CustomTabPanel>
+        <CustomTabPanel value={tabValue} index={2}>
+          <h1>카페 소식</h1>
+        </CustomTabPanel>
+        <CustomTabPanel value={tabValue} index={3}>
+          <ShopInfoPage key={shopId} {...shopData} />
+        </CustomTabPanel>
+      </Container>
+
       <div className="footer-save" />
       <Footer />
     </div>

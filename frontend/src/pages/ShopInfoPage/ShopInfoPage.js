@@ -4,14 +4,17 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DescriptionIcon from "@mui/icons-material/Description";
 import PlaceIcon from "@mui/icons-material/Place";
-import PetsIcon from "@mui/icons-material/Pets";
+
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
 
 import Box from "@mui/material/Box";
 import KakaoMap from "../../components/KakaoMap/KakaoMap";
 
-import Typography from "@mui/material/Typography";
 import "./ShopInfoPage.scoped.css";
-import { Stack, Container } from "@mui/material";
+import { Stack, Avatar } from "@mui/material";
 
 const ShopInfoPage = ({
   shopId,
@@ -41,58 +44,63 @@ const ShopInfoPage = ({
     <div>
       <Stack direction="row" justifyContent="space-between" spacing={0}>
         <Box component="span" sx={{ p: 2, border: "1px dashed grey" }}>
-          <Stack spacing={2}>
-            <Typography
-              variant="h5"
-              sx={{ display: "flex", alignItems: "center", gap: "15px" }}
-            >
-              <PetsIcon />
-              {shopTitle}
-            </Typography>
-            <hr />
-            <Typography
-              sx={{ display: "flex", alignItems: "center", gap: "15px" }}
-            >
-              <PlaceIcon />
-              {address}
-            </Typography>
-            <Typography
-              sx={{ display: "flex", alignItems: "center", gap: "15px" }}
-            >
-              <CallIcon />
-              {phoneNo}
-            </Typography>
-            <Typography
-              sx={{ display: "flex", alignItems: "top", gap: "15px" }}
-              paragraph
-            >
-              <DescriptionIcon />
-              {descriptions}
-            </Typography>
-            <Typography
-              sx={{ display: "flex", alignItems: "center", gap: "15px" }}
-            >
-              <AccessTimeIcon />
-              {openedTime} ~ {closedTime}
-            </Typography>
-            <Typography
-              sx={{ display: "flex", alignItems: "center", gap: "15px" }}
-            >
-              <InstagramIcon />
-              {sns}
-            </Typography>
-            <Typography
-              sx={{ display: "flex", alignItems: "center", gap: "15px" }}
-            >
-              <HomeIcon />
-              {homepage}
-            </Typography>
-          </Stack>
+          <List
+            sx={{ width: "100%", maxWidth: 600, bgcolor: "background.paper" }}
+          >
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <PlaceIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="주소" secondary={address} />
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <CallIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="연락처" secondary={phoneNo} />
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <AccessTimeIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary="영업시간"
+                secondary={`${openedTime} ~ ${closedTime}`}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <InstagramIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="SNS" secondary={sns} />
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <HomeIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="홈페이지" secondary={homepage} />
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <DescriptionIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="설명" secondary={descriptions} />
+            </ListItem>
+          </List>
         </Box>
-
-        <Container>
-          <KakaoMap latitude={latitude} longitude={longitude} />
-        </Container>
+        <KakaoMap latitude={latitude} longitude={longitude} />
       </Stack>
     </div>
   );
