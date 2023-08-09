@@ -13,6 +13,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
 	List<Board> findByStatusFalseAndBoardContentContainingOrderByBoardIdDesc(String boardContent);
 
+	List<Board> findByStatusFalseAndUser_UserIdOrderByBoardIdDesc(Long userId);
+
 	List<Board> findByStatusFalseAndUser_NicknameOrderByBoardIdDesc(String nickname);
 
 	List<Board> findByStatusFalseAndCategory_CategoryIdOrderByBoardIdDesc(Long categoryId);

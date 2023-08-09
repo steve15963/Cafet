@@ -141,7 +141,7 @@ public class BoardController {
 	}
 
 	// 게시글 검색 기능: 작성자로 검색
-	@GetMapping("/user/{nickname}")
+	@GetMapping("/nickname/{nickname}")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardListByNickname(@PathVariable String nickname){
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardlist = boardService.getBoardListByNickname(nickname);
@@ -149,7 +149,7 @@ public class BoardController {
 		return new ResponseEntity<>(boardlist, HttpStatus.OK);
 	}
 
-	// 게시글 검색 기능: 카테고리별 보기
+	// 카테고리별 게시글 보기
 	@GetMapping("/category/{categoryId}")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardListByCategory(@PathVariable Long categoryId){
 		// 게시글 목록 가져오기
@@ -158,7 +158,7 @@ public class BoardController {
 		return new ResponseEntity<>(boardList, HttpStatus.OK);
 	}
 
-	// 게시글 검색 기능: 가게별 보기
+	// 가게별 게시글 보기
 	@GetMapping("/shop/{shopId}")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardListByShopId(@PathVariable Long shopId){
 		// 게시글 목록 가져오기
@@ -167,7 +167,16 @@ public class BoardController {
 		return new ResponseEntity<>(boardList, HttpStatus.OK);
 	}
 
-	// 게시글 검색 기능: 유저 좋아요별 보기
+	// 유저가 쓴 게시글 목록 보기
+	@GetMapping("/userId/{userId}")
+	public ResponseEntity<List<BoardListResponseDto>> getBoardListByUserId(@PathVariable Long userId){
+		// 게시글 목록 가져오기
+		List<BoardListResponseDto> boardList = boardService.getBoardListByUserId(userId);
+
+		return new ResponseEntity<>(boardList, HttpStatus.OK);
+	}
+
+	// 유저가 좋아요한 게시글 목록 보기
 	@GetMapping("/like/{userId}")
 	public ResponseEntity<List<BoardListResponseDto>> getLikeBoardListByUserId(@PathVariable Long userId){
 		// 게시글 목록 가져오기

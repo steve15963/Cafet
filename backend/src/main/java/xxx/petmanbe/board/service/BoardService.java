@@ -43,6 +43,9 @@ public interface BoardService {
 	// 가게별 게시글 보기
 	List<BoardListResponseDto> getBoardListByShopId(Long shopId);
 
+	// 유저별 게시글 보기
+	List<BoardListResponseDto> getBoardListByUserId(Long userId);
+
 	// 사용자별 좋아요한 게시글 보기
 	List<BoardListResponseDto> getLikeBoardListByUserId(Long userId);
 
