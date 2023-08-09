@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import { Divider, Stack } from "@mui/material";
 
-const HeaderUserMenu = () => {
+const HeaderShopMenu = () => {
   const [removeCookies] = useCookies();
 
   const onLogoutClick = (event) => {
@@ -43,4 +43,4 @@ const HeaderUserMenu = () => {
   );
 };
 
-export default HeaderUserMenu;
+export default HeaderShopMenu;
