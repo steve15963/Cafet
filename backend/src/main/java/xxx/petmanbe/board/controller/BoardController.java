@@ -72,8 +72,6 @@ public class BoardController {
 	@PostMapping("/like")
 	public ResponseEntity<Integer> postLike(@RequestBody LikeRequestDto request){
 
-		System.out.println(request.getBoardId());
-
 		// 해당 게시글 좋아요 생성
 		boardService.postLike(request);
 		
