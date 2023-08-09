@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,35 +13,30 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import xxx.petmanbe.shop.entity.Shop;
 
 @Entity
 @Table
-@Setter
 @Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BeaconLocation {
+public class useBeaconForPetLocation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
-	@Column(name = "beacon_id", nullable = false, updatable = false)
-	private long beaconId;
+	@Column(name = "use_beacon_id", nullable = false, updatable = false)
+	private long useBeaconId;
 
 	@ManyToOne
-	@JoinColumn(name="shop_id")
-	private Shop shop;
+	@JoinColumn(name = "beacon_id")
+	private BeaconLocation beaconLocation;
 
-	@Column
-	double x;
-	@Column
-	double y;
-	@Column
-	double z;
-
-	@OneToMany(fetch = FetchType.LAZY)
-	List<useBeaconForPetLocation> useBeaconForPetLocationList;
+	@ManyToOne
+	@JoinColumn(name = "pet_location_store_time_id")
+	private PetLocation petLocationTimeLine;
 
 }
