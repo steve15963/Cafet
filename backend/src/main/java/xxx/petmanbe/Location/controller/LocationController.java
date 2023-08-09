@@ -10,11 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import xxx.petmanbe.Location.dto.requestDto.AddPetLocationRequestDto;
 
 @Slf4j
-@RestController("/api/location/pet")
+@RestController
 public class LocationController {
 
-
-	@PostMapping
+	@PostMapping("/api/location/pet")
 	public ResponseEntity<String> SavePetLocation(@RequestBody AddPetLocationRequestDto addPetLocationRequestDto){
 		log.info(addPetLocationRequestDto.toString());
 		return new ResponseEntity<>("", HttpStatus.ACCEPTED);
