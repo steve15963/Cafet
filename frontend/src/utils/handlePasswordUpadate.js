@@ -2,12 +2,13 @@
 
 import axios from "axios";
 
-const handlePasswordUpdate = ( password) => {
+const handlePasswordUpdate = (userId, password) => {
   const data = {
+    userId: userId,
     password: password,
   };
 
-  const serverUrl = "https://i9a105.p.ssafy.io/api/changepassword";
+  const serverUrl = "https://i9a105.p.ssafy.io/api/user/changepassword";
 
   return axios.put(serverUrl, data);
 };

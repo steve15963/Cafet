@@ -11,12 +11,13 @@ const RePasswordForm = () => {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const navigate = useNavigate();
+  const userId = "24";
 
   //비밀번호 변경 버튼 클릭 시 동작(API 미구현)
   const onPasswordUpdateClick = async (event) => {
     event.preventDefault();
     try {
-      const response = await handlePasswordUpdate(password);
+      const response = await handlePasswordUpdate(userId, password);
       const token = response.data.token;
       console.log("Password Modify success", token);
       alert("비밀번호 재설정에 성공하셨습니다.");
