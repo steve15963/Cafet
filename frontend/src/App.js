@@ -8,7 +8,6 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import LoginForm from "./components/LoginForm/LoginForm";
 import SignUpForm from "./components/SignUpForm/SignUpForm";
 import EmailCheckForm from "./components/EmailCheckForm/EmailCheckForm";
-import RePasswordForm from "./components/RePassword/RePassword";
 import MainPage from "./pages/MainPage/MainPage";
 import MainList from "./components/MainList/MainList";
 import Rule from "./components/Rule/Rule";
@@ -39,7 +38,6 @@ const App = () => {
           <Route path="" element={<LoginForm />} />
           <Route path="signup" element={<SignUpForm />} />
           <Route path="password" element={<EmailCheckForm />} />
-          <Route path="repassword" element={<RePasswordForm />} />
         </Route>
         <Route path="/" element={<MainPage />}>
           <Route path="" element={<MainList />} />

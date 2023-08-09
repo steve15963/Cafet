@@ -2,9 +2,9 @@
 
 import axios from "axios";
 
-const handlePasswordUpdate = (userId, password) => {
+const handlePasswordUpdate = (email, password) => {
   const data = {
-    userId: userId,
+    email: email,
     password: password,
   };
 
