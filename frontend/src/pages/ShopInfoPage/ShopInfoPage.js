@@ -43,7 +43,7 @@ const ShopInfoPage = ({
   return (
     <div>
       <Stack direction="row" justifyContent="space-between" spacing={0}>
-        <Box component="span" sx={{ p: 2, border: "1px dashed grey" }}>
+        <Box component="span" sx={{ p: 0, border: "1px dashed grey" }}>
           <List
             sx={{ width: "100%", maxWidth: 600, bgcolor: "background.paper" }}
           >

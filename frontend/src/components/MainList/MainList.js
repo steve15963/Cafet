@@ -9,6 +9,21 @@ import { Link } from "react-router-dom";
 const MainList = () => {
   const { boardList, loading } = useBoardList();
 
+  const DummyThumbnailList = [
+    "/images/main/babyrabbit.png",
+    "/images/main/bamboodog.png",
+    "/images/main/blackcat.png",
+    "/images/main/cat.png",
+    "/images/main/chinchilla.png",
+    "/images/main/dog.png",
+    "/images/main/ducklings.png",
+    "/images/main/hamster.png",
+    "/images/main/puppy.png",
+    "/images/main/rabbit.png",
+    "/images/main/walldog.png",
+    "/images/main/wooddog.png",
+  ];
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -31,7 +46,11 @@ const MainList = () => {
               <div className="mainlist-card">
                 <div className="mainlist-front-content">
                   <img
-                    src={`${item.thumbnail}?auto=format`}
+                    src={`${
+                      DummyThumbnailList[
+                        item.boardId % DummyThumbnailList.length
+                      ]
+                    }?auto=format`} //${item.thumbnail}
                     alt={item.boardTitle}
                     onError={(e) => (e.target.style.display = "none")}
                     loading="lazy"
