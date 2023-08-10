@@ -13,8 +13,8 @@ const HeaderShopMenu = () => {
     event.preventDefault();
     localStorage.removeItem("userId");
     localStorage.removeItem("level");
+    localStorage.removeItem("accessToken");
 
-    removeCookie("accessToken");
     removeCookie("refreshToken");
 
     console.log("Logout success : ");
