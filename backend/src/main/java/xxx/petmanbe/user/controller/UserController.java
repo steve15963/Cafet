@@ -105,8 +105,8 @@ public class UserController {
 				.build();
 
 		httpServletResponse.addHeader("Authorization",loginReturnDto.getToken().getAccessToken());
-		// httpServletResponse.setHeader("Set-Cookie",cookie1.toString()); //refreshToken
-		httpServletResponse.addHeader("Set-Cookie",cookie2.toString()); // accessToken
+		httpServletResponse.setHeader("Set-Cookie",cookie1.toString()); //refreshToken
+//		httpServletResponse.addHeader("Set-Cookie",cookie2.toString()); // accessToken
 
 		//CORS
 		httpServletResponse.setHeader("Acess-Control-Allow-origin","*");

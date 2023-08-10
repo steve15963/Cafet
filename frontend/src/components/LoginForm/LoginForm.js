@@ -18,8 +18,10 @@ const LoginForm = () => {
     try {
       //eslint-disable-next-line
       const response = await handleLogin(email, password);
+      console.log(response.headers);
       localStorage.setItem("userId", response.data.userId);
       localStorage.setItem("level", response.data.level);
+      localStorage.setItem("sessionToken", response.data.sessionToken);
       console.log("Login success : ");
       alert("로그인에 성공하셨습니다.");
       navigate("/", { replace: true });
