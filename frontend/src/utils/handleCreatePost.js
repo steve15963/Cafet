@@ -1,6 +1,5 @@
 // 게시글 등록
-import axios from "axios";
-
+import axiosCreate from "../axiosCreate";
 const handleCreatePost = async (email, nickname, phoneNo, file) => {
   const formData = new FormData();
   console.log("handle " + email);
@@ -11,9 +10,9 @@ const handleCreatePost = async (email, nickname, phoneNo, file) => {
   }
   console.log(formData.get("dto"));
 
-  const serverUrl = "https://i9a105.p.ssafy.io/api/board/new";
+  const serverUrl = "/api/board/new";
 
-  const response = await axios.put(serverUrl, formData, {
+  const response = await axiosCreate.put(serverUrl, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

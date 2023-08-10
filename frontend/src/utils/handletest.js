@@ -1,7 +1,7 @@
 import axiosCreate from "../axiosCreate";
 
 const handletest = () => {
-  const serverUrl = "user/get";
+  const serverUrl = "/api/user/get";
 
   return axiosCreate.get(serverUrl);
 };

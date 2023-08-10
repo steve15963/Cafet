@@ -1,6 +1,5 @@
 //회원가입
-
-import axios from "axios";
+import axiosCreate from "../axiosCreate";
 
 const handleSignUp = (email, password, phoneNo, nickname) => {
   const data = {
@@ -10,9 +9,9 @@ const handleSignUp = (email, password, phoneNo, nickname) => {
     nickname: nickname,
   };
 
-  const serverUrl = "https://i9a105.p.ssafy.io/api/user/new";
+  const serverUrl = "/api/user/new";
 
-  return axios.post(serverUrl, data);
+  return axiosCreate.post(serverUrl, data);
 };
 
 export default handleSignUp;

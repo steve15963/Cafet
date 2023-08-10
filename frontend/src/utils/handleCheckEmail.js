@@ -1,6 +1,6 @@
 //인증번호 유효성 검사
 
-import axios from "axios";
+import axiosCreate from "../axiosCreate";
 
 const handleCheckEmail = (mail, mailToken) => {
   // console.log(mail+ " " +mailToken);
@@ -9,9 +9,9 @@ const handleCheckEmail = (mail, mailToken) => {
     mailToken: mailToken,
   };
 
-  const serverUrl = "https://i9a105.p.ssafy.io/api/mail/check/regist";
+  const serverUrl = "/api/mail/check/regist";
 
-  return axios.post(serverUrl, data);
+  return axiosCreate.post(serverUrl, data);
 };
 
 export default handleCheckEmail;

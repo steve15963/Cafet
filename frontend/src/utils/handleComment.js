@@ -1,13 +1,13 @@
-import axios from "axios";
+import axiosCreate from "../axiosCreate";
 
 const handleComment = (boardId, userId, content) => {
   const data = {
     content: content,
   };
 
-  const serverUrl = `https://i9a105.p.ssafy.io/api/comment/${boardId}/new/${userId}`;
+  const serverUrl = `/api/comment/${boardId}/new/${userId}`;
 
-  return axios.post(serverUrl, data);
+  return axiosCreate.post(serverUrl, data);
 };
 
 export default handleComment;

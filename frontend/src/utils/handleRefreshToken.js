@@ -1,7 +1,7 @@
 import axiosCreate from "../axiosCreate";
 
 const handleRefreshToken = () => {
-  const refreshTokenUrl = "/user/token/refresh";
+  const refreshTokenUrl = "/api/user/token/refresh";
 
   return axiosCreate.post(refreshTokenUrl);
 };
