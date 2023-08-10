@@ -13,7 +13,7 @@ const handleCreatePost = async (email, nickname, phoneNo, file) => {
 
   const serverUrl = "https://i9a105.p.ssafy.io/api/board/new";
 
-  const response = await axios.put(serverUrl, formData, {
+  const response = await axios.post(serverUrl, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
