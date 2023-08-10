@@ -5,6 +5,17 @@ import "./CommentList.scoped.css";
 
 const CommentList = ({ commentList }) => {
   const [commentCount] = useState(commentList.length);
+  console.log(commentList);
+
+  const formatTime = (isoTime) => {
+    const date = new Date(isoTime);
+    const year = date.getFullYear().toString().substr(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const hour = date.getHours().toString().padStart(2, "0");
+    const minute = date.getMinutes().toString().padStart(2, "0");
+    return `${year}/${month}/${day} ${hour}:${minute}`;
+  };
 
   return (
     <div>
@@ -18,7 +29,7 @@ const CommentList = ({ commentList }) => {
               </div>
               <div className="cmt_picture">{value.boardfileId}</div>
               <div className="cmt_center">{value.content}</div>
-              <div className="cmt_right">{value.createdTime}</div>
+              <div className="cmt_right">{formatTime(value.createdTime)}</div>
             </div>
           </li>
         ))}
