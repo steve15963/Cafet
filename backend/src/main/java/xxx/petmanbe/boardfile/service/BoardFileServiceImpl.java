@@ -14,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.board.entity.Board;
 import xxx.petmanbe.board.repository.BoardRepository;
 import xxx.petmanbe.boardfile.entity.BoardFile;
+import xxx.petmanbe.boardfile.entity.BoardOnlyFile;
 import xxx.petmanbe.boardfile.repository.BoardFileRepository;
+import xxx.petmanbe.boardfile.repository.BoardOnlyFileRepository;
 import xxx.petmanbe.userfile.service.S3Uploader;
 
 @RequiredArgsConstructor
@@ -26,6 +28,8 @@ public class BoardFileServiceImpl implements BoardFileService{
 	private final BoardRepository boardRepository;
 
 	private final S3Uploader s3Uploader;
+
+	private final BoardOnlyFileRepository boardOnlyFileRepository;
 
 	@Transactional
 	@Override
@@ -63,6 +67,24 @@ public class BoardFileServiceImpl implements BoardFileService{
 			System.out.println("image is null");
 			return null;
 		}
+	}
+
+
+	@Transactional
+	@Override
+	public String keepOnlyFile(MultipartFile file) throws IOException {
+
+			String storedFileName = s3Uploader.upload(file, "board" );
+
+			System.out.println(storedFileName);
+
+			BoardOnlyFile file1 = BoardOnlyFile.builder()
+				.boardUrl(storedFileName)
+				.build();
+
+			boardOnlyFileRepository.save(file1);
+
+			return storedFileName;
 	}
 }
 
