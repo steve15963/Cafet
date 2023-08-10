@@ -3,7 +3,7 @@
 import axios from "axios";
 
 const handleCheckEmail = (mail, mailToken) => {
-  // console.log(mail+ " " +mailToken);
+  console.log("handleCheckEmail");
   const data = {
     mail: mail,
     mailToken: mailToken,

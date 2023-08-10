@@ -2,7 +2,7 @@ import axios from "axios";
 import handleRefreshToken from "./utils/handleRefreshToken";
 
 const axiosCreate = axios.create({
-  baseURL: "https://i9a105.p.ssafy.io/api",
+  baseURL: "https://i9a105.p.ssafy.io",
   withCredentials: true,
 });
 

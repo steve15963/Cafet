@@ -3,6 +3,7 @@
 import axios from "axios";
 
 const handleLogin = (email, password) => {
+  console.log("handleLogin");
   const data = {
     email: email,
     password: password,

@@ -1,8 +1,9 @@
-//비밀번호 업데이트
+//비밀번호 재설정
 
 import axios from "axios";
 
 const handlePasswordUpdate = (email, password) => {
+  console.log("handlePasswordUpdate");
   const data = {
     email: email,
     password: password,

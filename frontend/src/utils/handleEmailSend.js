@@ -3,7 +3,7 @@
 import axios from "axios";
 
 const handleEmailSend = (mail) => {
-  // console.log(email);
+  console.log("handleEmailSend");
   const data = {
     mail: mail,
   };
