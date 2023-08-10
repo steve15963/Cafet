@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosCreate from "../axiosCreate";
 
 const useUserList = () => {
   const [userList, setUserList] = useState([]);
@@ -16,7 +16,7 @@ const useUserList = () => {
         } else if (query.nickname) {
           url += `/nickname/${query.nickname}`;
         }
-        const response = await axios.get(url);
+        const response = await axiosCreate.get(url);
         setUserList(response.data);
         setLoading(false);
       } catch (error) {
