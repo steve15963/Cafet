@@ -16,8 +16,9 @@ const CommentList = ({ commentList }) => {
     const minute = date.getMinutes().toString().padStart(2, "0");
     return `${year}/${month}/${day} ${hour}:${minute}`;
   };
-  const userId = localStorage.getItem("userId");
 
+  const userId = localStorage.getItem("userId");
+  console.log(userId);
   return (
     <div>
       <p>댓글 {commentCount}개</p>
