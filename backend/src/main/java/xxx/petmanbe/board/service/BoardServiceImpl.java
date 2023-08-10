@@ -1,5 +1,6 @@
 package xxx.petmanbe.board.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -80,6 +81,23 @@ public class BoardServiceImpl implements BoardService{
 				throw new IllegalArgumentException();
 			}
 		);
+
+		// 사진 저장하기
+		if(!Objects.isNull(request.getFiles())){
+
+			for(int i=0 ; i<request.getFiles().size(); i++){
+
+				String url = request.getFiles().get(i);
+
+				BoardFile boardFile = BoardFile.builder()
+					.boardUrl(url)
+					.board(board)
+					.build();
+
+				boardFileRepository.save(boardFile);
+			}
+		}
+
 
 		// 게시글에 달린 가게 정보 가져오기
 		Optional<Shop> shop = shopRepository.findByStatusFalseAndShopTitle(request.getShopTitle());
