@@ -13,7 +13,7 @@ const useUserList = () => {
     const getUserList = async () => {
       try {
         //   "https://i9a105.p.ssafy.io/api/user"
-        const response = await axios.get("https://localhost/api/user");
+        const response = await axios.get("https://i9a105.p.ssafy.io/api/user");
         setUserList(response.data);
         setLoading(false);
       } catch (error) {
