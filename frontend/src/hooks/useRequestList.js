@@ -9,7 +9,7 @@ const useRequestList = () => {
     setLoading(true);
     const getRequestList = async () => {
       try {
-        let url = `http://localhost:8080/api/user`;
+        let url = `https://i9a105.p.ssafy.io/api/user`;
         //   "http://i9a105.p.ssafy.io:8080/api/user"
         const response = await axios.get(url);
         setRequestList(response.data);
