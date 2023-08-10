@@ -16,6 +16,7 @@ const CommentList = ({ commentList }) => {
     const minute = date.getMinutes().toString().padStart(2, "0");
     return `${year}/${month}/${day} ${hour}:${minute}`;
   };
+  const userId = localStorage.getItem("userId");
 
   return (
     <div>
@@ -30,6 +31,12 @@ const CommentList = ({ commentList }) => {
               <div className="cmt_picture">{value.boardfileId}</div>
               <div className="cmt_center">{value.content}</div>
               <div className="cmt_right">{formatTime(value.createdTime)}</div>
+              {userId === value.userId && (
+                <div className="cmt_edit_buttons">
+                  <button>수정</button>
+                  <button>삭제</button>
+                </div>
+              )}
             </div>
           </li>
         ))}
