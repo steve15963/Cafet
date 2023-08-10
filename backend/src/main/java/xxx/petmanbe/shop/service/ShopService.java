@@ -38,4 +38,13 @@ public interface ShopService {
 
 	// 태그에 맞는 가게 목록 가져오기
 	List<GetShopListDto> getShopListByTag(String tagName);
+	
+	// 찜 생성하기
+	boolean postLikeShop(Long userId, Long shopId);
+	
+	// 유저가 찜한 가게 목록 가져오기
+	List<GetShopListDto> getLikeShopListByUser(Long userId);
+	
+	// 가게 찜 삭제
+	boolean deleteLikeShop(Long userId, Long shopId);
 }

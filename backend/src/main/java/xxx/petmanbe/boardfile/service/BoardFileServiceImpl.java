@@ -76,13 +76,11 @@ public class BoardFileServiceImpl implements BoardFileService{
 
 			String storedFileName = s3Uploader.upload(file, "board" );
 
-			System.out.println(storedFileName);
-
-			BoardOnlyFile file1 = BoardOnlyFile.builder()
-				.boardUrl(storedFileName)
-				.build();
-
-			boardOnlyFileRepository.save(file1);
+			// BoardOnlyFile file1 = BoardOnlyFile.builder()
+			// 	.boardUrl(storedFileName)
+			// 	.build();
+			//
+			// boardOnlyFileRepository.save(file1);
 
 			return storedFileName;
 	}

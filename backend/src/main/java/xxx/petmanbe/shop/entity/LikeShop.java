@@ -1,6 +1,5 @@
-package xxx.petmanbe.boardfile.entity;
+package xxx.petmanbe.shop.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,28 +15,27 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import xxx.petmanbe.board.entity.Board;
+import xxx.petmanbe.user.entity.User;
 
 @Entity
-@Table
+@Table(name = "likeShop")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardFile {
+public class LikeShop {
 
 	@Id
-	@Column(name="boardFile_id", nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long boardFileId;
+	@Column(name = "like_id", nullable = false, updatable = false)
+	private Long likeId;
 
-	@Column
-	private String boardUrl;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User user;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "board_id")
-	private Board board;
-
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "shop_id")
+	private Shop shop;
 }
-

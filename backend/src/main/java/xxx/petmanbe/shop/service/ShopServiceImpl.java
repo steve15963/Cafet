@@ -21,7 +21,9 @@ import xxx.petmanbe.shop.dto.requestDto.PostNewShopDto;
 import xxx.petmanbe.shop.dto.requestDto.PutShopDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopListDto;
+import xxx.petmanbe.shop.entity.LikeShop;
 import xxx.petmanbe.shop.entity.Shop;
+import xxx.petmanbe.shop.repository.LikeShopRepository;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
 import xxx.petmanbe.shopPet.repository.ShopPetRepository;
@@ -48,6 +50,8 @@ public class ShopServiceImpl implements ShopService{
 
 	private final AttachShopRepository attachShopRepository;
 
+	private final LikeShopRepository likeShopRepository;
+
 	@Value("${kakao.map.key}")
 	String key;
 
@@ -56,7 +60,6 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public GetShopDto getShop(long shopId) {
 		Shop shop = shopRepository.findById(shopId).orElseThrow(IllegalArgumentException::new);
-
 
 		List<GetShopPetDto> getShopPetList = shopPetRepository.findByShop_ShopId(shopId).stream()
 			.map(GetShopPetDto::new).collect(Collectors.toList());
@@ -337,6 +340,70 @@ public class ShopServiceImpl implements ShopService{
 
 		return new Position(longitude,latitude);
 
+	}
+
+	// 가게 찜 생성
+	@Transactional
+	@Override
+	public boolean postLikeShop(Long userId, Long shopId) {
+		// 각각의 id를 가진 사용자, 가게가 있는지 확인
+		Optional<User> user = userRepository.findById(userId);
+		if (user.isEmpty())
+			return false;
+		Optional<Shop> shop = shopRepository.findById(shopId);
+		if (shop.isEmpty())
+			return false;
+
+		// 기존에 좋아요가 있는지 확인
+		if (likeShopRepository.findByUser_UserIdAndShop_ShopId(userId, shopId).isPresent()){
+			return false;
+		}
+		else {
+			// 없으면 등록
+			LikeShop likeShop = LikeShop.builder()
+				.user(user.get())
+				.shop(shop.get())
+				.build();
+
+			likeShopRepository.save(likeShop);
+
+			// 좋아요한 가게 카운트 올리기
+			shop.get().plusLikeCnt();
+
+			return true;
+		}
+	}
+
+	// 사용자가 찜한 가게 목록 가져오기
+	@Override
+	public List<GetShopListDto> getLikeShopListByUser(Long userId) {
+		return likeShopRepository.findByUser_UserId(userId).stream()
+			.map(LikeShop::getShop)
+			.map(GetShopListDto::new)
+			.collect(Collectors.toList());
+	}
+
+	// 찜 삭제
+	@Transactional
+	@Override
+	public boolean deleteLikeShop(Long userId, Long shopId) {
+
+		// 해당 유저가 찜한 사실이 있으면
+		if (likeShopRepository.findByUser_UserIdAndShop_ShopId(userId, shopId).isPresent()) {
+
+			// 찜 삭제
+			likeShopRepository.deleteByUser_UserIdAndShop_ShopId(userId, shopId);
+
+			// 해당 가게 찜수 삭제
+			Optional<Shop> shop = shopRepository.findById(shopId);
+
+			shop.ifPresent(Shop::minusLikeCnt);
+
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 }
