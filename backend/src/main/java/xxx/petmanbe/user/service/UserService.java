@@ -2,6 +2,8 @@ package xxx.petmanbe.user.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
@@ -36,4 +38,6 @@ public interface UserService {
 	List<UserListDto> getUserListByNickname(String nickname);
 
 	boolean changeUserPassword(UpdateUserPasswordDto request);
+
+	boolean postLogout(HttpServletRequest request);
 }

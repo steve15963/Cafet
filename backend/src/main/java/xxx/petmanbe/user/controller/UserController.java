@@ -160,6 +160,26 @@ public class UserController {
 
 	}
 
+	@PostMapping("/logout")
+	public ResponseEntity<?> PostLogout(HttpServletRequest request, HttpServletResponse response){
+
+		userService.postLogout(request);
+
+
+		ResponseCookie cookie = ResponseCookie.from("refreshToken",null)
+			.maxAge(1)
+			.path("/")
+			.sameSite("None")
+			.secure(true)
+			.httpOnly(true)
+			.build();
+
+		response.setHeader("Set-Cookie",cookie.toString());
+
+		return new ResponseEntity<>(cookie.getName(),HttpStatus.OK);
+
+	}
+
 	// 비밀번호 변경
 	@PutMapping("/changepassword")
 	public ResponseEntity<String> putUserPassword(@RequestBody UpdateUserPasswordDto request){

@@ -27,7 +27,7 @@ public class BoardFileController {
 
 	private final BoardFileService boardFileService;
 
-	@GetMapping(value="/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value="/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@Transactional
 	public ResponseEntity<String> getBoardFile(@RequestPart(value="file", required = false) MultipartFile file) throws
 		IOException {
