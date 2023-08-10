@@ -29,6 +29,8 @@ public class GetShopDto {
 
     private int gradeCount;
 
+    private int likeCnt;
+
     private double longitude;
 
     private double latitude;
@@ -56,6 +58,7 @@ public class GetShopDto {
         this.shopId = shop.getShopId();
         this.shopTitle = shop.getShopTitle();
         this.gradeCount = shop.getGradeCount();
+        this.likeCnt = shop.getLikeCnt();
         this.longitude = shop.getLongitude();
         this.address = shop.getAddress();
         this.phoneNo = shop.getPhoneNo();
