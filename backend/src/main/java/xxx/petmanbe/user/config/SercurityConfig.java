@@ -30,10 +30,13 @@ public class SercurityConfig {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authorizeRequests()
-			.antMatchers("/**").permitAll() // 해당 api에서는 모든 요청을 허가한다는 설정
+			.antMatchers("/api/user/login", "/api/user/new").permitAll() // 해당 api에서는 모든 요청을 허가한다는 설정
+			.antMatchers("/api/user/get").access("hasRole('ADMIN')") // ADMIN일때 실행
 			.anyRequest().authenticated() // 이 밖에 모든 요청에 대해서 인증을 필요로 한다는 설정
 			.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
+
 
 			// .authorizeRequests()
 			// .antMatchers("/api/user/~~").hasRole("ADMIN") // user일때 실행

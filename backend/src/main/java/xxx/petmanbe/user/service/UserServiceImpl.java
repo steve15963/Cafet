@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService{
 
 		List<String> roles= new ArrayList<>();
 
-		roles.add("USER");
+		roles.add("ROLE_USER");
 
 		User user = User.builder()
 				.email(registDto.getEmail())
@@ -202,9 +202,9 @@ public class UserServiceImpl implements UserService{
 
 		// role
 		if(200<= levelModifyDto.getLevel() && levelModifyDto.getLevel() <300 ){
-			user.getRoles().set(0, "Shop");
+			user.getRoles().set(0, "ROLE_SHOP");
 		}else if(300<= levelModifyDto.getLevel()){
-			user.getRoles().set(0,"ADMIN");
+			user.getRoles().set(0,"ROLE_ADMIN");
 		}
 
 		userRepository.save(user);
