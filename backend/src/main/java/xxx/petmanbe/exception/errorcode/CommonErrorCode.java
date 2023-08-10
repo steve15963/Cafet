@@ -8,9 +8,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum CommonErrorCode implements ErrorCode {
-	INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "Invalid parameter included: 테스트중"),
-	RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "Resource not exists: 테스트중"),
-	INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error: 테스트중"),
+	INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "Invalid parameter included: 유효하지 않은 파라미터 값"),
+	INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error: 서버 에러"),
 	;
 
 	private final HttpStatus httpStatus;
