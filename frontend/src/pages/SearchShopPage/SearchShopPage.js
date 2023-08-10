@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
 import axios from 'axios';
 
@@ -7,6 +6,7 @@ import './SearchShopPage.scoped.css'
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import SearchCard from '../../components/SearchCard/SearchCard';
+import SearchShopMap from '../../components/SearchShopMap/SearchShopMap';
 
 import Grid from '@mui/material/Grid';
 
@@ -53,9 +53,8 @@ const SearchShopPage = () => {
         console.log(err)
       })
   }
-  console.log('cafeList :', cafeList)
 
-  const handleClick = useCallback(() => {
+  const handleRegionSearchClick = useCallback(() => {
     searchResult(region);
   }, [region]);
    
@@ -68,7 +67,7 @@ const SearchShopPage = () => {
           <div className='search-wrapper'>
             <div className='region-input'>
               <input value={region} onChange={onChangeSearch}/>
-              <button onClick={handleClick}>검색</button>
+              <button onClick={handleRegionSearchClick}>검색</button>
             </div>
               <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
                 <InputLabel id="select-animal-label">Animal</InputLabel>
@@ -94,33 +93,7 @@ const SearchShopPage = () => {
           </div>
         </Grid>
         <Grid item xs={6}>
-          <Map // 지도를 표시할 Container
-            center={{
-              // 지도의 중심좌표
-              lat: 37.566971,
-              lng: 126.978439,
-            }}
-            style={{
-              // 지도의 크기
-              width: "100%",
-              height: "450px",
-            }}
-            level={7} // 지도의 확대 레벨
-          >
-            {
-              cafeList.map((cafe) => 
-                <MapMarker
-                  key={cafe.shopId}
-                  position={{ lat: cafe.latitude, lng: cafe.longitude }}
-                  removable={true}
-                >
-                  <div style={{ padding: "5px", color: "#000", textAlign: 'center' }}>
-                    {cafe.shopTitle}
-                  </div>
-                </MapMarker>
-              )
-            }
-          </Map>
+          <SearchShopMap cafeList={cafeList}/>
         </Grid>
       </Grid>
       <div className="footer-save"/>
