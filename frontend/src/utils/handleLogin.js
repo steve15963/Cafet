@@ -1,6 +1,6 @@
 //login
 
-import axiosCreate from "../axiosCreate";
+import axios from "axios";
 
 const handleLogin = (email, password) => {
   const data = {
@@ -8,9 +8,9 @@ const handleLogin = (email, password) => {
     password: password,
   };
 
-  const serverUrl = "/api/user/login";
+  const serverUrl = "https://i9a105.p.ssafy.io/api/user/login";
 
-  return axiosCreate.post(serverUrl, data);
+  return axios.post(serverUrl, data);
 };
 
 export default handleLogin;
