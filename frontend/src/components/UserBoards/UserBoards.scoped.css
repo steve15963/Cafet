@@ -8,6 +8,8 @@
   margin-bottom: 1rem;
   border: 3px dashed transparent;
   max-width: 350px;
+  cursor: pointer;
+  transform: scale(1.1, 1.1);
 }
 
 .task p {

@@ -43,7 +43,7 @@ const SearchShopPage = () => {
   const searchResult = (place) => {
     if (place.trim() === "") return;
 
-    axios.get(`http://i9a105.p.ssafy.io:8080/api/shop/address/${place}`)
+    axios.get(`/api/shop/address/${place}`)
       .then(function(res) {
         const newCafeList = res.data.map(el => ({ ...el })); // 새로운 배열 생성
         setCafeList(newCafeList);

@@ -1,6 +1,6 @@
-// import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import './UserComments.scoped.css'
 
 const UserComments = () => {
 
@@ -15,14 +15,16 @@ const UserComments = () => {
         console.log(err)
       })
   }, [])
+
+  
    
   return (
     <div>
       {
         commentList.map((el) => 
-          <div>
-            {el.content}
-          </div>
+        <div class="info">
+          <div class="info__title">{el.content}</div>
+        </div>
         )
       }
     </div>

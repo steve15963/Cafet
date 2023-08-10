@@ -2,7 +2,12 @@ import './UserBoards.scoped.css'
 import { useState, useEffect } from "react"
 import axios from "axios"
 
+import { useNavigate } from 'react-router-dom'
+
 const UserBoards = () => {
+
+  const navigate = useNavigate();
+
   const [boardList, setBoardList] = useState([])
 
   useEffect(() => {
@@ -14,13 +19,17 @@ const UserBoards = () => {
         console.log(err)
       })
   }, [])
+
+  const goToDetail = (pageId) => {
+    navigate(`/board/detail/${pageId}`)
+  }
    
   return (
     <div>
       {
         boardList.map((el) => 
           <div>
-            <div class="task">
+            <div class="task" onClick={() => goToDetail(el.boardId)}>
               <div class="tags">
                 <span class="tag">{el.categoryName}</span>
                 <button class="options">
