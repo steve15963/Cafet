@@ -47,56 +47,58 @@ const UserLike = () => {
   return (
     <div>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="center">번호</TableCell>
-                      <TableCell align="center">제목</TableCell>
-                      <TableCell align="center">작성자</TableCell>
-                      <TableCell align="center">작성일자</TableCell>
-                      <TableCell align="center">조회 수</TableCell>
-                      <TableCell align="center">댓글 수</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {likeList
-                      .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                      .map((row) => (
-                        <TableRow
-                          key={row.boardId}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell component="th" scope="row" align="center">
-                            {row.boardId}
-                          </TableCell>
-                          <TableCell onClick={() => goToDetail(row.boardId)}>
-                            {row.boardTitle}
-                          </TableCell>
-                          <TableCell>{row.nickname}</TableCell>
-                          <TableCell>{row.createdTime}</TableCell>
-                          <TableCell align="center">{row.viewCnt}</TableCell>
-                          <TableCell align="center">{row.commentSum}</TableCell>
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 50]}
-                component="div"
-                count={likeList.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </Paper>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">번호</TableCell>
+                <TableCell align="center">제목</TableCell>
+                <TableCell align="center">작성자</TableCell>
+                <TableCell align="center">작성일자</TableCell>
+                <TableCell align="center">조회 수</TableCell>
+                <TableCell align="center">댓글 수</TableCell>
+                <TableCell align="center">좋아요</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {likeList
+                .slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
+                .map((row) => (
+                  <TableRow
+                    key={row.boardId}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                    }}
+                  >
+                    <TableCell component="th" scope="row" align="center">
+                      {row.boardId}
+                    </TableCell>
+                    <TableCell onClick={() => goToDetail(row.boardId)}>
+                      {row.boardTitle}
+                    </TableCell>
+                    <TableCell>{row.nickname}</TableCell>
+                    <TableCell>{row.createdTime}</TableCell>
+                    <TableCell align="center">{row.viewCnt}</TableCell>
+                    <TableCell align="center">{row.commentSum}</TableCell>
+                    <TableCell align="center">{row.likeSum}</TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 50]}
+          component="div"
+          count={likeList.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
     </div>
   );
 }

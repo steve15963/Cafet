@@ -22,8 +22,8 @@ const UserComments = () => {
     <div>
       {
         commentList.map((el) => 
-        <div class="info">
-          <div class="info__title">{el.content}</div>
+        <div>
+          <div>{el.content}</div>
         </div>
         )
       }
