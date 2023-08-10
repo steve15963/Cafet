@@ -25,7 +25,8 @@ const BoardDetail = () => {
   const onButtonClick = async (event) => {
     event.preventDefault();
     try {
-      const response = await handleComment(id, content);
+      const userId = localStorage.getItem("userId");
+      const response = await handleComment(id, userId, content);
       console.log("Comment success : ", response);
       alert("댓글 작성을 성공하셨습니다.");
       window.location.reload();
