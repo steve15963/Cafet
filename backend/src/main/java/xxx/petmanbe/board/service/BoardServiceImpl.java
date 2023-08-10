@@ -26,6 +26,11 @@ import xxx.petmanbe.boardfile.dto.responseDto.BoardFileDto;
 import xxx.petmanbe.boardfile.entity.BoardFile;
 import xxx.petmanbe.boardfile.repository.BoardFileRepository;
 import xxx.petmanbe.comment.dto.response.CommentResponseDto;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.BoardErrorCode;
+import xxx.petmanbe.exception.errorcode.CommonErrorCode;
+import xxx.petmanbe.exception.errorcode.TagErrorCode;
+import xxx.petmanbe.exception.errorcode.UserErrorCode;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
@@ -60,16 +65,18 @@ public class BoardServiceImpl implements BoardService{
 		Board board = request.toEntity();
 
 		// 카테고리 찾고
-		Optional<Category> category = categoryRepository.findByCategoryName(request.getCategoryName());
+		Category category = categoryRepository.findByCategoryName(request.getCategoryName())
+			.orElseThrow(() -> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
 
 		// 정보 추가
-		category.ifPresent(board::setCategory);
+		board.setCategory(category);
 
 		// 유저 정보 찾고
-		Optional<User> user = userRepository.findById(request.getUserId());
+		User user = userRepository.findById(request.getUserId())
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		// 작성자 정보 저장
-		user.ifPresent(board::setUser);
+		board.setUser(user);
 
 		// 게시글에 달린 가게 정보 가져오기
 		Optional<Shop> shop = shopRepository.findByStatusFalseAndShopTitle(request.getShopTitle());
@@ -96,7 +103,7 @@ public class BoardServiceImpl implements BoardService{
 			}
 			// 있으면 해당하는 태그 가져오기
 			Tag tag = tagRepository.findByStatusFalseAndTagName(response.getTagName())
-				.orElseThrow(() -> new IllegalArgumentException("not found"));
+				.orElseThrow(() -> new RestApiException(TagErrorCode.TAG_NOT_FOUND));
 
 			AttachBoard attachBoard = AttachBoard.builder()
 				.board(board)
@@ -127,19 +134,20 @@ public class BoardServiceImpl implements BoardService{
 	public BoardResponseDto getBoardById(Long boardId){
 
 		// 반환할 게시글 정보
-		Optional<Board> board = boardRepository.findById(boardId);
+		Board board = boardRepository.findById(boardId)
+			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
 		// 일단 조회수 증가
-		board.ifPresent(Board::updateViewCnt);
+		board.updateViewCnt();
 
 		// 게시글에 달린 댓글 목록 가져오기
 		// 비즈니스 로직 상 게시글이 null일 수 없으므로 null 검사는 따로 하지 않음
-		List<CommentResponseDto> commentList = board.get().getCommentList().stream()
+		List<CommentResponseDto> commentList = board.getCommentList().stream()
 			.map(CommentResponseDto::new)
 			.collect(Collectors.toList());
 
 		// 게시글에 달린 가게 정보 가져오기
-		Optional<GetShopDto> shop = Optional.ofNullable(board.get().getShop()).map(GetShopDto::new);
+		Optional<GetShopDto> shop = Optional.ofNullable(board.getShop()).map(GetShopDto::new);
 
 		// 게시글에 달린 태그 목록을 가져오기 위해 가져오는 부착 기록
 		List<AttachBoard> attachBoardList = attachBoardRepository.findByBoard_BoardId(boardId);
@@ -163,7 +171,7 @@ public class BoardServiceImpl implements BoardService{
 
 		// 게시글 정보 반환
 		return BoardResponseDto.builder()
-			.board(board.get())
+			.board(board)
 			.commentList(commentList)
 			.tagList(taglist)
 			.shop(shop)
@@ -254,15 +262,16 @@ public class BoardServiceImpl implements BoardService{
 	public Board putBoard(Long boardId, UpdateBoardRequestDto request){
 
 		// 게시글 정보 가져와서
-		Optional<Board> board = boardRepository.findById(boardId);
+		Board board = boardRepository.findById(boardId)
+			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
 		// 해당 id를 가지는 게시글 정보 바꾸기
-		board.ifPresent(response -> response.updateBoard(boardId, request));
+		board.updateBoard(boardId, request);
 
 		// 카테고리 변경
-		// 비즈니스 로직 상 게시글이 null일 수 없으므로 null 검사는 따로 하지 않음
-		Optional<Category> category = categoryRepository.findByCategoryName(request.getCategoryName());
-		category.ifPresent(cat -> board.get().updateCategory(cat));
+		Category category = categoryRepository.findByCategoryName(request.getCategoryName())
+			.orElseThrow(() -> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
+		board.setCategory(category);
 
 		// 기존 태그 목록 확인
 		for (AttachBoard curTag : attachBoardRepository.findByBoard_BoardId(boardId)) {
@@ -305,10 +314,12 @@ public class BoardServiceImpl implements BoardService{
 				}
 				
 				// 부착정보 생성
+				Tag tag = tagRepository.findByStatusFalseAndTagName(updatedTag.getTagName())
+					.orElseThrow(() -> new RestApiException(TagErrorCode.TAG_NOT_FOUND));
+
 				AttachBoard attachBoard = AttachBoard.builder()
-					.tag(tagRepository.findByStatusFalseAndTagName(updatedTag.getTagName())
-						.orElseThrow(() -> new IllegalArgumentException("not found")))
-					.board(board.get())
+					.tag(tag)
+					.board(board)
 					.build();
 
 				attachBoardRepository.save(attachBoard);
@@ -316,7 +327,7 @@ public class BoardServiceImpl implements BoardService{
 		}
 
 		// 수정된 정보 반환
-		return board.get();
+		return board;
 	}
 
 	// 게시글 좋아요 누르기
@@ -327,9 +338,11 @@ public class BoardServiceImpl implements BoardService{
 		System.out.println(request.getUserId());
 
 		// id로 게시글 찾고
-		Optional<Board> board = boardRepository.findById(request.getBoardId());
+		Board board = boardRepository.findById(request.getBoardId())
+			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 		// 유저 찾고
-		Optional<User> user = userRepository.findById(request.getUserId());
+		User user = userRepository.findById(request.getUserId())
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		// 일단 좋아요가 눌려있는지 확인, 누른 적 없으면
 		if (likeBoardRepository.findByBoard_BoardIdAndUser_UserId(request.getBoardId(), request.getUserId()).isEmpty()) {
@@ -337,15 +350,15 @@ public class BoardServiceImpl implements BoardService{
 			// 좋아요 데이터 만들어서 넣기
 			LikeBoard newLike = LikeBoard.builder().build();
 
-			board.ifPresent(newLike::setBoard);
-			user.ifPresent(newLike::setUser);
+			newLike.setBoard(board);
+			newLike.setUser(user);
 
 			likeBoardRepository.save(newLike);
 
 			// 게시글 좋아요+1
-			board.ifPresent(Board::plusLikeSum);
+			board.plusLikeSum();
 		} else {
-			throw new IllegalArgumentException("not found");
+			throw new RestApiException(BoardErrorCode.BOARD_ALREADY_LIKED);
 		}
 	}
 
@@ -355,7 +368,8 @@ public class BoardServiceImpl implements BoardService{
 	public void deleteLike(LikeRequestDto request) {
 
 		// id로 게시글 찾고
-		Optional<Board> board = boardRepository.findById(request.getBoardId());
+		Board board = boardRepository.findById(request.getBoardId())
+			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
 		// 일단 좋아요가 눌려있는지 확인, 누른 적 있으면
 		likeBoardRepository.findByBoard_BoardIdAndUser_UserId(request.getBoardId(), request.getUserId())
@@ -363,11 +377,11 @@ public class BoardServiceImpl implements BoardService{
 				// 해당 좋아요 정보가 있으면 삭제
 				likeBoard -> {
 					likeBoardRepository.deleteByBoard_BoardIdAndUser_UserId(request.getBoardId(), request.getUserId());
-					board.ifPresent(Board::minusLikeSum);
+					board.minusLikeSum();
 				},
 				// 없으면 예외처리
 				() -> {
-					throw new IllegalArgumentException("not found");
+					throw new RestApiException(BoardErrorCode.BOARD_ALREADY_LIKED);
 				});
 	}
 
@@ -376,12 +390,13 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public Board putBoardStatus(Long boardId){
 		// id로 게시글 찾고
-		Optional<Board> board = boardRepository.findById(boardId);
+		Board board = boardRepository.findById(boardId)
+			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
 		// 게시글 삭제여부 상태 변경
-		board.ifPresent(Board::changeDeleteStatus);
+		board.changeDeleteStatus();
 
 		// 수정된 정보 반환
-		return board.get();
+		return board;
 	}
 }
