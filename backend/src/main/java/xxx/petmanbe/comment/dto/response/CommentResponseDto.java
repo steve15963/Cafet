@@ -11,6 +11,7 @@ import xxx.petmanbe.comment.entity.Comment;
 @NoArgsConstructor
 public class CommentResponseDto {
 	private Long commentId;
+	private Long userId;
 	private String content;
 	private String nickname;
 	private LocalDateTime createdTime;
@@ -20,6 +21,7 @@ public class CommentResponseDto {
 	// entity to dto
 	public CommentResponseDto(Comment comment) {
 		this.commentId = comment.getCommentId();
+		this.userId = comment.getUser().getUserId();
 		this.content = comment.getContent();
 		this.nickname = comment.getUser().getNickname();
 		this.createdTime = comment.getCreatedTime();
