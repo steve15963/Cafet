@@ -1,9 +1,9 @@
-import axios from "axios";
+import axiosCreate from "../axiosCreate";
 
 const handletest = () => {
-  const serverUrl = "http://localhost:8080/api/user/get";
+  const serverUrl = "user/get";
 
-  return axios.get(serverUrl);
+  return axiosCreate.get(serverUrl);
 };
 
 export default handletest;
