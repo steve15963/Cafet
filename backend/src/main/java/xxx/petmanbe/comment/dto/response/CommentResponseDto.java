@@ -12,6 +12,7 @@ import xxx.petmanbe.comment.entity.Comment;
 public class CommentResponseDto {
 	private Long commentId;
 	private Long userId;
+	private String boardTitle;
 	private String content;
 	private String nickname;
 	private LocalDateTime createdTime;
@@ -22,6 +23,7 @@ public class CommentResponseDto {
 	public CommentResponseDto(Comment comment) {
 		this.commentId = comment.getCommentId();
 		this.userId = comment.getUser().getUserId();
+		this.boardTitle = comment.getBoard().getBoardTitle();
 		this.content = comment.getContent();
 		this.nickname = comment.getUser().getNickname();
 		this.createdTime = comment.getCreatedTime();
