@@ -1,14 +1,9 @@
-import axios from "axios";
+import axiosCreate from "../axiosCreate";
 
-const handleRefreshToken = (email, password) => {
-  const data = {
-    email: email,
-    password: password,
-  };
+const handleRefreshToken = () => {
+  const refreshTokenUrl = "/user/token/refresh";
 
-  const serverUrl = "https://i9a105.p.ssafy.io/api/user/token/refresh";
-
-  return axios.post(serverUrl, data);
+  return axiosCreate.post(refreshTokenUrl);
 };
 
 export default handleRefreshToken;
