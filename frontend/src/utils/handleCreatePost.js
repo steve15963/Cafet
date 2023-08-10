@@ -1,6 +1,7 @@
 // 게시글 등록
 import axiosCreate from "../axiosCreate";
 const handleCreatePost = async (email, nickname, phoneNo, file) => {
+  console.log("handleCreatePost");
   const formData = new FormData();
   console.log("handle " + email);
   console.log(file);

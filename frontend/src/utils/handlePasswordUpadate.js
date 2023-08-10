@@ -1,16 +1,17 @@
-//비밀번호 업데이트
+//비밀번호 재설정
 
-import axiosCreate from "../axiosCreate";
+import axios from "axios";
 
 const handlePasswordUpdate = (email, password) => {
+  console.log("handlePasswordUpdate");
   const data = {
     email: email,
     password: password,
   };
 
-  const serverUrl = "/api/user/changepassword";
+  const serverUrl = "https://i9a105.p.ssafy.io/api/user/changepassword";
 
-  return axiosCreate.put(serverUrl, data);
+  return axios.put(serverUrl, data);
 };
 
 export default handlePasswordUpdate;

@@ -1,14 +1,14 @@
 //문의사항 등록(API 미구현된 상태로 수정 필요)
-import axiosCreate from "../axiosCreate";
+import axios from "axios";
 
 const handleSubmit = (event) => {
   const data = {
     event: event,
   };
 
-  const serverUrl = `/api/business/num/detail/`;
+  const serverUrl = `https://i9a105.p.ssafy.io/api/business/num/detail/`;
 
-  return axiosCreate.post(serverUrl, data);
+  return axios.post(serverUrl, data);
 };
 
 export default handleSubmit;

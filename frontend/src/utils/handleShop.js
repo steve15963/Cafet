@@ -1,4 +1,4 @@
-import axiosCreate from "../axiosCreate";
+import axios from "axios";
 
 const handleShop = (num, startDt, CEOName) => {
   const data = {
@@ -7,10 +7,10 @@ const handleShop = (num, startDt, CEOName) => {
     CEOName: CEOName,
   };
 
-  const serverUrl = `/api/business/num/detail/
+  const serverUrl = `https://i9a105.p.ssafy.io/api/business/num/detail/
   ${num}/${startDt}/${CEOName}`;
 
-  return axiosCreate.post(serverUrl, data);
+  return axios.post(serverUrl, data);
 };
 
 export default handleShop;
