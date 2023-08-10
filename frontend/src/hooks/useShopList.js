@@ -3,13 +3,20 @@ import axios from "axios";
 
 const useShopList = () => {
   const [shopList, setShopList] = useState([]);
+  const [query, setQuery] = useState({ shopTitle: "", address: "" });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     const getShopList = async () => {
       try {
-        const response = await axios.get("https://i9a105.p.ssafy.io/api/shop");
-        console.log(response.data);
+        let url = `https://i9a105.p.ssafy.io/api/shop`;
+        if (query.shopTitle) {
+          url += `/shopTitle/${query.shopTitle}`;
+        } else if (query.address) {
+          url += `/address/${query.address}`;
+        }
+        const response = await axios.get(url);
         setShopList(response.data);
         setLoading(false);
       } catch (error) {
@@ -19,9 +26,9 @@ const useShopList = () => {
     };
 
     getShopList();
-  }, []);
+  }, [query]);
 
-  return { shopList, loading };
+  return { shopList, setQuery, loading };
 };
 
 export default useShopList;

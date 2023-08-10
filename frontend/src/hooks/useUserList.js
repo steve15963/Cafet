@@ -11,7 +11,6 @@ const useUserList = () => {
     const getUserList = async () => {
       try {
         let url = `https://i9a105.p.ssafy.io/api/user`;
-        //   "https://i9a105.p.ssafy.io/api/user"
         if (query.email) {
           url += `/email/${query.email}`;
         } else if (query.nickname) {
