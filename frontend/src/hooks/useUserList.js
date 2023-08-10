@@ -10,12 +10,14 @@ const useUserList = () => {
     setLoading(true);
     const getUserList = async () => {
       try {
-        let url = `https://i9a105.p.ssafy.io/api/user`;
+        let url = "/user"; // 기본 URL
+
         if (query.email) {
           url += `/email/${query.email}`;
         } else if (query.nickname) {
           url += `/nickname/${query.nickname}`;
         }
+
         const response = await axiosCreate.get(url);
         setUserList(response.data);
         setLoading(false);

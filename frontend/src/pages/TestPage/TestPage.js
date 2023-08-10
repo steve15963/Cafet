@@ -10,7 +10,7 @@ import Button from "../../components/Button/Button";
 // import CommentList from "../../components/CommentList/CommentList";
 // import NearPost from "../../components/NearPost/NearPost";
 import Footer from "../../components/Footer/Footer";
-import handleRefreshToken from "../../utils/handleRefreshToken";
+import handletest from "../../utils/handletest";
 // import Editor from "../../components/Editor/Editor";
 
 const TestPage = () => {
@@ -18,7 +18,7 @@ const TestPage = () => {
     event.preventDefault();
     try {
       //eslint-disable-next-line
-      const response = await handleRefreshToken();
+      const response = await handletest();
       console.log("Success : ");
       alert("요청에 성공하셨습니다.");
     } catch (error) {

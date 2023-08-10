@@ -9,7 +9,7 @@ const useShopUpRequest = (requestId) => {
     setLoading(true);
     const getShopUpRequest = async () => {
       try {
-        let url = `http://localhost:8080/api/user/${requestId}`;
+        let url = `https://i9a105.p.ssafy.io/api/user/${requestId}`;
         //   "http://i9a105.p.ssafy.io:8080/api/user"
         const response = await axios.get(url);
         setShopUpRequest(response.data);
