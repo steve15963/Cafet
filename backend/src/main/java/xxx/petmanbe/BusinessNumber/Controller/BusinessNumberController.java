@@ -15,7 +15,7 @@ import xxx.petmanbe.BusinessNumber.DTO.Request.simpleRequestDto;
 import xxx.petmanbe.BusinessNumber.Service.BusinessNumberService;
 
 @RestController
-@RequestMapping("/business/num")
+@RequestMapping("/api/business/num")
 @AllArgsConstructor
 public class BusinessNumberController {
 	private BusinessNumberService businessNumberService;
