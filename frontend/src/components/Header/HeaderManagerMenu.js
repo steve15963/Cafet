@@ -14,7 +14,9 @@ const HeaderManagerMenu = () => {
       const response = await handleLogout(email, password);
       localStorage.removeItem("userId");
       localStorage.removeItem("level");
+      console.log("sessionToken 삭제");
       localStorage.removeItem("sessionToken");
+      console.log("sessionToken 삭제완료");
       console.log("Logout success : ");
       alert("로그아웃에 성공하셨습니다.");
       window.location.reload();
