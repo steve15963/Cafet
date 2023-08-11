@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.UserErrorCode;
 import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
@@ -77,74 +79,69 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean checkUserLogin(LoginDto loginDto) throws Exception{
 
-		User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(IllegalArgumentException::new);
+		User user = userRepository.findByEmail(loginDto.getEmail())
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
-		if(Objects.equals(loginDto.getPassword(), user.getPassword())) return true;
-
-		return false;
-
-	 }
+		return Objects.equals(loginDto.getPassword(), user.getPassword());
+	}
 
 	 @Transactional
 	 @Override
 	 public LoginReturnDto postLoginUser(LoginDto loginDto) throws Exception {
 
-	 	User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(IllegalArgumentException::new);
+	 	User user = userRepository.findByEmail(loginDto.getEmail())
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
-		 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
+	 	UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
-		 Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+	 	Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-		 Token token = jwtUtil.generateToken(authentication);
+	 	Token token = jwtUtil.generateToken(authentication);
 
-		  user.setToken(token);
+  		user.setToken(token);
 
-		  userRepository.save(user);
+  		userRepository.save(user);
 
-		 LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+		LoginResponseDto loginResponseDto = LoginResponseDto.builder()
 			 .userId(user.getUserId())
 			 .level(user.getLevel().getLevelCode())
 			 .build();
 
-		  LoginReturnDto loginReturnDto = LoginReturnDto.builder()
-			  .loginResponseDto(loginResponseDto)
-			  .token(token)
-			  .build();
-
-
-	 	return loginReturnDto;
+	 	return LoginReturnDto.builder()
+			.loginResponseDto(loginResponseDto)
+			.token(token)
+			.build();
 	}
 
 	@Transactional
 	@Override
 	public boolean putUser(UserModifyDto userModifyDto) throws Exception {
 
-		User user = userRepository.findByEmail(userModifyDto.getEmail()).orElseThrow(IllegalArgumentException::new);
+		User user = userRepository.findByEmail(userModifyDto.getEmail())
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		user.updateUser(userModifyDto.phoneNo,userModifyDto.nickname);
 
 		userRepository.save(user);
 
-		if(user.getNickname()== userModifyDto.nickname && user.getPhoneNo()== userModifyDto.phoneNo){
-			return true;
-
-		}else{
-			return false;
-		}
+		return Objects.equals(user.getNickname(), userModifyDto.nickname) && Objects.equals(user.getPhoneNo(),
+			userModifyDto.phoneNo);
 	}
 
 	@Transactional
 	@Override
 	public UserInformationDto getUser(long userId) throws Exception {
 
-		User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		UserFilesListDto userFilesListDto=null;
 
 		if(!Objects.isNull(user.getUserFile())){
 			userFilesListDto = userFileRepository.findById(user.getUserFile().getUserfileId()).stream()
 				.map(UserFilesListDto::new)
-				.findFirst().orElse(new UserFilesListDto());
+				.findFirst()
+				.orElse(new UserFilesListDto());
 		}
 
 
@@ -176,13 +173,14 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String deleteUser(long userId) {
 
-		User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		user.setStatus("yes");
 
 		userRepository.save(user);
 
-		if(user.getStatus()=="yes"){
+		if(Objects.equals(user.getStatus(), "yes")){
 			return "success";
 		}else{
 			return "fail";
@@ -193,7 +191,8 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String putUserLevel(LevelModifyDto levelModifyDto) {
 
-		User user = userRepository.findById(levelModifyDto.getUserId()).orElseThrow(IllegalArgumentException::new);
+		User user = userRepository.findById(levelModifyDto.getUserId())
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		Level level = user.getLevel();
 
@@ -212,7 +211,7 @@ public class UserServiceImpl implements UserService{
 			return "success";
 
 		}else{
-			return "fail";
+			throw new RestApiException(UserErrorCode.USER_UNAUTHORIZED);
 		}
 
 

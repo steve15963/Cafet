@@ -11,6 +11,10 @@ import java.util.Objects;
 import javax.transaction.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.CommonErrorCode;
+import xxx.petmanbe.exception.errorcode.FileErrorCode;
+import xxx.petmanbe.exception.errorcode.UserErrorCode;
 import xxx.petmanbe.userfile.entity.UserFile;
 import xxx.petmanbe.userfile.repository.UserFileRepository;
 import xxx.petmanbe.user.entity.User;
@@ -34,7 +38,8 @@ public class FileServiceImpl implements FileService{
 			// user파일에 들어가 있음
 			String storedFileName = s3Uploader.upload(file, "user");
 
-			User user = userRepository.findByEmail(email).orElseThrow(()-> new IllegalArgumentException());
+			User user = userRepository.findByEmail(email)
+				.orElseThrow(()-> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 			UserFile file1 = UserFile.builder()
 				.userUrl(storedFileName)
@@ -50,9 +55,7 @@ public class FileServiceImpl implements FileService{
 			
 			return storedFileName;
 		}
-		else{
-			System.out.println("file is null!");
-			return null;
-		}
+
+		throw new RestApiException(FileErrorCode.FILE_NOT_FOUND);
 	}
 }
