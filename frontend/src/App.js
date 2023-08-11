@@ -32,6 +32,7 @@ import SearchShopPage from "./pages/SearchShopPage/SearchShopPage";
 import KioskMain from "./pages/KioskMain/KioskMain";
 import KioskLogin from "./components/KioskLogin/KioskLogin";
 import KioskMenu from "./components/KioskMenu/KioskMenu";
+import KioskNameList from "./components/KioskNameList/KioskNameList";
 
 const App = () => {
   return (
@@ -71,6 +72,7 @@ const App = () => {
 
         <Route path="/kiosk" element={<KioskMain />}>
           <Route path="" element={<KioskLogin />} />
+          <Route path="name" element={<KioskNameList />} />
           <Route path="menu" element={<KioskMenu />} />
         </Route>
       </Routes>

@@ -39,7 +39,7 @@ const KioskLogin = () => {
   return (
     <div className="login">
       <form className="login-form">
-        <p className="login-form-title">로그인</p>
+        <p className="login-form-title">키오스크 로그인</p>
         <div className="login-container">
           <TextField
             label="이메일"
@@ -76,10 +76,6 @@ const KioskLogin = () => {
           <div>
             <Link to={"/login/password"} className="link">
               비밀번호 찾기
-            </Link>
-            &nbsp;&nbsp;| &nbsp;
-            <Link to={"/login/signup"} className="link">
-              회원가입
             </Link>
           </div>
         </div>

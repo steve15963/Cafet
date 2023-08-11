@@ -5,7 +5,6 @@ import { Link, Outlet } from "react-router-dom";
 const KioskMain = () => {
   return (
     <div>
-      {" "}
       <div className="LoginForm">
         <div className="header-save" />
         <div className="logo-container">
