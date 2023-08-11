@@ -9,7 +9,7 @@ const axiosCreate = axios.create({
 axiosCreate.interceptors.request.use(
   async (config) => {
     const sessionToken = localStorage.getItem("sessionToken");
-
+    console.log("axiosCreate");
     if (!sessionToken) {
       try {
         const refreshTokenResponse = await handleRefreshToken();
