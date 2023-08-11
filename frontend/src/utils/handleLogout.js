@@ -1,6 +1,6 @@
 //login
 
-import axiosCreate from "axios";
+import axiosCreate from "../axiosCreate";
 
 const handleLogout = () => {
   console.log("handleLogout");
