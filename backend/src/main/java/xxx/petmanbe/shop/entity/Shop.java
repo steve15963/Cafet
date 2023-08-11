@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.*;
+import xxx.petmanbe.Location.entity.BeaconLocation;
+import xxx.petmanbe.Location.entity.PetLocation;
 import xxx.petmanbe.board.entity.Board;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.shop.dto.requestDto.PutShopDto;
@@ -99,6 +101,25 @@ public class Shop extends BaseTimeEntity {
 		this.closedTime=request.getClosedTime();
 		this.sns=request.getSns();
 		this.homepage=request.getHomepage();
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "shop_id")
+	private List<BeaconLocation> BeaconLocation;
+
+	public void updateShop(String shopTitle, long totalScore, int gradeCount,  double longitude,
+		double latitude, String address, String phoneNo, String descriptions, String openedTime,
+		String closedTime, String sns, String homepage){
+		this.shopTitle=shopTitle;
+		this.totalScore=totalScore;
+		this.gradeCount=gradeCount;
+		this.longitude=longitude;
+		this.latitude=latitude;
+		this.address=address;
+		this.phoneNo=phoneNo;
+		this.descriptions=descriptions;
+		this.openedTime=openedTime;
+		this.closedTime=closedTime;
+		this.sns=sns;
+		this.homepage=homepage;
 	}
 
 	public void updateGrade(long totalScore, int gradeCount){

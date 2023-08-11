@@ -2,25 +2,34 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include <ArduinoJson.h>
 
 #include "WiFiEsp.h"
 
 #define MAX_CIRCULAR_SIZE 2
-#define BEACON_COUNT 4
+#define BEACON_COUNT 3
+#define RSSI_DEFAULT -50
+
+typedef struct {
+    int insertIndex;
+    int data[MAX_CIRCULAR_SIZE];
+} CircularArray;
+
 
 SoftwareSerial BTSerial(2, 3);  // SoftwareSerial(RX, TX)
 SoftwareSerial WFSerial(4, 5);
 
+
 int searchFlag[BEACON_COUNT] = {0,};
+int temp = 0;
 
-DynamicJsonDocument doc(100);
+CircularArray Beacon[BEACON_COUNT];
 
-char ssid[] = "MULTI_GUEST_2";            // your network SSID (name)
-char pass[] = "guest1357";        // your network password
+
+char ssid[] = "205";            // your network SSID (name)
+char pass[] = "asd12345";        // your network password
 int status = WL_IDLE_STATUS;     // the Wifi radio's status
 
-char server[] = "jsonplaceholder.typicode.com";
+char server[] = "i9a105.p.ssafy.io";
 
 unsigned long lastConnectionTime = 0;         // last time you connected to the server, in milliseconds
 const unsigned long postingInterval = 10000L;
@@ -28,19 +37,12 @@ const unsigned long postingInterval = 10000L;
 // Initialize the Ethernet client object
 WiFiEspClient client;
 
-typedef struct{
-  double x;
-  double y;
-  double radius;
-} Anchor;
-
-typedef struct {
-    int insertIndex;
-    int data[MAX_CIRCULAR_SIZE];
-} CircularArray;
 
 void InitCircularArray(CircularArray *target){
   target->insertIndex = 0;
+  for(int i = 0; i < MAX_CIRCULAR_SIZE; i++){
+    target->data[i] = RSSI_DEFAULT;
+  }
 }
 
 double getAvg(CircularArray *target){
@@ -55,7 +57,7 @@ void setData(CircularArray *target,int data){
   target->insertIndex = (target->insertIndex+1) % MAX_CIRCULAR_SIZE;
 }
 
-CircularArray Beacon[BEACON_COUNT];
+
 
 double calculateDistance(int rssi,int index) {
   // double offset[BEACON_COUNT] = {-53,-49,-49};
@@ -86,7 +88,6 @@ void printWifiStatus()
 
 
 void setup()
-
 {
 
   Serial.begin(9600);
@@ -114,13 +115,12 @@ void setup()
 
   for(int i = 0 ; i < BEACON_COUNT; i++){
     InitCircularArray(&Beacon[i]);
-    setData(&Beacon[i],-50);
   }
   BTSerial.listen();
-  BTSerial.println("AT+RESET");
-  BTSerial.println("AT+DISI?");
-
   Serial.println("준비 완료!");
+  delay(10);
+  //BTSerial.println("AT+RESET");
+  BTSerial.println("AT+DISI?");
   
 }
 
@@ -137,7 +137,7 @@ void loop() {
  
     char* data[6];
     if(strcmp(token,"OK+DISIS\r") == 0){
-      Serial.println("===============비콘 스캔 시작=============");
+      Serial.println("비콘 스캔 시작");
     }
     else if(strcmp(token,"OK+DISC") == 0){
       while (token != NULL) {
@@ -159,10 +159,11 @@ void loop() {
         Serial.print("비콘 번호 : ");
         int beaconIndex = atoi(beaconNum);
         Serial.println(beaconIndex);  
-        // Serial.print("신호 세기 : ");
+        Serial.print("신호 세기 : ");
 
         int power = atoi(data[5]);
-        // Serial.println(power);
+        Serial.println(power);
+        Serial.println(data[5]);
         
 
         setData(&Beacon[beaconIndex], power);
@@ -175,38 +176,75 @@ void loop() {
         // Serial.println(calculateDistance(avgPower,beaconIndex));
 
         searchFlag[beaconIndex] = 1;
-        Serial.println("-------------------------------------");
-
       }
     }
     else if(strcmp(token,"OK+DISCE\r") == 0){
       // delay(50);
       if(searchFlag[1] == 0 && searchFlag[2] == 0 && searchFlag[3] == 0){
+          Serial.print("온도 측정 : ");
+          BTSerial.println("AT+TEMP?");
+          while(!BTSerial.available()){ delay(1);}
+          char* str = BTSerial.readStringUntil('\n').c_str();
+          char* token = strtok(str, ":");
+          if(strcmp(token,"OK+Get") == 0){
+            token = strtok(NULL, ":");
+            temp = atoi(temp);
+          }
+          Serial.println(temp);
           Serial.println("***********전송**********");
           WFSerial.listen();
           delay(10);
-          String json  = "";
-          client.stop();
+          String json  = 
+          "{\"shopId\" : 1,\"petId\" : 1,\"temp\" : ";
+          json = json + temp +",\"beaconList\" : [";
+          String key = "key : [";
           for(int i = 0; i < BEACON_COUNT; i++ ){
-            searchFlag[i] = 0;
-            int avgPower = getAvg(&Beacon[i]);
-            doc["b" + i ] = calculateDistance(avgPower,i);
+            if(searchFlag[i] == 1){
+              int avgPower = getAvg(&Beacon[i]);
+              json = json + avgPower;
+              key = key + i;
+              if(BEACON_COUNT-1 != i){ 
+                json = json + ",";
+                key = key + ",";
+              }
+              searchFlag[i] = 0;
+            }
           }
-          if (client.connect(server, 80)) {
-            // printWifiStatus();
+          json += "]," + key + "]}";
+          Serial.println(json);
+          Serial.println(json.length());
+          if (client.connect(server, 1234)) {
+            // printWifiStatus();W
             Serial.println("커넥션 확보 성공");
-            serializeJson(doc,json);
-            Serial.println("Connecting...");
+            
             
             // send the HTTP PUT request
-            client.println("POST /api/Animal/Location HTTP/1.1");
-            client.println("Host: jsonplaceholder.typicode.com");
-            client.println("Accept: */*");
-            client.println("Content-Length: " + json.length());
-            client.println("Content-Type: application/x-www-form-urlencoded");
-            client.println("Connection: close");
+            // client.print("POST /api/location/pet HTTP/1.1\r\n");
+            // client.print("Host: i9a105.p.ssafy.io:1234\r\n");
+            // client.print("Accept: */*\r\n");
+            // client.print("Cache-Control: no-cache\r\n");
+            // client.print("User-Agent: Arduino\r\n");
+            // client.print("Content-Length: " + json.length());
+            // client.print("\r\n");
+            // client.print("Content-Type: application/json;charset=UTF-8\r\n");
+            // client.print("Connection: close\r\n");
+            // client.print("\r\n");
+            // client.print(json);
+            // client.print("\r\n\r\n");
+            client.print(F("POST /api/location/pet"));
+            client.print(F(" HTTP/1.1\r\n"));
+            client.print(F("Cache-Control: no-cache\r\n"));
+            client.print(F("Host: i9a105.p.ssafy.io:1234\r\n"));
+            client.print(F("User-Agent: Arduino\r\n"));
+            client.print(F("Content-Type: application/json;charset=UTF-8\r\n"));
+            client.print(F("Content-Length: "));
+            client.println(json.length());
             client.println();
-            client.println(json);
+            // client.println(json);
+            client.println("{\"shopId\" : 1,\"petId\" : 1,\"temp\" : 0,\"beaconList\" : [1.0, 1.0, 1.0],key : [1,2,3]};");
+            client.print(F("\r\n\r\n"));
+            client.flush();
+            client.stop();
             Serial.println("***********전송 완료**********");
           }
           else {
@@ -216,7 +254,7 @@ void loop() {
           BTSerial.listen();
           delay(10);
         }
-      Serial.println("================비콘 재검색=====================");
+      Serial.println("비콘 재검색");
       BTSerial.println("AT+DISI?");
     }
     else{
