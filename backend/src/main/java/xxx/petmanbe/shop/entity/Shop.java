@@ -92,15 +92,17 @@ public class Shop extends BaseTimeEntity {
 	@JoinColumn(name="user_id")
 	private User user;
 
-	public void updateShop(PutShopDto request){
+	public void updateShop(PutShopDto request) {
 		this.shopTitle = request.getShopTitle();
 		this.address = request.getAddress();
-		this.phoneNo=request.getPhoneNo();
-		this.descriptions=request.getDescriptions();
-		this.openedTime=request.getOpenedTime();
-		this.closedTime=request.getClosedTime();
-		this.sns=request.getSns();
-		this.homepage=request.getHomepage();
+		this.phoneNo = request.getPhoneNo();
+		this.descriptions = request.getDescriptions();
+		this.openedTime = request.getOpenedTime();
+		this.closedTime = request.getClosedTime();
+		this.sns = request.getSns();
+		this.homepage = request.getHomepage();
+	}
+
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shop_id")
 	private List<BeaconLocation> BeaconLocation;
