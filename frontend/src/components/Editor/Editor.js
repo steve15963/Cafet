@@ -5,28 +5,17 @@ import React, { useRef, useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import axios from "axios";
-import { Stack, TextField } from "@mui/material";
-// import { useNavigate } from "react-router-dom";
+import { Button, Stack, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 // import Button from "../Button/Button";
+// import axiosCreate from "./../../axiosCreate";
 
 const Editor = ({ value, onChange }) => {
   const titleRef = useRef();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [boardTitle, setBoardTitle] = useState("");
   const [boardContent, setBoardContent] = useState("");
-  // const [inputValues, setInputValues] = useState({
-  //   boardTitle: "",
-  //   boardContent: "",
-  //   tagList: [
-  //     {
-  //       tagName: "강아지",
-  //     },
-  //   ],
-  //   nickname: "ssafy123",
-  //   shopTitle: null,
-  //   categoryName: "자유",
-  //   fileUrlList: null,
-  // });
+  const userId = localStorage.getItem("userId");
 
   const uploadAdapter = (loader) => {
     return {
@@ -60,33 +49,43 @@ const Editor = ({ value, onChange }) => {
     };
   }
 
-  // const handleSubmit = () => {
-  //   if (boardTitle.length < 1) {
-  //     alert("제목을 입력하세요.");
-  //     titleRef.current.focus();
-  //     return;
-  //   }
+  const handleAbort = () => {
+    navigate(-1);
+  };
 
-  //   const data = {
-  //     boardTitle,
-  //     boardContent,
-  //   };
+  const handleSubmit = () => {
+    if (boardTitle.length < 1) {
+      alert("제목을 입력하세요.");
+      titleRef.current.focus();
+      return;
+    }
 
-  //   console.log(boardTitle);
+    const data = {
+      boardTitle,
+      boardContent,
+      userId,
+      tagList: [],
+      shopTitle: null,
+      categoryName: "자유",
+      // files: null,
+    };
 
-  //   axios.post("http://localhost:8080/api/board/new", data).then((res) => {
-  //     if (res.status === 200) {
-  //       navigate("/", { replace: true });
-  //       return;
-  //     } else {
-  //       alert("업로드 실패.");
-  //       return;
-  //     }
-  //   });
-  // };
+    console.log(boardTitle);
+    console.log(boardContent);
+
+    axios.post("http://localhost:8080/api/board/new", data).then((res) => {
+      if (res.status === 200) {
+        navigate("/", { replace: true });
+        return;
+      } else {
+        alert("업로드 실패.");
+        return;
+      }
+    });
+  };
 
   return (
-    <div>
+    <div style={{ width: "60%" }}>
       <Stack spacing={2}>
         <TextField
           id="outlined-basic"
@@ -106,9 +105,11 @@ const Editor = ({ value, onChange }) => {
             data={value}
             onReady={(editor) => {
               console.log("Editor is ready to use!", editor);
+              editor.setData("<p>이랏샤이마세</p>");
             }}
             onChange={(event, editor) => {
               const data = editor.getData();
+
               setBoardContent(data);
               console.log(boardContent); // console.log({ event, editor, data });
               // console.log("data: ", data);
@@ -121,9 +122,13 @@ const Editor = ({ value, onChange }) => {
             }}
           />
         </div>
-        <Stack direction="row" spacing={2}>
-          {/* <Button text="취소"></Button>
-          <Button text="작성"></Button> */}
+        <Stack direction="row" spacing={2} justifyContent="flex-end">
+          <Button size="large" variant="outlined" onClick={handleAbort}>
+            취소
+          </Button>
+          <Button size="large" variant="contained" onClick={handleSubmit}>
+            작성
+          </Button>
         </Stack>
       </Stack>
     </div>

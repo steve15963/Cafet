@@ -4,6 +4,8 @@ import React from "react";
 import "./Post.scoped.css";
 
 const Post = ({ boardDetail }) => {
+  // document.getElementById(`post-content`).innerHTML = boardDetail.boardContent;
+
   return (
     <div className="post-card">
       <div className="post-info">
@@ -20,7 +22,11 @@ const Post = ({ boardDetail }) => {
         </span>
       </div>
       <div className="post-content-wrapper">
-        <p className="post-content">{boardDetail.boardContent}</p>
+        <div
+          className="post-content"
+          dangerouslySetInnerHTML={{ __html: boardDetail.boardContent }}
+        ></div>
+        {/* <p className="post-content">{boardDetail.boardContent}</p> */}
       </div>
     </div>
   );
