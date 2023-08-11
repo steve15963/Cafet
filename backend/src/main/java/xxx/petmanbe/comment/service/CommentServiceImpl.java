@@ -16,6 +16,10 @@ import xxx.petmanbe.comment.dto.request.UpdateCommentRequestDto;
 import xxx.petmanbe.comment.dto.response.CommentResponseDto;
 import xxx.petmanbe.comment.entity.Comment;
 import xxx.petmanbe.comment.repository.CommentRepository;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.BoardErrorCode;
+import xxx.petmanbe.exception.errorcode.CommonErrorCode;
+import xxx.petmanbe.exception.errorcode.UserErrorCode;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.UserRepository;
 
@@ -35,17 +39,19 @@ public class CommentServiceImpl implements CommentService {
 		Comment comment	= request.toEntity();
 
 		// 댓글 달릴 게시글 찾기
-		Optional<Board> board = boardRepository.findById(boardId);
+		Board board = boardRepository.findById(boardId)
+			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
 		// 등록할 게시글 정보 등록
-		board.ifPresent(comment::setBoard);
+		comment.setBoard(board);
 
 		// 유저 정보 등록
-		Optional<User> user = userRepository.findById(userId);
-		user.ifPresent(comment::setUser);
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
+		comment.setUser(user);
 		
 		// 해당 게시글 카운트 증가
-		board.ifPresent(Board::plusCommentSum);
+		board.plusCommentSum();
 
 		// 댓글 생성
 		return commentRepository.save(comment);
@@ -74,14 +80,14 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public Comment putComment(Long commentId, UpdateCommentRequestDto request){
 		// 수정할 정보 가져오기
-		Optional<Comment> comment = commentRepository.findById(commentId);
+		Comment comment = commentRepository.findById(commentId)
+			.orElseThrow(() -> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
 
 		// 해당 댓글 수정
-		// 비즈니스 로직 상 게시글이 null일 수 없으므로 null 검사는 따로 하지 않음
-		comment.get().updateComment(request);
+		comment.updateComment(request);
 
 		// 수정 정보 반환
-		return comment.get();
+		return comment;
 	}
 
 	// 댓글 삭제
@@ -90,19 +96,21 @@ public class CommentServiceImpl implements CommentService {
 	public Comment putCommentStatus(Long commentId){
 
 		// 수정할 정보 가져오기
-		Optional<Comment> comment = commentRepository.findById(commentId);
+		Comment comment = commentRepository.findById(commentId)
+			.orElseThrow(() -> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
 
 		// 댓글 삭제/복구 상태 변경
-		comment.ifPresent(Comment::updateCommentStatus);
+		comment.updateCommentStatus();
 
 		// 해당 댓글이 달려있는 게시글 정보
-		// 비즈니스 로직 상 게시글이 null일 수 없으므로 null 검사는 따로 하지 않음
-		Optional<Board> board = boardRepository.findById(comment.get().getBoard().getBoardId());
+		Long boardId = comment.getBoard().getBoardId();
+		Board board = boardRepository.findById(boardId)
+			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
 		// 댓글 수 변경
-		board.ifPresent(Board::minusCommentSum);
+		board.minusLikeSum();
 
 		// 바뀐 댓글 정보 반환
-		return comment.get();
+		return comment;
 	}
 }
