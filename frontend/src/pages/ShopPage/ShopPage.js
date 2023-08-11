@@ -21,7 +21,8 @@ import { yellow } from "@mui/material/colors";
 import { Avatar, Container } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 
-import SearchMap from "../../components/SearchMap/SearchMap";
+
+import KioskAnimalListPage from "../KioskAnimalListPage/KioskAnimalListPage";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -126,11 +127,10 @@ const ShopPage = () => {
         </Box>
         <CustomTabPanel value={tabValue} index={0}>
           <h1>카페 가족</h1>
-          <AnimalList />
+          <KioskAnimalListPage />
         </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={1}>
           <h1>갤러리</h1>
-          <SearchMap />
         </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={2}>
           <h1>카페 소식</h1>

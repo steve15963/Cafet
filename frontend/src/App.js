@@ -29,6 +29,10 @@ import ManageRequestDetail from "./components/ManageRequestDetail/ManageRequestD
 // import ManageRequestList from "./components/ManageRequestList/ManageRequestList";
 import SearchShopPage from "./pages/SearchShopPage/SearchShopPage";
 
+
+// 머지할 때 삭제
+import KioskAnimalListPage from "./pages/KioskAnimalListPage/KioskAnimalListPage";
+import KioskAnimalDetailPage from "./pages/KioskAnimalDetailPage/KioskAnimalDetailPage";
 const App = () => {
   return (
     <div className="App">
@@ -64,6 +68,11 @@ const App = () => {
         <Route path="/create" element={<CreatePage />} />
         <Route path="/test" element={<TestPage />} />
         <Route path="/search" element={<SearchShopPage />} />
+
+        {/* 머지할 때 삭제 */}
+        <Route path="/kiosk" element={<KioskAnimalListPage />} />
+        <Route path="/kiosk/:animalId" element={<KioskAnimalDetailPage />} />
+
       </Routes>
     </div>
   );
