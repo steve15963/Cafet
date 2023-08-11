@@ -50,7 +50,6 @@ public class KioskLoginController {
 		httpServletResponse.setHeader("Access-Control-Allow-Methods","POST,GET,PUT,DELETE");
 
 		if(Objects.isNull(loginReturnDto.getToken())){
-
 			return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(loginReturnDto.getLoginResponseDto(),HttpStatus.OK);
