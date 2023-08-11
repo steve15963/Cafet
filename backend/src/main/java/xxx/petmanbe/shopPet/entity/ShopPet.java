@@ -24,7 +24,7 @@ import xxx.petmanbe.shopPet.dto.request.PutShopPetDto;
 public class ShopPet extends BaseTimeEntity {
 
 	@Id
-	@Column(name="shopPet_id")
+	@Column(name="shop_pet_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long shopPetId;
 
@@ -53,6 +53,8 @@ public class ShopPet extends BaseTimeEntity {
 	@JoinColumn(name = "shop_id")
 	private Shop shop;
 
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<PetLocation> petLocationList;
 
 	public void updateShopPet(PutShopPetDto request){
 		this.petName = request.getPetName();
