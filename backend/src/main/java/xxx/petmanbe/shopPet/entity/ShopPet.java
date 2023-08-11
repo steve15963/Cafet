@@ -53,10 +53,6 @@ public class ShopPet extends BaseTimeEntity {
 	@JoinColumn(name = "shop_id")
 	private Shop shop;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pet_location_id")
-	private List<PetLocation> petLocationList;
-
 
 	public void updateShopPet(PutShopPetDto request){
 		this.petName = request.getPetName();

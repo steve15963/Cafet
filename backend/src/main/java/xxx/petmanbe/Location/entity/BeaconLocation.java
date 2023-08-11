@@ -17,6 +17,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.shop.entity.Shop;
 
 @Entity
@@ -25,15 +27,15 @@ import xxx.petmanbe.shop.entity.Shop;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BeaconLocation {
+@ToString
+public class BeaconLocation extends BaseTimeEntity {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
-	@Column(name = "beacon_id", nullable = false, updatable = false)
-	private long beaconId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	long beaconId;
 
 	@ManyToOne
-	@JoinColumn(name="shop_id")
-	private Shop shop;
+	@JoinColumn(name = "shop_id")
+	Shop shop;
 
 	@Column
 	double x;
@@ -42,7 +44,8 @@ public class BeaconLocation {
 	@Column
 	double z;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	List<useBeaconForPetLocation> useBeaconForPetLocationList;
+	@OneToMany
+	// @JoinColumn(name = "useBeaconId")
+	List<UseBeaconForPetLocation> useBeaconForPetLocationList;
 
 }

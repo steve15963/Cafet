@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.*;
+import xxx.petmanbe.Location.entity.BeaconLocation;
+import xxx.petmanbe.Location.entity.PetLocation;
 import xxx.petmanbe.board.entity.Board;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.shopPet.entity.ShopPet;
@@ -85,6 +87,10 @@ public class Shop extends BaseTimeEntity {
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "shop_id")
+	private List<BeaconLocation> BeaconLocation;
 
 	public void updateShop(String shopTitle, long totalScore, int gradeCount,  double longitude,
 		double latitude, String address, String phoneNo, String descriptions, String openedTime,

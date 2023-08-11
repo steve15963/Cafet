@@ -1,5 +1,6 @@
 package xxx.petmanbe.Location.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -18,38 +19,37 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.shopPet.entity.ShopPet;
 
 @Entity
-@Table(name = "PetLocationTimeLine")
+@Table
 @Getter
 @Setter
 @Builder
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class PetLocation extends BaseTimeEntity {
+public class PetLocation extends BaseTimeEntity{
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
-	@Column(name = "pet_location_time_line_id", nullable = false, updatable = false)
-	private long pet_location_store_time_id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
+	long petLocationId;
 
 	@ManyToOne
-	@JoinColumn(name = "shop_pet_id")
-	private ShopPet shopPet;
+	@JoinColumn(name = "shopPetId")
+	ShopPet shopPet;
 
-	@Column(name = "x")
-	private double x;
-	@Column(name = "y")
-	private double y;
-	@Column(name = "z")
-	private double z;
+	@Column
+	double x;
 
-	@Column(name = "temp")
-	private double tmep;
+	@Column
+	double y;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	List<useBeaconForPetLocation> useBeaconForPetLocationList;
+	@Column
+	double z;
 
-
+	@Column
+	double temp;
 }
