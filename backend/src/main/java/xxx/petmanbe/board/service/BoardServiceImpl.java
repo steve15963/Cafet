@@ -3,6 +3,8 @@ package xxx.petmanbe.board.service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -63,6 +65,22 @@ public class BoardServiceImpl implements BoardService{
 
 		// 일단 게시글 제목과 내용으로 게시글 객체 생성
 		Board board = request.toEntity();
+
+		// 게시글 내용에서 <script> 태그 내용 제거
+		// 정규 표현식 패턴 생성
+		String patternString = "<script[^>]*>.*?</script>";
+		Pattern pattern = Pattern.compile(patternString);
+
+		// 문자열 내에서 패턴 검색
+		Matcher matcher = pattern.matcher(request.getBoardContent());
+		StringBuilder result = new StringBuilder();
+		while (matcher.find()) {
+			matcher.appendReplacement(result, "");
+		}
+		matcher.appendTail(result);
+
+		// 제거된 문자열로 boardContent 최신화
+		board.setBoardContent(String.valueOf(result));
 
 		// 카테고리 찾고
 		Category category = categoryRepository.findByCategoryName(request.getCategoryName())
@@ -334,8 +352,6 @@ public class BoardServiceImpl implements BoardService{
 	@Transactional
 	@Override
 	public void postLike(LikeRequestDto request){
-		System.out.println(request.getBoardId());
-		System.out.println(request.getUserId());
 
 		// id로 게시글 찾고
 		Board board = boardRepository.findById(request.getBoardId())
