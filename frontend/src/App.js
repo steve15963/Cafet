@@ -72,7 +72,7 @@ const App = () => {
 
         <Route path="/kiosk" element={<KioskMain />}>
           <Route path="" element={<KioskLogin />} />
-          <Route path="name" element={<KioskNameList />} />
+          <Route path="list" element={<KioskNameList />} />
           <Route path="menu" element={<KioskMenu />} />
         </Route>
       </Routes>
