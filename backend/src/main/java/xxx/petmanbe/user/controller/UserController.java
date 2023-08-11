@@ -67,7 +67,7 @@ public class UserController {
 
 
 		// 추후에 넣어야 할 부분 (지금은 체크하기 불편할까봐 주석으로 넣어놓음)
-		// if(mailService.registcheck(request.getEmail())){
+		// if(mailService.registCheck(request.getEmail())){
 		// 	Long userId = userService.postnewUser(request);
 		// 	return new ResponseEntity<>(userId + "regist success",HttpStatus.OK);
 		//
