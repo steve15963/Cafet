@@ -10,6 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.board.entity.Board;
 import xxx.petmanbe.boardfile.entity.BoardFile;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.CommonErrorCode;
+import xxx.petmanbe.exception.errorcode.PetErrorCode;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.shop.service.ShopService;
@@ -33,14 +36,15 @@ public class ShopPetFileServiceImpl implements ShopPetFileService{
 	@Override
 	public boolean keepFile(List<MultipartFile> files, long shopPetId) throws IOException {
 
-		if(!files.isEmpty()){
+		if (!files.isEmpty()) {
 
-			ShopPet shopPet = shopPetRepository.findById(shopPetId).orElseThrow(()-> new IllegalArgumentException());
+			ShopPet shopPet = shopPetRepository.findById(shopPetId)
+				.orElseThrow(()-> new RestApiException(PetErrorCode.PET_NOT_FOUND));
 
 			List<ShopPetFile> shopPetFileList = new LinkedList<>();
 
 			// files을 file로 바꿔서 S3에 넣는다.
-			files.stream().forEach((file)->{
+			files.stream().forEach((file) -> {
 				try {
 					String storedFileName = s3Uploader.upload(file, "shopPet" );
 
@@ -62,12 +66,9 @@ public class ShopPetFileServiceImpl implements ShopPetFileService{
 
 			return true;
 
-		}else{
+		} else {
 			System.out.println("image is null");
 			return false;
 		}
-
-
-
 	}
 }
