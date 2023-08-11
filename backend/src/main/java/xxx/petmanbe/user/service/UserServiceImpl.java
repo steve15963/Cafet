@@ -66,19 +66,17 @@ public class UserServiceImpl implements UserService{
 
 		roles.add("ROLE_USER");
 
+		Level level = levelRepository.findById((long)1).orElseThrow(()->new IllegalArgumentException());
+
 		User user = User.builder()
 				.email(registDto.getEmail())
 				.password(passwordEncoder.encode(registDto.getPassword()))
 				.phoneNo(registDto.getPhoneNo())
 				.nickname(registDto.getNickname())
 				.status("no")
+				.level(level)
 				.roles(roles)
 				.build();
-
-		Level level = Level.builder().levelCode(100).build();
-
-
-		user.setLevel(level);
 
 		return userRepository.save(user).getUserId();
 	}
@@ -207,14 +205,21 @@ public class UserServiceImpl implements UserService{
 
 		Level level = user.getLevel();
 
-		level.setLevelCode(levelModifyDto.getLevel());
+		if(!Objects.equals(level, levelModifyDto.getLevel())){
 
-		// role
-		if(200<= levelModifyDto.getLevel() && levelModifyDto.getLevel() <300 ){
-			user.getRoles().set(0, "ROLE_SHOP");
-		}else if(300<= levelModifyDto.getLevel()){
-			user.getRoles().set(0,"ROLE_ADMIN");
+			// role
+			if(200<= levelModifyDto.getLevel() && levelModifyDto.getLevel() <300 ){
+				level = levelRepository.findByLevelCode(levelModifyDto.getLevel()).orElseThrow(()->new IllegalArgumentException());
+				user.setLevel(level);
+				user.getRoles().set(0, "ROLE_SHOP");
+			}else if(300<= levelModifyDto.getLevel()){
+				level = levelRepository.findByLevelCode(levelModifyDto.getLevel()).orElseThrow(()-> new IllegalArgumentException());
+				user.setLevel(level);
+				user.getRoles().set(0,"ROLE_ADMIN");
+			}
+
 		}
+
 
 		userRepository.save(user);
 
