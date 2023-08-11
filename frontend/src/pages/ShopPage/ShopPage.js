@@ -19,7 +19,7 @@ import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
 import { yellow } from '@mui/material/colors';
 
-import SearchMap from "../../components/SearchMap/SearchMap";
+import SearchAddress from "../../components/SearchAddress/SearchAddress";
 
 
 function CustomTabPanel(props) {
@@ -104,10 +104,11 @@ const ShopPage = () => {
         </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={1}>
           <h1>갤러리</h1>
-          <SearchMap />
+          
         </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={2}>
           <h1>카페 소식</h1>
+          <SearchAddress />
         </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={3}>
           <ShopInfoPage key={shopId} {...shopData} />

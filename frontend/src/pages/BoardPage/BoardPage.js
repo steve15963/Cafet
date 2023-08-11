@@ -102,7 +102,7 @@ const BoardPage = () => {
   const [boardData, setboardData] = useState([]);
   useEffect(() => {
     axios
-      .get("http://i9a105.p.ssafy.io:8080/api/board/list")
+      .get("http://i9a105.p.ssafy.io:8080/api/board")
       .then(function (response) {
         setboardData(response.data);
       })
