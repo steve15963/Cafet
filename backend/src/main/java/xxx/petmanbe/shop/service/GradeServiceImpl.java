@@ -4,8 +4,13 @@ import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.CommonErrorCode;
+import xxx.petmanbe.exception.errorcode.GradeErrorCode;
+import xxx.petmanbe.exception.errorcode.ShopErrorCode;
+import xxx.petmanbe.exception.errorcode.UserErrorCode;
 import xxx.petmanbe.shop.dto.requestDto.DeleteShopGradeDto;
-import xxx.petmanbe.shop.dto.requestDto.GetShopGradeDto;
 import xxx.petmanbe.shop.dto.requestDto.PostShopGradeDto;
 import xxx.petmanbe.shop.dto.requestDto.PutShopGradeDto;
 import xxx.petmanbe.shop.dto.responseDto.GetShopUserGradeDto;
@@ -33,9 +38,11 @@ public class GradeServiceImpl implements GradeService{
     @Override
     public boolean postShopGrade(PostShopGradeDto postShopGradeDto) {
 
-        Shop shop = shopRepository.findById(postShopGradeDto.getShopId()).orElseThrow(()->new IllegalArgumentException());
+        Shop shop = shopRepository.findById(postShopGradeDto.getShopId())
+            .orElseThrow(()->new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
-        User user = userRepository.findById(postShopGradeDto.getUserId()).orElseThrow(()-> new IllegalArgumentException());
+        User user = userRepository.findById(postShopGradeDto.getUserId())
+            .orElseThrow(()-> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
         Grade grade = Grade.builder()
                 .value(postShopGradeDto.getValue())
@@ -56,19 +63,21 @@ public class GradeServiceImpl implements GradeService{
     @Override
     public GetShopUserGradeDto getShopGrade(long shopId, long userId) {
 
-        GetShopUserGradeDto getShopUserGradeDto = gradeRepository.findByUserShopJpql(userId, shopId).stream()
-            .map(GetShopUserGradeDto::new).findFirst().orElseThrow(()->new IllegalArgumentException());
-
-        return getShopUserGradeDto;
+		return gradeRepository.findByUserShopJpql(userId, shopId).stream()
+            .map(GetShopUserGradeDto::new)
+            .findFirst()
+            .orElseThrow(()-> new RestApiException(CommonErrorCode.BAD_REQUEST));
     }
 
     // 유저별 가게 평점 수정하기
     @Override
     public boolean putShopGrade(PutShopGradeDto putShopGradeDto) {
 
-        Grade grade = gradeRepository.findByUserShopJpql(putShopGradeDto.getUserId(), putShopGradeDto.getShopId()).orElseThrow(()->new IllegalArgumentException());
+        Grade grade = gradeRepository.findByUserShopJpql(putShopGradeDto.getUserId(), putShopGradeDto.getShopId())
+            .orElseThrow(() -> new RestApiException(GradeErrorCode.GRADE_NOT_FOUND));
 
-        Shop shop = shopRepository.findById(putShopGradeDto.getShopId()).orElseThrow(()->new IllegalArgumentException());
+        Shop shop = shopRepository.findById(putShopGradeDto.getShopId())
+            .orElseThrow(()-> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
         shop.updateGrade(shop.getTotalScore()-grade.getValue()+putShopGradeDto.getValue(),shop.getGradeCount());
         grade.updateGrade(putShopGradeDto.getValue());
@@ -83,8 +92,10 @@ public class GradeServiceImpl implements GradeService{
     @Override
     public boolean deleteShopGrade(DeleteShopGradeDto deleteShopGradeDto) {
 
-        Grade grade = gradeRepository.findByUserShopJpql(deleteShopGradeDto.getUserId(),deleteShopGradeDto.getUserId()).orElseThrow(()-> new IllegalArgumentException());
-        Shop shop = shopRepository.findById(deleteShopGradeDto.getShopId()).orElseThrow(()->new IllegalArgumentException());
+        Grade grade = gradeRepository.findByUserShopJpql(deleteShopGradeDto.getUserId(),deleteShopGradeDto.getUserId())
+            .orElseThrow(() -> new RestApiException(GradeErrorCode.GRADE_NOT_FOUND));
+        Shop shop = shopRepository.findById(deleteShopGradeDto.getShopId())
+            .orElseThrow(()-> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
         shop.updateGrade(shop.getTotalScore()-grade.getValue(),shop.getGradeCount()-1);
 

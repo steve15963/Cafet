@@ -19,7 +19,7 @@ public class CheckBusinessNumberServiceImpl implements CheckBusinessNumberServic
 	}
 
 	@Override
-	public boolean CheckBsuinessNumber(String Number) {
+	public boolean CheckBusinessNumber(String Number) {
 		ResponseBusinessNumberStatusDto responseBusinessNumberStatusDto = businessNumberRepository.BusinessNumberSearch(
 			Number);
 		if (responseBusinessNumberStatusDto.getData()[0].getB_no().equals(Number)) {
@@ -29,7 +29,7 @@ public class CheckBusinessNumberServiceImpl implements CheckBusinessNumberServic
 	}
 
 	@Override
-	public boolean CheckBsuinessNumber(String Number, String date, String name) {
+	public boolean CheckBusinessNumber(String Number, String date, String name) {
 		ResponseBusinessNumberStatusDetailDto responseBusinessNumberStatusDetailDto = businessNumberRepository.BusinessNumberSearchDetail(
 			Number, date, name);
 

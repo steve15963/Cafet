@@ -19,7 +19,7 @@ public class BusinessNumberServiceImpl implements BusinessNumberService {
 	}
 
 	@Override
-	public boolean CheckBsuinessNumber(String num) {
+	public boolean CheckBusinessNumber(String num) {
 		ResponseBusinessNumberStatusDto responseBusinessNumberStatusDto = businessNumberRepository.BusinessNumberSearch(
 			num);
 		if (responseBusinessNumberStatusDto == null)
@@ -38,7 +38,7 @@ public class BusinessNumberServiceImpl implements BusinessNumberService {
 	}
 
 	@Override
-	public boolean CheckBsuinessNumber(String num, String date, String name) {
+	public boolean CheckBusinessNumber(String num, String date, String name) {
 		ResponseBusinessNumberStatusDetailDto responseBusinessNumberStatusDetailDto = businessNumberRepository.BusinessNumberSearchDetail(
 			num, date, name);
 		if (responseBusinessNumberStatusDetailDto == null)

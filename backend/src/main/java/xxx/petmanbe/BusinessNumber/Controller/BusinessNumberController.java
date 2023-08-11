@@ -3,11 +3,9 @@ package xxx.petmanbe.BusinessNumber.Controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
@@ -30,7 +28,7 @@ public class BusinessNumberController {
 	 */
 	@PostMapping("/simple")
 	public ResponseEntity<String> simpleBusinessNumJoin(@RequestBody simpleRequestDto requestDto) {
-		if (businessNumberService.CheckBsuinessNumber(requestDto.getNum())) {
+		if (businessNumberService.CheckBusinessNumber(requestDto.getNum())) {
 			return new ResponseEntity<>("", HttpStatus.OK);
 		}
 		return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
@@ -44,7 +42,7 @@ public class BusinessNumberController {
 	 */
 	@PostMapping("/detail")
 	public ResponseEntity<String> detailBusinessNumJoin(@RequestBody detailRequestDto requestDto) {
-		if (businessNumberService.CheckBsuinessNumber(requestDto.getNum(), requestDto.getStartDt(), requestDto.getCEOName())) {
+		if (businessNumberService.CheckBusinessNumber(requestDto.getNum(), requestDto.getStartDt(), requestDto.getCEOName())) {
 			return new ResponseEntity<>("", HttpStatus.OK);
 		}
 		return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);

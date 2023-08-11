@@ -16,6 +16,8 @@ import xxx.petmanbe.board.repository.BoardRepository;
 import xxx.petmanbe.boardfile.entity.BoardFile;
 import xxx.petmanbe.boardfile.entity.BoardOnlyFile;
 import xxx.petmanbe.boardfile.repository.BoardFileRepository;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.BoardErrorCode;
 import xxx.petmanbe.boardfile.repository.BoardOnlyFileRepository;
 import xxx.petmanbe.userfile.service.S3Uploader;
 
@@ -37,7 +39,8 @@ public class BoardFileServiceImpl implements BoardFileService{
 
 		if(!files.isEmpty()){
 
-			Board board = boardRepository.findById(boardId).orElseThrow(()->new IllegalArgumentException());
+			Board board = boardRepository.findById(boardId)
+				.orElseThrow(()-> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 			List<BoardFile> boardFileList = new LinkedList<>();
 
 			// files을 file로 바꿔서 S3에 넣는다.

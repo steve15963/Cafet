@@ -45,11 +45,11 @@ public class ShopPetController {
             if(!Objects.isNull(files)){
                 if(shopPetFileService.keepFile(files, shopPetId)){
 
-                    return new ResponseEntity<>(HttpStatus.OK);
+                    return new ResponseEntity<>("pictures in", HttpStatus.OK);
                 }
             }
 
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("no pics", HttpStatus.BAD_REQUEST);
 
 
 
@@ -59,26 +59,18 @@ public class ShopPetController {
     @DeleteMapping("{shopPetId}")
     public ResponseEntity<?> DeleteShopPet(@PathVariable Long shopPetId ){
 
-        boolean check = shopPetService.deleteShopPet(shopPetId);
+        shopPetService.deleteShopPet(shopPetId);
 
-        if(check){
-            return new ResponseEntity<>(HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
 
     @PutMapping("")
     public ResponseEntity<?> PutShopPet(@RequestBody PutShopPetDto putShopPetDto){
 
-        boolean check = shopPetService.putShopPet(putShopPetDto);
+        shopPetService.putShopPet(putShopPetDto);
 
-        if(check){
-            return new ResponseEntity<>(HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 

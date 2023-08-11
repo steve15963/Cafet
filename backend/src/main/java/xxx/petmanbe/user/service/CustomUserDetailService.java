@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.UserErrorCode;
 import xxx.petmanbe.user.repository.UserRepository;
 
 @RequiredArgsConstructor
@@ -22,7 +24,8 @@ public class CustomUserDetailService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
 
-		return userRepository.findByEmail(email).orElseThrow(()->new IllegalArgumentException());
+		return userRepository.findByEmail(email)
+			.orElseThrow(()-> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 	}
 
 	private UserDetails createUserDetails(User user){

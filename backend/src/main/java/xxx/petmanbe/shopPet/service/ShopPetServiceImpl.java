@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.PetErrorCode;
+import xxx.petmanbe.exception.errorcode.ShopErrorCode;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.shopPet.dto.request.PostShopPetDto;
@@ -35,7 +38,8 @@ public class ShopPetServiceImpl implements ShopPetService{
     @Override
     public GetShopPetDto getShopPet(long shopPetId) {
 
-        ShopPet shopPet = shopPetRepository.findById(shopPetId).orElseThrow(()->new IllegalArgumentException());
+        ShopPet shopPet = shopPetRepository.findById(shopPetId)
+            .orElseThrow(()-> new RestApiException(PetErrorCode.PET_NOT_FOUND));
 
         List<ShopPetFile> shopPetFile = shopPet.getShopPetFileList();
         List<ShopPetFileDto> shopPetFileDtoList = null;
@@ -46,7 +50,7 @@ public class ShopPetServiceImpl implements ShopPetService{
                 .map(ShopPetFileDto::new).collect(Collectors.toList());
         }
 
-        GetShopPetDto getShopPetDto = GetShopPetDto.builder()
+		return GetShopPetDto.builder()
                 .shopPetId(shopPet.getShopPetId())
                 .petAge(shopPet.getPetAge())
                 .petName(shopPet.getPetName())
@@ -56,18 +60,14 @@ public class ShopPetServiceImpl implements ShopPetService{
                 .birth(shopPet.getBirth())
             .shopPetFileDtoList(shopPetFileDtoList)
                 .build();
-
-        return getShopPetDto;
     }
 
     @Transactional
     @Override
     public long postShopPet(PostShopPetDto postShopPetDto) {
 
-        Shop shop = shopRepository.findById(postShopPetDto.getShopId()).orElseThrow(()-> new IllegalArgumentException());
-
-
-
+        Shop shop = shopRepository.findById(postShopPetDto.getShopId())
+            .orElseThrow(()-> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
         ShopPet shopPet = ShopPet.builder()
             .shop(shop)
@@ -92,7 +92,8 @@ public class ShopPetServiceImpl implements ShopPetService{
     @Override
     public boolean putShopPet(PutShopPetDto putShopPetDto) {
 
-        ShopPet shopPet = shopPetRepository.findById(putShopPetDto.getShopPetId()).orElseThrow(()-> new IllegalArgumentException());
+        ShopPet shopPet = shopPetRepository.findById(putShopPetDto.getShopPetId())
+            .orElseThrow(()-> new RestApiException(PetErrorCode.PET_NOT_FOUND));
 
         shopPet.updateShopPet(putShopPetDto);
 
@@ -105,7 +106,8 @@ public class ShopPetServiceImpl implements ShopPetService{
     @Override
     public boolean deleteShopPet(Long shopPetId) {
 
-        ShopPet shopPet = shopPetRepository.findById(shopPetId).orElseThrow(()->new IllegalArgumentException());
+        ShopPet shopPet = shopPetRepository.findById(shopPetId)
+            .orElseThrow(()->new RestApiException(PetErrorCode.PET_NOT_FOUND));
 
         shopPet.changeDeleteStatus();
 
@@ -113,6 +115,4 @@ public class ShopPetServiceImpl implements ShopPetService{
 
         return true;
     }
-    // 가게 별
-
 }

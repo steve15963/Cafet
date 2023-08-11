@@ -3,6 +3,8 @@ package xxx.petmanbe.user.service;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.CommonErrorCode;
 import xxx.petmanbe.user.dto.requestDto.RefreshTokenDto;
 import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
@@ -45,7 +47,8 @@ public class JwtServiceImpl implements JwtService{
 
 		if(jwtUtil.validateToken(refreshToken)){
 
-			Token token = tokenRepository.findByRefreshToken(refreshToken).orElseThrow(()->new IllegalArgumentException());
+			Token token = tokenRepository.findByRefreshToken(refreshToken)
+				.orElseThrow(()-> new RestApiException(CommonErrorCode.BAD_REQUEST));
 
 			User user = token.getUser();
 

@@ -17,14 +17,14 @@ import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.comment.dto.request.AddCommentRequestDto;
 import xxx.petmanbe.comment.dto.request.UpdateCommentRequestDto;
 import xxx.petmanbe.comment.dto.response.CommentResponseDto;
-import xxx.petmanbe.comment.service.CommentServiceImpl;
+import xxx.petmanbe.comment.service.CommentService;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/comment")
 @CrossOrigin("*")
 public class CommentController {
-	private final CommentServiceImpl commentService;
+	private final CommentService commentService;
 
 	// 해당 게시글에 댓글 추가
 	@PostMapping("/{boardId}/new/{userId}")
