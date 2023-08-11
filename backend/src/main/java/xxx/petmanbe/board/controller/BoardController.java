@@ -28,7 +28,7 @@ import xxx.petmanbe.board.dto.request.LikeRequestDto;
 import xxx.petmanbe.board.dto.request.UpdateBoardRequestDto;
 import xxx.petmanbe.board.dto.response.BoardListResponseDto;
 import xxx.petmanbe.board.dto.response.BoardResponseDto;
-import xxx.petmanbe.board.service.BoardServiceImpl;
+import xxx.petmanbe.board.service.BoardService;
 import xxx.petmanbe.boardfile.service.BoardFileService;
 
 @RestController
@@ -37,7 +37,7 @@ import xxx.petmanbe.boardfile.service.BoardFileService;
 @CrossOrigin("*")
 public class BoardController {
 
-	private final BoardServiceImpl boardService;
+	private final BoardService boardService;
 
 	private final BoardFileService boardFileService;
 
