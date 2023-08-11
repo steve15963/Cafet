@@ -79,7 +79,7 @@ public class ShopController {
 
     //test 용도
     @GetMapping("position/1/{address}")
-    public ResponseEntity<String> GetAddressPoistion(@PathVariable String address) throws IOException{
+    public ResponseEntity<String> GetAddressPosition(@PathVariable String address) throws IOException{
 
         WebClient webClient = WebClient.builder()
                 .baseUrl("https://dapi.kakao.com/v2/local/search/address.json?query="+address)
@@ -113,23 +113,18 @@ public class ShopController {
     @PostMapping("/new")
     public ResponseEntity<String> PostShopNew(@RequestBody PostNewShopDto request) throws IOException {
 
-        if(shopService.postShopNew(request)){
-            return new ResponseEntity<>("sucess",HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("유저 status가 낮습니다.",HttpStatus.BAD_REQUEST);
-        }
+        shopService.postShopNew(request);
+
+        return new ResponseEntity<>("sucess",HttpStatus.OK);
     }
 
     //가게 수정하기
     @PutMapping("")
     public ResponseEntity<String> PutShop(@RequestBody PutShopDto request){
 
-        if(shopService.putShop(request)){
-            return new ResponseEntity<>("success",HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("fail",HttpStatus.BAD_REQUEST);
-        }
+        shopService.putShop(request);
 
+        return new ResponseEntity<>("success",HttpStatus.OK);
     }
 
 	//가게 삭제(soft-delete)
@@ -137,23 +132,18 @@ public class ShopController {
 	public ResponseEntity<String> putBoardStatus(@PathVariable Long shopId){
 
         // 결과 전달
-        if (shopService.putShopStatus(shopId)) {
-            return new ResponseEntity<>("success", HttpStatus.NO_CONTENT);
-        }
-        else {
-            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
-        }
+        shopService.putShopStatus(shopId);
+
+        return new ResponseEntity<>("success", HttpStatus.NO_CONTENT);
 	}
 
     // 가게 평점 주기
 	@PostMapping("/grade")
 	public ResponseEntity<String> PostShopGrade(@RequestBody PostShopGradeDto request){
 
-        if(gradeService.postShopGrade(request)){
-            return new ResponseEntity<>("success",HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("fail",HttpStatus.BAD_REQUEST);
-        }
+        gradeService.postShopGrade(request);
+
+        return new ResponseEntity<>("success",HttpStatus.OK);
     }
 
     // 유저 별 가게 평점 조회하기
@@ -171,23 +161,18 @@ public class ShopController {
     @PutMapping("/grade")
     public ResponseEntity<String> PutShopGrade(@RequestBody PutShopGradeDto request){
 
-        if(gradeService.putShopGrade(request)){
-            return new ResponseEntity<>("success",HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("fail",HttpStatus.BAD_REQUEST);
-        }
+        gradeService.putShopGrade(request);
+
+        return new ResponseEntity<>("success",HttpStatus.OK);
     }
 
     // 유저 별 가게 평점 삭제하기
     @DeleteMapping("/grade")
     public ResponseEntity<String> DeleteShopGrade(@RequestBody DeleteShopGradeDto request){
 
-        if(gradeService.deleteShopGrade(request)){
-            return new ResponseEntity<>("success",HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("fail",HttpStatus.BAD_REQUEST);
-        }
+        gradeService.deleteShopGrade(request);
 
+        return new ResponseEntity<>("success",HttpStatus.OK);
     }
 
     // 전체 가게 보기
