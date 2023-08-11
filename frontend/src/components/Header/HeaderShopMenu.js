@@ -9,7 +9,7 @@ const HeaderShopMenu = () => {
     event.preventDefault();
     try {
       //eslint-disable-next-line
-      const response = await handleLogout(email, password);
+      const response = await handleLogout();
       localStorage.removeItem("userId");
       localStorage.removeItem("level");
       console.log("sessionToken 삭제");
