@@ -47,3 +47,21 @@ mail:
       int: 5
     CheckExpirationTime:
       int: 1
+kakao:
+  map:
+    key: KakaoAK 3f4683b5cba1076dea94d245d77fde0f
+
+# AWS Account Credentials
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAYXKKVNOPXKJX3NE4
+      secretKey: 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
+    s3:
+      bucket: picturepractice
+      bucket-url: https://picturepractice.s3.ap-northeast-2.amazonaws.com/
+    region:
+      static: ap-northeast-2
+    stack:
+      auto:
+        false

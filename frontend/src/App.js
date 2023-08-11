@@ -29,6 +29,10 @@ import ManageRequestDetail from "./components/ManageRequestDetail/ManageRequestD
 // import ManageRequestList from "./components/ManageRequestList/ManageRequestList";
 import SearchShopPage from "./pages/SearchShopPage/SearchShopPage";
 
+import KioskMain from "./pages/KioskMain/KioskMain";
+import KioskLogin from "./components/KioskLogin/KioskLogin";
+import KioskMenu from "./components/KioskMenu/KioskMenu";
+
 const App = () => {
   return (
     <div className="App">
@@ -64,6 +68,11 @@ const App = () => {
         <Route path="/create" element={<CreatePage />} />
         <Route path="/test" element={<TestPage />} />
         <Route path="/search" element={<SearchShopPage />} />
+
+        <Route path="/kiosk" element={<KioskMain />}>
+          <Route path="" element={<KioskLogin />} />
+          <Route path="menu" element={<KioskMenu />} />
+        </Route>
       </Routes>
     </div>
   );
