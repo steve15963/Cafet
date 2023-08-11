@@ -1,5 +1,4 @@
 //회원가입
-
 import axios from "axios";
 
 const handleSignUp = (email, password, phoneNo, nickname) => {
@@ -10,7 +9,7 @@ const handleSignUp = (email, password, phoneNo, nickname) => {
     nickname: nickname,
   };
 
-  const serverUrl = "http://i9a105.p.ssafy.io:8080/api/user/new";
+  const serverUrl = "https://i9a105.p.ssafy.io/api/user/new";
 
   return axios.post(serverUrl, data);
 };

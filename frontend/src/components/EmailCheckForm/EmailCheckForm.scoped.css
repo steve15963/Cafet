@@ -37,3 +37,43 @@
   align-items: center;
   margin-top: 12px;
 }
+
+.repassword-form div {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.repassword-form {
+  background-color: #fff;
+  display: block;
+  padding: 1rem;
+  min-width: 400px;
+  max-width: 60%;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.repassword-form-title {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  text-align: center;
+  color: #000;
+}
+
+.repassword-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.link {
+  color: black;
+  font-weight: bold;
+  font-size: 14px;
+  text-decoration: none;
+}

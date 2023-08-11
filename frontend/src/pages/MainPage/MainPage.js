@@ -10,6 +10,7 @@ const MainPage = () => {
   return (
     <div className="mainpage">
       <Header />
+      <div className="header-save" />
       <Outlet />
       <div className="footer-save" />
       <Footer />

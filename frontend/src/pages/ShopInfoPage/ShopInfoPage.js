@@ -1,55 +1,109 @@
-import CallIcon from '@mui/icons-material/Call';
-import HomeIcon from '@mui/icons-material/Home';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import DescriptionIcon from '@mui/icons-material/Description';
-import PlaceIcon from '@mui/icons-material/Place';
-import MapIcon from '@mui/icons-material/Map';
-import PetsIcon from '@mui/icons-material/Pets';
+import CallIcon from "@mui/icons-material/Call";
+import HomeIcon from "@mui/icons-material/Home";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import DescriptionIcon from "@mui/icons-material/Description";
+import PlaceIcon from "@mui/icons-material/Place";
 
-import Box from '@mui/material/Box';
-import KakaoMap from '../../components/KakaoMap/KakaoMap';
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
 
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import KakaoMap from "../../components/KakaoMap/KakaoMap";
 
+import "./ShopInfoPage.scoped.css";
+import { Stack, Avatar } from "@mui/material";
 
-const ShopInfoPage = ({shopId, shopTitle, totalScore, gradeCount, longitude, latitude, address, phoneNo, descriptions, openedTime, closedTime, sns, homepage}) => {
+const ShopInfoPage = ({
+  shopId,
+  shopTitle,
+  totalScore,
+  gradeCount,
+  longitude,
+  latitude,
+  address,
+  phoneNo,
+  descriptions,
+  openedTime,
+  closedTime,
+  sns,
+  homepage,
+}) => {
+  // var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667);
+
+  // // 마커를 생성합니다
+  // var marker = new kakao.maps.Marker({
+  //     position: markerPosition
+  // });
+
+  // // 마커가 지도 위에 표시되도록 설정합니다
+  // marker.setMap(map);
   return (
     <div>
-      <h2>
-        <PetsIcon />
-        {shopTitle}
-      </h2>
-      <div>
-        <MapIcon></MapIcon>
+      <Stack direction="row" justifyContent="space-between" spacing={0}>
+        <Box component="span" sx={{ p: 0, border: "1px dashed grey" }}>
+          <List
+            sx={{ width: "100%", maxWidth: 600, bgcolor: "background.paper" }}
+          >
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <PlaceIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="주소" secondary={address} />
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <CallIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="연락처" secondary={phoneNo} />
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <AccessTimeIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary="영업시간"
+                secondary={`${openedTime} ~ ${closedTime}`}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <InstagramIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="SNS" secondary={sns} />
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <HomeIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="홈페이지" secondary={homepage} />
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <DescriptionIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="설명" secondary={descriptions} />
+            </ListItem>
+          </List>
+        </Box>
         <KakaoMap latitude={latitude} longitude={longitude} />
-      </div>
-      <div>
-      <Typography sx={{ display: "flex", alignItems: "center"}}>
-        <PlaceIcon />
-        오시는 길
-      </Typography>
-      </div>
-      <Box sx={{ display: "flex", alignItems:"center"}}>
-        <Typography sx={{ display: "flex", alignItems: "center" }}>
-          <CallIcon /> 
-          {phoneNo}
-        </Typography>
-      </Box>
-      <div>
-        <DescriptionIcon /> {descriptions}
-      </div>
-      <div>
-        < AccessTimeIcon />{openedTime} ~ {closedTime}
-      </div>
-      <div>
-        <InstagramIcon />{sns}
-      </div>
-      <div>
-        <HomeIcon />{homepage}
-      </div>
+      </Stack>
     </div>
   );
-}
+};
 
-export default ShopInfoPage
+export default ShopInfoPage;

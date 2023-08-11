@@ -1,5 +1,6 @@
 package xxx.petmanbe.board.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -63,13 +64,40 @@ public class BoardServiceImpl implements BoardService{
 		Optional<Category> category = categoryRepository.findByCategoryName(request.getCategoryName());
 
 		// 정보 추가
-		category.ifPresent(board::setCategory);
+		category.ifPresentOrElse(
+			board::setCategory,
+			() -> {
+				throw new IllegalArgumentException();
+			}
+		);
 
 		// 유저 정보 찾고
 		Optional<User> user = userRepository.findById(request.getUserId());
 
 		// 작성자 정보 저장
-		user.ifPresent(board::setUser);
+		user.ifPresentOrElse(
+			board::setUser,
+			() -> {
+				throw new IllegalArgumentException();
+			}
+		);
+
+		// 사진 저장하기
+		if(!Objects.isNull(request.getFiles())){
+
+			for(int i=0 ; i<request.getFiles().size(); i++){
+
+				String url = request.getFiles().get(i);
+
+				BoardFile boardFile = BoardFile.builder()
+					.boardUrl(url)
+					.board(board)
+					.build();
+
+				boardFileRepository.save(boardFile);
+			}
+		}
+
 
 		// 게시글에 달린 가게 정보 가져오기
 		Optional<Shop> shop = shopRepository.findByStatusFalseAndShopTitle(request.getShopTitle());
@@ -96,7 +124,7 @@ public class BoardServiceImpl implements BoardService{
 			}
 			// 있으면 해당하는 태그 가져오기
 			Tag tag = tagRepository.findByStatusFalseAndTagName(response.getTagName())
-				.orElseThrow(() -> new IllegalArgumentException("not found"));
+				.orElseThrow(IllegalArgumentException::new);
 
 			AttachBoard attachBoard = AttachBoard.builder()
 				.board(board)
@@ -128,47 +156,51 @@ public class BoardServiceImpl implements BoardService{
 
 		// 반환할 게시글 정보
 		Optional<Board> board = boardRepository.findById(boardId);
+		if (board.isPresent()){
+			// 일단 조회수 증가
+			board.ifPresent(Board::updateViewCnt);
 
-		// 일단 조회수 증가
-		board.ifPresent(Board::updateViewCnt);
-
-		// 게시글에 달린 댓글 목록 가져오기
-		// 비즈니스 로직 상 게시글이 null일 수 없으므로 null 검사는 따로 하지 않음
-		List<CommentResponseDto> commentList = board.get().getCommentList().stream()
-			.map(CommentResponseDto::new)
-			.collect(Collectors.toList());
-
-		// 게시글에 달린 가게 정보 가져오기
-		Optional<GetShopDto> shop = Optional.ofNullable(board.get().getShop()).map(GetShopDto::new);
-
-		// 게시글에 달린 태그 목록을 가져오기 위해 가져오는 부착 기록
-		List<AttachBoard> attachBoardList = attachBoardRepository.findByBoard_BoardId(boardId);
-
-		// 태그 dto로 전환
-		List<TagListResponseDto> taglist = attachBoardList.stream()
-			.map(AttachBoard::getTag)
-			.map(TagListResponseDto::new)
-			.collect(Collectors.toList());
-
-		// 사진 정보 가져오기
-		List<BoardFile> boardFiles = boardFileRepository.findAllByBoard_BoardId(boardId);
-
-		List<BoardFileDto> boardFileList = null;
-
-		if(!Objects.isNull(boardFiles)){
-			boardFileList=boardFiles.stream()
-				.map(BoardFileDto::new)
+			// 게시글에 달린 댓글 목록 가져오기
+			List<CommentResponseDto> commentList = board.get().getCommentList().stream()
+				.map(CommentResponseDto::new)
 				.collect(Collectors.toList());
-		}
 
-		// 게시글 정보 반환
-		return BoardResponseDto.builder()
-			.board(board.get())
-			.commentList(commentList)
-			.tagList(taglist)
-			.shop(shop)
-			.boardFileList(boardFileList)
-			.build();
+			// 게시글에 달린 가게 정보 가져오기
+			Optional<GetShopDto> shop = Optional.ofNullable(board.get().getShop()).map(GetShopDto::new);
+
+			// 게시글에 달린 태그 목록을 가져오기 위해 가져오는 부착 기록
+			List<AttachBoard> attachBoardList = attachBoardRepository.findByBoard_BoardId(boardId);
+
+			// 태그 dto로 전환
+			List<TagListResponseDto> taglist = attachBoardList.stream()
+				.map(AttachBoard::getTag)
+				.map(TagListResponseDto::new)
+				.collect(Collectors.toList());
+
+			// 사진 정보 가져오기
+			List<BoardFile> boardFiles = boardFileRepository.findAllByBoard_BoardId(boardId);
+
+			List<BoardFileDto> boardFileList = null;
+
+			if(!Objects.isNull(boardFiles)){
+				boardFileList=boardFiles.stream()
+					.map(BoardFileDto::new)
+					.collect(Collectors.toList());
+			}
+
+			// 게시글 정보 반환
+			return BoardResponseDto.builder()
+				.board(board.get())
+				.commentList(commentList)
+				.tagList(taglist)
+				.shop(shop)
+				.boardFileList(boardFileList)
+				.build();
+
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	// 전체 게시글 보기
@@ -236,6 +268,15 @@ public class BoardServiceImpl implements BoardService{
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
 	}
+
+	// 해당 유저가 쓴 게시글 모음(마이페이지용)
+	@Override
+	public List<BoardListResponseDto> getBoardListByUserId(Long userId) {
+		return boardRepository.findByStatusFalseAndUser_UserIdOrderByBoardIdDesc(userId).stream()
+			.map(BoardListResponseDto::new)
+			.collect(Collectors.toList());
+	}
+
 
 	// 좋아요 한 유저별 게시글 검색
 	@Override

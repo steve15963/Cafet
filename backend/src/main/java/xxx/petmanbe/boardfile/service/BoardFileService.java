@@ -9,5 +9,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface BoardFileService {
 	public Boolean keepFile(List<MultipartFile> files, Long boardId) throws IOException;
 
+	public String keepOnlyFile(MultipartFile file) throws IOException;
 }
-

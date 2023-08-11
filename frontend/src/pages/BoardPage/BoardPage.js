@@ -102,7 +102,7 @@ const BoardPage = () => {
   const [boardData, setboardData] = useState([]);
   useEffect(() => {
     axios
-      .get("http://i9a105.p.ssafy.io:8080/api/board/list")
+      .get("https://i9a105.p.ssafy.io/api/board")
       .then(function (response) {
         setboardData(response.data);
       })
@@ -121,7 +121,9 @@ const BoardPage = () => {
       el.commentSum,
       el.category_id
     )
-  ); // 전체게시판
+  );
+
+  // 전체게시판
   const generalBoard = boardData.filter((it) => it.categoryName === "자유");
   const questBoard = boardData.filter((it) => it.categoryName === "질문");
   const adBoard = boardData.filter((it) => it.categoryName === "홍보");

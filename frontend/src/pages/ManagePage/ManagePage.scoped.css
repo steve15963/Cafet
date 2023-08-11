@@ -16,6 +16,9 @@
   /* margin-bottom: 20px; */
   padding-top: 10px;
   padding-bottom: 10px;
+  font-size: 1.25rem;
+  /* line-height: 1.75rem; */
+  /* font-weight: 600; */
 }
 .manage-user-form {
   width: 60%;

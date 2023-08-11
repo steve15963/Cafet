@@ -1,16 +1,17 @@
-//비밀번호 업데이트(API 미구현 수정 필요)
+//비밀번호 재설정
 
 import axios from "axios";
 
 const handlePasswordUpdate = (email, password) => {
+  console.log("handlePasswordUpdate");
   const data = {
     email: email,
     password: password,
   };
 
-  const serverUrl = "http://i9a105.p.ssafy.io:8080/api/user/login";
+  const serverUrl = "https://i9a105.p.ssafy.io/api/user/changepassword";
 
-  return axios.post(serverUrl, data);
+  return axios.put(serverUrl, data);
 };
 
 export default handlePasswordUpdate;

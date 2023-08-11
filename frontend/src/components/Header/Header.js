@@ -2,10 +2,33 @@
 
 import React from "react";
 import "./Header.scoped.css";
+import Divider from "@mui/material/Divider";
 
 import { Link } from "react-router-dom";
+import Stack from "@mui/material/Stack";
+import HeaderDefaultMenu from "./HeaderDefaultMenu";
+import HeaderUserMenu from "./HeaderUserMenu";
+import HeaderShopMenu from "./HeaderShopMenu";
+import HeaderManagerMenu from "./HeaderManagerMenu";
 
 const Header = () => {
+  // type = "manager";
+  // type = "shop";
+  // type = "user";
+  const level = localStorage.getItem("level");
+  const chooseMenu = () => {
+    switch (level) {
+      case "100":
+        return <HeaderUserMenu />;
+      case "200":
+        return <HeaderShopMenu />;
+      case "300":
+        return <HeaderManagerMenu />;
+      default:
+        return <HeaderDefaultMenu />;
+    }
+  };
+
   return (
     <div className="header">
       <nav className="header_guest">
@@ -22,32 +45,27 @@ const Header = () => {
           </div>
           <div className="header-category-container">
             <div>
-              <Link to={"/login"} className="header-link">
-                카페 찾기
-              </Link>
-              &nbsp;&nbsp;| &nbsp;
-              <Link to={"/board"} className="header-link">
-                커뮤니티
-              </Link>
-              &nbsp;&nbsp;| &nbsp;
-              <Link to={"/login"} className="header-link">
-                카페소식
-              </Link>
-              &nbsp;&nbsp;| &nbsp;
-              <Link to={"/login"} className="header-link">
-                검색
-              </Link>
+              <Stack
+                direction="row"
+                divider={<Divider orientation="vertical" flexItem />}
+                spacing={2}
+              >
+                <Link to={"/login"} className="header-link">
+                  카페 찾기
+                </Link>
+                <Link to={"/board"} className="header-link">
+                  커뮤니티
+                </Link>
+                <Link to={"/login"} className="header-link">
+                  카페소식
+                </Link>
+                <Link to={"/login"} className="header-link">
+                  검색
+                </Link>
+              </Stack>
             </div>
           </div>
-          <div className="header-link-container">
-            <Link to={"/login"} className="header-link">
-              로그인
-            </Link>
-            &nbsp;
-            <Link to={"/mypage"} className="header-link">
-              마이페이지
-            </Link>
-          </div>
+          {chooseMenu(level)}
         </div>
       </nav>
     </div>
