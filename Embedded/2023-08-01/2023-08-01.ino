@@ -20,6 +20,7 @@ SoftwareSerial WFSerial(4, 5);
 
 
 int searchFlag[BEACON_COUNT] = {0,};
+int temp = 0;
 
 CircularArray Beacon[BEACON_COUNT];
 
@@ -39,10 +40,8 @@ WiFiEspClient client;
 
 void InitCircularArray(CircularArray *target){
   target->insertIndex = 0;
-  for(int i = 0 ; i < BEACON_COUNT; i++){
-    for(int j = 0; j < MAX_CIRCULAR_SIZE; j++){
-      Beacon[i].data[j] = RSSI_DEFAULT;
-    }
+  for(int i = 0; i < MAX_CIRCULAR_SIZE; i++){
+    target->data[i] = RSSI_DEFAULT;
   }
 }
 
@@ -89,7 +88,6 @@ void printWifiStatus()
 
 
 void setup()
-
 {
 
   Serial.begin(9600);
@@ -183,23 +181,42 @@ void loop() {
     else if(strcmp(token,"OK+DISCE\r") == 0){
       // delay(50);
       if(searchFlag[1] == 0 && searchFlag[2] == 0 && searchFlag[3] == 0){
+          Serial.print("온도 측정 : ");
+          BTSerial.println("AT+TEMP?");
+          while(!BTSerial.available()){ delay(1);}
+          char* str = BTSerial.readStringUntil('\n').c_str();
+          char* token = strtok(str, ":");
+          if(strcmp(token,"OK+Get") == 0){
+            token = strtok(NULL, ":");
+            temp = atoi(temp);
+          }
+          Serial.println(temp);
           Serial.println("***********전송**********");
           WFSerial.listen();
           delay(10);
           String json  = 
-          "{\"shopId\" : 1,\"petId\" : 1,\"temp\" : 0,\"beaconList\" : [";
+          "{\"shopId\" : 1,\"petId\" : 1,\"temp\" : ";
+          json = json + temp +",\"beaconList\" : [";
+          String key = "key : [";
           for(int i = 0; i < BEACON_COUNT; i++ ){
-            searchFlag[i] = 0;
-            int avgPower = getAvg(&Beacon[i]);
-            json = json + "-1";
-            if(BEACON_COUNT-1 != i) json = json + ",";
+            if(searchFlag[i] == 1){
+              int avgPower = getAvg(&Beacon[i]);
+              json = json + avgPower;
+              key = key + i;
+              if(BEACON_COUNT-1 != i){ 
+                json = json + ",";
+                key = key + ",";
+              }
+              searchFlag[i] = 0;
+            }
           }
-          json += "]}";
+          json += "]," + key + "]}";
+          Serial.println(json);
+          Serial.println(json.length());
           if (client.connect(server, 1234)) {
             // printWifiStatus();W
             Serial.println("커넥션 확보 성공");
-            Serial.println(json);
-            Serial.println(json.length());
+            
             
             // send the HTTP PUT request
             // client.print("POST /api/location/pet HTTP/1.1\r\n");
@@ -214,7 +231,6 @@ void loop() {
             // client.print("\r\n");
             // client.print(json);
             // client.print("\r\n\r\n");
-
             client.print(F("POST /api/location/pet"));
             client.print(F(" HTTP/1.1\r\n"));
             client.print(F("Cache-Control: no-cache\r\n"));
@@ -224,7 +240,8 @@ void loop() {
             client.print(F("Content-Length: "));
             client.println(json.length());
             client.println();
-            client.println(json);
+            // client.println(json);
+            client.println("{\"shopId\" : 1,\"petId\" : 1,\"temp\" : 0,\"beaconList\" : [1.0, 1.0, 1.0],key : [1,2,3]};");
             client.print(F("\r\n\r\n"));
             client.flush();
             client.stop();
