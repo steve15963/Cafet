@@ -25,6 +25,9 @@ public interface BoardService {
 	// 전체 게시글 보기
 	List<BoardListResponseDto> getBoardList();
 
+	// 사진 없는 전체 게시글 보기
+	List<BoardListResponseDto> getBoardListWithPics();
+
 	// 글 제목으로 게시글 검색
 	List<BoardListResponseDto> getBoardListByBoardTitle(String key);
 
@@ -60,4 +63,7 @@ public interface BoardService {
 
 	// 게시글 삭제표시
 	Board putBoardStatus(Long boardId);
+
+	// 게시글 썸네일 따기
+	String getFirstImg(String boardContent);
 }

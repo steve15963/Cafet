@@ -1,6 +1,5 @@
 package xxx.petmanbe.board.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -172,8 +171,9 @@ public class BoardServiceImpl implements BoardService{
 		Board board = boardRepository.findById(boardId)
 			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
-		// 일단 조회수 증가
-		board.updateViewCnt();
+		// 썸네일 따기
+		String thumbnail = getFirstImg(board.getBoardContent());
+		board.setThumbnail(thumbnail);
 
 		// 게시글에 달린 댓글 목록 가져오기
 		List<CommentResponseDto> commentList = board.getCommentList().stream()
@@ -203,6 +203,9 @@ public class BoardServiceImpl implements BoardService{
 				.collect(Collectors.toList());
 		}
 
+		// 조회수 증가
+		board.updateViewCnt();
+
 		// 게시글 정보 반환
 		return BoardResponseDto.builder()
 			.board(board)
@@ -214,11 +217,19 @@ public class BoardServiceImpl implements BoardService{
 
 	}
 
-	// 전체 게시글 보기
+	// 전체 게시글 보기, 메인용
 	@Override
 	public List<BoardListResponseDto> getBoardList(){
 
 		return boardRepository.findByStatusFalseOrderByBoardIdDesc().stream()
+			.map(BoardListResponseDto::new)
+			.collect(Collectors.toList());
+	}
+
+	// 사진이 있는 전체 게시글 보기, 메인 보기
+	@Override
+	public List<BoardListResponseDto> getBoardListWithPics() {
+		return boardRepository.findByStatusFalseAndThumbnailNotNullOrderByBoardIdDesc().stream()
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
 	}
@@ -311,6 +322,10 @@ public class BoardServiceImpl implements BoardService{
 
 		// 해당 id를 가지는 게시글 정보 바꾸기
 		board.updateBoard(boardId, request);
+
+		// 썸네일 변경
+		String newThumbnail = getFirstImg(request.getBoardContent());
+		board.setThumbnail(newThumbnail);
 
 		// 카테고리 변경
 		Category category = categoryRepository.findByCategoryName(request.getCategoryName())
@@ -440,5 +455,21 @@ public class BoardServiceImpl implements BoardService{
 
 		// 수정된 정보 반환
 		return board;
+	}
+
+	// 게시글 썸네일 따기
+	@Override
+	public String getFirstImg(String boardContent) {
+		// 정규 표현식 패턴 생성
+		String patternString = "<img\\s+[^>]*>";
+		Pattern pattern = Pattern.compile(patternString);
+
+		// 문자열 내에서 패턴 검색
+		Matcher matcher = pattern.matcher(boardContent);
+		if (matcher.find()) {
+			return matcher.group();
+		} else {
+			return null;
+		}
 	}
 }

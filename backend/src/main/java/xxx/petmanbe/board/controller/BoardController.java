@@ -114,11 +114,21 @@ public class BoardController {
 		return new ResponseEntity<>(board, HttpStatus.OK);
 	}
 
-	// 게시글 목록 보기
+	// 게시글 전체 목록 보기
 	@GetMapping("")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardList(){
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardList = boardService.getBoardList();
+
+		// 결과 전달
+		return new ResponseEntity<>(boardList, HttpStatus.OK);
+	}
+
+	// 사진이 있는 게시글 전체 목록 보기(메인용)
+	@GetMapping("/main")
+	public ResponseEntity<List<BoardListResponseDto>> getBoardListWithPics(){
+		// 게시글 목록 가져오기
+		List<BoardListResponseDto> boardList = boardService.getBoardListWithPics();
 
 		// 결과 전달
 		return new ResponseEntity<>(boardList, HttpStatus.OK);

@@ -9,6 +9,8 @@ import xxx.petmanbe.board.entity.Board;
 public interface BoardRepository extends JpaRepository<Board, Long> {
 	List<Board> findByStatusFalseOrderByBoardIdDesc();
 
+	List<Board> findByStatusFalseAndThumbnailNotNullOrderByBoardIdDesc();
+
 	List<Board> findByStatusFalseAndBoardTitleContainingOrderByBoardIdDesc(String boardTitle);
 
 	List<Board> findByStatusFalseAndBoardContentContainingOrderByBoardIdDesc(String boardContent);
