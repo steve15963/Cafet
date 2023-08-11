@@ -2,26 +2,26 @@
 
 import React from "react";
 import "./Header.scoped.css";
-import { useCookies } from "react-cookie";
 
 import { Link } from "react-router-dom";
 import { Divider, Stack } from "@mui/material";
 
 const HeaderManagerMenu = () => {
-  //eslint-disable-next-line
-  const [cookies, removeCookie] = useCookies();
-
-  const onLogoutClick = (event) => {
+  const onLogoutClick = async (event) => {
     event.preventDefault();
-    localStorage.removeItem("userId");
-    localStorage.removeItem("level");
-    localStorage.removeItem("accessToken");
-
-    removeCookie("refreshToken");
-
-    console.log("Logout success : ");
-    alert("로그아웃에 성공하셨습니다.");
-    window.location.reload();
+    try {
+      //eslint-disable-next-line
+      const response = await handleLogout(email, password);
+      localStorage.removeItem("userId");
+      localStorage.removeItem("level");
+      localStorage.removeItem("sessionToken");
+      console.log("Logout success : ");
+      alert("로그아웃에 성공하셨습니다.");
+      window.location.reload();
+    } catch (error) {
+      console.error("Logout failed:");
+      alert("로그아웃에 실패하셨습니다.");
+    }
   };
 
   return (
