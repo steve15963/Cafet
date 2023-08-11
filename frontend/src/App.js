@@ -8,9 +8,9 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import LoginForm from "./components/LoginForm/LoginForm";
 import SignUpForm from "./components/SignUpForm/SignUpForm";
 import EmailCheckForm from "./components/EmailCheckForm/EmailCheckForm";
-import RePasswordForm from "./components/RePassword/RePassword";
 import MainPage from "./pages/MainPage/MainPage";
 import MainList from "./components/MainList/MainList";
+import Rule from "./components/Rule/Rule";
 import InquiryForm from "./components/InquiryForm/InquiryForm";
 import ManagePage from "./pages/ManagePage/ManagePage";
 import ManageUsers from "./components/ManageUsers/ManageUsers";
@@ -26,7 +26,8 @@ import TestPage from "./pages/TestPage/TestPage";
 import ShopInfoPage from "./pages/ShopInfoPage/ShopInfoPage";
 import CreatePage from "./pages/CreatePage/CreatePage";
 import ManageRequestDetail from "./components/ManageRequestDetail/ManageRequestDetail";
-import ManageRequestList from "./components/ManageRequestList/ManageRequestList";
+// import ManageRequestList from "./components/ManageRequestList/ManageRequestList";
+import SearchShopPage from "./pages/SearchShopPage/SearchShopPage";
 
 const App = () => {
   return (
@@ -38,24 +39,23 @@ const App = () => {
           <Route path="" element={<LoginForm />} />
           <Route path="signup" element={<SignUpForm />} />
           <Route path="password" element={<EmailCheckForm />} />
-          <Route path="repassword" element={<RePasswordForm />} />
         </Route>
         <Route path="/" element={<MainPage />}>
           <Route path="" element={<MainList />} />
+          <Route path="rule" element={<Rule />} />
           <Route path="inquiry" element={<InquiryForm />} />
         </Route>
         <Route path="/manage" element={<ManagePage />}>
           <Route path="" element={<ManageUsers />} />
           <Route path="shops" element={<ManageShops />} />
-          <Route path="requests" element={<ManageRequest />}>
-            <Route path="" element={<ManageRequestList />} />
+          <Route path="requests">
+            <Route path="" element={<ManageRequest />} />
+            <Route path=":id" element={<ManageRequestDetail />} />
           </Route>
-          <Route path="requests/:id" element={<ManageRequestDetail />} />
         </Route>
         <Route path="/mypage" element={<MyPage />}>
           <Route path="" element={<AccountData />} />
           <Route path="modify" element={<AccountModify />} />
-          <Route path="/mypage/:path" element={<MyPage />} />
         </Route>
         <Route path="/shop/:shopId" element={<ShopPage />} />
         <Route path="/animal/:id/info" element={<ShopInfoPage />} />
@@ -63,6 +63,7 @@ const App = () => {
         <Route path="/shop/animal/:id" element={<AnimalDetail />} /> */}
         <Route path="/create" element={<CreatePage />} />
         <Route path="/test" element={<TestPage />} />
+        <Route path="/search" element={<SearchShopPage />} />
       </Routes>
     </div>
   );

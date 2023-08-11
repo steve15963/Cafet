@@ -7,7 +7,7 @@ const handleShop = (num, startDt, CEOName) => {
     CEOName: CEOName,
   };
 
-  const serverUrl = `http://i9a105.p.ssafy.io:8080/business/num/detail/
+  const serverUrl = `https://i9a105.p.ssafy.io/api/business/num/detail/
   ${num}/${startDt}/${CEOName}`;
 
   return axios.post(serverUrl, data);

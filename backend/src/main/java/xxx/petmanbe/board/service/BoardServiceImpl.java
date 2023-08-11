@@ -1,5 +1,6 @@
 package xxx.petmanbe.board.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -96,6 +97,22 @@ public class BoardServiceImpl implements BoardService{
 		// 작성자 정보 저장
 		board.setUser(user);
 
+		// 사진 저장하기
+		if(!Objects.isNull(request.getFiles())){
+
+			for(int i=0 ; i<request.getFiles().size(); i++){
+
+				String url = request.getFiles().get(i);
+
+				BoardFile boardFile = BoardFile.builder()
+					.boardUrl(url)
+					.board(board)
+					.build();
+
+				boardFileRepository.save(boardFile);
+			}
+		}
+
 		// 게시글에 달린 가게 정보 가져오기
 		Optional<Shop> shop = shopRepository.findByStatusFalseAndShopTitle(request.getShopTitle());
 		Long defaultShopId = 1L; // null 일 때 사용할 값
@@ -159,16 +176,12 @@ public class BoardServiceImpl implements BoardService{
 		board.updateViewCnt();
 
 		// 게시글에 달린 댓글 목록 가져오기
-		// 비즈니스 로직 상 게시글이 null일 수 없으므로 null 검사는 따로 하지 않음
 		List<CommentResponseDto> commentList = board.getCommentList().stream()
 			.map(CommentResponseDto::new)
 			.collect(Collectors.toList());
 
 		// 게시글에 달린 가게 정보 가져오기
 		Optional<GetShopDto> shop = Optional.ofNullable(board.getShop()).map(GetShopDto::new);
-
-		// 게시글에 달린 태그 목록을 가져오기 위해 가져오는 부착 기록
-		List<AttachBoard> attachBoardList = attachBoardRepository.findByBoard_BoardId(boardId);
 
 		// 태그 dto로 전환
 		List<TagListResponseDto> taglist = attachBoardList.stream()
@@ -189,12 +202,13 @@ public class BoardServiceImpl implements BoardService{
 
 		// 게시글 정보 반환
 		return BoardResponseDto.builder()
-			.board(board)
+			.board(board.get())
 			.commentList(commentList)
 			.tagList(taglist)
 			.shop(shop)
 			.boardFileList(boardFileList)
 			.build();
+
 	}
 
 	// 전체 게시글 보기
@@ -262,6 +276,15 @@ public class BoardServiceImpl implements BoardService{
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
 	}
+
+	// 해당 유저가 쓴 게시글 모음(마이페이지용)
+	@Override
+	public List<BoardListResponseDto> getBoardListByUserId(Long userId) {
+		return boardRepository.findByStatusFalseAndUser_UserIdOrderByBoardIdDesc(userId).stream()
+			.map(BoardListResponseDto::new)
+			.collect(Collectors.toList());
+	}
+
 
 	// 좋아요 한 유저별 게시글 검색
 	@Override

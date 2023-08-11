@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosCreate from "../axiosCreate";
 
 const handleUserUpdate = async (email, nickname, phoneNo, file) => {
   const formData = new FormData();
@@ -10,9 +10,9 @@ const handleUserUpdate = async (email, nickname, phoneNo, file) => {
   }
   console.log(formData.get("dto"));
 
-  const serverUrl = "http://localhost:8080/api/user";
+  const serverUrl = "/api/user";
 
-  const response = await axios.put(serverUrl, formData, {
+  const response = await axiosCreate.put(serverUrl, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

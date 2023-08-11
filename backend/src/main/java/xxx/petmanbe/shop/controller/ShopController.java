@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+
 import xxx.petmanbe.shop.dto.others.JsonResponse;
 import xxx.petmanbe.shop.dto.requestDto.*;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
@@ -210,5 +211,35 @@ public class ShopController {
         List<GetShopListDto> shopList = shopService.getShopListByTag(tagName);
 
         return new ResponseEntity<>(shopList, HttpStatus.OK);
+    }
+
+    // 가게 찜하기
+    @PostMapping("/like")
+    public ResponseEntity<Integer> postLikeShop(@RequestBody LikeShopRequestDto request){
+
+        if (shopService.postLikeShop(request.getUserId(), request.getShopId())){
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        throw new IllegalArgumentException();
+    }
+
+    // 사용자가 찜한 가게 목록 가져오기
+    @GetMapping("/like/{userId}")
+    public ResponseEntity<List<GetShopListDto>> getLikeShopListByUser(@PathVariable Long userId){
+
+        List<GetShopListDto> shopList = shopService.getLikeShopListByUser(userId);
+
+        return new ResponseEntity<>(shopList, HttpStatus.OK);
+    }
+
+    // 가게 찜 취소하기
+    @DeleteMapping("/like")
+    public ResponseEntity<Integer> deleteLikeShop(@RequestBody LikeShopRequestDto request){
+
+        // 삭제가 되면
+        if (shopService.deleteLikeShop(request.getUserId(), request.getShopId())){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        throw new IllegalArgumentException();
     }
 }

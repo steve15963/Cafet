@@ -16,9 +16,16 @@ const LoginForm = () => {
   const onLoginButtonClick = async (event) => {
     event.preventDefault();
     try {
+      //eslint-disable-next-line
       const response = await handleLogin(email, password);
-      const token = response.data.token;
-      console.log("Login success", token);
+      console.log(response.headers);
+      localStorage.setItem("userId", response.data.userId);
+      localStorage.setItem("level", response.data.level);
+      localStorage.setItem(
+        "sessionToken",
+        response.headers.get("Authorization")
+      );
+      console.log("Login success : ");
       alert("로그인에 성공하셨습니다.");
       navigate("/", { replace: true });
     } catch (error) {
@@ -46,6 +53,7 @@ const LoginForm = () => {
         </div>
         <div className="login-container">
           <TextField
+            type="password"
             label="비밀번호"
             placeholder="비밀번호를 입력해주세요"
             variant="outlined"

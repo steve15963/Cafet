@@ -44,6 +44,9 @@ public class Shop extends BaseTimeEntity {
 	@Column
 	private int gradeCount;
 
+	@Column(name = "like_cnt",columnDefinition = "integer default 0")
+	private int likeCnt;
+
 	@Column
 	private double longitude;
 
@@ -101,6 +104,14 @@ public class Shop extends BaseTimeEntity {
 	public void updateGrade(long totalScore, int gradeCount){
 		this.totalScore=totalScore;
 		this.gradeCount=gradeCount;
+	}
+
+	public void plusLikeCnt(){
+		this.likeCnt++;
+	}
+
+	public void minusLikeCnt(){
+		this.likeCnt--;
 	}
 
 	public void changeDeleteStatus(){

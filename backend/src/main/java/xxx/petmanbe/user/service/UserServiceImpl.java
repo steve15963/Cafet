@@ -3,13 +3,19 @@ package xxx.petmanbe.user.service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.exception.RestApiException;
@@ -17,6 +23,7 @@ import xxx.petmanbe.exception.errorcode.UserErrorCode;
 import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
+import xxx.petmanbe.user.dto.requestDto.UpdateUserPasswordDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.dto.responseDto.LoginResponseDto;
@@ -27,6 +34,7 @@ import xxx.petmanbe.user.entity.Level;
 import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.LevelRepository;
+import xxx.petmanbe.user.repository.TokenRepository;
 import xxx.petmanbe.user.repository.UserRepository;
 import xxx.petmanbe.userfile.repository.UserFileRepository;
 
@@ -35,6 +43,8 @@ import xxx.petmanbe.userfile.repository.UserFileRepository;
 public class UserServiceImpl implements UserService{
 
 	private final UserRepository userRepository;
+
+	private final TokenRepository tokenRepository;
 
 	private final JwtUtil jwtUtil;
 
@@ -56,7 +66,7 @@ public class UserServiceImpl implements UserService{
 
 		List<String> roles= new ArrayList<>();
 
-		roles.add("USER");
+		roles.add("ROLE_USER");
 
 		User user = User.builder()
 				.email(registDto.getEmail())
@@ -200,9 +210,9 @@ public class UserServiceImpl implements UserService{
 
 		// role
 		if(200<= levelModifyDto.getLevel() && levelModifyDto.getLevel() <300 ){
-			user.getRoles().set(0, "Shop");
+			user.getRoles().set(0, "ROLE_SHOP");
 		}else if(300<= levelModifyDto.getLevel()){
-			user.getRoles().set(0,"ADMIN");
+			user.getRoles().set(0,"ROLE_ADMIN");
 		}
 
 		userRepository.save(user);
@@ -229,6 +239,45 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findUsersByNicknameContaining(nickname).stream()
 			.map(UserListDto::new)
 			.collect(Collectors.toList());
+	}
+
+	@Transactional
+	@Override
+	public boolean changeUserPassword(UpdateUserPasswordDto request) {
+		// user 정보로 가져오기
+		Optional<User> user = userRepository.findByEmail(request.getEmail());
+
+		// 정보가 있으면 변경하기
+		if (user.isPresent()){
+			user.get().updateUserPassword(passwordEncoder.encode(request.getPassword()));
+			return true;
+		}
+
+		// 없으면 예외처리를 위해 false 반환
+		return false;
+	}
+
+	@Override
+	public boolean postLogout(HttpServletRequest request) {
+
+		String[] token= request.getHeader("Cookie").split("; ");
+		String refreshToken ="";
+
+		for(int i=0 ; i<token.length ; i++) {
+			if(token[i].substring(0,12).equals("refreshToken")){
+				refreshToken=token[i].substring(13);
+			}
+		}
+
+		Token token1 = tokenRepository.findByRefreshToken(refreshToken).orElseThrow(()-> new IllegalArgumentException());
+
+		System.out.println(token1.getTokenIndex());
+
+
+		token1.setRefreshToken("");
+
+		tokenRepository.save(token1);
+		return true;
 	}
 
 }

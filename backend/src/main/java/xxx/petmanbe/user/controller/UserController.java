@@ -24,6 +24,7 @@ import xxx.petmanbe.mail.service.MailService;
 import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
+import xxx.petmanbe.user.dto.requestDto.UpdateUserPasswordDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
 import xxx.petmanbe.user.dto.requestDto.RefreshTokenDto;
 import xxx.petmanbe.user.dto.requestDto.RegistDto;
@@ -90,7 +91,7 @@ public class UserController {
 		ResponseCookie cookie1 = ResponseCookie.from("refreshToken", loginReturnDto.getToken().getRefreshToken())
 				.maxAge(accessTokenExpirationTime)
 				.path("/")
-//				.secure(true)
+				.secure(true)
 				.sameSite("None")
 				.httpOnly(true)
 				.build();
@@ -98,14 +99,14 @@ public class UserController {
 		ResponseCookie cookie2 = ResponseCookie.from("accessToken", loginReturnDto.getToken().getAccessToken())
 				.maxAge(refreshTokenExpirationTime)
 				.path("/")
-//				.secure(true)
+				.secure(true)
 				.sameSite("None")
 				.httpOnly(true)
 				.build();
 
-		httpServletResponse.addHeader("Authorization",loginReturnDto.getToken().getRefreshToken());
+		httpServletResponse.addHeader("Authorization",loginReturnDto.getToken().getAccessToken());
 		httpServletResponse.setHeader("Set-Cookie",cookie1.toString()); //refreshToken
-		httpServletResponse.addHeader("Set-Cookie",cookie2.toString()); // accessToken
+//		httpServletResponse.addHeader("Set-Cookie",cookie2.toString()); // accessToken
 
 		//CORS
 		httpServletResponse.setHeader("Acess-Control-Allow-origin","*");
@@ -143,9 +144,9 @@ public class UserController {
 			ResponseCookie cookie = ResponseCookie.from("accessToken", newAccessToken)
 				.maxAge(accessTokenExpirationTime)
 				.path("/")
-				//.secure(true)
+				.secure(true)
 				.sameSite("None")
-				//.httpOnly(true)
+				.httpOnly(true)
 				.build();
 
 			response.setHeader("Set-Cookie",cookie.toString());
@@ -157,6 +158,39 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
+	}
+
+	@PostMapping("/logout")
+	public ResponseEntity<?> PostLogout(HttpServletRequest request, HttpServletResponse response){
+
+		userService.postLogout(request);
+
+
+		ResponseCookie cookie = ResponseCookie.from("refreshToken",null)
+			.maxAge(1)
+			.path("/")
+			.sameSite("None")
+			.secure(true)
+			.httpOnly(true)
+			.build();
+
+		response.setHeader("Set-Cookie",cookie.toString());
+
+		return new ResponseEntity<>(cookie.getName(),HttpStatus.OK);
+
+	}
+
+	// 비밀번호 변경
+	@PutMapping("/changepassword")
+	public ResponseEntity<String> putUserPassword(@RequestBody UpdateUserPasswordDto request){
+
+		// 만약 변경이 되면
+		if (userService.changeUserPassword(request)){
+			return new ResponseEntity<>("success!", HttpStatus.OK);
+		}
+
+		// 안되면
+		return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
 	}
 
 
@@ -185,8 +219,8 @@ public class UserController {
 
 	}
 
-	// @PreAuthorize("hasRole('ADMIN')")
-	@GetMapping("")
+	@PreAuthorize("hasRole('ADMIN')")
+	@GetMapping("/get")
 	public ResponseEntity<List<UserListDto>> GetUserList(){
 
 		List<UserListDto> userList = userService.getUserList();

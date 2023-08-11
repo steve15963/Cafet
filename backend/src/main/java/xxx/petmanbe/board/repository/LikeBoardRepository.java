@@ -11,8 +11,6 @@ import xxx.petmanbe.board.entity.LikeBoard;
 
 public interface LikeBoardRepository extends JpaRepository<LikeBoard, Long> {
 
-	int countByBoard_BoardIdAndUser_UserId(Long boardId, Long userId);
-
 	void deleteByBoard_BoardIdAndUser_UserId(Long boardId, Long userId);
 
 	List<LikeBoard> findByUser_UserId(Long userId);
