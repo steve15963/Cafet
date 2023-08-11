@@ -183,6 +183,9 @@ public class BoardServiceImpl implements BoardService{
 		// 게시글에 달린 가게 정보 가져오기
 		Optional<GetShopDto> shop = Optional.ofNullable(board.getShop()).map(GetShopDto::new);
 
+		// 게시글에 달린 태그 정보 가져오기
+		List<AttachBoard> attachBoardList = attachBoardRepository.findByBoard_BoardId(boardId);
+
 		// 태그 dto로 전환
 		List<TagListResponseDto> taglist = attachBoardList.stream()
 			.map(AttachBoard::getTag)
@@ -202,7 +205,7 @@ public class BoardServiceImpl implements BoardService{
 
 		// 게시글 정보 반환
 		return BoardResponseDto.builder()
-			.board(board.get())
+			.board(board)
 			.commentList(commentList)
 			.tagList(taglist)
 			.shop(shop)

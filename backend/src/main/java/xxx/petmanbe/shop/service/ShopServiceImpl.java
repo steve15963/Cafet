@@ -342,28 +342,26 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public boolean postLikeShop(Long userId, Long shopId) {
 		// 각각의 id를 가진 사용자, 가게가 있는지 확인
-		Optional<User> user = userRepository.findById(userId);
-		if (user.isEmpty())
-			return false;
-		Optional<Shop> shop = shopRepository.findById(shopId);
-		if (shop.isEmpty())
-			return false;
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
+		Shop shop = shopRepository.findById(shopId)
+			.orElseThrow(() -> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
 		// 기존에 좋아요가 있는지 확인
 		if (likeShopRepository.findByUser_UserIdAndShop_ShopId(userId, shopId).isPresent()){
-			return false;
+			throw new RestApiException(ShopErrorCode.SHOP_ALREADY_LIKED);
 		}
 		else {
 			// 없으면 등록
 			LikeShop likeShop = LikeShop.builder()
-				.user(user.get())
-				.shop(shop.get())
+				.user(user)
+				.shop(shop)
 				.build();
 
 			likeShopRepository.save(likeShop);
 
 			// 좋아요한 가게 카운트 올리기
-			shop.get().plusLikeCnt();
+			shop.plusLikeCnt();
 
 			return true;
 		}
@@ -390,14 +388,14 @@ public class ShopServiceImpl implements ShopService{
 			likeShopRepository.deleteByUser_UserIdAndShop_ShopId(userId, shopId);
 
 			// 해당 가게 찜수 삭제
-			Optional<Shop> shop = shopRepository.findById(shopId);
+			Shop shop = shopRepository.findById(shopId)
+				.orElseThrow(() -> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
-			shop.ifPresent(Shop::minusLikeCnt);
+			shop.minusLikeCnt();
 
 			return true;
-		}
-		else {
-			return false;
+		} else {
+			throw new RestApiException(ShopErrorCode.SHOP_ALREADY_LIKED);
 		}
 	}
 
