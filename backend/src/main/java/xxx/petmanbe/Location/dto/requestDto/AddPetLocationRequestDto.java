@@ -2,24 +2,21 @@ package xxx.petmanbe.Location.dto.requestDto;
 
 import java.util.List;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@Builder
+@ToString
 public class AddPetLocationRequestDto {
 	public long shopId;
 	public long petId;
 	private List<Double> beaconList;
+	private List<Long> key;
 	private double temp;
-
-	@Override
-	public String toString() {
-		return "AddPetLocationRequestDto{" +
-			"shopId=" + shopId +
-			", petId=" + petId +
-			", BeaconList=" + beaconList +
-			", temp=" + temp +
-			'}';
-	}
 }
 
