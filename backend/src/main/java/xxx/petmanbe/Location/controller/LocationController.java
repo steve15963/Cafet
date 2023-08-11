@@ -2,10 +2,12 @@ package xxx.petmanbe.Location.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ import xxx.petmanbe.Location.service.LocationServiceImpl;
 @RestController
 @RequestMapping("/api/location")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class LocationController {
 
 	private final LocationService locationService;
@@ -40,8 +43,8 @@ public class LocationController {
 	}
 
 	@GetMapping("/pet")
-	public ResponseEntity<HitMapResponseDto> GetHitMap(@RequestBody HitMapRequestDto hitMapRequestDto){
-		HitMapResponseDto hitMap = hitMapService.getHitMap(hitMapRequestDto.getAnimalId());
+	public ResponseEntity<HitMapResponseDto> GetHitMap(@RequestParam long animalId){
+		HitMapResponseDto hitMap = hitMapService.getHitMap(animalId);
 		return new ResponseEntity<>(hitMap,HttpStatus.OK);
 	}
 }
