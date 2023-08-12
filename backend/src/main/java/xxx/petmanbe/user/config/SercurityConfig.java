@@ -3,6 +3,7 @@ package xxx.petmanbe.user.config;
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.user.service.JwtUtil;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +23,9 @@ public class SercurityConfig {
 
 	private final JwtUtil jwtUtil;
 
+	@Value("${jwt.whiteList}")
+	private String[] whiteList;
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		http.formLogin().disable()
@@ -30,7 +34,10 @@ public class SercurityConfig {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authorizeRequests()
-			.antMatchers("/swagger/**","/swagger-resources/**","/health","/v3/api-docs/**","/swagger-ui/**","/api/boardfile/**","/api/user/logout","/api/user/login/**", "/api/user/new/**","/api/board/**","/api/shop/**").permitAll() // 해당 api에서는 모든 요청을 허가한다는 설정
+			//아랫줄 대체
+			//화이트 리스트의 모든 url패스.
+			.antMatchers(whiteList).permitAll()
+			// .antMatchers("/swagger/**","/swagger-resources/**","/health","/v3/api-docs/**","/swagger-ui/**","/api/boardfile/**","/api/user/logout","/api/user/login/**", "/api/user/new/**","/api/board/**","/api/shop/**").permitAll() // 해당 api에서는 모든 요청을 허가한다는 설정
 			.antMatchers("/api/user/get").access("hasRole('ADMIN')") // ADMIN일때 실행
 			.anyRequest().authenticated() // 이 밖에 모든 요청에 대해서 인증을 필요로 한다는 설정
 			.and()
