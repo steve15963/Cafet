@@ -28,6 +28,9 @@ import CreatePage from "./pages/CreatePage/CreatePage";
 import ManageRequestDetail from "./components/ManageRequestDetail/ManageRequestDetail";
 // import ManageRequestList from "./components/ManageRequestList/ManageRequestList";
 import SearchShopPage from "./pages/SearchShopPage/SearchShopPage";
+import OrderCheckPage from "./OrderCheckPage/OrderCheckPage";
+import OrderPage from "./OrderPage/OrderPage";
+import MenuPostPage from "./MenuPostPage/MenuPostPage";
 
 const App = () => {
   return (
@@ -64,6 +67,11 @@ const App = () => {
         <Route path="/create" element={<CreatePage />} />
         <Route path="/test" element={<TestPage />} />
         <Route path="/search" element={<SearchShopPage />} />
+
+        {/* 내거 */}
+        <Route path="/buy/:shopId/:tableId" element={<OrderPage />} />
+        <Route path="/menu/:shopId" element={<MenuPostPage />} />
+        <Route path="/check/:shopId" element={<OrderCheckPage />} />
       </Routes>
     </div>
   );
