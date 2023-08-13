@@ -41,7 +41,7 @@ const KioskAnimalDetailPage = () => {
       </div>
       <div>
         {visibleInfo && <KioskAnimalInfo id={animalId}/>}
-        {visibleHeat && <KioskHeatmap />}
+        {visibleHeat && <KioskHeatmap id={animalId} />}
       </div>
     </div>
   )

@@ -72,11 +72,11 @@ const KioskAnimalListPage = () => {
                 image={content.url}
                 alt={content.title}
               />
-              <CardContent>
+              {/* <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                   {content.petName}
                 </Typography>
-              </CardContent>
+              </CardContent> */}
             </CardActionArea>
           </Card>
         </Stack>
