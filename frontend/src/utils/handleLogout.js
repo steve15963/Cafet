@@ -1,12 +1,12 @@
-//login
+//logout
 
-import axiosCreate from "../axiosCreate";
+import axios from "../axios";
 
 const handleLogout = () => {
   console.log("handleLogout");
   const serverUrl = "https://i9a105.p.ssafy.io/api/user/logout";
 
-  return axiosCreate.post(serverUrl);
+  return axios.post(serverUrl);
 };
 
 export default handleLogout;
