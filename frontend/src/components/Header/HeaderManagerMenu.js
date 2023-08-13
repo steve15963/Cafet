@@ -7,11 +7,13 @@ import { Link } from "react-router-dom";
 import { Divider, Stack } from "@mui/material";
 
 const HeaderManagerMenu = () => {
+
   const onLogoutClick = async (event) => {
     event.preventDefault();
     try {
       //eslint-disable-next-line
       const response = await handleLogout();
+      console.log(response);
       localStorage.removeItem("userId");
       localStorage.removeItem("level");
       console.log("sessionToken 삭제");
