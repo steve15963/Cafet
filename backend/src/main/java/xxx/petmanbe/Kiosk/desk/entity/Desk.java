@@ -19,10 +19,10 @@ public class Desk {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "desk_id", nullable = false, updatable = false)
-    private Long deskId;
+    private long deskId;
 
     @Column
-    private Long deskNum;
+    private long deskNum;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean fill;

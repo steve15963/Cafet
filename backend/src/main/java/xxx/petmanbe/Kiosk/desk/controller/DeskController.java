@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xxx.petmanbe.Kiosk.desk.dto.responseDto.PostDeskDto;
+import xxx.petmanbe.Kiosk.desk.dto.responseDto.PutTableDto;
 import xxx.petmanbe.Kiosk.desk.dto.resquestDto.GetDeskDto;
 import xxx.petmanbe.Kiosk.desk.service.DeskService;
 
@@ -38,12 +39,25 @@ public class DeskController {
             return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //처음에 한번에 여러개 만드는 것
+
+
+    //이것 좀 고민해봐야함.
     @DeleteMapping("/{shopId}/{tableNum}")
     public ResponseEntity<?> DeleteDesk(@PathVariable long shopId, @PathVariable long tableNum){
 
         boolean check = deskService.deleteDesk(shopId, tableNum);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/{shopId}/{tableNum}")
+    public ResponseEntity<?> PutDesk(@PathVariable long shopId, @PathVariable long tableNum , @RequestBody PutTableDto putTableDto){
+
+        boolean check = deskService.putDesk(shopId, tableNum, putTableDto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
 }

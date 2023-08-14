@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface DeskRepository extends JpaRepository<Desk, Long> {
 
-    Optional<Desk> findTopByShop_ShopIdASC(Long shopId);
+    Desk findTopByShop_ShopId(Long shopId);
 
     Optional<List<Desk>> findAllByShop_ShopId(Long shopId);
 
