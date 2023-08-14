@@ -16,11 +16,9 @@ const KioskLogin = () => {
   const onLoginButtonClick = async (event) => {
     event.preventDefault();
     try {
-      //eslint-disable-next-line
       const response = await handleKioskLogin(email, password);
       console.log(response.headers);
-      // localStorage.setItem("userId", response.data.userId);
-      localStorage.setItem("userId", 24);
+      localStorage.setItem("userId", response.data.userId);
       localStorage.setItem(
         "sessionToken",
         response.headers.get("Authorization")

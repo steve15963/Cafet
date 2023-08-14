@@ -1,6 +1,6 @@
 //login
 
-import axios from "axios";
+import axiosCreate from "../axiosCreate";
 
 const handleKioskLogin = (email, password) => {
   console.log("handleKioskLogin");
@@ -11,7 +11,7 @@ const handleKioskLogin = (email, password) => {
 
   const serverUrl = "https://i9a105.p.ssafy.io/api/kiosk/user/login";
 
-  return axios.post(serverUrl, data);
+  return axiosCreate.post(serverUrl, data);
 };
 
 export default handleKioskLogin;
