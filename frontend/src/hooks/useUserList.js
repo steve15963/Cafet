@@ -10,7 +10,7 @@ const useUserList = () => {
     setLoading(true);
     const getUserList = async () => {
       try {
-        let url = "/user"; // 기본 URL
+        let url = "/api/user/get";
 
         if (query.email) {
           url += `/email/${query.email}`;
