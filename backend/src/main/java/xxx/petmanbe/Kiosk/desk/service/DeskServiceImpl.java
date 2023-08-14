@@ -3,6 +3,7 @@ package xxx.petmanbe.Kiosk.desk.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import xxx.petmanbe.Kiosk.desk.dto.responseDto.PostDeskDto;
+import xxx.petmanbe.Kiosk.desk.dto.responseDto.PostFirstDeskDto;
 import xxx.petmanbe.Kiosk.desk.dto.responseDto.PutTableDto;
 import xxx.petmanbe.Kiosk.desk.dto.resquestDto.GetDeskDto;
 import xxx.petmanbe.Kiosk.desk.entity.Desk;
@@ -91,6 +92,23 @@ public class DeskServiceImpl implements DeskService{
 
 
         deskRepository.save(desk);
+
+        return true;
+    }
+
+    @Override
+    public boolean postFirstShop(PostFirstDeskDto request) {
+
+        Shop shop= shopRepository.findById(request.getShopId()).orElseThrow(()->new IllegalArgumentException());
+
+        for(int i=1 ; i<request.getDeskNum()+1 ; i++){
+            Desk desk = Desk.builder()
+                    .shop(shop)
+                    .deskNum(i)
+                    .build();
+
+            deskRepository.save(desk);
+        }
 
         return true;
     }

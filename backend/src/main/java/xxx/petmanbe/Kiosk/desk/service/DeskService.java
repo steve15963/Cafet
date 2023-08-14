@@ -2,6 +2,7 @@ package xxx.petmanbe.Kiosk.desk.service;
 
 
 import xxx.petmanbe.Kiosk.desk.dto.responseDto.PostDeskDto;
+import xxx.petmanbe.Kiosk.desk.dto.responseDto.PostFirstDeskDto;
 import xxx.petmanbe.Kiosk.desk.dto.responseDto.PutTableDto;
 import xxx.petmanbe.Kiosk.desk.dto.resquestDto.GetDeskDto;
 
@@ -16,6 +17,8 @@ public interface DeskService{
     public boolean deleteDesk(long shopId, long deskNum);
 
     public boolean putDesk(long shopId, long deskNum, PutTableDto putTableDto);
+
+    public boolean postFirstShop(PostFirstDeskDto request);
 
 
 }
