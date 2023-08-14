@@ -37,7 +37,7 @@ const UserLike = ({ userId }) => {
       .catch(function (err) {
         console.log(err);
       });
-  }, []);
+  }, [userId]);
 
   const goToDetail = (pageId) => {
     navigate(`/board/detail/${pageId}`);

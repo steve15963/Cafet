@@ -14,7 +14,7 @@ const UserComments = ({ userId }) => {
       .catch(function (err) {
         console.log(err);
       });
-  }, []);
+  }, [userId]);
 
   return (
     <div>

@@ -2,23 +2,19 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const UserGrade = ({ userId }) => {
-  const [likeStatus, SetLikeStatus] = useState([])
+  const [likeStatus, SetLikeStatus] = useState([]);
   useEffect(() => {
-    axios.get(`https://i9a105.p.ssafy.io/api/shop/like/${userId}`)
+    axios
+      .get(`https://i9a105.p.ssafy.io/api/shop/like/${userId}`)
       .then(function (res) {
-        SetLikeStatus(res.data)
+        SetLikeStatus(res.data);
       })
-      .catch(function(err) {
-        console.log(err)
-      })
-  }, [])
-  console.log('likeStatus', likeStatus)
-  return (
-    <div>
+      .catch(function (err) {
+        console.log(err);
+      });
+  }, [userId]);
+  console.log("likeStatus", likeStatus);
+  return <div></div>;
+};
 
-    </div>
-  )
- 
-}
-
-export default UserGrade
+export default UserGrade;
