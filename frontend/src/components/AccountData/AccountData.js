@@ -6,9 +6,11 @@ import { useNavigate } from "react-router-dom";
 import "./AccountData.scoped.css";
 
 import Button from "../Button/Button";
-import UserBoards from "../UserBoards/UserBoards";
-import UserComments from "../UserComments/UserComments";
-import UserLike from "../UserLike/UserLike";
+
+import UserBoards from "../UserBoards/UserBoards"
+import UserComments from "../UserComments/UserComments"
+import UserLike from "../UserLike/UserLike"
+import UserGrade from "../UserGrade/UserGrade";
 
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
@@ -118,7 +120,7 @@ const AccountData = () => {
             팔로우
           </CustomTabPanel>
           <CustomTabPanel value={tabValue} index={4}>
-            별점
+            <UserGrade />
           </CustomTabPanel>
         </Box>
       </div>
