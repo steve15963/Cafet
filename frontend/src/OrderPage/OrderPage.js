@@ -28,7 +28,7 @@ const OrderPage = () => {
       JSON.stringify({
         shopId: shopId,
         tableId: tableId,
-        content: "카라멜 마끼아또",
+        content: menuType,
         uuid: id,
       })
     );
