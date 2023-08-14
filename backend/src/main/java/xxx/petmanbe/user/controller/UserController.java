@@ -209,7 +209,7 @@ public class UserController {
 		return new ResponseEntity<>(userFile,HttpStatus.OK);
 	}
 
-	// @PreAuthorize("hasAnyRole('USER','SHOP','ADMIN')")
+	@PreAuthorize("hasAnyRole('USER','SHOP','ADMIN')")
 	@GetMapping("/{userId}")
 	public ResponseEntity<UserInformationDto> GetUser(@PathVariable long userId) throws Exception {
 

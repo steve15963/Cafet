@@ -54,6 +54,10 @@ public class MailService {
 		message.setFrom(FROM_ADDRESS);
 		message.setSubject(mailDto.getTitle());
 		message.setText(mailDto.getMessage());
+
+		System.out.println(FROM_ADDRESS);
+		System.out.println(mailDto.getMessage());
+		System.out.println(mailDto.getMail());
 		mailSender.send(message);
 
 		//성공적 종료
