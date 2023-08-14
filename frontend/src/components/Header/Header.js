@@ -50,7 +50,7 @@ const Header = () => {
                 divider={<Divider orientation="vertical" flexItem />}
                 spacing={2}
               >
-                <Link to={"/login"} className="header-link">
+                <Link to={"/search"} className="header-link">
                   카페 찾기
                 </Link>
                 <Link to={"/board"} className="header-link">
