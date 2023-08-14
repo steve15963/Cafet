@@ -18,7 +18,7 @@ const OrderCheckPage = () => {
   const [id] = useState(uuid())
 
 
-  var sock = new SockJS('http://i9a105.p.ssafy.io/chatting')
+  var sock = new SockJS('http://i9a105.p.ssafy.io/order')
   let client = Stomp.over(sock);
 
   useEffect(() => {
