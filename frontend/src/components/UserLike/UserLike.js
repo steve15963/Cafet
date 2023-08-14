@@ -2,24 +2,22 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
 
 const UserLike = () => {
-
   let navigate = useNavigate();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const [likeList, setLikeList] = useState([])
+  const [likeList, setLikeList] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -31,14 +29,15 @@ const UserLike = () => {
   };
 
   useEffect(() => {
-    axios.get(`http://i9a105.p.ssafy.io:8080/api/board/like/${10}`)
-      .then(function(res) {
-        setLikeList(res.data)
+    axios
+      .get(`https://i9a105.p.ssafy.io/api/board/like/${10}`)
+      .then(function (res) {
+        setLikeList(res.data);
       })
-      .catch(function(err) {
-        console.log(err)
-      })
-  }, [])
+      .catch(function (err) {
+        console.log(err);
+      });
+  }, []);
 
   const goToDetail = (pageId) => {
     navigate(`/board/detail/${pageId}`);
@@ -62,10 +61,7 @@ const UserLike = () => {
             </TableHead>
             <TableBody>
               {likeList
-                .slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow
                     key={row.boardId}
@@ -101,7 +97,6 @@ const UserLike = () => {
       </Paper>
     </div>
   );
-}
+};
 
 export default UserLike;
-
