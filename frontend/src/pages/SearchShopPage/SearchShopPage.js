@@ -22,7 +22,7 @@ const SearchShopPage = () => {
   const [cafeList, setCafeList] = useState([])
   
   useEffect(() => {
-    axios.get('http://i9a105.p.ssafy.io:8080/api/shop')
+    axios.get('https://i9a105.p.ssafy.io/api/shop')
       .then(function(res) {
         setCafeList(res.data.slice(0, 9))
       })
@@ -58,8 +58,6 @@ const SearchShopPage = () => {
     searchResult(region);
   }, [region]);
   
-  console.log(cafeList)
-
   return (
     <div className='SearchShop'>
       <Header />

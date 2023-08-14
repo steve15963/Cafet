@@ -31,7 +31,7 @@ const UserLike = () => {
   };
 
   useEffect(() => {
-    axios.get(`http://i9a105.p.ssafy.io:8080/api/board/like/${10}`)
+    axios.get(`http://i9a105.p.ssafy.io/api/board/like/${10}`)
       .then(function(res) {
         setLikeList(res.data)
       })

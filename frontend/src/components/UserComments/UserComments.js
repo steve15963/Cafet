@@ -7,7 +7,7 @@ const UserComments = () => {
   const [commentList, setCommentList] = useState([])
 
   useEffect(() => {
-    axios.get(`http://i9a105.p.ssafy.io:8080/api/comment/user/${1}`)
+    axios.get(`http://i9a105.p.ssafy.io/api/comment/user/${2}`)
       .then(function(res) {
         setCommentList(res.data)
       })

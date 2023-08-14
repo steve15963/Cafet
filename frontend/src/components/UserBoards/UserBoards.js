@@ -21,7 +21,7 @@ const UserBoards = () => {
   const [boardList, setBoardList] = useState([])
 
   useEffect(() => {
-    axios.get(`http://i9a105.p.ssafy.io:8080/api/board/userId/${1}`)
+    axios.get(`http://i9a105.p.ssafy.io/api/board/userId/${1}`)
       .then(function(res) {
         setBoardList(res.data)
       })
