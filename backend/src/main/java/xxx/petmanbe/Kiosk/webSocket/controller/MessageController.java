@@ -24,6 +24,7 @@ public class MessageController {
 
 		System.out.println(message.getShopId());
 		System.out.println(message.getContent());
+		System.out.println(message.getTableId());
 
 		boolean a = webSocketService.saveMessage(message);
 
@@ -31,7 +32,7 @@ public class MessageController {
 
 
 
-		return new MessageDto(message.getShopId(),message.getContent(), message.getUuid());
+		return new MessageDto(message.getShopId(),message.getContent(), message.getTableId());
 	}
 
 	//완료 버튼을 눌렀을 때

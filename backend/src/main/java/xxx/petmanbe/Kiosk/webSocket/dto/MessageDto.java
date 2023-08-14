@@ -11,5 +11,5 @@ public class MessageDto {
 	// private Menu menu;
 	private long shopId;
 	private String content;
-	private String uuid;
+	private String tableId;
 }
