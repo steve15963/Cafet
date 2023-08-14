@@ -8,8 +8,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import './OrderPage.scoped.css';
 
-import handleGetMenuMethod from "../utils/handleGetMenuMethod";
-
 const OrderPage = () => {
 
     const { shopId, tableId } = useParams();
@@ -31,6 +29,7 @@ const OrderPage = () => {
 
     useEffect(()=>{
         getMenuList();
+          // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     const getMenuList = async()=>{
@@ -38,31 +37,6 @@ const OrderPage = () => {
         setMenuList(resp)
         // console.log(resp)
     }
-
-    // useEffect(()=>{
-
-    //     // axios.get("http://localhost:8080/api/menu/show/14")
-    //     .then((response) => {
-    //         setMenuList(response.data)
-
-    //         console.log(response.data)
-    //         console.log(response.data.length)
-    //         for(let i=0 ; i<response.data.length ; i++){
-    //             console.log(response.data[i].menuId)
-    //             console.log(response.data[i].menuType)
-    //             for(let j=0 ; j<response.data[i].getMenuPriceSizeDtoList.length ; j++){
-    //                 console.log(response.data[i].getMenuPriceSizeDtoList[j])
-    //             }
-    //             console.log(response.data[i].menuFile)
-    //         }
-    //     }).catch((error) => {
-
-    //     })
-
-    
-    //     console.log(menuPrice)
-
-    // })
 
 
   return (
@@ -96,7 +70,7 @@ const OrderPage = () => {
                             </div>
                             
                         ))}
-                        <button className="button2"> 담기 </button>
+            <button className="button2" variant="primary" onClick={setMessage}> 담기 </button>
                         <br></br>
                         <br></br>
                         </div>

@@ -28,16 +28,13 @@ import CreatePage from "./pages/CreatePage/CreatePage";
 import ManageRequestDetail from "./components/ManageRequestDetail/ManageRequestDetail";
 // import ManageRequestList from "./components/ManageRequestList/ManageRequestList";
 import SearchShopPage from "./pages/SearchShopPage/SearchShopPage";
-<<<<<<< HEAD
 import KioskMain from "./pages/KioskMain/KioskMain";
 import KioskLogin from "./components/KioskLogin/KioskLogin";
 import KioskMenu from "./components/KioskMenu/KioskMenu";
 import KioskNameList from "./components/KioskNameList/KioskNameList";
-=======
 import OrderCheckPage from "./OrderCheckPage/OrderCheckPage";
 import OrderPage from "./OrderPage/OrderPage";
 import MenuPostPage from "./MenuPostPage/MenuPostPage";
->>>>>>> d6d7e932ffec43f398989be4dff2053a72d1b455
 
 const App = () => {
   return (
@@ -79,6 +76,9 @@ const App = () => {
           <Route path="list" element={<KioskNameList />} />
           <Route path="menu" element={<KioskMenu />} />
         </Route>
+          <Route path="/buy/:shopId/:tableId" element={<OrderPage />} />
+        <Route path="/menu/:shopId" element={<MenuPostPage />} />
+        <Route path="/check/:shopId" element={<OrderCheckPage />} />
       </Routes>
     </div>
   );

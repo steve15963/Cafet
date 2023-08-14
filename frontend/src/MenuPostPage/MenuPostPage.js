@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState } from "react";
 import TextField from "@mui/material/TextField";
 import handleCreateMethod from "../utils/handleCreateMenu.js"
 import Button from "../components/Button/Button.js";
@@ -19,7 +19,7 @@ const MenuPostPage = () => {
 
         const postMenuPriceSizeDtoList = {menuPrice, menuSize};
         
-        const response = await handleCreateMethod(shopId, menuType, postMenuPriceSizeDtoList, null);
+         await handleCreateMethod(shopId, menuType, postMenuPriceSizeDtoList, null);
 
 
     }

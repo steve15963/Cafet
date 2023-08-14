@@ -16,7 +16,6 @@ const OrderCheckPage = () => {
   }
 
   const [id] = useState(uuid())
-  const [input, setInput] = useState("")
 
 
   var sock = new SockJS('http://localhost:8080/chatting')
@@ -30,10 +29,11 @@ const OrderCheckPage = () => {
           // props.getMessage(JSON.parse(frame.body).content,false)
         })
     })
+      // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [])
 
 const addMessage = (content, uuid) => {
-  if(uuid == id){
+  if(uuid === id){
     // props.getMessage(content, true)
   }else{
     getMessage(content,uuid, false)
