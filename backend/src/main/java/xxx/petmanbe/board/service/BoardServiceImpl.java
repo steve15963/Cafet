@@ -181,7 +181,8 @@ public class BoardServiceImpl implements BoardService{
 			.collect(Collectors.toList());
 
 		// 게시글에 달린 가게 정보 가져오기
-		Optional<GetShopDto> shop = Optional.ofNullable(board.getShop()).map(GetShopDto::new);
+		Shop shop = board.getShop();
+		GetShopDto shopDto = new GetShopDto(shop);
 
 		// 게시글에 달린 태그 정보 가져오기
 		List<AttachBoard> attachBoardList = attachBoardRepository.findByBoard_BoardId(boardId);
@@ -211,7 +212,7 @@ public class BoardServiceImpl implements BoardService{
 			.board(board)
 			.commentList(commentList)
 			.tagList(taglist)
-			.shop(shop)
+			.shop(shopDto)
 			.boardFileList(boardFileList)
 			.build();
 

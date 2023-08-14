@@ -222,7 +222,7 @@ public class BoardController {
 	}
 
 	// 게시물 삭제 상태로 전환
-	@PutMapping("/status/{boardId}")
+	@DeleteMapping("/status/{boardId}")
 	public ResponseEntity<Integer> putBoardStatus(@PathVariable Long boardId){
 		// 삭제 상태로 전환
 		boardService.putBoardStatus(boardId);
