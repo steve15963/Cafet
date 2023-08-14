@@ -1,4 +1,4 @@
-//login
+//logout
 
 import axios from "axios";
 

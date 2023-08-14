@@ -59,7 +59,7 @@ public class User extends BaseTimeEntity implements UserDetails
     private String status;
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="level_id")
     private Level level;
 
