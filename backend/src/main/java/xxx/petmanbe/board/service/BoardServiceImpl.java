@@ -467,7 +467,10 @@ public class BoardServiceImpl implements BoardService{
 		// 문자열 내에서 패턴 검색
 		Matcher matcher = pattern.matcher(boardContent);
 		if (matcher.find()) {
-			return matcher.group();
+			// 따옴표 제거
+			String srcValueWithQuotes = matcher.group(1);
+			String srcValue = srcValueWithQuotes.replaceAll("^['\"]|['\"]$", "");
+			return matcher.group(srcValue);
 		} else {
 			return null;
 		}
