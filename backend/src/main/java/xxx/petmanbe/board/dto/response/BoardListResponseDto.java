@@ -13,6 +13,7 @@ public class BoardListResponseDto {
 	private Long boardId;
 	private String boardTitle;
 	private String boardContent;
+	private String thumbnail;
 	private String nickname;
 	private String categoryName;
 	private int likeSum;
@@ -26,6 +27,7 @@ public class BoardListResponseDto {
 		this.boardId = board.getBoardId();
 		this.boardTitle = board.getBoardTitle();
 		this.boardContent = board.getBoardContent();
+		this.thumbnail = board.getThumbnail();
 		this.nickname = board.getUser().getNickname();
 		this.categoryName = board.getCategory().getCategoryName();
 		this.likeSum = board.getLikeSum();

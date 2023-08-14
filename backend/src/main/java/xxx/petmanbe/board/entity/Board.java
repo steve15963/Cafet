@@ -1,6 +1,8 @@
 package xxx.petmanbe.board.entity;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,6 +57,9 @@ public class Board extends BaseTimeEntity {
 
 	@Column(name = "board_content", nullable = false)
 	private String boardContent;
+
+	@Column(name = "thumbnail", nullable = true)
+	private String thumbnail;
 
 	@Column(name = "like_sum", nullable = false, columnDefinition = "integer default 0")
 	private int likeSum;

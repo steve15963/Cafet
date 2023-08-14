@@ -1,9 +1,10 @@
 package xxx.petmanbe.board.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -27,6 +28,11 @@ import xxx.petmanbe.boardfile.dto.responseDto.BoardFileDto;
 import xxx.petmanbe.boardfile.entity.BoardFile;
 import xxx.petmanbe.boardfile.repository.BoardFileRepository;
 import xxx.petmanbe.comment.dto.response.CommentResponseDto;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.BoardErrorCode;
+import xxx.petmanbe.exception.errorcode.CommonErrorCode;
+import xxx.petmanbe.exception.errorcode.TagErrorCode;
+import xxx.petmanbe.exception.errorcode.UserErrorCode;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
@@ -60,27 +66,35 @@ public class BoardServiceImpl implements BoardService{
 		// 일단 게시글 제목과 내용으로 게시글 객체 생성
 		Board board = request.toEntity();
 
+		// 게시글 내용에서 <script> 태그 내용 제거
+		// 정규 표현식 패턴 생성
+		String patternString = "<script[^>]*>.*?</script>";
+		Pattern pattern = Pattern.compile(patternString);
+
+		// 문자열 내에서 패턴 검색
+		Matcher matcher = pattern.matcher(request.getBoardContent());
+		StringBuilder result = new StringBuilder();
+		while (matcher.find()) {
+			matcher.appendReplacement(result, "");
+		}
+		matcher.appendTail(result);
+
+		// 제거된 문자열로 boardContent 최신화
+		board.setBoardContent(String.valueOf(result));
+
 		// 카테고리 찾고
-		Optional<Category> category = categoryRepository.findByCategoryName(request.getCategoryName());
+		Category category = categoryRepository.findByCategoryName(request.getCategoryName())
+			.orElseThrow(() -> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
 
 		// 정보 추가
-		category.ifPresentOrElse(
-			board::setCategory,
-			() -> {
-				throw new IllegalArgumentException();
-			}
-		);
+		board.setCategory(category);
 
 		// 유저 정보 찾고
-		Optional<User> user = userRepository.findById(request.getUserId());
+		User user = userRepository.findById(request.getUserId())
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		// 작성자 정보 저장
-		user.ifPresentOrElse(
-			board::setUser,
-			() -> {
-				throw new IllegalArgumentException();
-			}
-		);
+		board.setUser(user);
 
 		// 사진 저장하기
 		if(!Objects.isNull(request.getFiles())){
@@ -97,7 +111,6 @@ public class BoardServiceImpl implements BoardService{
 				boardFileRepository.save(boardFile);
 			}
 		}
-
 
 		// 게시글에 달린 가게 정보 가져오기
 		Optional<Shop> shop = shopRepository.findByStatusFalseAndShopTitle(request.getShopTitle());
@@ -124,7 +137,7 @@ public class BoardServiceImpl implements BoardService{
 			}
 			// 있으면 해당하는 태그 가져오기
 			Tag tag = tagRepository.findByStatusFalseAndTagName(response.getTagName())
-				.orElseThrow(IllegalArgumentException::new);
+				.orElseThrow(() -> new RestApiException(TagErrorCode.TAG_NOT_FOUND));
 
 			AttachBoard attachBoard = AttachBoard.builder()
 				.board(board)
@@ -155,59 +168,68 @@ public class BoardServiceImpl implements BoardService{
 	public BoardResponseDto getBoardById(Long boardId){
 
 		// 반환할 게시글 정보
-		Optional<Board> board = boardRepository.findById(boardId);
-		if (board.isPresent()){
-			// 일단 조회수 증가
-			board.ifPresent(Board::updateViewCnt);
+		Board board = boardRepository.findById(boardId)
+			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
-			// 게시글에 달린 댓글 목록 가져오기
-			List<CommentResponseDto> commentList = board.get().getCommentList().stream()
-				.map(CommentResponseDto::new)
+		// 썸네일 따기
+		String thumbnail = getFirstImg(board.getBoardContent());
+		board.setThumbnail(thumbnail);
+
+		// 게시글에 달린 댓글 목록 가져오기
+		List<CommentResponseDto> commentList = board.getCommentList().stream()
+			.map(CommentResponseDto::new)
+			.collect(Collectors.toList());
+
+		// 게시글에 달린 가게 정보 가져오기
+		Optional<GetShopDto> shop = Optional.ofNullable(board.getShop()).map(GetShopDto::new);
+
+		// 게시글에 달린 태그 정보 가져오기
+		List<AttachBoard> attachBoardList = attachBoardRepository.findByBoard_BoardId(boardId);
+
+		// 태그 dto로 전환
+		List<TagListResponseDto> taglist = attachBoardList.stream()
+			.map(AttachBoard::getTag)
+			.map(TagListResponseDto::new)
+			.collect(Collectors.toList());
+
+		// 사진 정보 가져오기
+		List<BoardFile> boardFiles = boardFileRepository.findAllByBoard_BoardId(boardId);
+
+		List<BoardFileDto> boardFileList = null;
+
+		if(!Objects.isNull(boardFiles)){
+			boardFileList=boardFiles.stream()
+				.map(BoardFileDto::new)
 				.collect(Collectors.toList());
-
-			// 게시글에 달린 가게 정보 가져오기
-			Optional<GetShopDto> shop = Optional.ofNullable(board.get().getShop()).map(GetShopDto::new);
-
-			// 게시글에 달린 태그 목록을 가져오기 위해 가져오는 부착 기록
-			List<AttachBoard> attachBoardList = attachBoardRepository.findByBoard_BoardId(boardId);
-
-			// 태그 dto로 전환
-			List<TagListResponseDto> taglist = attachBoardList.stream()
-				.map(AttachBoard::getTag)
-				.map(TagListResponseDto::new)
-				.collect(Collectors.toList());
-
-			// 사진 정보 가져오기
-			List<BoardFile> boardFiles = boardFileRepository.findAllByBoard_BoardId(boardId);
-
-			List<BoardFileDto> boardFileList = null;
-
-			if(!Objects.isNull(boardFiles)){
-				boardFileList=boardFiles.stream()
-					.map(BoardFileDto::new)
-					.collect(Collectors.toList());
-			}
-
-			// 게시글 정보 반환
-			return BoardResponseDto.builder()
-				.board(board.get())
-				.commentList(commentList)
-				.tagList(taglist)
-				.shop(shop)
-				.boardFileList(boardFileList)
-				.build();
-
 		}
-		else {
-			throw new IllegalArgumentException();
-		}
+
+		// 조회수 증가
+		board.updateViewCnt();
+
+		// 게시글 정보 반환
+		return BoardResponseDto.builder()
+			.board(board)
+			.commentList(commentList)
+			.tagList(taglist)
+			.shop(shop)
+			.boardFileList(boardFileList)
+			.build();
+
 	}
 
-	// 전체 게시글 보기
+	// 전체 게시글 보기, 메인용
 	@Override
 	public List<BoardListResponseDto> getBoardList(){
 
 		return boardRepository.findByStatusFalseOrderByBoardIdDesc().stream()
+			.map(BoardListResponseDto::new)
+			.collect(Collectors.toList());
+	}
+
+	// 사진이 있는 전체 게시글 보기, 메인 보기
+	@Override
+	public List<BoardListResponseDto> getBoardListWithPics() {
+		return boardRepository.findByStatusFalseAndThumbnailNotNullOrderByBoardIdDesc().stream()
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
 	}
@@ -295,15 +317,20 @@ public class BoardServiceImpl implements BoardService{
 	public Board putBoard(Long boardId, UpdateBoardRequestDto request){
 
 		// 게시글 정보 가져와서
-		Optional<Board> board = boardRepository.findById(boardId);
+		Board board = boardRepository.findById(boardId)
+			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
 		// 해당 id를 가지는 게시글 정보 바꾸기
-		board.ifPresent(response -> response.updateBoard(boardId, request));
+		board.updateBoard(boardId, request);
+
+		// 썸네일 변경
+		String newThumbnail = getFirstImg(request.getBoardContent());
+		board.setThumbnail(newThumbnail);
 
 		// 카테고리 변경
-		// 비즈니스 로직 상 게시글이 null일 수 없으므로 null 검사는 따로 하지 않음
-		Optional<Category> category = categoryRepository.findByCategoryName(request.getCategoryName());
-		category.ifPresent(cat -> board.get().updateCategory(cat));
+		Category category = categoryRepository.findByCategoryName(request.getCategoryName())
+			.orElseThrow(() -> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
+		board.setCategory(category);
 
 		// 기존 태그 목록 확인
 		for (AttachBoard curTag : attachBoardRepository.findByBoard_BoardId(boardId)) {
@@ -346,10 +373,12 @@ public class BoardServiceImpl implements BoardService{
 				}
 				
 				// 부착정보 생성
+				Tag tag = tagRepository.findByStatusFalseAndTagName(updatedTag.getTagName())
+					.orElseThrow(() -> new RestApiException(TagErrorCode.TAG_NOT_FOUND));
+
 				AttachBoard attachBoard = AttachBoard.builder()
-					.tag(tagRepository.findByStatusFalseAndTagName(updatedTag.getTagName())
-						.orElseThrow(() -> new IllegalArgumentException("not found")))
-					.board(board.get())
+					.tag(tag)
+					.board(board)
 					.build();
 
 				attachBoardRepository.save(attachBoard);
@@ -357,20 +386,20 @@ public class BoardServiceImpl implements BoardService{
 		}
 
 		// 수정된 정보 반환
-		return board.get();
+		return board;
 	}
 
 	// 게시글 좋아요 누르기
 	@Transactional
 	@Override
 	public void postLike(LikeRequestDto request){
-		System.out.println(request.getBoardId());
-		System.out.println(request.getUserId());
 
 		// id로 게시글 찾고
-		Optional<Board> board = boardRepository.findById(request.getBoardId());
+		Board board = boardRepository.findById(request.getBoardId())
+			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 		// 유저 찾고
-		Optional<User> user = userRepository.findById(request.getUserId());
+		User user = userRepository.findById(request.getUserId())
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		// 일단 좋아요가 눌려있는지 확인, 누른 적 없으면
 		if (likeBoardRepository.findByBoard_BoardIdAndUser_UserId(request.getBoardId(), request.getUserId()).isEmpty()) {
@@ -378,15 +407,15 @@ public class BoardServiceImpl implements BoardService{
 			// 좋아요 데이터 만들어서 넣기
 			LikeBoard newLike = LikeBoard.builder().build();
 
-			board.ifPresent(newLike::setBoard);
-			user.ifPresent(newLike::setUser);
+			newLike.setBoard(board);
+			newLike.setUser(user);
 
 			likeBoardRepository.save(newLike);
 
 			// 게시글 좋아요+1
-			board.ifPresent(Board::plusLikeSum);
+			board.plusLikeSum();
 		} else {
-			throw new IllegalArgumentException("not found");
+			throw new RestApiException(BoardErrorCode.BOARD_ALREADY_LIKED);
 		}
 	}
 
@@ -396,7 +425,8 @@ public class BoardServiceImpl implements BoardService{
 	public void deleteLike(LikeRequestDto request) {
 
 		// id로 게시글 찾고
-		Optional<Board> board = boardRepository.findById(request.getBoardId());
+		Board board = boardRepository.findById(request.getBoardId())
+			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
 		// 일단 좋아요가 눌려있는지 확인, 누른 적 있으면
 		likeBoardRepository.findByBoard_BoardIdAndUser_UserId(request.getBoardId(), request.getUserId())
@@ -404,11 +434,11 @@ public class BoardServiceImpl implements BoardService{
 				// 해당 좋아요 정보가 있으면 삭제
 				likeBoard -> {
 					likeBoardRepository.deleteByBoard_BoardIdAndUser_UserId(request.getBoardId(), request.getUserId());
-					board.ifPresent(Board::minusLikeSum);
+					board.minusLikeSum();
 				},
 				// 없으면 예외처리
 				() -> {
-					throw new IllegalArgumentException("not found");
+					throw new RestApiException(BoardErrorCode.BOARD_ALREADY_LIKED);
 				});
 	}
 
@@ -417,12 +447,29 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public Board putBoardStatus(Long boardId){
 		// id로 게시글 찾고
-		Optional<Board> board = boardRepository.findById(boardId);
+		Board board = boardRepository.findById(boardId)
+			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
 		// 게시글 삭제여부 상태 변경
-		board.ifPresent(Board::changeDeleteStatus);
+		board.changeDeleteStatus();
 
 		// 수정된 정보 반환
-		return board.get();
+		return board;
+	}
+
+	// 게시글 썸네일 따기
+	@Override
+	public String getFirstImg(String boardContent) {
+		// 정규 표현식 패턴 생성
+		String patternString = "<img\\s+[^>]*>";
+		Pattern pattern = Pattern.compile(patternString);
+
+		// 문자열 내에서 패턴 검색
+		Matcher matcher = pattern.matcher(boardContent);
+		if (matcher.find()) {
+			return matcher.group();
+		} else {
+			return null;
+		}
 	}
 }

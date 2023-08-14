@@ -10,6 +10,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.CommonErrorCode;
 import xxx.petmanbe.mail.DTO.MailDto;
 import xxx.petmanbe.mail.DTO.requestDto.KeyCheckRegistDto;
 import xxx.petmanbe.mail.DTO.requestDto.MailCheckRegistDto;
@@ -36,7 +38,7 @@ public class MailService {
 	public MailService(JavaMailSender mailSender, MailRegistRepository mailRegistRepository) {
 		this.mailRegistRepository = mailRegistRepository;
 		if(mailSender == null)
-			log.error("NO MailServer");
+			throw new RestApiException(CommonErrorCode.BAD_REQUEST);
 		this.mailSender = mailSender;
 	}
 
@@ -47,8 +49,6 @@ public class MailService {
 	 */
 	public boolean mailSend(MailDto mailDto) {
 		//메일서버 인스턴스가 없는 경우
-		if(mailSender == null)
-			return false;
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(mailDto.getMail());
 		message.setFrom(FROM_ADDRESS);
@@ -81,22 +81,16 @@ public class MailService {
 
 		mailRegistRepository.save(registMail);
 
-		if(mailSend(mailDto)){
-			return true;
-		}else return false;
-
+		return mailSend(mailDto);
 	}
 
 	public boolean postRegistCheckMail(KeyCheckRegistDto keyCheckRegistDto){
 
 		RegistMail registMailCheck = mailRegistRepository.findByMailTokenAndMail(keyCheckRegistDto.getMailToken(), keyCheckRegistDto.getMail());
 
-		if(Objects.isNull(registMailCheck)){
-
-			return false;
-		}else{
+		if (!Objects.isNull(registMailCheck)) {
 			// expiration time이 now보다 시간이 작으면
-			if(LocalDateTime.now().isBefore(registMailCheck.getExpiredTime())){
+			if (LocalDateTime.now().isBefore(registMailCheck.getExpiredTime())) {
 				//성공
 				registMailCheck.setCheckConfirm(true);
 				registMailCheck.setCheckExpiredTime(LocalDateTime.now().plusHours(registCheckExpirationTime));
@@ -104,23 +98,18 @@ public class MailService {
 				return true;
 			}
 
-			return false;
 		}
+		throw new RestApiException(CommonErrorCode.BAD_REQUEST);
 
 	}
 
 	// 회원가입 버튼을 눌렀을 때에 체크하는 함수
-	public boolean registcheck(String email){
+	public boolean registCheck(String email){
 
-		RegistMail registMail = mailRegistRepository.findByMail(email).orElseThrow(()->new IllegalArgumentException());
+		RegistMail registMail = mailRegistRepository.findByMail(email)
+			.orElseThrow(()-> new RestApiException(CommonErrorCode.BAD_REQUEST));
 
-		if(registMail.isCheckConfirm() && LocalDateTime.now().isBefore(registMail.getCheckExpiredTime())){
-
-			return true;
-		}
-
-		return false;
-
+		return registMail.isCheckConfirm() && LocalDateTime.now().isBefore(registMail.getCheckExpiredTime());
 	}
 
 

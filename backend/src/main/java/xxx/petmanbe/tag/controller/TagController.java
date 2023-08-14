@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.tag.dto.request.AddTagRequestDto;
 import xxx.petmanbe.tag.dto.response.TagListResponseDto;
-import xxx.petmanbe.tag.service.TagServiceImpl;
+import xxx.petmanbe.tag.service.TagService;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/tag")
 public class TagController {
-	private final TagServiceImpl tagService;
+	private final TagService tagService;
 
 	// 태그 등록하기
 	@PostMapping("/new")

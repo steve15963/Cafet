@@ -66,19 +66,17 @@ public class UserServiceImpl implements UserService{
 
 		roles.add("ROLE_USER");
 
+		Level level = levelRepository.findById((long)1).orElseThrow(()->new IllegalArgumentException());
+
 		User user = User.builder()
 				.email(registDto.getEmail())
 				.password(passwordEncoder.encode(registDto.getPassword()))
 				.phoneNo(registDto.getPhoneNo())
 				.nickname(registDto.getNickname())
 				.status("no")
+				.level(level)
 				.roles(roles)
 				.build();
-
-		Level level = Level.builder().levelCode(100).build();
-
-
-		user.setLevel(level);
 
 		return userRepository.save(user).getUserId();
 	}
@@ -93,36 +91,36 @@ public class UserServiceImpl implements UserService{
 
 		return false;
 
-	 }
+	}
 
-	 @Transactional
-	 @Override
-	 public LoginReturnDto postLoginUser(LoginDto loginDto) throws Exception {
+	@Transactional
+	@Override
+	public LoginReturnDto postLoginUser(LoginDto loginDto) throws Exception {
 
-	 	User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(IllegalArgumentException::new);
+		User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(IllegalArgumentException::new);
 
-		 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
-		 Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-		 Token token = jwtUtil.generateToken(authentication);
+		Token token = jwtUtil.generateToken(authentication);
 
-		  user.setToken(token);
+		user.setToken(token);
 
-		  userRepository.save(user);
+		userRepository.save(user);
 
-		 LoginResponseDto loginResponseDto = LoginResponseDto.builder()
-			 .userId(user.getUserId())
-			 .level(user.getLevel().getLevelCode())
-			 .build();
+		LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+				.userId(user.getUserId())
+				.level(user.getLevel().getLevelCode())
+				.build();
 
-		  LoginReturnDto loginReturnDto = LoginReturnDto.builder()
-			  .loginResponseDto(loginResponseDto)
-			  .token(token)
-			  .build();
+		LoginReturnDto loginReturnDto = LoginReturnDto.builder()
+				.loginResponseDto(loginResponseDto)
+				.token(token)
+				.build();
 
 
-	 	return loginReturnDto;
+		return loginReturnDto;
 	}
 
 	@Transactional
@@ -153,8 +151,8 @@ public class UserServiceImpl implements UserService{
 
 		if(!Objects.isNull(user.getUserFile())){
 			userFilesListDto = userFileRepository.findById(user.getUserFile().getUserfileId()).stream()
-				.map(UserFilesListDto::new)
-				.findFirst().orElse(new UserFilesListDto());
+					.map(UserFilesListDto::new)
+					.findFirst().orElse(new UserFilesListDto());
 		}
 
 
@@ -178,8 +176,8 @@ public class UserServiceImpl implements UserService{
 	public List<UserListDto> getUserList() {
 
 		return userRepository.findAll().stream()
-			.map(UserListDto::new)
-			.collect(Collectors.toList());
+				.map(UserListDto::new)
+				.collect(Collectors.toList());
 	}
 
 	@Transactional
@@ -207,14 +205,21 @@ public class UserServiceImpl implements UserService{
 
 		Level level = user.getLevel();
 
-		level.setLevelCode(levelModifyDto.getLevel());
+		if(!Objects.equals(level, levelModifyDto.getLevel())){
 
-		// role
-		if(200<= levelModifyDto.getLevel() && levelModifyDto.getLevel() <300 ){
-			user.getRoles().set(0, "ROLE_SHOP");
-		}else if(300<= levelModifyDto.getLevel()){
-			user.getRoles().set(0,"ROLE_ADMIN");
+			// role
+			if(200<= levelModifyDto.getLevel() && levelModifyDto.getLevel() <300 ){
+				level = levelRepository.findByLevelCode(levelModifyDto.getLevel()).orElseThrow(()->new IllegalArgumentException());
+				user.setLevel(level);
+				user.getRoles().set(0, "ROLE_SHOP");
+			}else if(300<= levelModifyDto.getLevel()){
+				level = levelRepository.findByLevelCode(levelModifyDto.getLevel()).orElseThrow(()-> new IllegalArgumentException());
+				user.setLevel(level);
+				user.getRoles().set(0,"ROLE_ADMIN");
+			}
+
 		}
+
 
 		userRepository.save(user);
 
@@ -231,15 +236,15 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<UserListDto> getUserListByEmail(String email) {
 		return userRepository.findUsersByEmailContaining(email).stream()
-			.map(UserListDto::new)
-			.collect(Collectors.toList());
+				.map(UserListDto::new)
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public List<UserListDto> getUserListByNickname(String nickname) {
 		return userRepository.findUsersByNicknameContaining(nickname).stream()
-			.map(UserListDto::new)
-			.collect(Collectors.toList());
+				.map(UserListDto::new)
+				.collect(Collectors.toList());
 	}
 
 	@Transactional

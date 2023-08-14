@@ -27,7 +27,7 @@ public class Level {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long levelId;
 
-    @Column(name = "level_code", columnDefinition = "integer default 100")
+    @Column(name = "level_code", nullable = false, unique = true)
     private int levelCode;
 
 }

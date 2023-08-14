@@ -2,6 +2,11 @@ package xxx.petmanbe.visited.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.ShopErrorCode;
+import xxx.petmanbe.exception.errorcode.UserErrorCode;
+import xxx.petmanbe.exception.errorcode.VisitErrorCode;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.user.entity.User;
@@ -28,13 +33,8 @@ public class VisitedServiceImpl implements VisitedService{
     @Override
     public Boolean getVisitedDate(GetVisitedDateDto getVisitedDateDto) {
 
-        Visited visited = visitedRepository.findByUserShopJpql(getVisitedDateDto.getUserId(),
-                getVisitedDateDto.getShopId()).orElseThrow(()-> new IllegalArgumentException());
-
-        //방문상황이 없을 때 -> exception 처리해야 함
-        // Exception(new NullPointerException()){
-        // 	return false;
-        // }
+        Visited visited = visitedRepository.findByUserShopJpql(getVisitedDateDto.getUserId(), getVisitedDateDto.getShopId())
+            .orElseThrow(()-> new RestApiException(VisitErrorCode.VISIT_NOT_FOUND));
 
         return true;
     }
@@ -42,9 +42,11 @@ public class VisitedServiceImpl implements VisitedService{
     @Override
     public String postVisitedDate(PostVisitedDateDto postVisitedDateDto) {
 
-        Shop shop = shopRepository.findById(postVisitedDateDto.getShopId()).orElseThrow(()->new IllegalArgumentException());
+        Shop shop = shopRepository.findById(postVisitedDateDto.getShopId())
+            .orElseThrow(()-> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
-        User user = userRepository.findById(postVisitedDateDto.getUserId()).orElseThrow(()-> new IllegalArgumentException());
+        User user = userRepository.findById(postVisitedDateDto.getUserId())
+            .orElseThrow(()-> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
         Visited visit = Visited.builder()
                 .shop(shop)
@@ -60,7 +62,8 @@ public class VisitedServiceImpl implements VisitedService{
     @Override
     public String deleteVisitedDate(DeleteVisitedDateDto deleteVisitedDateDto) {
 
-        Visited visited = visitedRepository.findByUserShopJpql(deleteVisitedDateDto.getUserId(), deleteVisitedDateDto.getShopId()).orElseThrow(()-> new IllegalArgumentException());
+        Visited visited = visitedRepository.findByUserShopJpql(deleteVisitedDateDto.getUserId(), deleteVisitedDateDto.getShopId())
+            .orElseThrow(()-> new RestApiException(VisitErrorCode.VISIT_NOT_FOUND));
 
         System.out.println(visited.getVisitedId());
 

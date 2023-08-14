@@ -1,11 +1,10 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: Gy8zn152Yh
-    url: jdbc:mysql://i9a105.p.ssafy.io:3306/S09P11A105?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
-    hikari:
-      maximum-pool-size: 2
+    username:
+    password:
+    url:
+
   jpa:
     properties:
       hibernate:
@@ -37,6 +36,19 @@ jwt:
     int: 3000000
   refreshTokenExpirationTime:
     int: 300000
+  whiteList:
+    /swagger/**,
+    /swagger-resources/**,
+    /health,
+    /v3/api-docs/**,
+    /swagger-ui/**,
+    /api/boardfile/**,
+    /api/user/logout,
+    /api/user/login/**,
+    /api/user/new/**,
+    /api/board/**,
+    /api/shop/**,
+    /api/location/**
 
 opendata:
   key:

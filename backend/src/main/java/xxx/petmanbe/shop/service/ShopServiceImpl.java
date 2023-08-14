@@ -1,20 +1,23 @@
 package xxx.petmanbe.shop.service;
 
-import java.util.List;
-
 import java.io.IOException;
-import java.util.Optional;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import lombok.RequiredArgsConstructor;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.ShopErrorCode;
+import xxx.petmanbe.exception.errorcode.TagErrorCode;
+import xxx.petmanbe.exception.errorcode.UserErrorCode;
 import xxx.petmanbe.shop.dto.others.JsonResponse;
 import xxx.petmanbe.shop.dto.others.Position;
 import xxx.petmanbe.shop.dto.requestDto.PostNewShopDto;
@@ -70,7 +73,7 @@ public class ShopServiceImpl implements ShopService{
 			.map(TagListResponseDto::new)
 			.collect(Collectors.toList());
 
-		GetShopDto getShopDto = GetShopDto.builder()
+		return GetShopDto.builder()
 			.shopId(shop.getShopId())
 			.shopTitle(shop.getShopTitle())
 			.gradeCount(shop.getGradeCount())
@@ -87,8 +90,6 @@ public class ShopServiceImpl implements ShopService{
 			.shopPetList(getShopPetList)
 			.tagList(tagList)
 			.build();
-		
-		return getShopDto;
 	}
 
 	// shop 정보 추가하기
@@ -96,16 +97,14 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public boolean postShopNew(PostNewShopDto postNewShopDto) throws IOException {
 
-		//중복 체크 들어가야 함
-		User user = userRepository.findById(postNewShopDto.getUserId()).orElseThrow(IllegalArgumentException::new);
+		//중복 체크 들어 가야 함
+		User user = userRepository.findById(postNewShopDto.getUserId())
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
-		String address = changeAddress(postNewShopDto.getAddress());
 		// address에서 road 구해주고
 		String road = getRoad(postNewShopDto.getAddress());
 		// longitude, latitude 구해줌
 		Position position = addressToPosition(road);
-
-		// System.out.println(address);
 
 		Shop shop = Shop.builder()
 			.shopTitle(postNewShopDto.getShopTitle())
@@ -136,12 +135,13 @@ public class ShopServiceImpl implements ShopService{
 			}
 
 			// 태그 정보 가져오기
-			Optional<Tag> tag = tagRepository.findByStatusFalseAndTagName(response.getTagName());
+			Tag tag = tagRepository.findByStatusFalseAndTagName(response.getTagName())
+				.orElseThrow(() -> new RestApiException(TagErrorCode.TAG_NOT_FOUND));
 
 			// 태그 부착
 			AttachShop attachShop = AttachShop.builder()
 				.shop(shop)
-				.tag(tag.get())
+				.tag(tag)
 				.build();
 
 			// 태그 부착 데이터 생성
@@ -160,8 +160,8 @@ public class ShopServiceImpl implements ShopService{
 
 		for(int i=0 ; i<divide.length ; i++){
 
-			if(divide[0]=="세종특별자치시") divide[0]="세종";
-			else if(divide[0]=="제주특별자치도") divide[0]="제주";
+			if(Objects.equals(divide[0], "세종특별자치시")) divide[0]="세종";
+			else if(Objects.equals(divide[0], "제주특별자치도")) divide[0]="제주";
 
 			int len = divide[i].length();
 			char s = divide[i].charAt(len-1);
@@ -171,8 +171,8 @@ public class ShopServiceImpl implements ShopService{
 		}
 
 		String add ="";
-		for(int i=0 ; i<divide.length ; i++){
-			add=add.concat(divide[i]+" ");
+		for (String s : divide) {
+			add = add.concat(s + " ");
 		}
 
 		return add;
@@ -183,84 +183,79 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public boolean putShop(PutShopDto request) {
 
-		Optional<Shop> shop = shopRepository.findById(request.getShopId());
+		Shop shop = shopRepository.findById(request.getShopId())
+			.orElseThrow(() -> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
+		// 가게 정보 업데이트
+		shop.updateShop(request);
 
-		// 해당 가게 정보가 있으면 삭제정보 변경, 없으면 예외던짐
-		if (shop.isPresent()) {
-			shop.get().updateShop(request);
+		// 태그 리스트 받아와서 수정하기
+		// 기존 태그 목록 확인
+		for (AttachShop curTag : attachShopRepository.findByShop_ShopId(request.getShopId())) {
 
-			// 태그 리스트 받아와서 수정하기
-			// 기존 태그 목록 확인
-			for (AttachShop curTag : attachShopRepository.findByShop_ShopId(request.getShopId())) {
+			// 수정된 태그들의 id 리스트
+			List<Long> tagIdList = request.getTagList().stream()
+				.map(TagListResponseDto::getTagId).collect(Collectors.toList());
 
-				// 수정된 태그들의 id 리스트
-				List<Long> tagIdList = request.getTagList().stream()
-					.map(TagListResponseDto::getTagId).collect(Collectors.toList());
-
-				// 만약 해당 id가 없으면
-				if (!tagIdList.contains(curTag.getTag().getTagId())){
-					// 태그 리스트에서 제거
-					attachShopRepository.deleteByShop_ShopIdAndTag_TagId(request.getShopId(), curTag.getTag().getTagId());
-				}
+			// 만약 해당 id가 없으면
+			if (!tagIdList.contains(curTag.getTag().getTagId())){
+				// 태그 리스트에서 제거
+				attachShopRepository.deleteByShop_ShopIdAndTag_TagId(request.getShopId(), curTag.getTag().getTagId());
 			}
-
-			// 새로 추가된 태그 확인
-			for (TagListResponseDto updatedTag : request.getTagList()){
-
-				// 현재 등록되어 있는 태그 id 목록
-				List<Long> tagList = attachShopRepository.findByShop_ShopId(request.getShopId()).stream()
-					.map(AttachShop::getTag)
-					.map(Tag::getTagId)
-					.collect(Collectors.toList());
-
-				// 업데이트 하려는 태그 id가 목록에 없으면 추가
-			/*
-				테스트 단계에서는 등록하려는 태그가 생성이 필요한 경우에 에러 발생할 수 있음
-				그렇지만 비즈니스 로직 상 태그의 생성은 수정하기 버튼을 누르기(해당 메소드가 실행되는 시점) 전에,
-				정확히 가게 정보 수정 창에서 태그 칸에 해당 태그의 이름을 입력하려고 onClick() 이벤트가 발생하는 순간에 일어나므로
-				이 상태로 메소드를 유지함
-			 */
-				if (!tagList.contains(updatedTag.getTagId())){
-
-					// 만약 태그가 없으면 만들기
-					if (tagRepository.findByStatusFalseAndTagName(updatedTag.getTagName()).isEmpty()){
-						Tag tag = Tag.builder()
-							.tagName(updatedTag.getTagName())
-							.build();
-						tagRepository.save(tag);
-					}
-
-					// 부착정보 생성
-					Optional<Tag> tag = tagRepository.findByStatusFalseAndTagName(updatedTag.getTagName());
-					AttachShop attachShop = AttachShop.builder()
-						.tag(tag.get())
-						.shop(shop.get())
-						.build();
-
-					attachShopRepository.save(attachShop);
-				}
-			}
-
-			return true;
 		}
-		else
-			return false;
+
+		// 새로 추가된 태그 확인
+		for (TagListResponseDto updatedTag : request.getTagList()){
+
+			// 현재 등록되어 있는 태그 id 목록
+			List<Long> tagList = attachShopRepository.findByShop_ShopId(request.getShopId()).stream()
+				.map(AttachShop::getTag)
+				.map(Tag::getTagId)
+				.collect(Collectors.toList());
+
+			// 업데이트 하려는 태그 id가 목록에 없으면 추가
+		/*
+			테스트 단계에서는 등록하려는 태그가 생성이 필요한 경우에 에러 발생할 수 있음
+			그렇지만 비즈니스 로직 상 태그의 생성은 수정하기 버튼을 누르기(해당 메소드가 실행되는 시점) 전에,
+			정확히 가게 정보 수정 창에서 태그 칸에 해당 태그의 이름을 입력하려고 onClick() 이벤트가 발생하는 순간에 일어나므로
+			이 상태로 메소드를 유지함
+		 */
+			if (!tagList.contains(updatedTag.getTagId())){
+
+				// 만약 태그가 없으면 만들기
+				if (tagRepository.findByStatusFalseAndTagName(updatedTag.getTagName()).isEmpty()){
+					Tag tag = Tag.builder()
+						.tagName(updatedTag.getTagName())
+						.build();
+					tagRepository.save(tag);
+				}
+
+				// 부착정보 생성
+				Tag tag = tagRepository.findByStatusFalseAndTagName(updatedTag.getTagName())
+					.orElseThrow(() -> new RestApiException(TagErrorCode.TAG_NOT_FOUND));
+				AttachShop attachShop = AttachShop.builder()
+					.tag(tag)
+					.shop(shop)
+					.build();
+
+				attachShopRepository.save(attachShop);
+			}
+		}
+
+		return true;
 	}
 
 	// shop 정보 수정하기
 	@Transactional
 	public boolean putShopStatus(Long shopId){
 
-		Optional<Shop> shop = shopRepository.findById(shopId);
+		Shop shop = shopRepository.findById(shopId)
+			.orElseThrow(() -> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
-		// 해당 가게 정보가 있으면 삭제정보 변경, 없으면 예외던짐
-		if (shop.isPresent()) {
-			shop.get().changeDeleteStatus();
-			return true;
-		}
-		else
-			return false;
+		// 삭제 정보 변경
+		shop.changeDeleteStatus();
+
+		return true;
 	}
 
 	// 전체 가게 보기
@@ -347,28 +342,26 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public boolean postLikeShop(Long userId, Long shopId) {
 		// 각각의 id를 가진 사용자, 가게가 있는지 확인
-		Optional<User> user = userRepository.findById(userId);
-		if (user.isEmpty())
-			return false;
-		Optional<Shop> shop = shopRepository.findById(shopId);
-		if (shop.isEmpty())
-			return false;
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
+		Shop shop = shopRepository.findById(shopId)
+			.orElseThrow(() -> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
 		// 기존에 좋아요가 있는지 확인
 		if (likeShopRepository.findByUser_UserIdAndShop_ShopId(userId, shopId).isPresent()){
-			return false;
+			throw new RestApiException(ShopErrorCode.SHOP_ALREADY_LIKED);
 		}
 		else {
 			// 없으면 등록
 			LikeShop likeShop = LikeShop.builder()
-				.user(user.get())
-				.shop(shop.get())
+				.user(user)
+				.shop(shop)
 				.build();
 
 			likeShopRepository.save(likeShop);
 
 			// 좋아요한 가게 카운트 올리기
-			shop.get().plusLikeCnt();
+			shop.plusLikeCnt();
 
 			return true;
 		}
@@ -395,14 +388,14 @@ public class ShopServiceImpl implements ShopService{
 			likeShopRepository.deleteByUser_UserIdAndShop_ShopId(userId, shopId);
 
 			// 해당 가게 찜수 삭제
-			Optional<Shop> shop = shopRepository.findById(shopId);
+			Shop shop = shopRepository.findById(shopId)
+				.orElseThrow(() -> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
-			shop.ifPresent(Shop::minusLikeCnt);
+			shop.minusLikeCnt();
 
 			return true;
-		}
-		else {
-			return false;
+		} else {
+			throw new RestApiException(ShopErrorCode.SHOP_ALREADY_LIKED);
 		}
 	}
 
