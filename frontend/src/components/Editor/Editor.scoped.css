@@ -6,7 +6,7 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
   /* max-width: 300px; */
-  list-style: inside;
+  list-style: inside !important;
 }
 
 .editor h2 {

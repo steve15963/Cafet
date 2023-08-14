@@ -7,14 +7,13 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import axios from "axios";
 import { Button, Stack, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-// import Button from "../Button/Button";
-// import axiosCreate from "./../../axiosCreate";
+import axiosCreate from "../../axiosCreate";
 
-const Editor = ({ value, onChange }) => {
+const Editor = ({ title, boardId, value, onChange }) => {
   const titleRef = useRef();
   const navigate = useNavigate();
-  const [boardTitle, setBoardTitle] = useState("");
-  const [boardContent, setBoardContent] = useState("");
+  const [boardTitle, setBoardTitle] = useState(title);
+  const [boardContent, setBoardContent] = useState(value);
   const userId = localStorage.getItem("userId");
 
   const uploadAdapter = (loader) => {
@@ -24,8 +23,8 @@ const Editor = ({ value, onChange }) => {
           const formData = new FormData();
           loader.file.then((file) => {
             formData.append("file", file);
-            axios
-              .post("http://localhost:8080/api/boardfile/new", formData, {
+            axiosCreate
+              .post("https://i9a105.p.ssafy.io/boardfile/new", formData, {
                 headers: {
                   "Content-Type": "multipart/form-data",
                 },
@@ -70,11 +69,12 @@ const Editor = ({ value, onChange }) => {
       // files: null,
     };
 
-    console.log(boardTitle);
-    console.log(boardContent);
+    // console.log(boardTitle);
+    // console.log(boardContent);
 
     axios.post("http://localhost:8080/api/board/new", data).then((res) => {
-      if (res.status === 200) {
+      // console.log(res);
+      if (res.status === 201) {
         navigate("/", { replace: true });
         return;
       } else {
@@ -82,6 +82,39 @@ const Editor = ({ value, onChange }) => {
         return;
       }
     });
+  };
+
+  const handleEdit = () => {
+    if (boardTitle.length < 1) {
+      alert("제목을 입력하세요.");
+      titleRef.current.focus();
+      return;
+    }
+
+    const data = {
+      boardTitle,
+      boardContent,
+      userId,
+      tagList: [],
+      shopTitle: null,
+      categoryName: "자유",
+      // files: null,
+    };
+
+    console.log(boardTitle);
+    console.log(boardContent);
+
+    axios
+      .put(`http://localhost:8080/api/board/${boardId}`, data)
+      .then((res) => {
+        if (res.status === 200) {
+          navigate("/", { replace: true });
+          return;
+        } else {
+          alert("업로드 실패.");
+          return;
+        }
+      });
   };
 
   return (
@@ -102,10 +135,11 @@ const Editor = ({ value, onChange }) => {
             config={{
               extraPlugins: [uploadPlugin],
             }}
-            data={value}
+            // data={value}
             onReady={(editor) => {
-              console.log("Editor is ready to use!", editor);
-              editor.setData("<p>이랏샤이마세</p>");
+              editor.setData(boardContent);
+              // console.log("Editor is ready to use!", editor);
+              // editor.setData("<p>이랏샤이마세</p>");
             }}
             onChange={(event, editor) => {
               const data = editor.getData();
@@ -126,9 +160,15 @@ const Editor = ({ value, onChange }) => {
           <Button size="large" variant="outlined" onClick={handleAbort}>
             취소
           </Button>
-          <Button size="large" variant="contained" onClick={handleSubmit}>
-            작성
-          </Button>
+          {!boardId ? (
+            <Button size="large" variant="contained" onClick={handleSubmit}>
+              작성
+            </Button>
+          ) : (
+            <Button size="large" variant="contained" onClick={handleEdit}>
+              수정
+            </Button>
+          )}
         </Stack>
       </Stack>
     </div>

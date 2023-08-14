@@ -7,12 +7,10 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
-  Divider,
   Stack,
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { textAlign } from "@mui/system";
 
 const CommentList = ({ commentList }) => {
   const formatTime = (isoTime) => {
@@ -26,7 +24,8 @@ const CommentList = ({ commentList }) => {
   };
   console.log(commentList);
 
-  const userId = localStorage.getItem("userId");
+  const userId = Number(localStorage.getItem("userId"));
+  console.log(typeof userId);
   return (
     <div>
       <Accordion>
@@ -52,13 +51,13 @@ const CommentList = ({ commentList }) => {
                 </div>
                 <div
                   style={{
-                    width: userId == value.userId ? "55%" : "70%",
+                    width: userId === value.userId ? "55%" : "70%",
                     marginLeft: "10px",
                   }}
                 >
                   {value.content}
                 </div>
-                {userId == value.userId && (
+                {userId === value.userId && (
                   <Stack
                     direction="row"
                     justifyContent="center"

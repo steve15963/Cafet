@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import "./BoardDetail.scoped.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Header from "../../components/Header/Header";
 import Post from "../../components/Post/Post";
@@ -15,15 +15,41 @@ import useBoardDetail from "../../hooks/useBoardDetail";
 
 import { Stack } from "@mui/material";
 import { Button } from "@mui/material";
+// import axiosCreate from "../../axiosCreate";
+import axios from "axios";
 
 const BoardDetail = () => {
   const { id } = useParams();
   const { boardDetail, loading } = useBoardDetail(id);
   const [content, setContent] = useState("");
+  const navigate = useNavigate();
 
   if (loading || !boardDetail) {
     return <div>Loading...</div>;
   }
+  const onClickEdit = async (event) => {
+    navigate(`/create/${id}`);
+  };
+  const onClickDelete = async (event) => {
+    try {
+      // console.log(id);
+      axios
+        .delete(`https://i9a105.p.ssafy.io/api/board/status/${id}`)
+        .then((res) => {
+          // console.log(res);
+          if (res.status === 200) {
+            alert("글을 삭제했습니다.");
+            navigate(`/board`);
+            return;
+          } else {
+            console.error("게시글을 삭제하는 중 에러가 발생했습니다.");
+            return;
+          }
+        });
+    } catch (error) {
+      console.error("삭제 실패", error);
+    }
+  };
 
   const onButtonClick = async (event) => {
     event.preventDefault();
@@ -38,20 +64,29 @@ const BoardDetail = () => {
       alert("댓글 작성을 실패하셨습니다.");
     }
   };
+  const userId = Number(localStorage.getItem("userId"));
+  // console.log(typeof userId);
 
   return (
     <div className="boarddetail-container">
       <Header />
       <div className="header-save" />
       <Post boardDetail={boardDetail} />
-      <Stack direction="row" spacing={2} justifyContent="flex-end">
-        <Button variant="outlined" size="large">
-          수정
-        </Button>
-        <Button variant="contained" color="error" size="large">
-          삭제
-        </Button>
-      </Stack>
+      {userId === boardDetail.userId && (
+        <Stack direction="row" spacing={2} justifyContent="flex-end">
+          <Button variant="outlined" size="large" onClick={onClickEdit}>
+            수정
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            size="large"
+            onClick={onClickDelete}
+          >
+            삭제
+          </Button>
+        </Stack>
+      )}
       <CommentList commentList={boardDetail.commentList} />
       <Stack
         direction="row"
