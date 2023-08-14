@@ -12,7 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
-const UserBoards = () => {
+const UserBoards = ({ userId }) => {
   const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
@@ -21,14 +21,14 @@ const UserBoards = () => {
 
   useEffect(() => {
     axios
-      .get(`https://i9a105.p.ssafy.io/api/board/userId/${1}`)
+      .get(`https://i9a105.p.ssafy.io/api/board/userId/${userId}`)
       .then(function (res) {
         setBoardList(res.data);
       })
       .catch(function (err) {
         console.log(err);
       });
-  }, []);
+  }, [userId]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

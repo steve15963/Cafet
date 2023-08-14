@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const UserGrade = () => {
+const UserGrade = ({ userId }) => {
   const [likeStatus, SetLikeStatus] = useState([])
   useEffect(() => {
-    axios.get(`https://i9a105.p.ssafy.io/api/shop/like/${1}`)
+    axios.get(`https://i9a105.p.ssafy.io/api/shop/like/${userId}`)
       .then(function (res) {
         SetLikeStatus(res.data)
       })

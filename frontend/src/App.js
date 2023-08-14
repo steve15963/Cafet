@@ -35,6 +35,7 @@ import KioskNameList from "./components/KioskNameList/KioskNameList";
 import OrderCheckPage from "./OrderCheckPage/OrderCheckPage";
 import OrderPage from "./OrderPage/OrderPage";
 import MenuPostPage from "./MenuPostPage/MenuPostPage";
+import KioskAnimalListPage from "./pages/KioskAnimalListPage/KioskAnimalListPage";
 
 const App = () => {
   return (
@@ -61,7 +62,7 @@ const App = () => {
           </Route>
         </Route>
         <Route path="/mypage" element={<MyPage />}>
-          <Route path="" element={<AccountData />} />
+          <Route path=":userId" element={<AccountData />} />
           <Route path="modify" element={<AccountModify />} />
         </Route>
         <Route path="/shop/:shopId" element={<ShopPage />} />
@@ -75,6 +76,7 @@ const App = () => {
           <Route path="" element={<KioskLogin />} />
           <Route path="list" element={<KioskNameList />} />
           <Route path="menu" element={<KioskMenu />} />
+          <Route path="animal" element={<KioskAnimalListPage />} />
         </Route>
         <Route path="/buy/:shopId/:tableId" element={<OrderPage />} />
         <Route path="/menu/:shopId" element={<MenuPostPage />} />
