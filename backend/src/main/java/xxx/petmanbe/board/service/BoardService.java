@@ -66,4 +66,7 @@ public interface BoardService {
 
 	// 게시글 썸네일 따기
 	String getFirstImg(String boardContent);
+
+	// 메인에 올릴 글 필터링 하기
+	String removeTags(String boardContent);
 }

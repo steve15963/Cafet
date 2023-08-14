@@ -230,9 +230,18 @@ public class BoardServiceImpl implements BoardService{
 	// 사진이 있는 전체 게시글 보기, 메인 보기
 	@Override
 	public List<BoardListResponseDto> getBoardListWithPics() {
-		return boardRepository.findByStatusFalseAndThumbnailNotNullOrderByBoardIdDesc().stream()
+
+		List<BoardListResponseDto> boardList = boardRepository.findByStatusFalseAndThumbnailNotNullOrderByBoardIdDesc().stream()
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
+
+		// 태그 뗀 값으로 바꾸기
+		for (BoardListResponseDto board : boardList){
+			String newBoardContent = removeTags(board.getBoardContent());
+			board.setBoardContent(newBoardContent);
+		}
+
+		return boardList;
 	}
 
 	// 글 제목으로 게시글 검색
@@ -475,5 +484,28 @@ public class BoardServiceImpl implements BoardService{
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public String removeTags(String boardContent) {
+		// 정규 표현식 패턴 생성
+		String patternString = "<[^>]*>"; // 태그 내용 제거
+		Pattern pattern = Pattern.compile(patternString);
+
+		// 문자열 내에서 패턴 검색 및 치환
+		Matcher matcher = pattern.matcher(boardContent);
+		StringBuilder result = new StringBuilder();
+		while (matcher.find()) {
+			String tag = matcher.group();
+			if (tag.equals("&nbsp;")) {
+				matcher.appendReplacement(result, " "); // &nbsp;를 띄어쓰기로 대체
+			} else {
+				matcher.appendReplacement(result, ""); // 다른 태그는 제거
+			}
+		}
+		matcher.appendTail(result);
+
+		// 결과 반환
+		return result.toString();
 	}
 }
