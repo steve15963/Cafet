@@ -58,7 +58,8 @@ public class ShopPet extends BaseTimeEntity {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopPet")
 	private List<ShopPetFile> shopPetFileList;
-	@OneToMany(fetch = FetchType.LAZY)
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopPet")
 	private List<PetLocation> petLocationList;
 
 	public void updateShopPet(PutShopPetDto request){

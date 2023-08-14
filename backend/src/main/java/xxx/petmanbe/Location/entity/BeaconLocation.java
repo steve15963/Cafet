@@ -33,7 +33,7 @@ public class BeaconLocation extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long beaconId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shop_id")
 	Shop shop;
 
@@ -44,7 +44,7 @@ public class BeaconLocation extends BaseTimeEntity {
 	@Column
 	double z;
 
-	@OneToMany
+	@OneToMany(mappedBy = "beaconLocation")
 	// @JoinColumn(name = "useBeaconId")
 	List<UseBeaconForPetLocation> useBeaconForPetLocationList;
 
