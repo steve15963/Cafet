@@ -9,13 +9,14 @@ const axiosCreate = axios.create({
 axiosCreate.interceptors.request.use(
   async (config) => {
     const sessionToken = localStorage.getItem("sessionToken");
-
+    console.log("axiosCreate");
     if (!sessionToken) {
+      console.log("no sessionToken");
       try {
         const refreshTokenResponse = await handleRefreshToken();
         const newSessionToken = refreshTokenResponse.data.sessionToken;
         localStorage.setItem("sessionToken", newSessionToken);
-
+        console.log("set sessionToken");
         config.headers.Authorization = `Bearer ${newSessionToken}`;
       } catch (error) {
         console.error("Failed to refresh token:", error);

@@ -28,11 +28,14 @@ import CreatePage from "./pages/CreatePage/CreatePage";
 import ManageRequestDetail from "./components/ManageRequestDetail/ManageRequestDetail";
 // import ManageRequestList from "./components/ManageRequestList/ManageRequestList";
 import SearchShopPage from "./pages/SearchShopPage/SearchShopPage";
+import KioskMain from "./pages/KioskMain/KioskMain";
+import KioskLogin from "./components/KioskLogin/KioskLogin";
+import KioskMenu from "./components/KioskMenu/KioskMenu";
+import KioskNameList from "./components/KioskNameList/KioskNameList";
+import OrderCheckPage from "./OrderCheckPage/OrderCheckPage";
+import OrderPage from "./OrderPage/OrderPage";
+import MenuPostPage from "./MenuPostPage/MenuPostPage";
 
-
-// 머지할 때 삭제
-import KioskAnimalListPage from "./pages/KioskAnimalListPage/KioskAnimalListPage";
-import KioskAnimalDetailPage from "./pages/KioskAnimalDetailPage/KioskAnimalDetailPage";
 const App = () => {
   return (
     <div className="App">
@@ -68,11 +71,14 @@ const App = () => {
         <Route path="/create" element={<CreatePage />} />
         <Route path="/test" element={<TestPage />} />
         <Route path="/search" element={<SearchShopPage />} />
-
-        {/* 머지할 때 삭제 */}
-        <Route path="/kiosk" element={<KioskAnimalListPage />} />
-        <Route path="/kiosk/:animalId" element={<KioskAnimalDetailPage />} />
-
+        <Route path="/kiosk" element={<KioskMain />}>
+          <Route path="" element={<KioskLogin />} />
+          <Route path="list" element={<KioskNameList />} />
+          <Route path="menu" element={<KioskMenu />} />
+        </Route>
+        <Route path="/buy/:shopId/:tableId" element={<OrderPage />} />
+        <Route path="/menu/:shopId" element={<MenuPostPage />} />
+        <Route path="/check/:shopId" element={<OrderCheckPage />} />
       </Routes>
     </div>
   );

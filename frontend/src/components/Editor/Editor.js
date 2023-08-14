@@ -36,7 +36,7 @@ const Editor = ({ value, onChange }) => {
           loader.file.then((file) => {
             formData.append("file", file);
             axios
-              .post("http://localhost:8080/api/boardfile/new", formData, {
+              .post("https://i9a105.p.ssafy.io/api/boardfile/new", formData, {
                 headers: {
                   "Content-Type": "multipart/form-data",
                 },
@@ -74,7 +74,7 @@ const Editor = ({ value, onChange }) => {
 
   //   console.log(boardTitle);
 
-  //   axios.post("http://localhost:8080/api/board/new", data).then((res) => {
+  //   axios.post("https://i9a105.p.ssafy.io/api/board/new", data).then((res) => {
   //     if (res.status === 200) {
   //       navigate("/", { replace: true });
   //       return;

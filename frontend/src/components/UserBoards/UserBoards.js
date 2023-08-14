@@ -1,34 +1,34 @@
-import './UserBoards.scoped.css'
-import { useState, useEffect } from "react"
-import axios from "axios"
-import { useNavigate } from 'react-router-dom'
+import "./UserBoards.scoped.css";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
 
 const UserBoards = () => {
-
   const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [boardList, setBoardList] = useState([])
+  const [boardList, setBoardList] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://i9a105.p.ssafy.io/api/board/userId/${1}`)
-      .then(function(res) {
-        setBoardList(res.data)
+    axios
+      .get(`https://i9a105.p.ssafy.io/api/board/userId/${1}`)
+      .then(function (res) {
+        setBoardList(res.data);
       })
-      .catch(function(err) {
-        console.log(err)
-      })
-  }, [])
+      .catch(function (err) {
+        console.log(err);
+      });
+  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -40,9 +40,19 @@ const UserBoards = () => {
   };
 
   const goToDetail = (pageId) => {
-    navigate(`/board/detail/${pageId}`)
-  }
-   
+    navigate(`/board/detail/${pageId}`);
+  };
+
+  const formatTime = (isoTime) => {
+    const date = new Date(isoTime);
+    const year = date.getFullYear().toString().substr(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const hour = date.getHours().toString().padStart(2, "0");
+    const minute = date.getMinutes().toString().padStart(2, "0");
+    return `${year}/${month}/${day} ${hour}:${minute}`;
+  };
+
   return (
     <div>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -60,10 +70,7 @@ const UserBoards = () => {
             </TableHead>
             <TableBody>
               {boardList
-                .slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow
                     key={row.boardId}
@@ -77,7 +84,7 @@ const UserBoards = () => {
                     <TableCell onClick={() => goToDetail(row.boardId)}>
                       {row.boardTitle}
                     </TableCell>
-                    <TableCell>{row.createdTime}</TableCell>
+                    <TableCell>{formatTime(row.createdTime)}</TableCell>
                     <TableCell align="center">{row.viewCnt}</TableCell>
                     <TableCell align="center">{row.commentSum}</TableCell>
                     <TableCell align="center">{row.likeSum}</TableCell>
@@ -98,6 +105,6 @@ const UserBoards = () => {
       </Paper>
     </div>
   );
-}
+};
 
 export default UserBoards;
