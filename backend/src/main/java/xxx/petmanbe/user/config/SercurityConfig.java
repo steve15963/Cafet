@@ -45,8 +45,8 @@ public class SercurityConfig {
 
 
 
-			// .authorizeRequests()
-			// .antMatchers("/api/user/~~").hasRole("ADMIN") // user일때 실행
+		// .authorizeRequests()
+		// .antMatchers("/api/user/~~").hasRole("ADMIN") // user일때 실행
 
 		return http.build();
 	}

@@ -1,0 +1,29 @@
+
+.my-message{
+    padding: 15px;
+    margin-top: 3%;
+    margin-right: 5%;
+    margin-left: auto;
+    background-color: #e3effd;
+    border-radius: 12px;
+}
+
+
+.other-message{
+    padding: 15px;
+    margin-top: 3%;
+    margin-left: 5%;
+    margin-right: auto;
+    background-color: #f6f6f6;
+    border-radius: 12px;
+}
+
+.toast-main-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-container{
+    width: 100%;
+}
