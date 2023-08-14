@@ -1,6 +1,6 @@
 import React from "react";
 import "./Header.scoped.css";
-
+import handleLogout from "../../utils/handleLogout";
 import { Link } from "react-router-dom";
 import { Divider, Stack } from "@mui/material";
 
