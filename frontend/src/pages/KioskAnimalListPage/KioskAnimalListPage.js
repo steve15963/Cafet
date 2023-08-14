@@ -2,21 +2,20 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import Typography from "@mui/material/Typography";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import {
   Card,
   CardActionArea,
-  CardContent,
   CardMedia,
   Stack,
 } from "@mui/material";
 
 const KioskAnimalListPage = () => {
   const navigate = useNavigate();
+  //eslint-disable-next-line
   const shopId = localStorage.getItem("userId");
-
+  //eslint-disable-next-line
   const [animalList, setAnimalList] = useState([])
   useEffect(() => {
     axios.get(`https://i9a105.p.ssafy.io/api/shop/${1}`)

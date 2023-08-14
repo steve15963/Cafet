@@ -7,6 +7,7 @@ const KioskHeatmap = ({ id }) => {
   const [heat, setHeat] = useState([])
 
   // minimal heatmap instance configuration
+  //eslint-disable-next-line
   const heatmapInstance = h337.create({
     // only container is required, the rest will be defaults
     container: document.querySelector('.heatmap')
