@@ -14,9 +14,10 @@
 // 	public void addCorsMappings(CorsRegistry registry) {
 //
 //
-// 		registry.addMapping("/**")
-// //			.allowedOrigins("http://localhost:8080")
-// 			// .allowCredentials(true)
+// 		registry
+// 			.addMapping("/**")
+// 			.allowedOriginPatterns("http://localhost:8080")
+// 			.allowCredentials(true)
 //
 // 			.allowedMethods("GET", "POST", "PUT", "DELETE")
 // 			.allowedHeaders("Origin", "X-Requested-With", "Content-Type", "Accept")

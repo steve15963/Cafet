@@ -32,7 +32,6 @@ public class KioskLoginController {
 
 	private final KioskService kioskService;
 
-	@PreAuthorize("hasRole('SHOP')")
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginDto loginDto, HttpServletResponse httpServletResponse) throws Exception {
 
@@ -40,6 +39,7 @@ public class KioskLoginController {
 
 		KioskLoginReturnDto kioskLoginReturnDto = kioskService.checkShop(loginDto);
 
+		//accessToken이 됨
 
 		if(Objects.isNull(kioskLoginReturnDto)){
 
