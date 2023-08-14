@@ -2,7 +2,19 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const useBoardDetail = (boardId) => {
-  const [boardDetail, setBoardDetail] = useState(null);
+  const [boardDetail, setBoardDetail] = useState({
+    boardTitle: "",
+    boardContent: "",
+    tagList: [
+      {
+        tagName: "강아지",
+      },
+    ],
+    nickname: "",
+    shopTitle: null,
+    categoryName: "자유",
+    fileUrlList: null,
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

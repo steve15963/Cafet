@@ -46,11 +46,15 @@ const MainList = () => {
               <div className="mainlist-card">
                 <div className="mainlist-front-content">
                   <img
-                    src={`${
-                      DummyThumbnailList[
-                        item.boardId % DummyThumbnailList.length
-                      ]
-                    }?auto=format`} //${item.thumbnail}
+                    src={
+                      item.thumbnail
+                        ? `${item.thumbnail}?auto=format`
+                        : `${
+                            DummyThumbnailList[
+                              item.boardId % DummyThumbnailList.length
+                            ]
+                          }?auto=format`
+                    } //${item.thumbnail}
                     alt={item.boardTitle}
                     onError={(e) => (e.target.style.display = "none")}
                     loading="lazy"
