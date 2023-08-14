@@ -122,7 +122,7 @@ const AccountData = () => {
             팔로우
           </CustomTabPanel>
           <CustomTabPanel value={tabValue} index={4}>
-            <UserGrade />
+            <UserGrade userId={userId} />
           </CustomTabPanel>
         </Box>
       </div>

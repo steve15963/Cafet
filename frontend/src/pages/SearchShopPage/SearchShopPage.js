@@ -15,8 +15,6 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-import { Input } from '@mui/base/Input';
-
 const SearchShopPage = () => {
   const [region, setRegion] = useState("");
   const [animal, setAnimal] = useState("");

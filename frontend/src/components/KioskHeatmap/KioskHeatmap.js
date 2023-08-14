@@ -23,7 +23,7 @@ const KioskHeatmap = ({ id }) => {
   }, [id])
   useEffect(() => {
     if (heat.length > 0) {
-      const heatmapInstance = Heatmap.create({
+      const heatmapInstance = new Heatmap({
         // only container is required, the rest will be defaults
         container: document.getElementById('heatmapContainer'),
       });
@@ -34,9 +34,7 @@ const KioskHeatmap = ({ id }) => {
   }, [heat])
   return(
     <div>
-      <div id="heatmapContainer" style={{width: '100%', height: '500px'}}>
-
-      </div>
+      <div id="heatmapContainer" style={{width: '100%', height: '500px'}} />
     </div>
   )
 }
