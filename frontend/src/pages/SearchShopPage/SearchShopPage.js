@@ -57,7 +57,9 @@ const SearchShopPage = () => {
   const handleRegionSearchClick = useCallback(() => {
     searchResult(region);
   }, [region]);
-   
+  
+  console.log(cafeList)
+
   return (
     <div className='SearchShop'>
       <Header />
