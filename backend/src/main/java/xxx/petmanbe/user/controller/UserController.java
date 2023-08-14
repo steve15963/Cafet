@@ -248,7 +248,7 @@ public class UserController {
 	}
 
 	// 관리자 기능: 이메일로 검색
-	@GetMapping("/email/{email}")
+	@GetMapping("/get/email/{email}")
 	public ResponseEntity<List<UserListDto>> getUserListByEmail(@PathVariable String email){
 
 		// 목록 받아오기
@@ -258,7 +258,7 @@ public class UserController {
 	}
 
 	// 관리자 기능: 닉네임으로 검색
-	@GetMapping("/nickname/{nickname}")
+	@GetMapping("/get/nickname/{nickname}")
 	public ResponseEntity<List<UserListDto>> getUserListByNickname(@PathVariable String nickname){
 
 		// 목록 받아오기
