@@ -143,7 +143,7 @@ const SignUpForm = () => {
         <div className="signup-container">
           <TextField
             label="전화번호"
-            placeholder="전화번호를 입력해주세요"
+            placeholder="EX) 01012345678"
             variant="outlined"
             value={phoneNo}
             onChange={(e) => setPhoneNo(e.target.value)}
