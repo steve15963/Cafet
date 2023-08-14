@@ -11,7 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
-const UserLike = () => {
+const UserLike = ({ userId }) => {
   let navigate = useNavigate();
 
   const [page, setPage] = useState(0);
@@ -30,7 +30,7 @@ const UserLike = () => {
 
   useEffect(() => {
     axios
-      .get(`https://i9a105.p.ssafy.io/api/board/like/${10}`)
+      .get(`https://i9a105.p.ssafy.io/api/board/like/${userId}`)
       .then(function (res) {
         setLikeList(res.data);
       })

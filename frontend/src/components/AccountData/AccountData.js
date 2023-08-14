@@ -1,7 +1,7 @@
 //마이페이지 기본 정보 component
 
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import "./AccountData.scoped.css";
 
@@ -56,7 +56,9 @@ function a11yProps(index) {
 }
 
 const AccountData = () => {
-  const [tabValue, setTabValue] = React.useState(0);
+  const [tabValue, setTabValue] = useState(0);
+  const {userId} = useParams();
+
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -108,13 +110,13 @@ const AccountData = () => {
             </Tabs>
           </Box>
           <CustomTabPanel value={tabValue} index={0}>
-            <UserBoards />
+            <UserBoards userId={userId} />
           </CustomTabPanel>
           <CustomTabPanel value={tabValue} index={1}>
-            <UserComments />
+            <UserComments userId={userId} />
           </CustomTabPanel>
           <CustomTabPanel value={tabValue} index={2}>
-            <UserLike />
+            <UserLike userId={userId} />
           </CustomTabPanel>
           <CustomTabPanel value={tabValue} index={3}>
             팔로우
