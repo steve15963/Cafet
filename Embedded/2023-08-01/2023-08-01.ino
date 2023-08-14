@@ -180,7 +180,7 @@ void loop() {
     }
     else if(strcmp(token,"OK+DISCE\r") == 0){
       // delay(50);
-      if(searchFlag[1] == 0 && searchFlag[2] == 0 && searchFlag[3] == 0){
+      if(searchFlag[1] == 1 && searchFlag[2] == 1 && searchFlag[3] == 1){
           Serial.print("온도 측정 : ");
           BTSerial.println("AT+TEMP?");
           while(!BTSerial.available()){ delay(1);}
@@ -240,8 +240,8 @@ void loop() {
             client.print(F("Content-Length: "));
             client.println(json.length());
             client.println();
-            // client.println(json);
-            client.println("{\"shopId\" : 1,\"petId\" : 1,\"temp\" : 0,\"beaconList\" : [1.0, 1.0, 1.0],key : [1,2,3]};");
+            client.println(json);
+            // client.println("{\"shopId\" : 1,\"petId\" : 1,\"temp\" : 0,\"beaconList\" : [1.0, 1.0, 1.0],key : [1,2,3]};");
             client.print(F("\r\n\r\n"));
             client.flush();
             client.stop();
