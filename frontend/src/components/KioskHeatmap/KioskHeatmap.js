@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
-import h337 from "heatmap.js"
+import { Heatmap } from "heatmap.js"
 
 const KioskHeatmap = ({ id }) => {
 
@@ -8,10 +8,7 @@ const KioskHeatmap = ({ id }) => {
 
   // minimal heatmap instance configuration
   //eslint-disable-next-line
-  const heatmapInstance = h337.create({
-    // only container is required, the rest will be defaults
-    container: document.querySelector('.heatmap')
-  });
+  
 
   useEffect(() => {
     axios.get(
@@ -24,9 +21,22 @@ const KioskHeatmap = ({ id }) => {
         console.log(err)
       })
   }, [id])
-  console.log('heat:', heat)
+  useEffect(() => {
+    if (heat.length > 0) {
+      const heatmapInstance = Heatmap.create({
+        // only container is required, the rest will be defaults
+        container: document.getElementById('heatmapContainer'),
+      });
+
+      heatmapInstance.addData(heat)
+      heatmapInstance.draw()
+    }
+  }, [heat])
   return(
     <div>
+      <div id="heatmapContainer" style={{width: '100%', height: '500px'}}>
+
+      </div>
     </div>
   )
 }

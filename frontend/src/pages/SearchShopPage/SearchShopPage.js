@@ -21,10 +21,9 @@ const SearchShopPage = () => {
   const [cafeList, setCafeList] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("https://i9a105.p.ssafy.io/api/shop")
-      .then(function (res) {
-        setCafeList(res.data.slice(0, 9));
+    axios.get('https://i9a105.p.ssafy.io/api/shop')
+      .then(function(res) {
+        setCafeList(res.data.slice(0, 9))
       })
       .catch(function (err) {
         console.log(err);
@@ -58,9 +57,7 @@ const SearchShopPage = () => {
   const handleRegionSearchClick = useCallback(() => {
     searchResult(region);
   }, [region]);
-
-  console.log(cafeList);
-
+  
   return (
     <div className="SearchShop">
       <Header />
