@@ -461,7 +461,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public String getFirstImg(String boardContent) {
 		// 정규 표현식 패턴 생성
-		String patternString = "<img\\s+[^>]*>";
+		String patternString = "<img\\s+[^>]*src=['\"]([^'\"]+)['\"][^>]*>";
 		Pattern pattern = Pattern.compile(patternString);
 
 		// 문자열 내에서 패턴 검색
