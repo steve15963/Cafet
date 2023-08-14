@@ -21,6 +21,7 @@ public class BoardResponseDto {
 	private Long boardId;
 	private String boardTitle;
 	private String boardContent;
+	private Long userId;
 	private String nickname;
 	private String categoryName;
 	private LocalDateTime createdTime;
@@ -30,15 +31,16 @@ public class BoardResponseDto {
 	private int viewCnt;
 	private List<CommentResponseDto> commentList;
 	private List<TagListResponseDto> tagList;
-	private Optional<GetShopDto> shop;
+	private GetShopDto shop;
 	private List<BoardFileDto> boardFileList;
 
 	@Builder
 	// entity to dto
-	public BoardResponseDto(Board board, List<CommentResponseDto> commentList, List<TagListResponseDto> tagList, Optional<GetShopDto> shop, List<BoardFileDto> boardFileList){
+	public BoardResponseDto(Board board, List<CommentResponseDto> commentList, List<TagListResponseDto> tagList, GetShopDto shop, List<BoardFileDto> boardFileList){
 		this.boardId = board.getBoardId();
 		this.boardTitle = board.getBoardTitle();
 		this.boardContent = board.getBoardContent();
+		this.userId = board.getUser().getUserId();
 		this.nickname = board.getUser().getNickname();
 		this.categoryName = board.getCategory().getCategoryName();
 		this.createdTime = board.getCreatedTime();
