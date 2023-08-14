@@ -76,7 +76,7 @@ const App = () => {
           <Route path="list" element={<KioskNameList />} />
           <Route path="menu" element={<KioskMenu />} />
         </Route>
-          <Route path="/buy/:shopId/:tableId" element={<OrderPage />} />
+        <Route path="/buy/:shopId/:tableId" element={<OrderPage />} />
         <Route path="/menu/:shopId" element={<MenuPostPage />} />
         <Route path="/check/:shopId" element={<OrderCheckPage />} />
       </Routes>

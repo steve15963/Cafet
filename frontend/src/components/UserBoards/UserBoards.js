@@ -43,6 +43,16 @@ const UserBoards = () => {
     navigate(`/board/detail/${pageId}`);
   };
 
+  const formatTime = (isoTime) => {
+    const date = new Date(isoTime);
+    const year = date.getFullYear().toString().substr(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const hour = date.getHours().toString().padStart(2, "0");
+    const minute = date.getMinutes().toString().padStart(2, "0");
+    return `${year}/${month}/${day} ${hour}:${minute}`;
+  };
+
   return (
     <div>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -74,7 +84,7 @@ const UserBoards = () => {
                     <TableCell onClick={() => goToDetail(row.boardId)}>
                       {row.boardTitle}
                     </TableCell>
-                    <TableCell>{row.createdTime}</TableCell>
+                    <TableCell>{formatTime(row.createdTime)}</TableCell>
                     <TableCell align="center">{row.viewCnt}</TableCell>
                     <TableCell align="center">{row.commentSum}</TableCell>
                     <TableCell align="center">{row.likeSum}</TableCell>
