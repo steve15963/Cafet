@@ -65,8 +65,6 @@ const BoardDetail = () => {
     }
   };
   const userId = Number(localStorage.getItem("userId"));
-  const prevId = sessionStorage.getItem('prevId');
-  const nextId = sessionStorage.getItem('nextId');
 
   return (
     <div className="boarddetail-container">
@@ -110,7 +108,7 @@ const BoardDetail = () => {
         </Button>
       </Stack>
       
-      <NearPost prevId={prevId} nextId={nextId} />
+      <NearPost />
       <div className="footer-save" />
       <Footer />
     </div>
