@@ -82,6 +82,10 @@ public class BoardServiceImpl implements BoardService{
 		// 제거된 문자열로 boardContent 최신화
 		board.setBoardContent(String.valueOf(result));
 
+		// 썸네일 변경
+		String newThumbnail = getFirstImg(request.getBoardContent());
+		board.setThumbnail(newThumbnail);
+
 		// 카테고리 찾고
 		Category category = categoryRepository.findByCategoryName(request.getCategoryName())
 			.orElseThrow(() -> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
@@ -170,10 +174,6 @@ public class BoardServiceImpl implements BoardService{
 		// 반환할 게시글 정보
 		Board board = boardRepository.findById(boardId)
 			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
-
-		// 썸네일 따기
-		String thumbnail = getFirstImg(board.getBoardContent());
-		board.setThumbnail(thumbnail);
 
 		// 게시글에 달린 댓글 목록 가져오기
 		List<CommentResponseDto> commentList = board.getCommentList().stream()
@@ -332,6 +332,22 @@ public class BoardServiceImpl implements BoardService{
 
 		// 해당 id를 가지는 게시글 정보 바꾸기
 		board.updateBoard(boardId, request);
+
+		// 게시글 내용에서 <script> 태그 내용 제거
+		// 정규 표현식 패턴 생성
+		String patternString = "<script[^>]*>.*?</script>";
+		Pattern pattern = Pattern.compile(patternString);
+
+		// 문자열 내에서 패턴 검색
+		Matcher matcher = pattern.matcher(board.getBoardContent());
+		StringBuilder result = new StringBuilder();
+		while (matcher.find()) {
+			matcher.appendReplacement(result, "");
+		}
+		matcher.appendTail(result);
+
+		// 제거된 문자열로 boardContent 최신화
+		board.setBoardContent(String.valueOf(result));
 
 		// 썸네일 변경
 		String newThumbnail = getFirstImg(request.getBoardContent());

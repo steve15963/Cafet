@@ -20,7 +20,7 @@ const handleCreateMethod = async (shopId, menuType, postMenuPriceSizeDtoList, fi
 
     
 
-    const serverUrl = "http://localhost:8080/api/menu/menu";
+    const serverUrl = "https://i9a105.p.ssafy.io/api/menu/menu";
 
     const response = await axios.post(serverUrl, formData, {
         headers:{

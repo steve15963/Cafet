@@ -29,6 +29,7 @@ public class BoardResponseDto {
 	private int likeSum;
 	private int commentSum;
 	private int viewCnt;
+	private boolean status;
 	private List<CommentResponseDto> commentList;
 	private List<TagListResponseDto> tagList;
 	private GetShopDto shop;
@@ -48,6 +49,7 @@ public class BoardResponseDto {
 		this.likeSum = board.getLikeSum();
 		this.commentSum = board.getCommentSum();
 		this.viewCnt = board.getViewCnt();
+		this.status = board.isStatus();
 		this.commentList = commentList;
 		this.tagList = tagList;
 		this.shop = shop;
