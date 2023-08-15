@@ -65,7 +65,8 @@ const BoardDetail = () => {
     }
   };
   const userId = Number(localStorage.getItem("userId"));
-  // console.log(typeof userId);
+  const prevId = sessionStorage.getItem('prevId');
+  const nextId = sessionStorage.getItem('nextId');
 
   return (
     <div className="boarddetail-container">
@@ -108,7 +109,8 @@ const BoardDetail = () => {
           댓글 작성
         </Button>
       </Stack>
-      <NearPost />
+      
+      <NearPost prevId={prevId} nextId={nextId} />
       <div className="footer-save" />
       <Footer />
     </div>

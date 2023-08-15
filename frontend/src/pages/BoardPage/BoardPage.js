@@ -102,8 +102,17 @@ const BoardPage = () => {
   let navigate = useNavigate();
 
   const goToDetail = (pageId) => {
+    const clickedIndex = totalBoard.findIndex((row) => row.boardId === pageId);
+
+    if (clickedIndex !== -1) {
+      const prevId = clickedIndex > 0 ? totalBoard[clickedIndex - 1].boardId : null;
+      const nextId = clickedIndex < totalBoard.length - 1 ? totalBoard[clickedIndex + 1].boardId : null;
+
+      sessionStorage.setItem('prevId', prevId);
+      sessionStorage.setItem('nextId', nextId);
+    }
     navigate(`/board/detail/${pageId}`);
-  };
+};
 
   const goToCreate = () => {
     navigate("/create");
