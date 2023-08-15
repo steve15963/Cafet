@@ -19,7 +19,7 @@ const OrderCheckPage = () => {
 
 
   var sock = new SockJS('https://i9a105.p.ssafy.io/order')
-  // var sock = new SockJS('http://localhost:8080/order')
+  // var sock = new SockJS('https://i9a105.p.ssafy.io//order')
   let client = Stomp.over(sock);
 
   useEffect(() => {

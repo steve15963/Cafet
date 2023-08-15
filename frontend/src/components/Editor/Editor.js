@@ -71,7 +71,7 @@ const Editor = ({ title, boardId, value, onChange }) => {
     // console.log(boardTitle);
     // console.log(boardContent);
 
-    axios.post("http://localhost:8080/api/board/new", data).then((res) => {
+    axios.post("https://i9a105.p.ssafy.io//api/board/new", data).then((res) => {
       // console.log(res);
       if (res.status === 201) {
         navigate("/", { replace: true });
@@ -104,7 +104,7 @@ const Editor = ({ title, boardId, value, onChange }) => {
     console.log(boardContent);
 
     axios
-      .put(`http://localhost:8080/api/board/${boardId}`, data)
+      .put(`https://i9a105.p.ssafy.io//api/board/${boardId}`, data)
       .then((res) => {
         if (res.status === 200) {
           navigate("/", { replace: true });
