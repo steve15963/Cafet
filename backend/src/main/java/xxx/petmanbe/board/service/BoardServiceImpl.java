@@ -82,6 +82,10 @@ public class BoardServiceImpl implements BoardService{
 		// 제거된 문자열로 boardContent 최신화
 		board.setBoardContent(String.valueOf(result));
 
+		// 썸네일 변경
+		String newThumbnail = getFirstImg(request.getBoardContent());
+		board.setThumbnail(newThumbnail);
+
 		// 카테고리 찾고
 		Category category = categoryRepository.findByCategoryName(request.getCategoryName())
 			.orElseThrow(() -> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
