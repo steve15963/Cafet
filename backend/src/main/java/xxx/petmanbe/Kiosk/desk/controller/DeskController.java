@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xxx.petmanbe.Kiosk.desk.dto.responseDto.PostDeskDto;
+import xxx.petmanbe.Kiosk.desk.dto.responseDto.PostFirstDeskDto;
 import xxx.petmanbe.Kiosk.desk.dto.responseDto.PutTableDto;
 import xxx.petmanbe.Kiosk.desk.dto.resquestDto.GetDeskDto;
 import xxx.petmanbe.Kiosk.desk.service.DeskService;
@@ -28,6 +29,20 @@ public class DeskController {
 
     }
 
+    //처음에 한번에 여러개 만드는 것
+    @PostMapping("/first")
+    public ResponseEntity<?> PostFirstDesk(@RequestBody PostFirstDeskDto request){
+
+        boolean check = deskService.postFirstShop(request);
+
+        if(!check){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+
     @PostMapping("")
     public ResponseEntity<?> PostDesk(@RequestBody PostDeskDto request){
 
@@ -38,9 +53,6 @@ public class DeskController {
         }
             return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    //처음에 한번에 여러개 만드는 것
-
 
     //이것 좀 고민해봐야함.
     @DeleteMapping("/{shopId}/{tableNum}")
