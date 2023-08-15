@@ -5,7 +5,7 @@ import xxx.petmanbe.visited.dto.responseDto.GetVisitedDateDto;
 import xxx.petmanbe.visited.dto.responseDto.PostVisitedDateDto;
 
 public interface VisitedService {
-    Boolean getVisitedDate(GetVisitedDateDto getVisitedDateDto);
+    Boolean getVisitedDate(long userId, long shopId);
 
     String postVisitedDate(PostVisitedDateDto postVisitedDateDto);
 
