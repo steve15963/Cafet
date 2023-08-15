@@ -4,12 +4,12 @@ import handleLogout from "../../utils/handleLogout";
 import { Link } from "react-router-dom";
 import { Divider, Stack } from "@mui/material";
 
-const HeaderManagerMenu = () => {
+const HeaderShopMenu = () => {
   const onLogoutClick = async (event) => {
     event.preventDefault();
     try {
-      //eslint-disable-next-line
       console.log("logout");
+      //eslint-disable-next-line
       const response = await handleLogout();
       // console.log(response);
       localStorage.removeItem("userId");

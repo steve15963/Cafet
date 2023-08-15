@@ -10,8 +10,8 @@ const HeaderManagerMenu = () => {
   const onLogoutClick = async (event) => {
     event.preventDefault();
     try {
-      //eslint-disable-next-line
       console.log("logout");
+      //eslint-disable-next-line
       const response = await handleLogout();
       // console.log(response);
       localStorage.removeItem("userId");
