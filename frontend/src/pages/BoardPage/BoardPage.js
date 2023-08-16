@@ -46,6 +46,9 @@ function CustomTabPanel(props) {
   );
 }
 
+// const index = sessionStorage.getItem("index");
+// console.log(index);
+
 const formatTime = (isoTime) => {
   const date = new Date(isoTime);
   const year = date.getFullYear().toString().substr(-2);
