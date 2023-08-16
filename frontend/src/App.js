@@ -36,6 +36,7 @@ import OrderCheckPage from "./OrderCheckPage/OrderCheckPage";
 import OrderPage from "./OrderPage/OrderPage";
 import MenuPostPage from "./MenuPostPage/MenuPostPage";
 import KioskAnimalListPage from "./pages/KioskAnimalListPage/KioskAnimalListPage";
+import KioskAnimalDetailPage from "./pages/KioskAnimalDetailPage/KioskAnimalDetailPage";
 
 const App = () => {
   return (
@@ -82,6 +83,7 @@ const App = () => {
           <Route path="menu" element={<KioskMenu />} />
           <Route path="animal" element={<KioskAnimalListPage />} />
         </Route>
+        <Route path="/kiosk/animal/:animalId" element={<KioskAnimalDetailPage />} />
         <Route path="/buy/:shopId/:tableId" element={<OrderPage />} />
         <Route path="/menu/:shopId" element={<MenuPostPage />} />
         <Route path="/check/:shopId" element={<OrderCheckPage />} />

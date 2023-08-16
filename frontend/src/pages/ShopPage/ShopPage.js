@@ -6,6 +6,7 @@ import "./ShopPage.scoped.css";
 
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+import ShopFollow from "../../components/ShopFollow/ShopFollow";
 
 import ShopInfoPage from "../ShopInfoPage/ShopInfoPage";
 
@@ -21,8 +22,7 @@ import { Avatar, Container } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 
 import IconButton from '@mui/material/IconButton';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 import KioskAnimalListPage from "../KioskAnimalListPage/KioskAnimalListPage";
 
@@ -56,9 +56,14 @@ function a11yProps(index) {
 }
 
 const ShopPage = () => {
+
+  const userId = localStorage.getItem('userId');
+  const level = localStorage.getItem('level');
+
   const { shopId } = useParams();
-  
-  const [follow, setFollow] = useState(false)
+
+  const [isFollowing, setIsFollowing] = useState(false)  // follow 기능
+
   const [tabValue, setTabValue] = useState(0);
   const [shopData, setShopData] = useState([]);
 
@@ -72,7 +77,6 @@ const ShopPage = () => {
         console.log(error);
       });
   }, [shopId]);
-  console.log("shopData", shopData);
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
@@ -88,8 +92,8 @@ const ShopPage = () => {
     return null;
   };
 
-  const isFollow = () => {
-    setFollow(!follow)
+  const handleFollowState = (newState) => {
+    setIsFollowing(newState)
   }
 
   return (
@@ -120,13 +124,12 @@ const ShopPage = () => {
           >
             {displayStars(stars)}
           </Stack>
+
           {/* 가게 북마크 */}
-          <IconButton onClick={isFollow}>
-            {
-              follow ? <BookmarkIcon color="primary" fontSize="large" /> :
-              <BookmarkBorderIcon color="primary" fontSize="large" />
-            }
-          </IconButton>
+          <ShopFollow userId={userId}
+                      shopId={shopId}
+                      isFollowing={isFollowing} 
+                      followState={handleFollowState} />
         </Stack>
         <Box sx={{ width: "100%", borderBottom: 1, borderColor: "divider" }}>
           <Tabs
@@ -150,7 +153,11 @@ const ShopPage = () => {
         </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={2}>
           <h1>카페 소식</h1>
-          {/* <SearchAddress /> */}
+          <IconButton>
+            {
+              level === 300 ? <AddBoxIcon /> : <></>
+            }
+          </IconButton>
         </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={3}>
           <ShopInfoPage key={shopId} {...shopData} />

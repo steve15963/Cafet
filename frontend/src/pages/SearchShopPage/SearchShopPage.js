@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-
 import axios from "axios";
 
 import "./SearchShopPage.scoped.css";
@@ -16,6 +15,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 const SearchShopPage = () => {
+
   const [region, setRegion] = useState("");
   const [animal, setAnimal] = useState("");
   const [cafeList, setCafeList] = useState([]);
@@ -60,6 +60,7 @@ const SearchShopPage = () => {
     searchResult(region);
   }, [region]);
   
+
   return (
     <div className="SearchShop">
       <Header />
