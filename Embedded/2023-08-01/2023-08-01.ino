@@ -5,8 +5,8 @@
 
 #include "WiFiEsp.h"
 
-#define MAX_CIRCULAR_SIZE 2
-#define BEACON_COUNT 3
+#define MAX_CIRCULAR_SIZE 1
+#define BEACON_COUNT 4
 #define RSSI_DEFAULT -50
 
 typedef struct {
@@ -65,7 +65,7 @@ double calculateDistance(int rssi,int index) {
   double n = 2.0;
   double constant = offset[index-1];
   double distance = pow(10, (constant - rssi) / (10 * n));
-  return distance;
+  return distance * 100;
 }
 
 void printWifiStatus()
@@ -172,8 +172,8 @@ void loop() {
         int avgPower = getAvg(&Beacon[beaconIndex]);
         Serial.println(avgPower);
 
-        // Serial.print("거리 : ");
-        // Serial.println(calculateDistance(avgPower,beaconIndex));
+        Serial.print("거리 : ");
+        Serial.println(calculateDistance(avgPower,beaconIndex));
 
         searchFlag[beaconIndex] = 1;
       }
@@ -197,11 +197,11 @@ void loop() {
           String json  = 
           "{\"shopId\" : 1,\"petId\" : 1,\"temp\" : ";
           json = json + temp +",\"beaconList\" : [";
-          String key = "key : [";
+          String key = "\"key\" : [";
           for(int i = 0; i < BEACON_COUNT; i++ ){
             if(searchFlag[i] == 1){
               int avgPower = getAvg(&Beacon[i]);
-              json = json + avgPower;
+              json = json + calculateDistance(avgPower,i);
               key = key + i;
               if(BEACON_COUNT-1 != i){ 
                 json = json + ",";
@@ -213,7 +213,7 @@ void loop() {
           json += "]," + key + "]}";
           Serial.println(json);
           Serial.println(json.length());
-          if (client.connect(server, 1234)) {
+          if (client.connect(server, 80)) {
             // printWifiStatus();W
             Serial.println("커넥션 확보 성공");
             
@@ -234,7 +234,7 @@ void loop() {
             client.print(F("POST /api/location/pet"));
             client.print(F(" HTTP/1.1\r\n"));
             client.print(F("Cache-Control: no-cache\r\n"));
-            client.print(F("Host: i9a105.p.ssafy.io:1234\r\n"));
+            client.print(F("Host: i9a105.p.ssafy.io\r\n"));
             client.print(F("User-Agent: Arduino\r\n"));
             client.print(F("Content-Type: application/json;charset=UTF-8\r\n"));
             client.print(F("Content-Length: "));
@@ -253,6 +253,9 @@ void loop() {
           }
           BTSerial.listen();
           delay(10);
+        }
+        else{
+          Serial.println("3개 검출 실패");
         }
       Serial.println("비콘 재검색");
       BTSerial.println("AT+DISI?");
