@@ -5,15 +5,18 @@ import React, { useRef, useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import axios from "axios";
-import { Button, Stack, TextField } from "@mui/material";
+import { Button, MenuItem, Select, Stack, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const Editor = ({ title, boardId, value, onChange }) => {
+const Editor = ({ title, boardId, value, defaultCategory }) => {
   const titleRef = useRef();
   const navigate = useNavigate();
+  const [categoryName, setCategoryName] = useState(defaultCategory);
   const [boardTitle, setBoardTitle] = useState(title);
   const [boardContent, setBoardContent] = useState(value);
   const userId = localStorage.getItem("userId");
+
+  console.log(defaultCategory);
 
   const uploadAdapter = (loader) => {
     return {
@@ -23,7 +26,7 @@ const Editor = ({ title, boardId, value, onChange }) => {
           loader.file.then((file) => {
             formData.append("file", file);
             axios
-              .post("https://i9a105.p.ssafy.io/api/boardfile/new", formData, {
+              .post("https://i9a105.p.ssafy.io//api/boardfile/new", formData, {
                 headers: {
                   "Content-Type": "multipart/form-data",
                 },
@@ -51,6 +54,10 @@ const Editor = ({ title, boardId, value, onChange }) => {
     navigate(-1);
   };
 
+  const handleChange = (event) => {
+    setCategoryName(event.target.value);
+  };
+
   const handleSubmit = () => {
     if (boardTitle.length < 1) {
       alert("제목을 입력하세요.");
@@ -64,7 +71,7 @@ const Editor = ({ title, boardId, value, onChange }) => {
       userId,
       tagList: [],
       shopTitle: null,
-      categoryName: "자유",
+      categoryName,
       // files: null,
     };
 
@@ -91,48 +98,70 @@ const Editor = ({ title, boardId, value, onChange }) => {
     }
 
     const data = {
+      boardId,
       boardTitle,
       boardContent,
       userId,
       tagList: [],
       shopTitle: null,
-      categoryName: "자유",
-      // files: null,
+      categoryName,
     };
 
     console.log(boardTitle);
     console.log(boardContent);
 
-    axios
-      .put(`https://i9a105.p.ssafy.io//api/board/${boardId}`, data)
-      .then((res) => {
-        if (res.status === 200) {
-          navigate("/", { replace: true });
-          return;
-        } else {
-          alert("업로드 실패.");
-          return;
-        }
-      });
+    axios.put(`https://i9a105.p.ssafy.io/api/board`, data).then((res) => {
+      if (res.status === 200) {
+        navigate(`/board/detail/${boardId}`, { replace: true });
+        return;
+      } else {
+        alert("업로드 실패.");
+        return;
+      }
+    });
   };
 
   return (
     <div style={{ width: "60%" }}>
       <Stack spacing={2}>
-        <TextField
-          id="outlined-basic"
-          label="제목"
-          variant="outlined"
-          placeholder="제목을 입력하세요"
-          value={boardTitle}
-          onChange={(e) => setBoardTitle(e.target.value)}
-          ref={titleRef}
-        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            columnGap: "10px",
+          }}
+        >
+          <Select
+            id="demo-simple-select"
+            value={categoryName}
+            onChange={handleChange}
+            sx={{ width: "30%" }}
+          >
+            <MenuItem value={"자유"}>자유 게시판</MenuItem>
+            <MenuItem value={"질문"}>질문 게시판</MenuItem>
+            <MenuItem value={"홍보"}>홍보 게시판</MenuItem>
+          </Select>
+          <TextField
+            id="outlined-basic"
+            label="제목"
+            variant="outlined"
+            placeholder="제목을 입력하세요"
+            value={boardTitle}
+            onChange={(e) => setBoardTitle(e.target.value)}
+            ref={titleRef}
+            fullWidth
+            // sx={{ width: "59%" }}
+          />
+        </div>
+
         <div className="editor">
           <CKEditor
             editor={ClassicEditor}
             config={{
               extraPlugins: [uploadPlugin],
+              mediaEmbed: {
+                previewsInData: true,
+              },
             }}
             // data={value}
             onReady={(editor) => {

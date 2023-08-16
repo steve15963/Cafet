@@ -1,21 +1,20 @@
 //마이페이지 기본 정보 component
 
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import "./AccountData.scoped.css";
 
 import Button from "../Button/Button";
 
-import UserBoards from "../UserBoards/UserBoards"
-import UserComments from "../UserComments/UserComments"
-import UserLike from "../UserLike/UserLike"
+import UserBoards from "../UserBoards/UserBoards";
+import UserComments from "../UserComments/UserComments";
+import UserLike from "../UserLike/UserLike";
 import UserGrade from "../UserGrade/UserGrade";
 
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 import Grid from "@mui/material/Grid";
@@ -33,11 +32,7 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -57,8 +52,7 @@ function a11yProps(index) {
 
 const AccountData = () => {
   const [tabValue, setTabValue] = useState(0);
-  const {userId} = useParams();
-
+  const { userId } = useParams();
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
