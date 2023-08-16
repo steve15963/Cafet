@@ -26,7 +26,7 @@ const KioskLogin = () => {
       );
       console.log("Login success : ");
       alert("로그인에 성공하셨습니다.");
-      navigate("/kiosk/main", { replace: true });
+      navigate("/kiosk/list", { replace: true });
     } catch (error) {
       console.error("Login failed:");
       alert("로그인에 실패하셨습니다.");
