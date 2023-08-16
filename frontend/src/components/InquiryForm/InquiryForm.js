@@ -1,6 +1,6 @@
 //문의내용 작성 component
 
-import React from "react";
+import React, { useState } from "react";
 import "./InquiryForm.scoped.css";
 import { MdPerson, MdCall } from "react-icons/md";
 import FormControl from "@mui/material/FormControl";
@@ -13,7 +13,12 @@ import Button from "../Button/Button";
 import handleSubmit from "../../utils/handleSubmit";
 
 const InquiryForm = () => {
-  const [category, setCategory] = React.useState("");
+  const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [category, setCategory] = useState("");
   const navigate = useNavigate();
 
   //카테고리 변경 handle
@@ -21,11 +26,18 @@ const InquiryForm = () => {
     setCategory(event.target.value);
   };
 
-  //문의하기 버튼 클릭시 동작(API 미구현 추후 수정 필요)
+  //문의하기 버튼 클릭시 동작
   const onSubmitClick = async (event) => {
     event.preventDefault();
     try {
-      const response = await handleSubmit(event);
+      const response = await handleSubmit(
+        nickname,
+        email,
+        phoneNo,
+        title,
+        content,
+        category
+      );
       const token = response.data.token;
       console.log("Inquiry submit success", token);
       alert("문의사항이 등록되었습니다.");
@@ -46,6 +58,8 @@ const InquiryForm = () => {
             label="이름"
             variant="outlined"
             placeholder="이름을 입력해주세요"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
             fullWidth
             size="small"
           />
@@ -61,6 +75,8 @@ const InquiryForm = () => {
             inputProps={{
               type: "email",
             }}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             size="small"
             fullWidth
           />
@@ -85,6 +101,8 @@ const InquiryForm = () => {
             label="전화번호"
             placeholder="전화번호를 입력해주세요"
             variant="outlined"
+            value={phoneNo}
+            onChange={(e) => setPhoneNo(e.target.value)}
             size="small"
             fullWidth
           />
@@ -99,6 +117,8 @@ const InquiryForm = () => {
             label="제목"
             variant="outlined"
             placeholder="제목을 입력해주세요"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             fullWidth
             size="small"
           />
@@ -114,10 +134,9 @@ const InquiryForm = () => {
               onChange={handleChange}
               fullWidth={true}
             >
-              <MenuItem value="사이트 개선">사이트 개선</MenuItem>
-              <MenuItem value="오류 제보">오류 제보</MenuItem>
-              <MenuItem value="사용자 신고">사용자 신고</MenuItem>
-              <MenuItem value="기타 개선">기타 개선</MenuItem>
+              <MenuItem value="사이트">사이트</MenuItem>
+              <MenuItem value="가게">가게</MenuItem>
+              <MenuItem value="기타">기타</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -127,6 +146,8 @@ const InquiryForm = () => {
             label="문의내용"
             placeholder="내용을 입력해주세요"
             multiline
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
             fullWidth
             rows={5}
           />
