@@ -23,7 +23,7 @@ const NearPost = ({ boardList, currentId }) => {
             <div className="nearpost_left">{"다음 글"}</div>
             <div
               className="nearpost_center"
-              onClick={() => goToDetail(nextPost.id)}
+              onClick={() => goToDetail(nextPost.commentId)}
             >
               {nextPost.boardTitle}
             </div>
@@ -35,7 +35,7 @@ const NearPost = ({ boardList, currentId }) => {
             <div className="nearpost_left">{"이전 글"}</div>
             <div
               className="nearpost_center"
-              onClick={() => goToDetail(prevPost.id)}
+              onClick={() => goToDetail(prevPost.commentId)}
             >
               {prevPost.boardTitle}
             </div>
