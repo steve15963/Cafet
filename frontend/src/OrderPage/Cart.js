@@ -36,9 +36,9 @@ const Cart = (props, {onDelete}) => {
   };
 
   return (
-    <div className="two">
-    <div className="cart">
-      <div className="cartItem">
+    <div className="Ordertwo">
+    <div className="Ordercart">
+      <div className="OrdercartItem">
       
       
         {/* <div>{props}</div> */}
@@ -46,19 +46,19 @@ const Cart = (props, {onDelete}) => {
         
         {props.data.map((propGroup)=>(
             // <div className="no_dot" key={index}>
-            <div  className="CartBox">
-            <div className="CartBoxNotEight">
+            <div  className="OrderCartBox">
+            <div className="OrderCartBoxNotEight">
              <div>
                 {props.data.length<=8 && <img src={propGroup[4]} alt=""/>}
               </div>
               <div>
                 {props.data.length<=8 && <div>{propGroup[0]}</div>}
                 {props.data.length<=8 && <div>{propGroup[3]} : ₩ {propGroup[1]}원</div>}
-                {props.data.length<=8 && <div className="bold">수량 : {propGroup[2]}개</div>}
+                {props.data.length<=8 && <div className="Orderbold">수량 : {propGroup[2]}개</div>}
                 <button>삭제</button>
               </div>
             </div>
-            <div className="CartBoxEight">
+            <div className="OrderCartBoxEight">
               {props.data.length>8 && <div>{propGroup[0]}</div>}
               {props.data.length>8 && <div>{propGroup[3]} : ₩ {propGroup[1]}원</div>}
               {props.data.length>8 && <div>수량 : {propGroup[2]}개</div>}
@@ -67,17 +67,17 @@ const Cart = (props, {onDelete}) => {
         ))}
 
       </div>
-      <div className="buttons">
+      <div className="Orderbuttons">
         
         <span>
-          총 결제 금액 <span className="totalPrice">{money} ₩ </span>
+          총 결제 금액 <span className="OrdertotalPrice">{money} ₩ </span>
         </span>
-        <span className="timer">현재까지 담은 품목!</span>
-        <button className="allCancelButton" onClick={reset}>
+        <span className="Ordertimer">현재까지 담은 품목!</span>
+        <button className="OrderallCancelButton" onClick={reset}>
           전체취소
         </button>
       </div>
-      <button className="orderButton" onClick={setMessage}>
+      <button className="OrderorderButton" onClick={setMessage}>
         결제하기
       </button>
 

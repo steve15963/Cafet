@@ -24,7 +24,7 @@ const Item = ({item, onDataFromChild}) => {
 
   return (
     <div>
-                <img className="img" src={item.menuFile.url} alt=""></img>
+                <img className="Orderimg" src={item.menuFile.url} alt=""></img>
                 <br></br>
                 <span>{item.menuType}</span>
                 <div>
@@ -41,12 +41,15 @@ const Item = ({item, onDataFromChild}) => {
                     onClick={()=>{handleChildClick(menu)}}
                   > */}
                     <button
-                    className="button2"
+                    className="Orderbutton2"
                     // variant="primary"
                     onClick={showModal}
                   >
                     담기</button>
-                {modalOpen && <ModalBasic setModalOpen={setModalOpen} data={item} onDataToParent ={handleChildData}/>}
+                    {modalOpen && <div className="OrderModalBackground"> </div>}
+                  {modalOpen && <ModalBasic setModalOpen={setModalOpen} data={item} onDataToParent ={handleChildData}/>}
+
+            
           
                 </div>
 

@@ -26,11 +26,11 @@ const OnePage = () => {
 
   return (
     <div>
-        <div className="container">
-            <div className="one">
+        <div className="Ordercontainer">
+            <div className="Orderone">
                 <OrderPage onDataFromChild= {handleDataFromChild}></OrderPage>
             </div>
-            <div className="two">
+            <div className="Ordertwo">
             <Cart data={dataFromChild}></Cart>
             </div>
         </div>
