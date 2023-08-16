@@ -18,7 +18,8 @@ const KioskLogin = () => {
     try {
       const response = await handleKioskLogin(email, password);
       console.log(response.headers);
-      localStorage.setItem("userId", response.data.userId);
+      localStorage.setItem("shopId", response.data.shopId);
+      localStorage.setItem("levelCode", response.data.levelCode);
       localStorage.setItem(
         "sessionToken",
         response.headers.get("Authorization")

@@ -81,7 +81,6 @@ const BoardPage = () => {
 
   useEffect(() => {
     if (index !== null) {
-      // sessionStorage에 index가 있다면 해당 값으로 value 업데이트
       setValue(parseInt(index));
       sessionStorage.removeItem("index");
     }
