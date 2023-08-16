@@ -58,15 +58,17 @@ public class WebSocketServiceImpl implements WebSocketService{
 	}
 
 	@Override
-	public String changeToMsg(MessageDto.Props message1) {
+	public String changeToMsg(MessageDto.Content messages) {
 
-		List<MessageDto.Data> list = message1.getData();
+		String[][] list = messages.getProps().getData();
 
 		String msg = "";
 
-		for(int i=0 ; i<list.size() ; i++){
-			MessageDto.Data oneData = list.get(i);
-			msg+= oneData.getType()+" "+oneData.getSize()+" "+oneData.getQuantity()+" 개"+"\n";
+		System.out.println(list.length);
+
+		for(int i=0 ; i<list.length ; i++){
+			String[] info = list[i];
+			msg+= info[0]+" "+info[3]+" "+info[2]+" 개"+"\n";
 		}
 
 		return msg;

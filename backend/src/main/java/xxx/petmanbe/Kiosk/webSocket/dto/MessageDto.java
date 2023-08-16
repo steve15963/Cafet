@@ -13,31 +13,42 @@ public class MessageDto {
 	// private Menu menu;
 	private long shopId;
 
-	private Props content;
+	private Content content;
 
 	private long tableId;
 
 	@Getter
-	public static class Props{
-
-		public List<Data> data;
-
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class Content{
+		private Props props;
 	}
 
 	@Getter
-	public static class Data{
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class Props{
 
-		String type;
-
-		int money;
-
-		int quantity;
-
-		String size;
-
-		String ulr;
-
+		public String[][] data;
 
 	}
+
+	// @Getter
+	// @NoArgsConstructor
+	// @AllArgsConstructor
+	// public static class Data{
+	//
+	// 	String type;
+	//
+	// 	int money;
+	//
+	// 	int quantity;
+	//
+	// 	String size;
+	//
+	// 	String ulr;
+	//
+	//
+	// }
 
 }
