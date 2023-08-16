@@ -4,33 +4,30 @@ import { useState } from "react";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 
-const Cart = (props, {onDelete}) => {
+const Cart = (props) => {
 
   const [money]=useState("");
 
   // const history = useHistory();
 
-
-
   const reset= ()=>{
     window.location.reload()
   };
 
-  var sock = new SockJS("https://i9a105.p.ssafy.io/order");
-  // var sock = new SockJS("http://localhost:8080/order")
+  // var sock = new SockJS("https://i9a105.p.ssafy.io/order");
+  var sock = new SockJS("http://localhost:8080/order")
   let client = Stomp.over(sock);
 
-  const setMessage = () => {
-
+  const setMessage = (p) => {
 
     // console.log(sock);
     client.send(
       "/app/message",
       {},
       JSON.stringify({
-        shopId: "1",
-        tableId: "1",
-        content: {props},
+        shopId: p.props.data1,
+        tableId: p.props.data2,
+        content: p.props.data,
       })
     );
   };
@@ -77,7 +74,7 @@ const Cart = (props, {onDelete}) => {
           전체취소
         </button>
       </div>
-      <button className="OrderorderButton" onClick={setMessage}>
+      <button className="OrderorderButton" onClick={()=>setMessage({props})}>
         결제하기
       </button>
 

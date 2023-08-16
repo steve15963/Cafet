@@ -2,8 +2,11 @@ import React, {useState } from "react";
 import OrderPage from "./OrderPage";
 import Cart from "./Cart.js"
 import "./OnePage.css"
+import { useParams } from "react-router-dom";
 
 const OnePage = () => {
+    const { shopId } = useParams();
+    const { tableId } = useParams();
 
 
     const [dataFromChild, setDataFromChild]=useState([])
@@ -31,7 +34,7 @@ const OnePage = () => {
                 <OrderPage onDataFromChild= {handleDataFromChild}></OrderPage>
             </div>
             <div className="Ordertwo">
-            <Cart data={dataFromChild}></Cart>
+            <Cart data={dataFromChild} data1={shopId} data2={tableId}></Cart>
             </div>
         </div>
 
