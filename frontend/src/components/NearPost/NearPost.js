@@ -11,8 +11,7 @@ const NearPost = ({ boardList, currentId }) => {
   };
 
   console.log(currentId+" currentId");
-  console.log(typeof currentId);
-  const currentIndex = boardList.findIndex((row) => row.boardId === currentId);
+  const currentIndex = boardList.findIndex((row) => row.boardId === parseInt(currentId, 10));
   console.log(currentIndex);
   const nextPost = currentIndex > 0 ? boardList[currentIndex - 1] : null;
   const prevPost = currentIndex < boardList.length - 1 ? boardList[currentIndex + 1] : null;
