@@ -6,6 +6,7 @@ import "./ShopPage.scoped.css";
 
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+import ShopFollow from "../../components/ShopFollow/ShopFollow";
 
 import ShopInfoPage from "../ShopInfoPage/ShopInfoPage";
 
@@ -20,6 +21,8 @@ import { yellow } from "@mui/material/colors";
 import { Avatar, Container } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 
+import IconButton from '@mui/material/IconButton';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 import KioskAnimalListPage from "../KioskAnimalListPage/KioskAnimalListPage";
 
@@ -53,7 +56,14 @@ function a11yProps(index) {
 }
 
 const ShopPage = () => {
+
+  const userId = localStorage.getItem('userId');
+  const level = localStorage.getItem('level');
+
   const { shopId } = useParams();
+
+  const [isFollowing, setIsFollowing] = useState(false)  // follow 기능
+
   const [tabValue, setTabValue] = useState(0);
   const [shopData, setShopData] = useState([]);
 
@@ -67,13 +77,12 @@ const ShopPage = () => {
         console.log(error);
       });
   }, [shopId]);
-  console.log("shopData", shopData);
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
-  const stars =
-    Math.round((shopData.totalScore / shopData.gradeCount) * 10) / 10;
+  const stars = Math.round((shopData.totalScore / shopData.gradeCount) * 10) / 10;
+  
   const displayStars = (stars) => {
     if (stars > 0) {
       return [...Array(stars)].map((e, i) => (
@@ -82,6 +91,11 @@ const ShopPage = () => {
     }
     return null;
   };
+
+  const handleFollowState = (newState) => {
+    setIsFollowing(newState)
+  }
+
   return (
     <div>
       <Header />
@@ -110,6 +124,12 @@ const ShopPage = () => {
           >
             {displayStars(stars)}
           </Stack>
+
+          {/* 가게 북마크 */}
+          <ShopFollow userId={userId}
+                      shopId={shopId}
+                      isFollowing={isFollowing} 
+                      followState={handleFollowState} />
         </Stack>
         <Box sx={{ width: "100%", borderBottom: 1, borderColor: "divider" }}>
           <Tabs
@@ -133,7 +153,11 @@ const ShopPage = () => {
         </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={2}>
           <h1>카페 소식</h1>
-          {/* <SearchAddress /> */}
+          <IconButton>
+            {
+              level === 300 ? <AddBoxIcon /> : <></>
+            }
+          </IconButton>
         </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={3}>
           <ShopInfoPage key={shopId} {...shopData} />

@@ -26,7 +26,7 @@ const KioskAnimalListPage = () => {
   }, [])
 
   const goToDetailAnimal = (id) => {
-    navigate(`/kiosk/${id}`)
+    navigate(`/kiosk/animal/${id}`)
   }
 
   const stepFourCarousel = [
