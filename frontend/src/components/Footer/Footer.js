@@ -16,7 +16,7 @@ const Footer = () => {
             <p className="footer-text">이용약관</p>
           </Link>
           &nbsp;|&nbsp;
-          <Link to={"/inquiry"} className="footer-link">
+          <Link to={"/privacypolicy"} className="footer-link">
             <p className="footer-text">개인정보처리방침</p>
           </Link>
           &nbsp;|&nbsp;
