@@ -38,6 +38,7 @@ import KioskAnimalListPage from "./pages/KioskAnimalListPage/KioskAnimalListPage
 import OnePage from "./OrderPage/OnePage";
 import OrderPage from "./OrderPage/OrderPage";
 import KioskAnimalDetailPage from "./pages/KioskAnimalDetailPage/KioskAnimalDetailPage";
+import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 
 const App = () => {
   return (
@@ -53,6 +54,7 @@ const App = () => {
         <Route path="/" element={<MainPage />}>
           <Route path="" element={<MainList />} />
           <Route path="rule" element={<Rule />} />
+          <Route path="privacypolicy" element={<PrivacyPolicy />} />
           <Route path="inquiry" element={<InquiryForm />} />
         </Route>
         <Route path="/manage" element={<ManagePage />}>
