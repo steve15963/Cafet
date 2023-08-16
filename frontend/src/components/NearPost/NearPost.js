@@ -10,13 +10,10 @@ const NearPost = ({ boardList, currentId }) => {
     navigate(`/board/detail/${pageId}`);
   };
 
-  // console.log(currentId+" currentId");
   const currentIndex = boardList.findIndex((row) => row.boardId === parseInt(currentId, 10));
-  // console.log(currentIndex);
   const nextPost = currentIndex > 0 ? boardList[currentIndex - 1] : null;
   const prevPost = currentIndex < boardList.length - 1 ? boardList[currentIndex + 1] : null;
-  // console.log(nextPost);
-  // console.log(prevPost);
+
   return (
     <div>
       <ul>

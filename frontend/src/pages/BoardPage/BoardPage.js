@@ -41,9 +41,6 @@ function CustomTabPanel(props) {
   );
 }
 
-// const index = sessionStorage.getItem("index");
-// console.log(index);
-
 const formatTime = (isoTime) => {
   const date = new Date(isoTime);
   const year = date.getFullYear().toString().substr(-2);
@@ -79,7 +76,9 @@ const createTable = (
 };
 
 const BoardPage = () => {
-  const [value, setValue] = React.useState(0); // Tabs
+  const index = sessionStorage.getItem("index");
+  const initialTabIndex = index !== null ? Number(index) : 0;
+  const [value, setValue] = React.useState(initialTabIndex); // Tabs
   const handleChange = (event, newValue) => {
     // Tabs
     setValue(newValue);
