@@ -33,7 +33,6 @@ import KioskLogin from "./components/KioskLogin/KioskLogin";
 import KioskMenu from "./components/KioskMenu/KioskMenu";
 import KioskNameList from "./components/KioskNameList/KioskNameList";
 import OrderCheckPage from "./OrderCheckPage/OrderCheckPage";
-import OrderPage from "./OrderPage/OrderPage";
 import MenuPostPage from "./MenuPostPage/MenuPostPage";
 import KioskAnimalListPage from "./pages/KioskAnimalListPage/KioskAnimalListPage";
 import OnePage from "./OrderPage/OnePage";

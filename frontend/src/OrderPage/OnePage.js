@@ -13,9 +13,9 @@ const OnePage = () => {
     //     setDataFromChild(updatedItems);
     // }
 
-    const handleReset = () =>{
-        setDataFromChild(0);
-    }
+    // const handleReset = () =>{
+    //     setDataFromChild(0);
+    // }
 
     const handleDataFromChild = (data) => {
         setDataFromChild(data);

@@ -46,7 +46,7 @@ const Cart = (props, {onDelete}) => {
             <div  className="CartBox">
             <div className="CartBoxNotEight">
              <div>
-                {props.data.length<=8 && <img src={propGroup[4]}/>}
+                {props.data.length<=8 && <img src={propGroup[4]} alt=""/>}
               </div>
               <div>
                 {props.data.length<=8 && <div>{propGroup[0]}</div>}
