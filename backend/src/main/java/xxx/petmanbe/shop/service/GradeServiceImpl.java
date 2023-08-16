@@ -1,10 +1,10 @@
 package xxx.petmanbe.shop.service;
 
-import java.util.Optional;
+import javax.transaction.Transactional;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.exception.RestApiException;
 import xxx.petmanbe.exception.errorcode.CommonErrorCode;
 import xxx.petmanbe.exception.errorcode.GradeErrorCode;
@@ -20,8 +20,6 @@ import xxx.petmanbe.shop.repository.GradeRepository;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.UserRepository;
-
-import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor

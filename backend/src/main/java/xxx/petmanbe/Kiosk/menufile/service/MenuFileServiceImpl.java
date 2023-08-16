@@ -7,6 +7,8 @@ import xxx.petmanbe.Kiosk.menu.entity.Menu;
 import xxx.petmanbe.Kiosk.menu.repository.MenuRepository;
 import xxx.petmanbe.Kiosk.menufile.entity.MenuFile;
 import xxx.petmanbe.Kiosk.menufile.repository.MenuFileRepository;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.CommonErrorCode;
 import xxx.petmanbe.userfile.service.S3Uploader;
 
 import java.io.IOException;
@@ -15,7 +17,6 @@ import java.io.IOException;
 @Service
 public class MenuFileServiceImpl implements MenuFileService{
 
-    private final MenuFileRepository menuFileRepository;
     private final MenuRepository menuRepository;
     private final S3Uploader s3Uploader;
 
@@ -27,7 +28,8 @@ public class MenuFileServiceImpl implements MenuFileService{
             // user파일에 들어가 있음
             String storedFileName = s3Uploader.upload(file, "menu");
 
-            Menu menu = menuRepository.findById(menuId).orElseThrow(()-> new IllegalArgumentException());
+            Menu menu = menuRepository.findById(menuId)
+                .orElseThrow(()-> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
 
             MenuFile menuFile = MenuFile.builder()
                     .menu(menu)

@@ -2,12 +2,13 @@ package xxx.petmanbe.shopPet.service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import lombok.RequiredArgsConstructor;
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.exception.RestApiException;
 import xxx.petmanbe.exception.errorcode.PetErrorCode;
 import xxx.petmanbe.exception.errorcode.ShopErrorCode;
@@ -22,8 +23,6 @@ import xxx.petmanbe.shopPetFile.dto.ShopPetFileDto;
 import xxx.petmanbe.shopPetFile.entity.ShopPetFile;
 import xxx.petmanbe.shopPetFile.repository.ShopPetFileRepository;
 
-import javax.transaction.Transactional;
-
 @Service
 @RequiredArgsConstructor
 public class ShopPetServiceImpl implements ShopPetService{
@@ -31,8 +30,6 @@ public class ShopPetServiceImpl implements ShopPetService{
     private final ShopPetRepository shopPetRepository;
 
     private final ShopRepository shopRepository;
-
-    private final ShopPetFileRepository shopPetFileRepository;
 
     @Transactional
     @Override

@@ -8,17 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
-import xxx.petmanbe.board.entity.Board;
-import xxx.petmanbe.boardfile.entity.BoardFile;
 import xxx.petmanbe.exception.RestApiException;
-import xxx.petmanbe.exception.errorcode.CommonErrorCode;
 import xxx.petmanbe.exception.errorcode.PetErrorCode;
-import xxx.petmanbe.shop.entity.Shop;
-import xxx.petmanbe.shop.repository.ShopRepository;
-import xxx.petmanbe.shop.service.ShopService;
 import xxx.petmanbe.shopPet.entity.ShopPet;
 import xxx.petmanbe.shopPet.repository.ShopPetRepository;
-import xxx.petmanbe.shopPet.service.ShopPetService;
 import xxx.petmanbe.shopPetFile.entity.ShopPetFile;
 import xxx.petmanbe.shopPetFile.repository.ShopPetFileRepository;
 import xxx.petmanbe.userfile.service.S3Uploader;

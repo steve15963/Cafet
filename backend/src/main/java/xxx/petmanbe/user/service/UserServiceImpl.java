@@ -1,29 +1,30 @@
 package xxx.petmanbe.user.service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.RequiredArgsConstructor;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.CommonErrorCode;
+import xxx.petmanbe.exception.errorcode.UserErrorCode;
 import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
+import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.dto.requestDto.UpdateUserPasswordDto;
 import xxx.petmanbe.user.dto.requestDto.UserModifyDto;
-import xxx.petmanbe.user.dto.requestDto.RegistDto;
 import xxx.petmanbe.user.dto.responseDto.LoginResponseDto;
 import xxx.petmanbe.user.dto.responseDto.UserFilesListDto;
 import xxx.petmanbe.user.dto.responseDto.UserInformationDto;
@@ -46,13 +47,9 @@ public class UserServiceImpl implements UserService{
 
 	private final JwtUtil jwtUtil;
 
-	private final JwtService jwtService;
-
 	private final LevelRepository levelRepository;
 
 	private final UserFileRepository userFileRepository;
-
-	private final CustomUserDetailService customUserDetailService;
 
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
@@ -60,13 +57,14 @@ public class UserServiceImpl implements UserService{
 
 	@Transactional
 	@Override
-	public long postnewUser(RegistDto registDto) throws Exception {
+	public long postnewUser(RegistDto registDto) {
 
 		List<String> roles= new ArrayList<>();
 
 		roles.add("ROLE_USER");
 
-		Level level = levelRepository.findById((long)1).orElseThrow(()->new IllegalArgumentException());
+		Level level = levelRepository.findById((long)1)
+			.orElseThrow(()->new RestApiException(CommonErrorCode.INVALID_PARAMETER));
 
 		User user = User.builder()
 				.email(registDto.getEmail())
@@ -83,21 +81,21 @@ public class UserServiceImpl implements UserService{
 
 	@Transactional
 	@Override
-	public boolean checkUserLogin(LoginDto loginDto) throws Exception{
+	public boolean checkUserLogin(LoginDto loginDto) {
 
-		User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(IllegalArgumentException::new);
+		User user = userRepository.findByEmail(loginDto.getEmail())
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
-		if(Objects.equals(loginDto.getPassword(), user.getPassword())) return true;
-
-		return false;
+		return Objects.equals(loginDto.getPassword(), user.getPassword());
 
 	}
 
 	@Transactional
 	@Override
-	public LoginReturnDto postLoginUser(LoginDto loginDto) throws Exception {
+	public LoginReturnDto postLoginUser(LoginDto loginDto) {
 
-		User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(IllegalArgumentException::new);
+		User user = userRepository.findByEmail(loginDto.getEmail())
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
@@ -114,38 +112,33 @@ public class UserServiceImpl implements UserService{
 				.level(user.getLevel().getLevelCode())
 				.build();
 
-		LoginReturnDto loginReturnDto = LoginReturnDto.builder()
+		return LoginReturnDto.builder()
 				.loginResponseDto(loginResponseDto)
 				.token(token)
 				.build();
-
-
-		return loginReturnDto;
 	}
 
 	@Transactional
 	@Override
-	public boolean putUser(UserModifyDto userModifyDto) throws Exception {
+	public boolean putUser(UserModifyDto userModifyDto) {
 
-		User user = userRepository.findByEmail(userModifyDto.getEmail()).orElseThrow(IllegalArgumentException::new);
+		User user = userRepository.findByEmail(userModifyDto.getEmail())
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		user.updateUser(userModifyDto.phoneNo,userModifyDto.nickname);
 
 		userRepository.save(user);
 
-		if(user.getNickname()== userModifyDto.nickname && user.getPhoneNo()== userModifyDto.phoneNo){
-			return true;
-
-		}else{
-			return false;
-		}
+		return Objects.equals(user.getNickname(), userModifyDto.nickname) && Objects.equals(user.getPhoneNo(),
+			userModifyDto.phoneNo);
 	}
 
 	@Transactional
 	@Override
-	public UserInformationDto getUser(long userId) throws Exception {
+	public UserInformationDto getUser(long userId) {
 
-		User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		UserFilesListDto userFilesListDto=null;
 
@@ -184,13 +177,14 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String deleteUser(long userId) {
 
-		User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		user.setStatus("yes");
 
 		userRepository.save(user);
 
-		if(user.getStatus()=="yes"){
+		if(Objects.equals(user.getStatus(), "yes")){
 			return "success";
 		}else{
 			return "fail";
@@ -201,19 +195,22 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String putUserLevel(LevelModifyDto levelModifyDto) {
 
-		User user = userRepository.findById(levelModifyDto.getUserId()).orElseThrow(IllegalArgumentException::new);
+		User user = userRepository.findById(levelModifyDto.getUserId())
+			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		Level level = user.getLevel();
 
-		if(!Objects.equals(level, levelModifyDto.getLevel())){
+		if(!Objects.equals(level.getLevelCode(), levelModifyDto.getLevel())){
 
 			// role
 			if(200<= levelModifyDto.getLevel() && levelModifyDto.getLevel() <300 ){
-				level = levelRepository.findByLevelCode(levelModifyDto.getLevel()).orElseThrow(()->new IllegalArgumentException());
+				level = levelRepository.findByLevelCode(levelModifyDto.getLevel())
+					.orElseThrow(()->new RestApiException(UserErrorCode.USER_NOT_FOUND));
 				user.setLevel(level);
 				user.getRoles().set(0, "ROLE_SHOP");
 			}else if(300<= levelModifyDto.getLevel()){
-				level = levelRepository.findByLevelCode(levelModifyDto.getLevel()).orElseThrow(()-> new IllegalArgumentException());
+				level = levelRepository.findByLevelCode(levelModifyDto.getLevel())
+					.orElseThrow(()-> new RestApiException(CommonErrorCode.BAD_REQUEST));
 				user.setLevel(level);
 				user.getRoles().set(0,"ROLE_ADMIN");
 			}
@@ -269,13 +266,14 @@ public class UserServiceImpl implements UserService{
 		String[] token= request.getHeader("Cookie").split("; ");
 		String refreshToken ="";
 
-		for(int i=0 ; i<token.length ; i++) {
-			if(token[i].substring(0,12).equals("refreshToken")){
-				refreshToken=token[i].substring(13);
+		for (String s : token) {
+			if (s.startsWith("refreshToken")) {
+				refreshToken = s.substring(13);
 			}
 		}
 
-		Token token1 = tokenRepository.findByRefreshToken(refreshToken).orElseThrow(()-> new IllegalArgumentException());
+		Token token1 = tokenRepository.findByRefreshToken(refreshToken)
+			.orElseThrow(()-> new RestApiException(CommonErrorCode.BAD_REQUEST));
 
 		System.out.println(token1.getTokenIndex());
 

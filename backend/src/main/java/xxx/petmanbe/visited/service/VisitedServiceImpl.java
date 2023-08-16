@@ -1,8 +1,10 @@
 package xxx.petmanbe.visited.service;
 
-import lombok.RequiredArgsConstructor;
+import static java.time.LocalDateTime.*;
+
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.exception.RestApiException;
 import xxx.petmanbe.exception.errorcode.ShopErrorCode;
 import xxx.petmanbe.exception.errorcode.UserErrorCode;
@@ -12,12 +14,9 @@ import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.UserRepository;
 import xxx.petmanbe.visited.dto.responseDto.DeleteVisitedDateDto;
-import xxx.petmanbe.visited.dto.responseDto.GetVisitedDateDto;
 import xxx.petmanbe.visited.dto.responseDto.PostVisitedDateDto;
 import xxx.petmanbe.visited.entity.Visited;
 import xxx.petmanbe.visited.repository.VisitedRepository;
-
-import static java.time.LocalDateTime.now;
 
 @Service
 @RequiredArgsConstructor
