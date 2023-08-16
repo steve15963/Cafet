@@ -30,7 +30,6 @@ import xxx.petmanbe.shop.repository.LikeShopRepository;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
 import xxx.petmanbe.shopPet.repository.ShopPetRepository;
-import xxx.petmanbe.tag.dto.request.AddTagRequestDto;
 import xxx.petmanbe.tag.dto.response.TagListResponseDto;
 import xxx.petmanbe.tag.entity.AttachShop;
 import xxx.petmanbe.tag.entity.Tag;
@@ -125,14 +124,6 @@ public class ShopServiceImpl implements ShopService{
 
 		// 태그 부착정보 생성
 		for (TagListResponseDto response : postNewShopDto.getTagList()){
-			// 만약 해당하는 이름의 태그가 없다면
-			if (tagRepository.findByStatusFalseAndTagName(response.getTagName()).isEmpty()){
-				// 태그 생성
-				AddTagRequestDto tagRequest = AddTagRequestDto.builder()
-					.tagName(response.getTagName())
-					.build();
-				tagRepository.save(tagRequest.toEntity());
-			}
 
 			// 태그 정보 가져오기
 			Tag tag = tagRepository.findByStatusFalseAndTagName(response.getTagName())
@@ -214,22 +205,7 @@ public class ShopServiceImpl implements ShopService{
 				.collect(Collectors.toList());
 
 			// 업데이트 하려는 태그 id가 목록에 없으면 추가
-		/*
-			테스트 단계에서는 등록하려는 태그가 생성이 필요한 경우에 에러 발생할 수 있음
-			그렇지만 비즈니스 로직 상 태그의 생성은 수정하기 버튼을 누르기(해당 메소드가 실행되는 시점) 전에,
-			정확히 가게 정보 수정 창에서 태그 칸에 해당 태그의 이름을 입력하려고 onClick() 이벤트가 발생하는 순간에 일어나므로
-			이 상태로 메소드를 유지함
-		 */
 			if (!tagList.contains(updatedTag.getTagId())){
-
-				// 만약 태그가 없으면 만들기
-				if (tagRepository.findByStatusFalseAndTagName(updatedTag.getTagName()).isEmpty()){
-					Tag tag = Tag.builder()
-						.tagName(updatedTag.getTagName())
-						.build();
-					tagRepository.save(tag);
-				}
-
 				// 부착정보 생성
 				Tag tag = tagRepository.findByStatusFalseAndTagName(updatedTag.getTagName())
 					.orElseThrow(() -> new RestApiException(TagErrorCode.TAG_NOT_FOUND));
