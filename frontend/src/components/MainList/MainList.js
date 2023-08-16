@@ -15,35 +15,6 @@ const MainList = () => {
   }
 
   const goToDetail = (pageId) => {
-    const clickedIndex = boardList.findIndex((row) => row.boardId === pageId);
-
-    if (clickedIndex !== -1) {
-      const nextId =
-        clickedIndex > 0 ? boardList[clickedIndex - 1].boardId : null;
-      const prevId =
-        clickedIndex < boardList.length - 1
-          ? boardList[clickedIndex + 1].boardId
-          : null;
-      console.log(boardList);
-      sessionStorage.setItem("prevId", prevId);
-      sessionStorage.setItem(
-        "prevTitle",
-        boardList[clickedIndex + 1].boardTitle
-      );
-      sessionStorage.setItem(
-        "prevNickname",
-        boardList[clickedIndex + 1].nickname
-      );
-      sessionStorage.setItem("nextId", nextId);
-      sessionStorage.setItem(
-        "nextTitle",
-        boardList[clickedIndex - 1].boardTitle
-      );
-      sessionStorage.setItem(
-        "nextNickname",
-        boardList[clickedIndex - 1].nickname
-      );
-    }
     navigate(`/board/detail/${pageId}`);
   };
 

@@ -30,10 +30,8 @@ const BoardDetail = () => {
     return <div>Loading...</div>;
   }
 
-  // console.log(boardList);
-  sessionStorage.setItem("boardList", boardList);
+  console.log(boardList);
   
-
   const onClickEdit = async (event) => {
     navigate(`/create/${id}`);
   };
@@ -116,8 +114,7 @@ const BoardDetail = () => {
           댓글 작성
         </Button>
       </Stack>
-      
-      <NearPost />
+      <NearPost boardList={boardList} currentId={id}/>
       <div className="footer-save" />
       <Footer />
     </div>
