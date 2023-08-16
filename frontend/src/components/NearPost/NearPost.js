@@ -3,14 +3,15 @@ import "./NearPost.scoped.css";
 import { useNavigate } from "react-router-dom";
 
 const NearPost = ({ boardList, currentId }) => {
+  
   let navigate = useNavigate();
 
   const goToDetail = (pageId) => {
     navigate(`/board/detail/${pageId}`);
   };
-
+  console.log(currentId+" currentId");
   const currentIndex = boardList.findIndex((post) => post.boardId === currentId);
-
+  console.log(currentIndex);
   const prevPost = currentIndex > 0 ? boardList[currentIndex - 1] : null;
   const nextPost =
     currentIndex < boardList.length - 1 ? boardList[currentIndex + 1] : null;
