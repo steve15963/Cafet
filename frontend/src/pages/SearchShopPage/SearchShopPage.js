@@ -9,15 +9,9 @@ import SearchShopMap from "../../components/SearchShopMap/SearchShopMap";
 
 import Grid from "@mui/material/Grid";
 
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-
 const SearchShopPage = () => {
 
   const [region, setRegion] = useState("");
-  const [animal, setAnimal] = useState("");
   const [cafeList, setCafeList] = useState([]);
 
   useEffect(() => {
@@ -31,10 +25,6 @@ const SearchShopPage = () => {
         setRegion("")
       });
   }, []);
-
-  const handleAnimalChange = (e) => {
-    setAnimal(e.target.value);
-  };
 
   const onChangeSearch = useCallback((e) => {
     const newValue = e.target.value;
@@ -72,20 +62,6 @@ const SearchShopPage = () => {
               <input value={region} onChange={onChangeSearch} />
               <button onClick={handleRegionSearchClick}>검색</button>
             </div>
-            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-              <InputLabel id="select-animal-label">Animal</InputLabel>
-              <Select
-                labelId="select-animal-label"
-                id="select-animal"
-                value={animal}
-                label="Animal"
-                onChange={handleAnimalChange}
-              >
-                <MenuItem value={"강아지"}>강아지</MenuItem>
-                <MenuItem value={"고양이"}>고양이</MenuItem>
-                <MenuItem value={"기타"}>기타</MenuItem>
-              </Select>
-            </FormControl>
           </div>
           <div className="list-wrapper">
             {cafeList.map((el) => (

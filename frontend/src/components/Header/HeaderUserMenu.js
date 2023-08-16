@@ -41,7 +41,7 @@ const HeaderUserMenu = () => {
           로그아웃
         </Link>
         <Link to={"/mypage"} className="header-link">
-          가게 페이지
+          마이페이지
         </Link>
       </Stack>
     </div>

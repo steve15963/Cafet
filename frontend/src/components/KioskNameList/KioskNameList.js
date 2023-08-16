@@ -1,22 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./KioskNameList.scoped.css";
+import useKioskList from "../../hooks/useKioskList";
 
 const KioskNameList = () => {
-  const [nameList, setNameList] = useState([]);
+  const { nameList, loading } = useKioskList();
 
-  useEffect(() => {
-    async function fetchNameList() {
-      try {
-        const response = await fetch("서버 API 주소");
-        const data = await response.json();
-        setNameList(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-
-    fetchNameList();
-  }, []);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>

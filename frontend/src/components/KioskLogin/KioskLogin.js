@@ -18,14 +18,15 @@ const KioskLogin = () => {
     try {
       const response = await handleKioskLogin(email, password);
       console.log(response.headers);
-      localStorage.setItem("userId", response.data.userId);
+      localStorage.setItem("shopId", response.data.shopId);
+      localStorage.setItem("levelCode", response.data.levelCode);
       localStorage.setItem(
         "sessionToken",
         response.headers.get("Authorization")
       );
       console.log("Login success : ");
       alert("로그인에 성공하셨습니다.");
-      navigate("/kiosk/main", { replace: true });
+      navigate("/kiosk/list", { replace: true });
     } catch (error) {
       console.error("Login failed:");
       alert("로그인에 실패하셨습니다.");
