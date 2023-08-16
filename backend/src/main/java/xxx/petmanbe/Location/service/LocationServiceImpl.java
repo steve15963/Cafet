@@ -90,6 +90,8 @@ public class LocationServiceImpl implements LocationService {
 			);
 		}
 
+		log.info("location {}", build );
+
 		return build;
 	}
 
