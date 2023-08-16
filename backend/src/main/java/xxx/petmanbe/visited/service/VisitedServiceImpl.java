@@ -31,9 +31,9 @@ public class VisitedServiceImpl implements VisitedService{
 
 
     @Override
-    public Boolean getVisitedDate(GetVisitedDateDto getVisitedDateDto) {
+    public Boolean getVisitedDate(long userId, long shopId) {
 
-        Visited visited = visitedRepository.findByUserShopJpql(getVisitedDateDto.getUserId(), getVisitedDateDto.getShopId())
+        Visited visited = visitedRepository.findByUserShopJpql(userId, shopId)
             .orElseThrow(()-> new RestApiException(VisitErrorCode.VISIT_NOT_FOUND));
 
         return true;

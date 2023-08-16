@@ -20,10 +20,10 @@ public class VisitedController {
 
     private final VisitedService visitedService;
 
-    @GetMapping("")
-    public ResponseEntity<Boolean> GetVisitedDate(@RequestBody GetVisitedDateDto getVisitedDateDto){
+    @GetMapping("/{userId}/{shopId}")
+    public ResponseEntity<Boolean> GetVisitedDate(@PathVariable long userId, @PathVariable long shopId){
 
-        Boolean visit = visitedService.getVisitedDate(getVisitedDateDto);
+        Boolean visit = visitedService.getVisitedDate(userId, shopId);
 
         return new ResponseEntity<>(visit, HttpStatus.OK);
     }
