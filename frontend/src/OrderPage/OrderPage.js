@@ -1,43 +1,55 @@
 import React, { useEffect, useState } from "react";
 
-import SockJS from "sockjs-client";
-import Stomp from "stompjs";
-import { v4 as uuid } from "uuid";
+// import SockJS from "sockjs-client";
+// import Stomp from "stompjs";
+// import { v4 as uuid } from "uuid";
 
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import "./OrderPage.scoped.css";
+import "./OrderPage.css";
 
-const OrderPage = () => {
+import Item from "./Item.js"
+
+const OrderPage = ({onDataFromChild}) => {
   const { shopId, tableId } = useParams();
   const [menuList, setMenuList] = useState([]);
-  const [menuId] = useState("");
-  const [menuType] = useState("");
-  const [menuPrice] = useState("");
 
-  const [id] = useState(uuid());
+  
 
-  var sock = new SockJS("https://i9a105.p.ssafy.io/order");
-  let client = Stomp.over(sock);
 
-  const setMessage = () => {
-    // console.log(sock);
-    client.send(
-      "/app/message",
-      {},
-      JSON.stringify({
-        shopId: shopId,
-        tableId: tableId,
-        content: menuType,
-        uuid: id,
-      })
-    );
-  };
+  // const [receivedData, setReceivedData] = useState([])
+  const handleChildData=(dataFromChild)=>{
+    console.log(" "+dataFromChild)
+    // setReceivedData(dataFromChild)
+    // console.log(receivedData)
+    onDataFromChild(dataFromChild)
+  }
+
+  // const [id] = useState(uuid());
+
+  // var sock = new SockJS("https://i9a105.p.ssafy.io/order");
+  // let client = Stomp.over(sock);
+
+  // const setMessage = () => {
+  //   // console.log(sock);
+  //   client.send(
+  //     "/app/message",
+  //     {},
+  //     JSON.stringify({
+  //       shopId: shopId,
+  //       tableId: tableId,
+  //       content: "menuType",
+  //       uuid: id,
+  //     })
+  //   );
+  // };
 
   useEffect(() => {
     getMenuList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  
 
   const getMenuList = async () => {
     const resp = await (
@@ -47,86 +59,32 @@ const OrderPage = () => {
     // console.log(resp)
   };
 
+
+
   return (
-    <div className="Center">
+    <div>
       <p></p>
       <button className="button1"> 애견 정보 </button>
 
       <br></br>
-      <div>
+      <div className="title">
         shop : {shopId}, table : {tableId}
       </div>
       <br></br>
       <br></br>
+      {/* <div>{receivedData}</div> */}
 
-      <div>{menuId}</div>
-      <div>{menuType}</div>
-      <div>{menuPrice}</div>
-
-      <div>
-        <div>
+      <div className>
+        <div className>
           {menuList &&
-            menuList.map((menu) => (
-              <div>
-                <div>
-                  <img src={menu.menuFile.url} alt=""></img>
-                </div>
-                <div>{menu.menuType}</div>
-                <div>
-                  {menu.getMenuPriceSizeDtoList.map((menuPriceSize) => (
-                    <div>
-                      <div>
-                        {menuPriceSize.menuSize} : {menuPriceSize.menuPrice}{" "}
-                      </div>
-                    </div>
-                  ))}
-                  <button
-                    className="button2"
-                    variant="primary"
-                    onClick={setMessage}
-                  >
-                    {" "}
-                    담기{" "}
-                  </button>
-                  <br></br>
-                  <br></br>
-                </div>
+            menuList.map((item) => (
+              <div className="orderItem1">
+              <Item item={item} onDataFromChild= {handleChildData}/>
               </div>
             ))}
         </div>
       </div>
       <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      {/* 
-        <div className="product_container">
-            <div className="product">
-                <div className="product_img_div">
-                <img src="https://picturepractice.s3.ap-northeast-2.amazonaws.com/Kiosk/starbucks.jpg" alt=""></img>
-                </div>
-                <h5 className="product_title">아메리카노</h5>
-                <div className="product_mon">5500원</div>
-                <button className="button2"> 담기 </button>
-            </div>
-            <div className="product">
-                <div className="product_img_div">
-                <img src="https://picturepractice.s3.ap-northeast-2.amazonaws.com/Kiosk/latte.png" alt=""></img>
-                </div>
-                <h5 className="product_title">카페라떼</h5>
-                <div className="product_mon">6000원</div>
-                <button className="button2"> 담기 </button>
-            </div>
-            <div className="product">
-            <div className="product_img_div">
-            <img src="https://picturepractice.s3.ap-northeast-2.amazonaws.com/Kiosk/caramel.png" alt=""></img>
-            </div>
-            <h5 className="product_title">카라멜 마끼아또</h5>
-            <div className="product_mon">6500원</div>
-            <button className="button2" variant="primary" onClick={setMessage}> 담기 </button>
-            </div>
-        </div> */}
     </div>
   );
 };
