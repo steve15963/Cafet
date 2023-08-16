@@ -32,15 +32,18 @@ public class HitMapServiceImpl implements HitMapService{
 
 		HitMapResponseDto hitMapResponseDto = new HitMapResponseDto();
 
-		hitMapResponseDto.setMax(locations.size());
+
 
 		List<Point> data = hitMapResponseDto.getData();
-
+		double max = 0;
 		for(PetLocation petLocation : locations){
+			max = Math.max(max,petLocation.getX());
+			max = Math.max(max,petLocation.getY());
 			data.add(
 				new Point(Math.round(petLocation.getX()),Math.round(petLocation.getY()),1L)
 			);
 		}
+		hitMapResponseDto.setMax((long)max);
 		return hitMapResponseDto;
 	}
 }
