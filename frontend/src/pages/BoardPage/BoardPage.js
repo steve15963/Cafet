@@ -223,8 +223,10 @@ const BoardPage = () => {
                           <TableCell onClick={() => goToDetail(row.boardId)}>
                             {row.boardTitle}
                           </TableCell>
-                          <TableCell>{row.nickname}</TableCell>
-                          <TableCell>{formatTime(row.createdTime)}</TableCell>
+                          <TableCell align="center">{row.nickname}</TableCell>
+                          <TableCell align="center">
+                            {formatTime(row.createdTime)}
+                          </TableCell>
                           <TableCell align="center">{row.viewCnt}</TableCell>
                           <TableCell align="center">{row.commentSum}</TableCell>
                         </TableRow>
@@ -280,8 +282,10 @@ const BoardPage = () => {
                           <TableCell onClick={() => goToDetail(row.boardId)}>
                             {row.boardTitle}
                           </TableCell>
-                          <TableCell>{row.nickname}</TableCell>
-                          <TableCell>{formatTime(row.createdTime)}</TableCell>
+                          <TableCell align="center">{row.nickname}</TableCell>
+                          <TableCell align="center">
+                            {formatTime(row.createdTime)}
+                          </TableCell>
                           <TableCell align="center">{row.viewCnt}</TableCell>
                           <TableCell align="center">{row.commentSum}</TableCell>
                         </TableRow>
@@ -337,8 +341,10 @@ const BoardPage = () => {
                           <TableCell onClick={() => goToDetail(row.boardId)}>
                             {row.boardTitle}
                           </TableCell>
-                          <TableCell>{row.nickname}</TableCell>
-                          <TableCell>{formatTime(row.createdTime)}</TableCell>
+                          <TableCell align="center">{row.nickname}</TableCell>
+                          <TableCell align="center">
+                            {formatTime(row.createdTime)}
+                          </TableCell>
                           <TableCell align="center">{row.viewCnt}</TableCell>
                           <TableCell align="center">{row.commentSum}</TableCell>
                         </TableRow>
@@ -394,8 +400,10 @@ const BoardPage = () => {
                           <TableCell onClick={() => goToDetail(row.boardId)}>
                             {row.boardTitle}
                           </TableCell>
-                          <TableCell>{row.nickname}</TableCell>
-                          <TableCell>{formatTime(row.createdTime)}</TableCell>
+                          <TableCell align="center">{row.nickname}</TableCell>
+                          <TableCell align="center">
+                            {formatTime(row.createdTime)}
+                          </TableCell>
                           <TableCell align="center">{row.viewCnt}</TableCell>
                           <TableCell align="center">{row.commentSum}</TableCell>
                         </TableRow>
