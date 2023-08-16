@@ -8,6 +8,7 @@ import xxx.petmanbe.tag.entity.Tag;
 
 @Getter
 public class UpdateBoardRequestDto {
+	private Long boardId;
 	private String boardTitle;
 	private String boardContent;
 	private String categoryName;

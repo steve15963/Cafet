@@ -324,14 +324,14 @@ public class BoardServiceImpl implements BoardService{
 	// 게시글 수정: 제목, 내용, 카테고리, 태그
 	@Transactional
 	@Override
-	public Board putBoard(Long boardId, UpdateBoardRequestDto request){
+	public Board putBoard(UpdateBoardRequestDto request){
 
 		// 게시글 정보 가져와서
-		Board board = boardRepository.findById(boardId)
+		Board board = boardRepository.findById(request.getBoardId())
 			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
 		// 해당 id를 가지는 게시글 정보 바꾸기
-		board.updateBoard(boardId, request);
+		board.updateBoard(request);
 
 		// 게시글 내용에서 <script> 태그 내용 제거
 		// 정규 표현식 패턴 생성
@@ -359,7 +359,7 @@ public class BoardServiceImpl implements BoardService{
 		board.setCategory(category);
 
 		// 기존 태그 목록 확인
-		for (AttachBoard curTag : attachBoardRepository.findByBoard_BoardId(boardId)) {
+		for (AttachBoard curTag : attachBoardRepository.findByBoard_BoardId(request.getBoardId())) {
 
 			// 수정된 태그들의 id 리스트
 			List<Long> tagIdList = request.getTagList().stream()
@@ -368,7 +368,7 @@ public class BoardServiceImpl implements BoardService{
 			// 만약 해당 id가 없으면
 			if (!tagIdList.contains(curTag.getTag().getTagId())){
 				// 태그 리스트에서 제거
-				attachBoardRepository.deleteByBoard_BoardIdAndTag_TagId(boardId, curTag.getTag().getTagId());
+				attachBoardRepository.deleteByBoard_BoardIdAndTag_TagId(request.getBoardId(), curTag.getTag().getTagId());
 			}
 		}
 
@@ -376,7 +376,7 @@ public class BoardServiceImpl implements BoardService{
 		for (TagListResponseDto updatedTag : request.getTagList()){
 
 			// 현재 등록되어 있는 태그 id 목록
-			List<Long> tagList = attachBoardRepository.findByBoard_BoardId(boardId).stream()
+			List<Long> tagList = attachBoardRepository.findByBoard_BoardId(request.getBoardId()).stream()
 				.map(AttachBoard::getTag)
 				.map(Tag::getTagId)
 				.collect(Collectors.toList());

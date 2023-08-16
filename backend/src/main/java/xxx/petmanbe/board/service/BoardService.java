@@ -53,7 +53,7 @@ public interface BoardService {
 	List<BoardListResponseDto> getLikeBoardListByUserId(Long userId);
 
 	// 게시글 수정
-	Board putBoard(Long boardId, UpdateBoardRequestDto request);
+	Board putBoard(UpdateBoardRequestDto request);
 
 	// 해당 게시글에 해당 유저 좋아요 추가
 	void postLike(LikeRequestDto request);

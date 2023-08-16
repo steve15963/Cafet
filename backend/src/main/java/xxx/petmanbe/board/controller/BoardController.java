@@ -207,11 +207,11 @@ public class BoardController {
 	}
 
 	// 게시글 수정하기
-	@PutMapping("/{boardId}")
-	public ResponseEntity<Integer> putBoard(@PathVariable Long boardId, @RequestBody UpdateBoardRequestDto request){
+	@PutMapping("")
+	public ResponseEntity<Integer> putBoard(@RequestBody UpdateBoardRequestDto request){
 
 		// 수정
-		boardService.putBoard(boardId, request);
+		boardService.putBoard(request);
 
 		// 결과 전달
 		return new ResponseEntity<>(HttpStatus.OK);

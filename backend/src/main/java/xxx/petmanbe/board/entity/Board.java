@@ -1,8 +1,6 @@
 package xxx.petmanbe.board.entity;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -80,7 +78,7 @@ public class Board extends BaseTimeEntity {
 	private List<BoardFile> boardFileList;
 
 	// 게시글 수정을 위한 메소드
-	public void updateBoard(Long boardId, UpdateBoardRequestDto request){
+	public void updateBoard(UpdateBoardRequestDto request){
 		this.boardTitle = request.getBoardTitle();
 		this.boardContent = request.getBoardContent();
 	}
