@@ -189,7 +189,7 @@ const BoardPage = () => {
           <CustomTabPanel value={value} index={0}>
             <h1>전체 게시판</h1>
             <div className="btn-wrapper">
-              <Button text={"글 작성"} onClick={goToCreate} />
+              <Button type="write" text={"글 작성"} onClick={goToCreate} />
             </div>
             <Paper sx={{ width: "100%", overflow: "hidden" }}>
               <TableContainer component={Paper}>
@@ -248,7 +248,7 @@ const BoardPage = () => {
           <CustomTabPanel value={value} index={1}>
             <h1>자유게시판</h1>
             <div className="btn-wrapper">
-              <Button text={"글 작성"} onClick={goToCreate} />
+              <Button type="write" text={"글 작성"} onClick={goToCreate} />
             </div>
             <Paper sx={{ width: "100%", overflow: "hidden" }}>
               <TableContainer component={Paper}>
@@ -307,7 +307,7 @@ const BoardPage = () => {
           <CustomTabPanel value={value} index={2}>
             <h1>질문게시판</h1>
             <div className="btn-wrapper">
-              <Button text={"글 작성"} onClick={goToCreate} />
+              <Button type="write" text={"글 작성"} onClick={goToCreate} />
             </div>
             <Paper sx={{ width: "100%", overflow: "hidden" }}>
               <TableContainer component={Paper}>
@@ -366,7 +366,7 @@ const BoardPage = () => {
           <CustomTabPanel value={value} index={3}>
             <h1>홍보게시판</h1>
             <div className="btn-wrapper">
-              <Button text={"글 작성"} onClick={goToCreate} />
+              <Button type="write" text={"글 작성"} onClick={goToCreate} />
             </div>
             <Paper sx={{ width: "100%", overflow: "hidden" }}>
               <TableContainer component={Paper}>
