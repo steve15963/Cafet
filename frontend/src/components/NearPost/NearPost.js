@@ -13,7 +13,8 @@ const NearPost = ({boardList, currentId}) => {
   };
 
   const currentIndex = boardList.findIndex((post) => post.id === currentId);
-
+  console.log(currentId);
+  console.log(boardList);
   const prevPost = boardList[currentIndex - 1];
   const nextPost = boardList[currentIndex + 1];
   console.log(prevPost);
