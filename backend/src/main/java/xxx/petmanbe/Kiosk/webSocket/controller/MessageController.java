@@ -23,11 +23,11 @@ public class MessageController {
 	// @SendTo("/topic/message") // 보내고
 	public OrderResponseDto sending(MessageDto message) throws InterruptedException {
 		Thread.sleep(100);
-		
+
 		// System.out.println(message.getContent());
 
 		boolean a = webSocketService.saveMessage(message);
-		String messages = webSocketService.changeToMsg(message.getContent());
+		String messages = webSocketService.changeToMsg(message.getTableId(), message.getContent());
 
 		System.out.println("메시지는"+messages);
 

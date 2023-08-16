@@ -58,7 +58,7 @@ public class WebSocketServiceImpl implements WebSocketService{
 	}
 
 	@Override
-	public String changeToMsg(MessageDto.Content messages) {
+	public String changeToMsg(long tableId, MessageDto.Content messages) {
 
 		String[][] list = messages.getProps().getData();
 
