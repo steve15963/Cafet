@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import xxx.petmanbe.tag.dto.request.AddTagRequestDto;
 import xxx.petmanbe.tag.entity.Tag;
 import xxx.petmanbe.tag.repository.TagRepository;
 
