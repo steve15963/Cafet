@@ -7,7 +7,6 @@ const NearPost = ({boardList, currentId}) => {
 
   let navigate = useNavigate();
   
-  // eslint-disable-next-line
   const goToDetail = (pageId) => {
     navigate(`/board/detail/${pageId}`);
   };
@@ -15,28 +14,27 @@ const NearPost = ({boardList, currentId}) => {
   const currentIndex = boardList.findIndex((post) => post.id === currentId);
   console.log(currentId);
   console.log(boardList);
-  const prevPost = boardList[currentIndex - 1];
-  const nextPost = boardList[currentIndex + 1];
-  console.log(prevPost);
-  console.log(nextPost);
+  
+  const prevId = currentIndex < boardList.length - 1 ? boardList[currentIndex + 1].boardId : null;
+  const nextId = currentIndex > 0 ? boardList[currentIndex - 1].boardId : null;
   
   return (
     <div>
     <ul>
-    {/* {nextId !== "null" && (
+    {nextId !== "null" && (
         <div className="nearpost">
           <div className="nearpost_left">{"다음 글"}</div>
-          <div className="nearpost_center" onClick={() => goToDetail(nextId)} >{nextTitle}</div>
-          <div className="nearpost_right">{nextNickname}</div>
+          <div className="nearpost_center" onClick={() => goToDetail(nextId)} >{boardList[currentIndex - 1].boardTitle}</div>
+          <div className="nearpost_right">{boardList[currentIndex - 1].nickname}</div>
         </div>
       )}
       {prevId !== "null" && (
         <div className="nearpost">
           <div className="nearpost_left">{"이전 글"}</div>
-          <div className="nearpost_center" onClick={() => goToDetail(prevId)}>{prevBoard.prevTitle}</div>
-          <div className="nearpost_right">{prevNickname}</div>
+          <div className="nearpost_center" onClick={() => goToDetail(prevId)}>{boardList[currentIndex + 1].boardTitle}</div>
+          <div className="nearpost_right">{boardList[currentIndex + 1].nickname}</div>
         </div>
-      )} */}
+      )}
     </ul>
   </div>
   
