@@ -218,7 +218,7 @@ public class BoardServiceImpl implements BoardService{
 
 	}
 
-	// 전체 게시글 보기, 메인용
+	// 전체 게시글 보기
 	@Override
 	public List<BoardListResponseDto> getBoardList(){
 
@@ -505,23 +505,17 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public String removeTags(String boardContent) {
 		// 정규 표현식 패턴 생성
-		String patternString = "<[^>]*>"; // 태그 내용 제거
+		String patternString = "<p>(?!&nbsp;)(.*?)</p>"; // <p> 태그 내용 찾기, 단 &nbsp; 아닌 경우만
 		Pattern pattern = Pattern.compile(patternString);
 
-		// 문자열 내에서 패턴 검색 및 치환
+		// 문자열 내에서 패턴 검색
 		Matcher matcher = pattern.matcher(boardContent);
-		StringBuilder result = new StringBuilder();
-		while (matcher.find()) {
-			String tag = matcher.group();
-			if (tag.equals("&nbsp;")) {
-				matcher.appendReplacement(result, " "); // &nbsp;를 띄어쓰기로 대체
-			} else {
-				matcher.appendReplacement(result, ""); // 다른 태그는 제거
-			}
+		if (matcher.find()) {
+			// 결과 반환
+			return matcher.group(1);
+		} else {
+			// &nbsp; 아닌 <p> 태그가 없으면 그대로 빈문자열 반환
+			return "";
 		}
-		matcher.appendTail(result);
-
-		// 결과 반환
-		return result.toString();
 	}
 }
