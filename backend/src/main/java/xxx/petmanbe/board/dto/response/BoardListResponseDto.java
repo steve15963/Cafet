@@ -21,6 +21,7 @@ public class BoardListResponseDto {
 	private int likeSum;
 	private int commentSum;
 	private int viewCnt;
+	private boolean status;
 	private LocalDateTime createdTime;
 
 	@Builder
@@ -34,6 +35,7 @@ public class BoardListResponseDto {
 		this.categoryName = board.getCategory().getCategoryName();
 		this.likeSum = board.getLikeSum();
 		this.viewCnt = board.getViewCnt();
+		this.status = board.isStatus();
 		this.commentSum = board.getCommentSum();
 		this.createdTime = board.getCreatedTime();
 	}

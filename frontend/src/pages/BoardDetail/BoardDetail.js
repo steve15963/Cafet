@@ -65,7 +65,6 @@ const BoardDetail = () => {
     }
   };
   const userId = Number(localStorage.getItem("userId"));
-  // console.log(typeof userId);
 
   return (
     <div className="boarddetail-container">
@@ -108,6 +107,7 @@ const BoardDetail = () => {
           댓글 작성
         </Button>
       </Stack>
+      
       <NearPost />
       <div className="footer-save" />
       <Footer />

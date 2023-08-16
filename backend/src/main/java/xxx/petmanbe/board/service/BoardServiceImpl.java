@@ -82,6 +82,10 @@ public class BoardServiceImpl implements BoardService{
 		// 제거된 문자열로 boardContent 최신화
 		board.setBoardContent(String.valueOf(result));
 
+		// 썸네일 변경
+		String newThumbnail = getFirstImg(request.getBoardContent());
+		board.setThumbnail(newThumbnail);
+
 		// 카테고리 찾고
 		Category category = categoryRepository.findByCategoryName(request.getCategoryName())
 			.orElseThrow(() -> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
@@ -171,10 +175,6 @@ public class BoardServiceImpl implements BoardService{
 		Board board = boardRepository.findById(boardId)
 			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
-		// 썸네일 따기
-		String thumbnail = getFirstImg(board.getBoardContent());
-		board.setThumbnail(thumbnail);
-
 		// 게시글에 달린 댓글 목록 가져오기
 		List<CommentResponseDto> commentList = board.getCommentList().stream()
 			.map(CommentResponseDto::new)
@@ -218,7 +218,7 @@ public class BoardServiceImpl implements BoardService{
 
 	}
 
-	// 전체 게시글 보기, 메인용
+	// 전체 게시글 보기
 	@Override
 	public List<BoardListResponseDto> getBoardList(){
 
@@ -332,6 +332,22 @@ public class BoardServiceImpl implements BoardService{
 
 		// 해당 id를 가지는 게시글 정보 바꾸기
 		board.updateBoard(boardId, request);
+
+		// 게시글 내용에서 <script> 태그 내용 제거
+		// 정규 표현식 패턴 생성
+		String patternString = "<script[^>]*>.*?</script>";
+		Pattern pattern = Pattern.compile(patternString);
+
+		// 문자열 내에서 패턴 검색
+		Matcher matcher = pattern.matcher(board.getBoardContent());
+		StringBuilder result = new StringBuilder();
+		while (matcher.find()) {
+			matcher.appendReplacement(result, "");
+		}
+		matcher.appendTail(result);
+
+		// 제거된 문자열로 boardContent 최신화
+		board.setBoardContent(String.valueOf(result));
 
 		// 썸네일 변경
 		String newThumbnail = getFirstImg(request.getBoardContent());
@@ -489,23 +505,17 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public String removeTags(String boardContent) {
 		// 정규 표현식 패턴 생성
-		String patternString = "<[^>]*>"; // 태그 내용 제거
+		String patternString = "<p>(?!&nbsp;)(.*?)</p>"; // <p> 태그 내용 찾기, 단 &nbsp; 아닌 경우만
 		Pattern pattern = Pattern.compile(patternString);
 
-		// 문자열 내에서 패턴 검색 및 치환
+		// 문자열 내에서 패턴 검색
 		Matcher matcher = pattern.matcher(boardContent);
-		StringBuilder result = new StringBuilder();
-		while (matcher.find()) {
-			String tag = matcher.group();
-			if (tag.equals("&nbsp;")) {
-				matcher.appendReplacement(result, " "); // &nbsp;를 띄어쓰기로 대체
-			} else {
-				matcher.appendReplacement(result, ""); // 다른 태그는 제거
-			}
+		if (matcher.find()) {
+			// 결과 반환
+			return matcher.group(1);
+		} else {
+			// &nbsp; 아닌 <p> 태그가 없으면 그대로 빈문자열 반환
+			return "";
 		}
-		matcher.appendTail(result);
-
-		// 결과 반환
-		return result.toString();
 	}
 }
