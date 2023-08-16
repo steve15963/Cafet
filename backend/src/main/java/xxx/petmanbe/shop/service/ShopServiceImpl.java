@@ -30,7 +30,6 @@ import xxx.petmanbe.shop.repository.LikeShopRepository;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
 import xxx.petmanbe.shopPet.repository.ShopPetRepository;
-import xxx.petmanbe.tag.dto.request.AddTagRequestDto;
 import xxx.petmanbe.tag.dto.response.TagListResponseDto;
 import xxx.petmanbe.tag.entity.AttachShop;
 import xxx.petmanbe.tag.entity.Tag;
@@ -128,10 +127,10 @@ public class ShopServiceImpl implements ShopService{
 			// 만약 해당하는 이름의 태그가 없다면
 			if (tagRepository.findByStatusFalseAndTagName(response.getTagName()).isEmpty()){
 				// 태그 생성
-				AddTagRequestDto tagRequest = AddTagRequestDto.builder()
+				Tag tag = Tag.builder()
 					.tagName(response.getTagName())
 					.build();
-				tagRepository.save(tagRequest.toEntity());
+				tagRepository.save(tag);
 			}
 
 			// 태그 정보 가져오기

@@ -37,7 +37,6 @@ import xxx.petmanbe.exception.errorcode.UserErrorCode;
 import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
-import xxx.petmanbe.tag.dto.request.AddTagRequestDto;
 import xxx.petmanbe.tag.dto.response.TagListResponseDto;
 import xxx.petmanbe.tag.entity.AttachBoard;
 import xxx.petmanbe.tag.entity.Tag;
