@@ -1,9 +1,9 @@
 /* 모달창을 화면 중앙. 최상단에 노출 */
-body{
+/* body{
     color:black;
-}
+} */
 
-.minus{
+.Orderminus{
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -16,7 +16,7 @@ body{
   cursor: pointer;
 }
 
-.plus{
+.Orderplus{
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -38,7 +38,7 @@ body{
     }
   }
   
-  .modal {
+  .Ordermodal {
     /* 모달창 크기 */
     width: 80%;
     height: 60%;
@@ -64,12 +64,12 @@ body{
     border-radius: 5px;
     background: white;
   }
-  .message {
+  .Ordermessage {
     font-size:1.1rem;
     margin-bottom: 1.6rem;
     margin-top: 0;
   }
-  .btn {
+  .Orderbtn {
     color:inherit;
       font-family:inherit;
     font-size: inherit;
@@ -81,27 +81,27 @@ body{
     transition: all 0.2s;
   }
   
-  .btn:last-child {
+  .Orderbtn:last-child {
     margin: 0;
   }
   
-  .btn:hover {
+  .Orderbtn:hover {
     box-shadow: 0.4rem 0.4rem 0 black;
     transform: translate(-0.4rem, -0.4rem);
   }
   
-  .btn:active {
+  .Orderbtn:active {
     box-shadow: 0 0 0 black;
     transform: translate(0, 0);
   }
   
-  .options {
+  .Orderoptions {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
   }
   
-  .img_big {
+  .Orderimg_big {
     width: 300px;
     height: 200px;
     border-radius: 20%;
@@ -111,7 +111,7 @@ body{
 
 
 
-.mod {
+.Ordermod {
     /* 모달창 크기 */
     width: 75%;
     height: 75%;
@@ -134,7 +134,7 @@ body{
   }
   
   /* 모달창 내부 X버튼 */
-  .close {
+  .Orderclose {
     position: absolute;
     right: 10px;
     top: 10px;

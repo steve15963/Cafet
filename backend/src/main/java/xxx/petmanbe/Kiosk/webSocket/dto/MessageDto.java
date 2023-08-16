@@ -13,24 +13,15 @@ public class MessageDto {
 	// private Menu menu;
 	private long shopId;
 
-	private Content content;
-
 	private long tableId;
+
+	public String[][] content;
 
 	@Getter
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class Content{
-		private Props props;
-	}
-
-	@Getter
-	@NoArgsConstructor
-	@AllArgsConstructor
-	public static class Props{
-
 		public String[][] data;
-
 	}
 
 	// @Getter

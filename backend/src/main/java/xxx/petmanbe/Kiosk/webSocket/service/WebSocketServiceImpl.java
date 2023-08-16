@@ -51,18 +51,14 @@ public class WebSocketServiceImpl implements WebSocketService{
 
 		return chatRoomRepository.count();
 	}
+	
+	public String changeToMsg(long tableId, String[][] list) {
+		
+		String msg = tableId +" 테이블"+"\n";
 
-	@Override
-	public String changeToMsg(long tableId, MessageDto.Content messages) {
-
-		String[][] list = messages.getProps().getData();
-
-		StringBuilder msg = new StringBuilder(tableId + "테이블" + "\n");
-
-		System.out.println(list.length);
-
-		for (String[] info : list) {
-			msg.append(info[0]).append(" ").append(info[3]).append(" ").append(info[2]).append(" 개").append("\n");
+		for(int i=0 ; i<list.length ; i++){
+			String[] info = list[i];
+			msg+= info[0]+" "+info[3]+" "+info[2]+" 개"+'\n';
 		}
 
 		return msg.toString();

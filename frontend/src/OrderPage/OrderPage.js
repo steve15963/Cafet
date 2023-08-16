@@ -64,10 +64,10 @@ const OrderPage = ({onDataFromChild}) => {
   return (
     <div>
       <p></p>
-      <button className="button1"> 애견 정보 </button>
+      <button className="Orderbutton1"> 애견 정보 </button>
 
       <br></br>
-      <div className="title">
+      <div className="Ordertitle">
         shop : {shopId}, table : {tableId}
       </div>
       <br></br>
@@ -78,7 +78,7 @@ const OrderPage = ({onDataFromChild}) => {
         <div className>
           {menuList &&
             menuList.map((item) => (
-              <div className="orderItem1">
+              <div className="OrderorderItem1">
               <Item item={item} onDataFromChild= {handleChildData}/>
               </div>
             ))}

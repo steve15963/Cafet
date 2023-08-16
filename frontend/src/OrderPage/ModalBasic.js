@@ -50,12 +50,12 @@ const ModalBasic = ({setModalOpen, data, onDataToParent}) => {
 
   return (
     <div>
-    <div className="modal">
-        <p class="message">주문하세요!</p>
+    <div className="Ordermodal">
+        <p class="Ordermessage">주문하세요!</p>
         <h1>{data.menuType}</h1>
 
         <div className="">
-                <img className="img_big" src={data.menuFile.url} alt=""></img>
+                <img className="Orderimg_big" src={data.menuFile.url} alt=""></img>
                 <div>
                   {data.getMenuPriceSizeDtoList.map((menuPriceSize) => (
                     <div>
@@ -64,19 +64,19 @@ const ModalBasic = ({setModalOpen, data, onDataToParent}) => {
                       </span>
                     </div>
                   ))}
-                  <button className="minus" onClick ={handleDecrement}> - </button>
+                  <button className="Orderminus" onClick ={handleDecrement}> - </button>
                   <span>  {quantity}  </span>
-                <button className="plus" onClick = {handleIncrement}> + </button>
+                <button className="Orderplus" onClick = {handleIncrement}> + </button>
                     <br></br>
                     <button
-                    className="button2"
+                    className="Orderbutton2"
                     onClick={()=>closeModal(data,{size},{price},quantity)}
                   >
                     담기</button>
 
                 </div>
     </div>
-    <button className="close" onClick={closeModalWithNo}>
+    <button className="Orderclose" onClick={closeModalWithNo}>
         X
     </button>
         </div>
