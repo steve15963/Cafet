@@ -14,11 +14,11 @@ import xxx.petmanbe.Location.dto.VO.Point;
 @Setter
 @ToString
 public class HitMapResponseDto {
-	long max;
+	// long max;
 	List<Point> data;
 
 	public HitMapResponseDto() {
-		max = 0;
+		// max = 0;
 		data = new ArrayList<>();
 	}
 }
