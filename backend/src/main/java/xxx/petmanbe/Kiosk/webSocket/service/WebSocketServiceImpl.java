@@ -62,7 +62,7 @@ public class WebSocketServiceImpl implements WebSocketService{
 
 		String[][] list = messages.getProps().getData();
 
-		String msg = "";
+		String msg = tableId +"테이블"+"\n";
 
 		System.out.println(list.length);
 
