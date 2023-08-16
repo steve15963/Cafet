@@ -14,13 +14,18 @@ import xxx.petmanbe.tag.repository.TagRepository;
 public class TagServiceImpl implements TagService {
 	private final TagRepository tagRepository;
 
-	// 태그 생성
+	// 태그 정보 가져오기
 	@Override
-	public Tag postTag(AddTagRequestDto request){
-		return tagRepository.save(request.toEntity());
+	public Tag getTag(String tagName){
+		// 있으면 결과 반환, 없으면 새로 생성
+		return tagRepository.findByStatusFalseAndTagName(tagName).orElseGet(
+			() -> Tag.builder()
+				.tagName(tagName)
+				.build()
+		);
 	}
 
-	// 태그 목록 보기
+	// 전체 태그 목록 보기
 	@Override
 	public List<Tag> getTagList(){
 		return tagRepository.findAll();

@@ -6,14 +6,13 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import xxx.petmanbe.tag.dto.request.AddTagRequestDto;
 import xxx.petmanbe.tag.dto.response.TagListResponseDto;
+import xxx.petmanbe.tag.entity.Tag;
 import xxx.petmanbe.tag.service.TagService;
 
 @RestController
@@ -22,14 +21,15 @@ import xxx.petmanbe.tag.service.TagService;
 public class TagController {
 	private final TagService tagService;
 
-	// 태그 등록하기
-	@PostMapping("/new")
-	public ResponseEntity<Integer> postTag(@RequestBody AddTagRequestDto request){
+	// 태그 정보 가져오기
+	@GetMapping("/{tagName}")
+	public ResponseEntity<Tag> getTag(@PathVariable String tagName){
 		
-		// 태그 등록
-		tagService.postTag(request);
+		// 태그 가져오기
+		Tag tag = tagService.getTag(tagName);
 
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		// 결과 반환
+		return new ResponseEntity<>(tag, HttpStatus.OK);
 	}
 
 	// 태그 보기

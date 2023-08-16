@@ -131,17 +131,9 @@ public class BoardServiceImpl implements BoardService{
 			defaultShop.ifPresent(board::setShop);
 		}
 
-		// 해당 게시글에 태그 붙이기, 없으면 태그 생성
+		// 해당 게시글에 태그 붙이기
 		for (TagListResponseDto response : request.getTagList()){
-			// 만약 해당하는 이름의 태그가 없다면
-			if (tagRepository.findByStatusFalseAndTagName(response.getTagName()).isEmpty()){
-				// 태그 생성
-				AddTagRequestDto tagRequest = AddTagRequestDto.builder()
-					.tagName(response.getTagName())
-					.build();
-				tagRepository.save(tagRequest.toEntity());
-			}
-			// 있으면 해당하는 태그 가져오기
+
 			Tag tag = tagRepository.findByStatusFalseAndTagName(response.getTagName())
 				.orElseThrow(() -> new RestApiException(TagErrorCode.TAG_NOT_FOUND));
 
@@ -391,15 +383,7 @@ public class BoardServiceImpl implements BoardService{
 				이 상태로 메소드를 유지함
 			 */
 			if (!tagList.contains(updatedTag.getTagId())){
-				
-				// 만약 태그가 없으면 만들기
-				if (tagRepository.findByStatusFalseAndTagName(updatedTag.getTagName()).isEmpty()){
-					Tag tag = Tag.builder()
-						.tagName(updatedTag.getTagName())
-						.build();
-					tagRepository.save(tag);
-				}
-				
+
 				// 부착정보 생성
 				Tag tag = tagRepository.findByStatusFalseAndTagName(updatedTag.getTagName())
 					.orElseThrow(() -> new RestApiException(TagErrorCode.TAG_NOT_FOUND));
