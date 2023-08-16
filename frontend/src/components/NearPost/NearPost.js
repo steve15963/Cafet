@@ -9,7 +9,7 @@ const NearPost = ({ boardList, currentId }) => {
     navigate(`/board/detail/${pageId}`);
   };
 
-  const currentIndex = boardList.findIndex((post) => post.id === currentId);
+  const currentIndex = boardList.findIndex((post) => post.boardId === currentId);
 
   const prevPost = currentIndex > 0 ? boardList[currentIndex - 1] : null;
   const nextPost =
@@ -23,7 +23,7 @@ const NearPost = ({ boardList, currentId }) => {
             <div className="nearpost_left">{"다음 글"}</div>
             <div
               className="nearpost_center"
-              onClick={() => goToDetail(nextPost.commentId)}
+              onClick={() => goToDetail(nextPost.boardId)}
             >
               {nextPost.boardTitle}
             </div>
@@ -35,7 +35,7 @@ const NearPost = ({ boardList, currentId }) => {
             <div className="nearpost_left">{"이전 글"}</div>
             <div
               className="nearpost_center"
-              onClick={() => goToDetail(prevPost.commentId)}
+              onClick={() => goToDetail(prevPost.boardId)}
             >
               {prevPost.boardTitle}
             </div>
