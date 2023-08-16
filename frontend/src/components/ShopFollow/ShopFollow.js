@@ -6,6 +6,8 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
 const ShopFollow = ({ userId, shopId, isFollowing, followState }) => {
+  // console.log(userId);
+  // console.log(shopId);
   const [btnStatus, setBtnStatus] = useState(false);
 
   const handleFollowFeat = () => {
@@ -20,8 +22,8 @@ const ShopFollow = ({ userId, shopId, isFollowing, followState }) => {
       axios
         .delete(`https://i9a105.p.ssafy.io/api/shop/like`, {
           data: {
-            userId,
-            shopId,
+            userId: userId,
+            shopId: shopId,
           },
         })
         .then(() => {
@@ -35,8 +37,8 @@ const ShopFollow = ({ userId, shopId, isFollowing, followState }) => {
       axios
         .post(`https://i9a105.p.ssafy.io/api/shop/like`, {
           data: {
-            userId,
-            shopId,
+            userId: userId,
+            shopId: shopId,
           },
         })
         .then(() => {
@@ -48,6 +50,7 @@ const ShopFollow = ({ userId, shopId, isFollowing, followState }) => {
         });
     }
   };
+
   return (
     <div>
       <IconButton onClick={handleFollowFeat}>
