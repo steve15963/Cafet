@@ -34,8 +34,12 @@ public class LocationServiceImpl implements LocationService {
 
 	private final useBeaconForPetLocationRepository useBeaconForPetLocationRepository;
 
-
-
+	/**
+	 * 아직 실력이 부족하여 완벽한 구현이 불가능하여
+	 * 비콘은 3개라는 가정하에 계산을 진행하는 위치 계산 메소드.
+	 * @param addPetLocationRequestDto
+	 * @return
+	 */
 	public PetLocation getTrilateration(AddPetLocationRequestDto addPetLocationRequestDto){
 		List<BeaconLocation> matchBeacon = findMatchBeacon(addPetLocationRequestDto);
 		if(matchBeacon == null)
@@ -106,6 +110,11 @@ public class LocationServiceImpl implements LocationService {
 		return build;
 	}
 
+	/**
+	 * 요청 값의 비콘들을 찾아서 반환하는 메소드.
+	 * @param addPetLocationRequestDto 요청값을 그대로 분석.
+	 * @return
+	 */
 	private List<BeaconLocation> findMatchBeacon(AddPetLocationRequestDto addPetLocationRequestDto){
 		Optional<Shop> byId = shopRepository.findById(addPetLocationRequestDto.shopId);
 		if(byId.isEmpty()){
