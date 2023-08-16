@@ -3,15 +3,49 @@
 import React from "react";
 import "./MainList.scoped.css";
 import Masonry from "@mui/lab/Masonry";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useBoardMainList from "../../hooks/useBoardMainList";
 
 const MainList = () => {
+  const navigate = useNavigate();
   const { boardList, loading } = useBoardMainList();
 
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  const goToDetail = (pageId) => {
+    const clickedIndex = boardList.findIndex((row) => row.boardId === pageId);
+
+    if (clickedIndex !== -1) {
+      const nextId =
+        clickedIndex > 0 ? boardList[clickedIndex - 1].boardId : null;
+      const prevId =
+        clickedIndex < boardList.length - 1
+          ? boardList[clickedIndex + 1].boardId
+          : null;
+      console.log(boardList);
+      sessionStorage.setItem("prevId", prevId);
+      sessionStorage.setItem(
+        "prevTitle",
+        boardList[clickedIndex + 1].boardTitle
+      );
+      sessionStorage.setItem(
+        "prevNickname",
+        boardList[clickedIndex + 1].nickname
+      );
+      sessionStorage.setItem("nextId", nextId);
+      sessionStorage.setItem(
+        "nextTitle",
+        boardList[clickedIndex - 1].boardTitle
+      );
+      sessionStorage.setItem(
+        "nextNickname",
+        boardList[clickedIndex - 1].nickname
+      );
+    }
+    navigate(`/board/detail/${pageId}`);
+  };
 
   return (
     <div className="mainlist">
@@ -21,6 +55,7 @@ const MainList = () => {
             to={`/board/detail/${item.boardId}`}
             key={item.boardId}
             state={item}
+            onClick={() => goToDetail(item.boardId)}
           >
             <div className="mainlist-card-container">
               <div className="mainlist-card">
