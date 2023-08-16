@@ -6,5 +6,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UpdateCommentRequestDto {
+	private Long commentId;
 	private String content;
 }

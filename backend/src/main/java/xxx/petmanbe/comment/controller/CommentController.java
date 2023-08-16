@@ -57,11 +57,11 @@ public class CommentController {
 	}
 
 	// 댓글 수정하기
-	@PutMapping("/{commentId}")
-	public ResponseEntity<Integer> putComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequestDto request){
+	@PutMapping("")
+	public ResponseEntity<Integer> putComment(@RequestBody UpdateCommentRequestDto request){
 
 		// 수정하기
-		commentService.putComment(commentId, request);
+		commentService.putComment(request);
 
 		// 결과 전달
 		return new ResponseEntity<>(HttpStatus.OK);

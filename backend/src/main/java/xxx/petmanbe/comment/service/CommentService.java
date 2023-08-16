@@ -19,7 +19,7 @@ public interface CommentService {
 	List<CommentResponseDto> getCommentListById(Long userId);
 
 	// 해당 댓글 수정하기
-	Comment putComment(Long commentId, UpdateCommentRequestDto request);
+	Comment putComment(UpdateCommentRequestDto request);
 
 	// 댓글 삭제(soft-delete)
 	Comment putCommentStatus(Long commentId);

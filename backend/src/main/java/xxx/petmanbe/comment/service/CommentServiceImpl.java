@@ -77,9 +77,9 @@ public class CommentServiceImpl implements CommentService {
 	// 댓글 수정하기
 	@Transactional
 	@Override
-	public Comment putComment(Long commentId, UpdateCommentRequestDto request){
+	public Comment putComment(UpdateCommentRequestDto request){
 		// 수정할 정보 가져오기
-		Comment comment = commentRepository.findById(commentId)
+		Comment comment = commentRepository.findById(request.getCommentId())
 			.orElseThrow(() -> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
 
 		// 해당 댓글 수정
