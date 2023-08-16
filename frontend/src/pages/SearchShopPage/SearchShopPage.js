@@ -27,6 +27,8 @@ const SearchShopPage = () => {
       })
       .catch(function (err) {
         console.log(err);
+        alert('검색결과가 없습니다')
+        setRegion("")
       });
   }, []);
 

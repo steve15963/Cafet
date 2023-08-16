@@ -20,6 +20,9 @@ import { yellow } from "@mui/material/colors";
 import { Avatar, Container } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 
+import IconButton from '@mui/material/IconButton';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
 import KioskAnimalListPage from "../KioskAnimalListPage/KioskAnimalListPage";
 
@@ -54,6 +57,8 @@ function a11yProps(index) {
 
 const ShopPage = () => {
   const { shopId } = useParams();
+  
+  const [follow, setFollow] = useState(false)
   const [tabValue, setTabValue] = useState(0);
   const [shopData, setShopData] = useState([]);
 
@@ -72,8 +77,8 @@ const ShopPage = () => {
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
-  const stars =
-    Math.round((shopData.totalScore / shopData.gradeCount) * 10) / 10;
+  const stars = Math.round((shopData.totalScore / shopData.gradeCount) * 10) / 10;
+  
   const displayStars = (stars) => {
     if (stars > 0) {
       return [...Array(stars)].map((e, i) => (
@@ -82,6 +87,11 @@ const ShopPage = () => {
     }
     return null;
   };
+
+  const isFollow = () => {
+    setFollow(!follow)
+  }
+
   return (
     <div>
       <Header />
@@ -110,6 +120,13 @@ const ShopPage = () => {
           >
             {displayStars(stars)}
           </Stack>
+          {/* 가게 북마크 */}
+          <IconButton onClick={isFollow}>
+            {
+              follow ? <BookmarkIcon color="primary" fontSize="large" /> :
+              <BookmarkBorderIcon color="primary" fontSize="large" />
+            }
+          </IconButton>
         </Stack>
         <Box sx={{ width: "100%", borderBottom: 1, borderColor: "divider" }}>
           <Tabs

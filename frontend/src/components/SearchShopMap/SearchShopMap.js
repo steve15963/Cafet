@@ -6,7 +6,6 @@ const { kakao } = window;
 const SearchShopMap = ({ cafeList }) => {
   const mapRef = useRef()
   const navigate = useNavigate();
-  console.log('지도:', cafeList)
 
   useEffect(() => {
     const container = document.getElementById('map') // 지도를 표시할 div 
