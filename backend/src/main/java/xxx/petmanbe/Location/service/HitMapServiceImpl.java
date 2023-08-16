@@ -43,7 +43,7 @@ public class HitMapServiceImpl implements HitMapService{
 				new Point(Math.round(petLocation.getX()),Math.round(petLocation.getY()),1L)
 			);
 		}
-		hitMapResponseDto.setMax((long)max);
+		hitMapResponseDto.setMax(locations.size());
 		return hitMapResponseDto;
 	}
 }
