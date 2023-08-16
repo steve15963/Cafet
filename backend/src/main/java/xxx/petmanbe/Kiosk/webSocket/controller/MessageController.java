@@ -2,6 +2,7 @@ package xxx.petmanbe.Kiosk.webSocket.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import xxx.petmanbe.Kiosk.webSocket.dto.MessageDto;
@@ -21,10 +22,6 @@ public class MessageController {
 	// @SendTo("/topic/message") // 보내고
 	public MessageDto sending(MessageDto message) throws InterruptedException {
 		Thread.sleep(100);
-
-		System.out.println(message.getShopId());
-		System.out.println(message.getContent());
-		System.out.println(message.getTableId());
 
 		boolean a = webSocketService.saveMessage(message);
 
