@@ -105,18 +105,34 @@ const BoardPage = () => {
     const clickedIndex = totalBoard.findIndex((row) => row.boardId === pageId);
 
     if (clickedIndex !== -1) {
-      const nextId = clickedIndex > 0 ? totalBoard[clickedIndex - 1].boardId : null;
-      const prevId = clickedIndex < totalBoard.length - 1 ? totalBoard[clickedIndex + 1].boardId : null;
+      const nextId =
+        clickedIndex > 0 ? totalBoard[clickedIndex - 1].boardId : null;
+      const prevId =
+        clickedIndex < totalBoard.length - 1
+          ? totalBoard[clickedIndex + 1].boardId
+          : null;
       console.log(totalBoard);
-      sessionStorage.setItem('prevId', prevId);
-      sessionStorage.setItem('prevTitle', totalBoard[clickedIndex + 1].boardTitle);
-      sessionStorage.setItem('prevNickname', totalBoard[clickedIndex + 1].nickname);
-      sessionStorage.setItem('nextId', nextId);
-      sessionStorage.setItem('nextTitle', totalBoard[clickedIndex - 1].boardTitle);
-      sessionStorage.setItem('nextNickname', totalBoard[clickedIndex - 1].nickname);
+      sessionStorage.setItem("prevId", prevId);
+      sessionStorage.setItem(
+        "prevTitle",
+        totalBoard[clickedIndex + 1].boardTitle
+      );
+      sessionStorage.setItem(
+        "prevNickname",
+        totalBoard[clickedIndex + 1].nickname
+      );
+      sessionStorage.setItem("nextId", nextId);
+      sessionStorage.setItem(
+        "nextTitle",
+        totalBoard[clickedIndex - 1].boardTitle
+      );
+      sessionStorage.setItem(
+        "nextNickname",
+        totalBoard[clickedIndex - 1].nickname
+      );
     }
     navigate(`/board/detail/${pageId}`);
-};
+  };
 
   const goToCreate = () => {
     navigate("/create");
@@ -173,7 +189,7 @@ const BoardPage = () => {
           <CustomTabPanel value={value} index={0}>
             <h1>전체 게시판</h1>
             <div className="btn-wrapper">
-              <Button text={"글 작성"} onClick={goToCreate} />
+              <Button type="write" text={"글 작성"} onClick={goToCreate} />
             </div>
             <Paper sx={{ width: "100%", overflow: "hidden" }}>
               <TableContainer component={Paper}>
@@ -207,8 +223,10 @@ const BoardPage = () => {
                           <TableCell onClick={() => goToDetail(row.boardId)}>
                             {row.boardTitle}
                           </TableCell>
-                          <TableCell>{row.nickname}</TableCell>
-                          <TableCell>{formatTime(row.createdTime)}</TableCell>
+                          <TableCell align="center">{row.nickname}</TableCell>
+                          <TableCell align="center">
+                            {formatTime(row.createdTime)}
+                          </TableCell>
                           <TableCell align="center">{row.viewCnt}</TableCell>
                           <TableCell align="center">{row.commentSum}</TableCell>
                         </TableRow>
@@ -230,7 +248,7 @@ const BoardPage = () => {
           <CustomTabPanel value={value} index={1}>
             <h1>자유게시판</h1>
             <div className="btn-wrapper">
-              <Button text={"글 작성"} onClick={goToCreate} />
+              <Button type="write" text={"글 작성"} onClick={goToCreate} />
             </div>
             <Paper sx={{ width: "100%", overflow: "hidden" }}>
               <TableContainer component={Paper}>
@@ -264,8 +282,10 @@ const BoardPage = () => {
                           <TableCell onClick={() => goToDetail(row.boardId)}>
                             {row.boardTitle}
                           </TableCell>
-                          <TableCell>{row.nickname}</TableCell>
-                          <TableCell>{row.createdTime}</TableCell>
+                          <TableCell align="center">{row.nickname}</TableCell>
+                          <TableCell align="center">
+                            {formatTime(row.createdTime)}
+                          </TableCell>
                           <TableCell align="center">{row.viewCnt}</TableCell>
                           <TableCell align="center">{row.commentSum}</TableCell>
                         </TableRow>
@@ -287,7 +307,7 @@ const BoardPage = () => {
           <CustomTabPanel value={value} index={2}>
             <h1>질문게시판</h1>
             <div className="btn-wrapper">
-              <Button text={"글 작성"} onClick={goToCreate} />
+              <Button type="write" text={"글 작성"} onClick={goToCreate} />
             </div>
             <Paper sx={{ width: "100%", overflow: "hidden" }}>
               <TableContainer component={Paper}>
@@ -321,8 +341,10 @@ const BoardPage = () => {
                           <TableCell onClick={() => goToDetail(row.boardId)}>
                             {row.boardTitle}
                           </TableCell>
-                          <TableCell>{row.nickname}</TableCell>
-                          <TableCell>{row.createdTime}</TableCell>
+                          <TableCell align="center">{row.nickname}</TableCell>
+                          <TableCell align="center">
+                            {formatTime(row.createdTime)}
+                          </TableCell>
                           <TableCell align="center">{row.viewCnt}</TableCell>
                           <TableCell align="center">{row.commentSum}</TableCell>
                         </TableRow>
@@ -344,7 +366,7 @@ const BoardPage = () => {
           <CustomTabPanel value={value} index={3}>
             <h1>홍보게시판</h1>
             <div className="btn-wrapper">
-              <Button text={"글 작성"} onClick={goToCreate} />
+              <Button type="write" text={"글 작성"} onClick={goToCreate} />
             </div>
             <Paper sx={{ width: "100%", overflow: "hidden" }}>
               <TableContainer component={Paper}>
@@ -378,8 +400,10 @@ const BoardPage = () => {
                           <TableCell onClick={() => goToDetail(row.boardId)}>
                             {row.boardTitle}
                           </TableCell>
-                          <TableCell>{row.nickname}</TableCell>
-                          <TableCell>{row.createdTime}</TableCell>
+                          <TableCell align="center">{row.nickname}</TableCell>
+                          <TableCell align="center">
+                            {formatTime(row.createdTime)}
+                          </TableCell>
                           <TableCell align="center">{row.viewCnt}</TableCell>
                           <TableCell align="center">{row.commentSum}</TableCell>
                         </TableRow>

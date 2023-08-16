@@ -1,41 +1,44 @@
 import axios from "axios"
-import { useState, useEffect } from "react"
-import { Heatmap } from "heatmap.js"
+import { useEffect } from "react"
+import h337 from 'heatmap.js'
 
 const KioskHeatmap = ({ id }) => {
 
-  const [heat, setHeat] = useState([])
-
-  // minimal heatmap instance configuration
-  //eslint-disable-next-line
-  
+  // const [heatmapData, setHeatmapData] = useState([
+  //   { x: 100, y: 200, value: 5 },
+  //   { x: 200, y: 300, value: 10 },
+  // ])
 
   useEffect(() => {
-    axios.get(
-      `http://i9a105.p.ssafy.io:1234/api/location/pet?animalId=${id}`
-      )
+    // Heatmap 데이터를 생성합니다. 데이터 형식은 x, y, value를 포함해야 합니다.
+    
+    axios.get(`https://i9a105.p.ssafy.io/api/location/pet?animalId=${id}`)
       .then(function(res) {
-        setHeat(res.data)
+        const heatmapInstance = h337.create({
+          container: document.getElementById('heatmapContainer'),
+        });
+        heatmapInstance.setData(res.data);
       })
       .catch(function(err) {
         console.log(err)
       })
-  }, [id])
-  useEffect(() => {
-    if (heat.length > 0) {
-      const heatmapInstance = new Heatmap({
-        // only container is required, the rest will be defaults
-        container: document.getElementById('heatmapContainer'),
-      });
+  }, [id]);
 
-      heatmapInstance.addData(heat)
-      heatmapInstance.draw()
-    }
-  }, [heat])
-  return(
-    <div>
-      <div id="heatmapContainer" style={{width: '100%', height: '500px'}} />
-    </div>
+  // useEffect(() => {
+
+  //   // Heatmap 생성 및 설정
+  //   const heatmapInstance = h337.create({
+  //     container: document.getElementById('heatmapContainer'),
+  //   });
+
+  //   heatmapInstance.setData({
+  //     max: 10, // 최대값
+  //     heatmapData,
+  //   });
+  // }, [heatmapData])
+
+  return ( 
+    <div id="heatmapContainer" style={{ width: '100%', height: '400px' }} />
   )
 }
 

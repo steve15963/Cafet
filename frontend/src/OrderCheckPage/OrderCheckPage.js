@@ -10,14 +10,14 @@ const OrderCheckPage = () => {
   const { shopId } = useParams();
   const [message, setMessage] = useState([])
 
-  const getMessage = (msg, from) =>{
-    setMessage((current) => [...current,({shopId : shopId, msg:msg, from:from})])
+  const getMessage = (msg) =>{
+    setMessage((current) => [...current,({"msg":msg})])
   }
 
 
 
-  var sock = new SockJS('https://i9a105.p.ssafy.io/order')
-  // var sock = new SockJS('https://i9a105.p.ssafy.io//order')
+  // var sock = new SockJS('https://i9a105.p.ssafy.io/order')
+  var sock = new SockJS('http://localhost:8080/order')
   let client = Stomp.over(sock);
 
   useEffect(() => {
@@ -42,8 +42,8 @@ const addMessage = (content) => {
 
   return (
     <div className="App">
+      <div>shop : {shopId}번(이름)</div> {/* room number */}
       <p>주문 확인 페이지입니다.</p>
-      <div>{shopId}</div> {/* room number */}
       {/* <Header className="header_class"/> */}
       <OrderCheckBody message = {message}/>
     </div>

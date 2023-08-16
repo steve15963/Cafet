@@ -36,6 +36,7 @@ public class LocationController {
 	public ResponseEntity<PetLocationResponseDto> SavePetLocation(@RequestBody AddPetLocationRequestDto addPetLocationRequestDto){
 		log.info(addPetLocationRequestDto.toString());
 		PetLocation petLocation = locationService.getTrilateration(addPetLocationRequestDto);
+		log.info("add Location Test : {}", addPetLocationRequestDto);
 		return new ResponseEntity<>(
 			new PetLocationResponseDto(petLocation),
 			petLocation == null ?HttpStatus.BAD_REQUEST: HttpStatus.ACCEPTED

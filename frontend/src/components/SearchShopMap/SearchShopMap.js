@@ -6,7 +6,6 @@ const { kakao } = window;
 const SearchShopMap = ({ cafeList }) => {
   const mapRef = useRef()
   const navigate = useNavigate();
-  console.log('지도:', cafeList)
 
   useEffect(() => {
     const container = document.getElementById('map') // 지도를 표시할 div 
@@ -97,7 +96,6 @@ const SearchShopMap = ({ cafeList }) => {
               .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
               .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
               .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-              .info .link {color: #5085BB;}
         `}
       </style>
     </div>

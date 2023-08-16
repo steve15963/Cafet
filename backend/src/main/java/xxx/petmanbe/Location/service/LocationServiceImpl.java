@@ -72,6 +72,9 @@ public class LocationServiceImpl implements LocationService {
 
 		double x = ((y * (y1 - y2)) - T) / (x2 - x1);
 
+		if(x < 0) x = 0;
+		if(y < 0) y = 0;
+
 		ShopPet shopPet = shopPetRepository.findById(addPetLocationRequestDto.getPetId())
 			.orElseThrow(() -> new RestApiException(PetErrorCode.PET_NOT_FOUND));
 
@@ -97,6 +100,8 @@ public class LocationServiceImpl implements LocationService {
 		}
 
 		log.info("location {}", build );
+
+
 
 		return build;
 	}
