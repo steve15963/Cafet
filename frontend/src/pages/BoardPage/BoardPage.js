@@ -77,15 +77,17 @@ const createTable = (
 
 const BoardPage = () => {
   const index = sessionStorage.getItem("index");
-  console.log(index);
-  if (index !== null) {
-    sessionStorage.removeItem("index");
-  }
-  const initialTabIndex = index !== null ? Number(index) : 0;
-  console.log(initialTabIndex);
-  const [value, setValue] = React.useState(initialTabIndex); // Tabs
+  const [value, setValue] = React.useState(0); // Tabs
+
+  useEffect(() => {
+    if (index !== null) {
+      // sessionStorage에 index가 있다면 해당 값으로 value 업데이트
+      setValue(parseInt(index));
+      sessionStorage.removeItem("index");
+    }
+  }, [index]);
+
   const handleChange = (event, newValue) => {
-    // Tabs
     setValue(newValue);
   };
 
