@@ -9,6 +9,9 @@ import xxx.petmanbe.Kiosk.menu.entity.Menu;
 import xxx.petmanbe.Kiosk.menu.entity.MenuPriceSize;
 import xxx.petmanbe.Kiosk.menu.repository.MenuPriceSizeRepository;
 import xxx.petmanbe.Kiosk.menu.repository.MenuRepository;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.CommonErrorCode;
+import xxx.petmanbe.exception.errorcode.ShopErrorCode;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
 
@@ -28,7 +31,8 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public long postMenu(PostMenuDto postMenuDto) {
 
-		Shop shop = shopRepository.findById(postMenuDto.getShopId()).orElseThrow(()-> new IllegalArgumentException());
+		Shop shop = shopRepository.findById(postMenuDto.getShopId())
+			.orElseThrow(()-> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
 		Menu menu = Menu.builder()
 				.menuType(postMenuDto.getMenuType())
@@ -37,7 +41,6 @@ public class MenuServiceImpl implements MenuService {
 
 		Menu menu_save = menuRepository.save(menu);
 
-		List<MenuPriceSize> menuPriceSizeList = new ArrayList<>();
 		for(PostMenuPriceSizeDto x : postMenuDto.getPostMenuPriceSizeDtoList()){
 
 			MenuPriceSize menuPriceSize = MenuPriceSize.builder()
@@ -60,10 +63,10 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public List<GetMenuDto> getMenu(long shopId) {
 
-		List<GetMenuDto> getMenuList = menuRepository.findAllByShop_shopId(shopId).orElseThrow(()->new IllegalArgumentException()).stream()
-				.map(GetMenuDto::new).collect(Collectors.toList());
-
-		return getMenuList;
+		return menuRepository.findAllByShop_shopId(shopId)
+			.orElseThrow(()->new RestApiException(CommonErrorCode.INVALID_PARAMETER)).stream()
+				.map(GetMenuDto::new)
+				.collect(Collectors.toList());
 	}
 
 

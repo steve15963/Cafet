@@ -5,11 +5,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.sun.security.jgss.InquireType;
-
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.exception.RestApiException;
 import xxx.petmanbe.exception.errorcode.CommonErrorCode;
+import xxx.petmanbe.exception.errorcode.InquiryErrorCode;
 import xxx.petmanbe.inquiry.dto.request.AddInquiryRequestDto;
 import xxx.petmanbe.inquiry.dto.response.InquiryListResponseDto;
 import xxx.petmanbe.inquiry.dto.response.InquiryResponseDto;
@@ -47,7 +46,7 @@ public class InquiryServiceImpl implements InquiryService {
 	public InquiryResponseDto getInquiry(Long inquiryId) {
 		// 문의 정보 id로 검색
 		Inquiry inquiry = inquiryRepository.findById(inquiryId)
-			.orElseThrow(() -> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
+			.orElseThrow(() -> new RestApiException(InquiryErrorCode.INQUIRY_NOT_FOUND));
 
 		// 반환하기
 		return InquiryResponseDto.builder()
@@ -76,7 +75,7 @@ public class InquiryServiceImpl implements InquiryService {
 	public void deleteInquiry(Long inquiryId) {
 		// id로 정보 찾고
 		Inquiry inquiry = inquiryRepository.findById(inquiryId)
-			.orElseThrow(() -> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
+			.orElseThrow(() -> new RestApiException(InquiryErrorCode.INQUIRY_NOT_FOUND));
 		
 		// 해당하는 문의 삭제
 		inquiryRepository.delete(inquiry);

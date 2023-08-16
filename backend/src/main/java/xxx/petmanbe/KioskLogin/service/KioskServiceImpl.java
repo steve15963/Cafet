@@ -3,6 +3,9 @@ package xxx.petmanbe.KioskLogin.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import xxx.petmanbe.KioskLogin.dto.responseDto.KioskLoginReturnDto;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.ShopErrorCode;
+import xxx.petmanbe.exception.errorcode.UserErrorCode;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
 import xxx.petmanbe.user.entity.User;
@@ -22,7 +25,8 @@ public class KioskServiceImpl implements KioskService{
     @Override
     public KioskLoginReturnDto checkShop(LoginDto loginDto){
 
-        User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()-> new IllegalArgumentException());
+        User user = userRepository.findByEmail(loginDto.getEmail())
+            .orElseThrow(()-> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
         int levelCode = user.getLevel().getLevelCode();
 
@@ -30,24 +34,21 @@ public class KioskServiceImpl implements KioskService{
             return null;
         }else if(levelCode >=300){
 
-            KioskLoginReturnDto kioskLoginReturnDto = KioskLoginReturnDto.builder()
+			return KioskLoginReturnDto.builder()
                     .levelCode(300)
                     .shopId((long)999999)
                     .build();
 
-            return kioskLoginReturnDto;
-
         }
 
-        long shopId = shopRepository.findByStatusFalseAndUser(user).orElseThrow(()->new IllegalArgumentException()).getShopId();
+        long shopId = shopRepository.findByStatusFalseAndUser(user)
+            .orElseThrow(()-> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND))
+            .getShopId();
 
-        KioskLoginReturnDto kioskLoginReturnDto = KioskLoginReturnDto.builder()
+		return KioskLoginReturnDto.builder()
                 .levelCode(levelCode)
                 .shopId(shopId)
                 .build();
-
-        return kioskLoginReturnDto;
-
     }
 
 

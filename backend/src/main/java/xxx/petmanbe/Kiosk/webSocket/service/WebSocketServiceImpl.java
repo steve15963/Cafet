@@ -22,12 +22,9 @@ public class WebSocketServiceImpl implements WebSocketService{
 
 		List<ChatRoomMessage> chatRoomMessageList = chatRoomMessageRepository.findAllByChatRoom_ChatRoomId(roomId);
 
-		GetMessagesDto getMessagesDto = GetMessagesDto.builder()
+		return GetMessagesDto.builder()
 			.chatRoomMessageList(chatRoomMessageList)
 			.build();
-
-
-		return getMessagesDto;
 	}
 
 	// @Async
@@ -52,9 +49,7 @@ public class WebSocketServiceImpl implements WebSocketService{
 
 	public long getRoomList(){
 
-		long roomNum = chatRoomRepository.count();
-
-		return roomNum;
+		return chatRoomRepository.count();
 	}
 
 	@Override
@@ -62,16 +57,15 @@ public class WebSocketServiceImpl implements WebSocketService{
 
 		String[][] list = messages.getProps().getData();
 
-		String msg = tableId +"테이블"+"\n";
+		StringBuilder msg = new StringBuilder(tableId + "테이블" + "\n");
 
 		System.out.println(list.length);
 
-		for(int i=0 ; i<list.length ; i++){
-			String[] info = list[i];
-			msg+= info[0]+" "+info[3]+" "+info[2]+" 개"+"\n";
+		for (String[] info : list) {
+			msg.append(info[0]).append(" ").append(info[3]).append(" ").append(info[2]).append(" 개").append("\n");
 		}
 
-		return msg;
+		return msg.toString();
 	}
 
 }
