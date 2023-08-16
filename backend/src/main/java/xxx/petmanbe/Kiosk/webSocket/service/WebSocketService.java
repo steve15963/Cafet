@@ -11,4 +11,6 @@ public interface WebSocketService {
 
 	public long getRoomList();
 
+	public String changeToMsg(long tableId, MessageDto.Content messages);
+
 }

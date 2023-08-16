@@ -54,7 +54,24 @@ public class WebSocketServiceImpl implements WebSocketService{
 
 		long roomNum = chatRoomRepository.count();
 
-			return roomNum;
+		return roomNum;
+	}
+
+	@Override
+	public String changeToMsg(long tableId, MessageDto.Content messages) {
+
+		String[][] list = messages.getProps().getData();
+
+		String msg = "";
+
+		System.out.println(list.length);
+
+		for(int i=0 ; i<list.length ; i++){
+			String[] info = list[i];
+			msg+= info[0]+" "+info[3]+" "+info[2]+" 개"+"\n";
+		}
+
+		return msg;
 	}
 
 }

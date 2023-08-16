@@ -3,7 +3,6 @@ import React, {useState, useEffect} from "react";
 import OrderCheckBody from "./OrderCheckBody";
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import {v4 as uuid} from 'uuid';
 
 import { useParams } from "react-router-dom";
 
@@ -11,11 +10,10 @@ const OrderCheckPage = () => {
   const { shopId } = useParams();
   const [message, setMessage] = useState([])
 
-  const getMessage = (msg, id, from) =>{
-    setMessage((current) => [...current,({shopId : shopId, msg:msg, id:id, from:from})])
+  const getMessage = (msg, from) =>{
+    setMessage((current) => [...current,({shopId : shopId, msg:msg, from:from})])
   }
 
-  const [id] = useState(uuid())
 
 
   var sock = new SockJS('https://i9a105.p.ssafy.io/order')
@@ -26,19 +24,20 @@ const OrderCheckPage = () => {
     client.connect({}, () =>{
       // 받고
         client.subscribe('/topic/message/'+ shopId, function(frame){
-          addMessage(JSON.parse(frame.body).content, JSON.parse(frame.body).uuid)
+          addMessage(frame.body)
+          // addMessage(JSON.parse(frame.body).content)
           // props.getMessage(JSON.parse(frame.body).content,false)
         })
     })
       // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [])
 
-const addMessage = (content, uuid) => {
-  if(uuid === id){
-    // props.getMessage(content, true)
-  }else{
-    getMessage(content,uuid, false)
-  }
+const addMessage = (content) => {
+  // if(uuid === id){
+  //   // props.getMessage(content, true)
+  // }else{
+    getMessage(content, false)
+  // }
 }
 
   return (
