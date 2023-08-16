@@ -32,7 +32,7 @@ public class HitMapServiceImpl implements HitMapService{
 
 		HitMapResponseDto hitMapResponseDto = new HitMapResponseDto();
 
-		hitMapResponseDto.setMax(locations.size());
+		// hitMapResponseDto.setMax(locations.size());
 
 		List<Point> data = hitMapResponseDto.getData();
 
