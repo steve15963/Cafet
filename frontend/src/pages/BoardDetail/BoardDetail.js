@@ -86,7 +86,9 @@ const BoardDetail = () => {
           </Button>
         </Stack>
       )}
-      <CommentList commentList={boardDetail.commentList} />
+      {boardDetail.commentList.length > 0 && (
+        <CommentList commentList={boardDetail.commentList} />
+      )}
       <Stack
         direction="row"
         spacing={2}
