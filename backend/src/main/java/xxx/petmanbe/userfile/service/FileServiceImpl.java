@@ -1,30 +1,24 @@
 package xxx.petmanbe.userfile.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
 
 import javax.transaction.Transactional;
 
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.exception.RestApiException;
-import xxx.petmanbe.exception.errorcode.CommonErrorCode;
 import xxx.petmanbe.exception.errorcode.FileErrorCode;
 import xxx.petmanbe.exception.errorcode.UserErrorCode;
-import xxx.petmanbe.userfile.entity.UserFile;
-import xxx.petmanbe.userfile.repository.UserFileRepository;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.UserRepository;
+import xxx.petmanbe.userfile.entity.UserFile;
+import xxx.petmanbe.userfile.repository.UserFileRepository;
 
 @RequiredArgsConstructor
 @Service
 public class FileServiceImpl implements FileService{
-
-	private final UserFileRepository userFileRepository;
 
 	private final UserRepository userRepository;
 

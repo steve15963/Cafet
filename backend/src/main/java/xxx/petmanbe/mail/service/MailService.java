@@ -119,11 +119,11 @@ public class MailService {
 
 	//비밀번호 code를 랜덤으로 생성하는 함수
 	private String genRandomPassword(int length) {
-		String password = "";
+		StringBuilder password = new StringBuilder();
 		for(int i = 0 ; i < length; i++) {
-			password += (int)((Math.random() * 10) % 10);
+			password.append((int)((Math.random() * 10) % 10));
 		}
-		return password;
+		return password.toString();
 	}
 	
 	

@@ -14,8 +14,11 @@ import xxx.petmanbe.Location.entity.PetLocation;
 import xxx.petmanbe.Location.entity.UseBeaconForPetLocation;
 import xxx.petmanbe.Location.repository.PetLocationRepository;
 import xxx.petmanbe.Location.repository.useBeaconForPetLocationRepository;
+import xxx.petmanbe.exception.RestApiException;
+import xxx.petmanbe.exception.errorcode.PetErrorCode;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
+import xxx.petmanbe.shopPet.entity.ShopPet;
 import xxx.petmanbe.shopPet.repository.ShopPetRepository;
 
 @Service
@@ -69,12 +72,15 @@ public class LocationServiceImpl implements LocationService {
 
 		double x = ((y * (y1 - y2)) - T) / (x2 - x1);
 
+		ShopPet shopPet = shopPetRepository.findById(addPetLocationRequestDto.getPetId())
+			.orElseThrow(() -> new RestApiException(PetErrorCode.PET_NOT_FOUND));
+
 		PetLocation build = PetLocation.builder()
 			.x(x)
 			.y(y)
 			.z(0)
 			.temp(addPetLocationRequestDto.getTemp())
-			.shopPet(shopPetRepository.findById(addPetLocationRequestDto.getPetId()).get())
+			.shopPet(shopPet)
 			.build();
 
 		log.info(build.toString());
@@ -97,7 +103,7 @@ public class LocationServiceImpl implements LocationService {
 
 	private List<BeaconLocation> findMatchBeacon(AddPetLocationRequestDto addPetLocationRequestDto){
 		Optional<Shop> byId = shopRepository.findById(addPetLocationRequestDto.shopId);
-		if(!byId.isPresent()){
+		if(byId.isEmpty()){
 			//가게를 찾을 수 없습니다.
 			log.info("가게를 찾을 수 없습니다.");
 			return null;
@@ -109,8 +115,7 @@ public class LocationServiceImpl implements LocationService {
 
 		List<BeaconLocation> filterBeaconList = beaconLocation.stream().filter(b -> {
 			long bId = b.getBeaconId();
-			if(key.contains(bId)) return true;
-			return false;
+			return key.contains(bId);
 		}).collect(Collectors.toList());
 
 		log.info("find beacon List : " + filterBeaconList.toString());
