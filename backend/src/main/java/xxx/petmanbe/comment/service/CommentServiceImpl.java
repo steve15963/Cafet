@@ -107,7 +107,10 @@ public class CommentServiceImpl implements CommentService {
 			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
 		// 댓글 수 변경
-		board.minusLikeSum();
+		if (comment.isStatus())
+			board.minusCommentSum();
+		else
+			board.plusCommentSum();
 
 		// 바뀐 댓글 정보 반환
 		return comment;
