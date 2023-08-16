@@ -77,7 +77,12 @@ const createTable = (
 
 const BoardPage = () => {
   const index = sessionStorage.getItem("index");
+  console.log(index);
+  if (index !== null) {
+    sessionStorage.removeItem("index");
+  }
   const initialTabIndex = index !== null ? Number(index) : 0;
+  console.log(initialTabIndex);
   const [value, setValue] = React.useState(initialTabIndex); // Tabs
   const handleChange = (event, newValue) => {
     // Tabs
