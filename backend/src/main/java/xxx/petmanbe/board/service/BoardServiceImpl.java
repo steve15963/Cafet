@@ -28,6 +28,7 @@ import xxx.petmanbe.boardfile.dto.responseDto.BoardFileDto;
 import xxx.petmanbe.boardfile.entity.BoardFile;
 import xxx.petmanbe.boardfile.repository.BoardFileRepository;
 import xxx.petmanbe.comment.dto.response.CommentResponseDto;
+import xxx.petmanbe.comment.repository.CommentRepository;
 import xxx.petmanbe.exception.RestApiException;
 import xxx.petmanbe.exception.errorcode.BoardErrorCode;
 import xxx.petmanbe.exception.errorcode.CommonErrorCode;
@@ -50,6 +51,7 @@ import xxx.petmanbe.user.repository.UserRepository;
 public class BoardServiceImpl implements BoardService{
 
 	private final BoardRepository boardRepository;
+	private final CommentRepository commentRepository;
 	private final UserRepository userRepository;
 	private final CategoryRepository categoryRepository;
 	private final AttachBoardRepository attachBoardRepository;
@@ -176,7 +178,7 @@ public class BoardServiceImpl implements BoardService{
 			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
 		// 게시글에 달린 댓글 목록 가져오기
-		List<CommentResponseDto> commentList = board.getCommentList().stream()
+		List<CommentResponseDto> commentList = commentRepository.findByStatusFalseAndBoard_BoardId(boardId).stream()
 			.map(CommentResponseDto::new)
 			.collect(Collectors.toList());
 
