@@ -4,18 +4,11 @@ import "./NearPost.scoped.css";
 import { useNavigate } from "react-router-dom";
 
 const NearPost = () => {
+  const boardList = sessionStorage.getItem('boardList');
   const prevId = sessionStorage.getItem('prevId');
   sessionStorage.removeItem('prevId');
-  const prevTitle = sessionStorage.getItem('prevTitle');
-  sessionStorage.removeItem('prevTitle');
-  const prevNickname = sessionStorage.getItem('prevNickname');
-  sessionStorage.removeItem('prevNickname');
   const nextId = sessionStorage.getItem('nextId');
-  sessionStorage.removeItem('prevTitle');
-  const nextTitle = sessionStorage.getItem('nextTitle');
-  sessionStorage.removeItem('nextTitle');
-  const nextNickname = sessionStorage.getItem('nextNickname');
-  sessionStorage.removeItem('nextNickname');
+  sessionStorage.removeItem('nextId');
 
   let navigate = useNavigate();
   
@@ -23,6 +16,10 @@ const NearPost = () => {
     navigate(`/board/detail/${pageId}`);
   };
   
+  const prevBoard = boardList.find(board => board.boardId === prevId);
+  console.log(prevBoard);
+  const nextBoard = boardList.find(board => board.boardId === nextId);
+  console.log(nextBoard);
 
   return (
     <div>
@@ -30,15 +27,15 @@ const NearPost = () => {
     {nextId !== "null" && (
         <div className="nearpost">
           <div className="nearpost_left">{"다음 글"}</div>
-          <div className="nearpost_center" onClick={() => goToDetail(nextId)} >{nextTitle}</div>
-          <div className="nearpost_right">{nextNickname}</div>
+          <div className="nearpost_center" onClick={() => goToDetail(nextId)} >{nextBoard.nextTitle}</div>
+          <div className="nearpost_right">{nextBoard.nextNickname}</div>
         </div>
       )}
       {prevId !== "null" && (
         <div className="nearpost">
           <div className="nearpost_left">{"이전 글"}</div>
-          <div className="nearpost_center" onClick={() => goToDetail(prevId)}>{prevTitle}</div>
-          <div className="nearpost_right">{prevNickname}</div>
+          <div className="nearpost_center" onClick={() => goToDetail(prevId)}>{prevBoard.prevTitle}</div>
+          <div className="nearpost_right">{prevBoard.prevNickname}</div>
         </div>
       )}
     </ul>

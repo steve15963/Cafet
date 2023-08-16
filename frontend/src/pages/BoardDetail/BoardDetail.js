@@ -30,8 +30,10 @@ const BoardDetail = () => {
     return <div>Loading...</div>;
   }
 
-  console.log(boardList);
+  // console.log(boardList);
+  sessionStorage.setItem("boardList", boardList);
   
+
   const onClickEdit = async (event) => {
     navigate(`/create/${id}`);
   };
