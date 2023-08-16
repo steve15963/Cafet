@@ -6,47 +6,43 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
 const ShopFollow = ({ userId, shopId, isFollowing, followState }) => {
-  // console.log(userId);
-  // console.log(shopId);
-  const [btnStatus, setBtnStatus] = useState(false);
+  const [btnStatus, setBtnStatus] = useState(isFollowing);
 
   const handleFollowFeat = () => {
-    if (isFollowing) {
-      setBtnStatus(false);
-    } else {
-      setBtnStatus(true);
-    }
+    const newBtnStatus = !btnStatus; // 버튼 상태 변경
+    setBtnStatus(newBtnStatus);
 
-    if (isFollowing) {
-      // 팔로잉 중이라면 == 언팔로우 한다는 것
+    const data = {
+      userId: userId,
+      shopId: shopId,
+    };
+
+    const serverUrl = "https://i9a105.p.ssafy.io/api/shop/like";
+
+    if (!isFollowing) {
+      // 팔로우 중이 아니라면 == 팔로우 요청
       axios
-        .delete(`https://i9a105.p.ssafy.io/api/shop/like`, {
-          data: {
-            userId: userId,
-            shopId: shopId,
-          },
-        })
+        .post(serverUrl, data)
         .then(() => {
-          followState(false);
-        })
-        .catch((error) => {
-          console.log("delete error");
-          console.log(error);
-        });
-    } else {
-      axios
-        .post(`https://i9a105.p.ssafy.io/api/shop/like`, {
-          data: {
-            userId: userId,
-            shopId: shopId,
-          },
-        })
-        .then(() => {
+          console.log("팔로우");
           followState(true);
         })
         .catch((error) => {
           console.log("post error");
           console.log(error);
+          setBtnStatus(!newBtnStatus);
+        });
+    } else {
+      axios
+        .delete(serverUrl, { data: data }) // 또는 .delete(serverUrl, { ...data })
+        .then(() => {
+          console.log("팔로우 취소");
+          followState(false);
+        })
+        .catch((error) => {
+          console.log("delete error");
+          console.log(error);
+          setBtnStatus(!newBtnStatus);
         });
     }
   };
