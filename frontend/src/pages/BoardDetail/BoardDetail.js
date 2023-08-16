@@ -11,6 +11,7 @@ import NearPost from "../../components/NearPost/NearPost";
 import Footer from "../../components/Footer/Footer";
 import handleComment from "../../utils/handleComment";
 import useBoardDetail from "../../hooks/useBoardDetail";
+import useBoardList from "../../hooks/useBoardList";
 // import Button from "../../components/Button/Button";
 
 import { Stack } from "@mui/material";
@@ -21,12 +22,16 @@ import axios from "axios";
 const BoardDetail = () => {
   const { id } = useParams();
   const { boardDetail, loading } = useBoardDetail(id);
+  const { boardList } = useBoardList();
   const [content, setContent] = useState("");
   const navigate = useNavigate();
 
   if (loading || !boardDetail) {
     return <div>Loading...</div>;
   }
+
+  console.log(boardList);
+  
   const onClickEdit = async (event) => {
     navigate(`/create/${id}`);
   };
