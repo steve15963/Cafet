@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import xxx.petmanbe.Location.dto.requestDto.AddPetLocationRequestDto;
@@ -22,6 +24,7 @@ import xxx.petmanbe.Location.service.LocationService;
 @Slf4j
 @RestController
 @RequestMapping("/api/location")
+@Tag(name = "동물 위치정보", description = "동물 위치정보 관련 API Docs")
 @AllArgsConstructor
 @CrossOrigin("*")
 public class LocationController {
@@ -36,6 +39,7 @@ public class LocationController {
 	 * @return 거리 계산 실패 유무에 따라서 Bad와 ACCEPTED를 반환한다.
 	 */
 	@PostMapping("/pet")
+	@Operation(summary = "동물 위치 정보 저장하기")
 	public ResponseEntity<PetLocationResponseDto> SavePetLocation(@RequestBody AddPetLocationRequestDto addPetLocationRequestDto){
 		log.info(addPetLocationRequestDto.toString());
 		PetLocation petLocation = locationService.getTrilateration(addPetLocationRequestDto);
@@ -52,6 +56,7 @@ public class LocationController {
 	 * @return Hitmap.js에 들어가는 Json데이터.
 	 */
 	@GetMapping("/pet")
+	@Operation(summary = "동물 위치 정보 전달하기")
 	public ResponseEntity<HitMapResponseDto> GetHitMap(@RequestParam long animalId){
 		HitMapResponseDto hitMap = hitMapService.getHitMap(animalId);
 		return new ResponseEntity<>(hitMap,HttpStatus.OK);

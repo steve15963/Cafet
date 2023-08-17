@@ -1,5 +1,7 @@
 package xxx.petmanbe.shopFile.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +21,14 @@ import java.util.Objects;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/shopFile")
+@Tag(name = "가게 첨부파일", description = "가게 첨부파일 관련 API Docs")
 @CrossOrigin("*")
 public class ShopFileController {
 
     private final ShopFileService shopFileService;
 
     @PostMapping("")
+    @Operation(summary = "파일 업로드")
     public ResponseEntity<?> PostShopFile(@RequestPart PostShopFileDto postShopFileDto, @RequestPart("files")List<MultipartFile> files) throws IOException {
 
         if(shopFileService.keepFile(files, postShopFileDto.getShopId())){
@@ -36,6 +40,7 @@ public class ShopFileController {
     }
 
     @GetMapping("{shopId}")
+    @Operation(summary = "해당하는 가게의 첨부파일 목록 가져오기")
     public ResponseEntity<?> GetShopFile(@PathVariable long shopId){
 
         List<ShopFile> shopFileList = shopFileService.getShopFile(shopId);
