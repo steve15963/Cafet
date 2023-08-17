@@ -1,6 +1,5 @@
 package xxx.petmanbe.board.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.board.dto.request.AddBoardRequestDto;
 import xxx.petmanbe.board.dto.request.AddCategoryRequestDto;
@@ -25,53 +26,30 @@ import xxx.petmanbe.board.dto.request.UpdateBoardRequestDto;
 import xxx.petmanbe.board.dto.response.BoardListResponseDto;
 import xxx.petmanbe.board.dto.response.BoardResponseDto;
 import xxx.petmanbe.board.service.BoardService;
-import xxx.petmanbe.boardfile.service.BoardFileService;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
+@Tag(name = "게시판", description = "게시판 API Docs")
 @CrossOrigin("*")
 public class BoardController {
 
 	private final BoardService boardService;
 
-	private final BoardFileService boardFileService;
-
-	// 게시글 생성
-	// @PostMapping(value="/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	// @Transactional
-	// public ResponseEntity<String> postBoard(@RequestPart(value="dto") AddBoardRequestDto request, @RequestPart(value="files", required = false) List<MultipartFile> files) throws IOException {
-	// 	// 게시글 생성
-	// 	long boardId = boardService.postBoard(request);
-	//
-	// 	if(!Objects.isNull(files)){
-	// 		if(boardFileService.keepFile(files, boardId)){
-	// 			return new ResponseEntity<>("Success pictures in!",HttpStatus.OK);
-	// 		}
-	// 	}
-	//
-	// 	// 결과 전달
-	// 	return new ResponseEntity<>("pictures not in",HttpStatus.CREATED);
-	// }
-
 	@PostMapping(value="/new")
+	@Operation(summary = "게시글 생성하기")
 	@Transactional
-	public ResponseEntity<String> postBoard(@RequestBody AddBoardRequestDto request) throws IOException {
+	public ResponseEntity<String> postBoard(@RequestBody AddBoardRequestDto request) {
 		// 게시글 생성
-		long boardId = boardService.postBoard(request);
-
-		// if(!Objects.isNull(files)){
-		// 	if(boardFileService.keepFile(files, boardId)){
-		// 		return new ResponseEntity<>("Success pictures in!",HttpStatus.OK);
-		// 	}
-		// }
+		boardService.postBoard(request);
 
 		// 결과 전달
-		return new ResponseEntity<>("success",HttpStatus.CREATED);
+		return new ResponseEntity<>("success", HttpStatus.CREATED);
 	}
 
 	// 카테고리 생성
 	@PostMapping("/category/new")
+	@Operation(summary = "카테고리 만들기")
 	public ResponseEntity<Integer> postCategory(@RequestBody AddCategoryRequestDto request){
 		// 카테고리 생성
 		boardService.postCategory(request);
@@ -82,6 +60,7 @@ public class BoardController {
 
 	// 게시글 좋아요
 	@PostMapping("/like")
+	@Operation(summary = "게시글 좋아요 누르기")
 	public ResponseEntity<Integer> postLike(@RequestBody LikeRequestDto request){
 
 		// 해당 게시글 좋아요 생성
@@ -92,6 +71,7 @@ public class BoardController {
 
 	// 게시글 좋아요 삭제
 	@DeleteMapping("/like")
+	@Operation(summary = "게시글 좋아요 삭제")
 	public ResponseEntity<Integer> deleteLike(@RequestBody LikeRequestDto request){
 
 		// 해당 게시글 삭제
@@ -102,6 +82,7 @@ public class BoardController {
 
 	// 게시글 상세 보기
 	@GetMapping("/{boardId}")
+	@Operation(summary = "게시글 상세 보기")
 	public ResponseEntity<BoardResponseDto> getBoardDetail(@PathVariable Long boardId) {
 		// 게시글 가져오기
 		BoardResponseDto board = boardService.getBoardById(boardId);
@@ -112,6 +93,7 @@ public class BoardController {
 
 	// 게시글 전체 목록 보기
 	@GetMapping("")
+	@Operation(summary = "게시글 전체 목록 보기")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardList(){
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardList = boardService.getBoardList();
@@ -122,6 +104,7 @@ public class BoardController {
 
 	// 사진이 있는 게시글 전체 목록 보기(메인용)
 	@GetMapping("/main")
+	@Operation(summary = "사진이 있는 게시글 전체 목록 보기(메인 페이지)")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardListWithPics(){
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardList = boardService.getBoardListWithPics();
@@ -132,6 +115,7 @@ public class BoardController {
 
 	// 게시글 검색 기능: 제목으로 검색
 	@GetMapping("/title/{key}")
+	@Operation(summary = "게시글 검색: 제목으로 검색")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardListByBoardTitle(@PathVariable String key){
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardList = boardService.getBoardListByBoardTitle(key);
@@ -142,6 +126,7 @@ public class BoardController {
 
 	// 게시글 검색 기능: 내용으로 검색
 	@GetMapping("/content/{key}")
+	@Operation(summary = "게시글 검색: 내용으로 검색")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardListByBoardContent(@PathVariable String key){
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardList = boardService.getBoardListByBoardContent(key);
@@ -152,6 +137,7 @@ public class BoardController {
 
 	// 게시글 검색 기능: 태그로 검색
 	@GetMapping("/tag/{tagName}")
+	@Operation(summary = "게시글 검색: 태그로 검색")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardListByTagName(@PathVariable String tagName){
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardList = boardService.getBoardListByTag(tagName);
@@ -162,6 +148,7 @@ public class BoardController {
 
 	// 게시글 검색 기능: 작성자로 검색
 	@GetMapping("/nickname/{nickname}")
+	@Operation(summary = "게시글 검색: 작성자로 검색")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardListByNickname(@PathVariable String nickname){
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardlist = boardService.getBoardListByNickname(nickname);
@@ -171,6 +158,7 @@ public class BoardController {
 
 	// 카테고리별 게시글 보기
 	@GetMapping("/category/{categoryId}")
+	@Operation(summary = "카테고리별 게시글 목록 보기")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardListByCategory(@PathVariable Long categoryId){
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardList = boardService.getBoardListByCategoryId(categoryId);
@@ -180,6 +168,7 @@ public class BoardController {
 
 	// 가게별 게시글 보기
 	@GetMapping("/shop/{shopId}")
+	@Operation(summary = "가게별 게시글 보기")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardListByShopId(@PathVariable Long shopId){
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardList = boardService.getBoardListByShopId(shopId);
@@ -189,6 +178,7 @@ public class BoardController {
 
 	// 유저가 쓴 게시글 목록 보기
 	@GetMapping("/userId/{userId}")
+	@Operation(summary = "해당 유저의 게시글 보기")
 	public ResponseEntity<List<BoardListResponseDto>> getBoardListByUserId(@PathVariable Long userId){
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardList = boardService.getBoardListByUserId(userId);
@@ -198,6 +188,7 @@ public class BoardController {
 
 	// 유저가 좋아요한 게시글 목록 보기
 	@GetMapping("/like/{userId}")
+	@Operation(summary = "해당 유저가 좋아요한 게시글 보기")
 	public ResponseEntity<List<BoardListResponseDto>> getLikeBoardListByUserId(@PathVariable Long userId){
 		// 게시글 목록 가져오기
 		List<BoardListResponseDto> boardList = boardService.getLikeBoardListByUserId(userId);
@@ -208,6 +199,7 @@ public class BoardController {
 
 	// 게시글 수정하기
 	@PutMapping("")
+	@Operation(summary = "게시글 수정하기")
 	public ResponseEntity<Integer> putBoard(@RequestBody UpdateBoardRequestDto request){
 
 		// 수정
@@ -219,6 +211,7 @@ public class BoardController {
 
 	// 게시물 삭제 상태로 전환
 	@DeleteMapping("/status/{boardId}")
+	@Operation(summary = "게시글 삭제/복구하기")
 	public ResponseEntity<Integer> putBoardStatus(@PathVariable Long boardId){
 		// 삭제 상태로 전환
 		boardService.putBoardStatus(boardId);
