@@ -17,7 +17,9 @@ const MenuPostPage = () => {
     const onPostMenuButtonClick = async (event) =>{
         event.preventDefault();
 
-        const postMenuPriceSizeDtoList = {menuPrice, menuSize};
+        console.log(items);
+
+        const postMenuPriceSizeDtoList = [items];
 
         console.log(file)
 
@@ -34,6 +36,19 @@ const MenuPostPage = () => {
       const selectedFile = event.target.files[0];
       setFile(selectedFile);
     };
+
+    const [items, setItems] = useState([]);
+
+
+    const addSizePrice = () =>{
+      if(menuPrice.trim() !== '' && menuSize.trim() !== ''){
+        console.log(menuPrice)
+        console.log(menuSize)
+        setItems([...menuPrice, menuSize]);
+        setMenuPrice('')
+        setMenuSize('')
+      }
+    }
   
 
 
@@ -55,6 +70,20 @@ const MenuPostPage = () => {
         </div>
         
     <br></br>
+
+    {/* <input
+        type="text"
+        value={itemName}
+        onChange={handleInputChange}
+        placeholder="새로운 항목 입력"
+      />
+        <button onClick={addItem}>+</button>
+
+        <ul>
+        {items.map((item, index)=>(
+          <li key={index}>{item}</li>
+        ))}
+        </ul> */}
 
         <div>
         <TextField 
@@ -81,6 +110,16 @@ const MenuPostPage = () => {
         fullWidth
         />
         </div>
+
+        <br></br>
+
+        <button onClick={addSizePrice}>+</button>
+
+        <ul>
+        {items.map((item, index)=>(
+          <li key={index}>{item}</li>
+        ))}
+        </ul>
 
         <br></br>
 
