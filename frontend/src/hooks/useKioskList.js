@@ -7,6 +7,7 @@ const useKioskList = () => {
 
   useEffect(() => {
     const getNameList = async (shopId) => {
+      console.log(typeof shopId)
       try {
         const response = await axios.get(
           `https://i9a105.p.ssafy.io/api/desk/${shopId}`
