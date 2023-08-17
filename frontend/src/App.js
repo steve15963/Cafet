@@ -37,7 +37,6 @@ import KioskAnimalListPage from "./pages/KioskAnimalListPage/KioskAnimalListPage
 import OnePage from "./OrderPage/OnePage";
 import KioskAnimalDetailPage from "./pages/KioskAnimalDetailPage/KioskAnimalDetailPage";
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
-import KioskMenu from "./components/KioskMenu/KioskMenu";
 import KioskRegist from "./components/KioskRegist/KioskRegist";
 import LiveMap from "./LiveMap/LiveMap.js";
 import KioskManage from "./KioskManagePage/KioskManage";
@@ -87,9 +86,7 @@ const App = () => {
           <Route path="manage/:shopId/check" element={<OrderCheckPage />} />
           <Route path="list" element={<KioskNameList />} />
           <Route path="first" element={<KioskRegist />} />
-          <Route path="menu" element={<KioskMenu />}>
-            <Route path="buy/:shopId/:tableId" element={<OnePage />} />
-          </Route>
+          <Route path="menu/buy/:shopId/:tableId" element={<OnePage />} />
           <Route path="animal" element={<KioskAnimalListPage />}>
             {/* <Route path=":animalId" element={<KioskAnimalDetailPage />} /> */}
           </Route>

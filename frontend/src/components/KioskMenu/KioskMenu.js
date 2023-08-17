@@ -5,8 +5,7 @@ import { Outlet } from "react-router-dom";
 const KioskMenu = () => {
   return (
     <div>
-      <div className="LoginForm">
-        <div className="header-save" />
+      <div >
         <Outlet />
       </div>
     </div>
