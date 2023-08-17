@@ -84,8 +84,8 @@ const App = () => {
           <Route path="list" element={<KioskNameList />} />
           <Route path="first" element={<KioskRegist />} />
           <Route path="menu" element={<KioskMenu />}>
-            <Route path="menu/:shopId" element={<MenuPostPage />} />
-            <Route path="menu/check/:shopId" element={<OrderCheckPage />} />
+            <Route path=":shopId" element={<MenuPostPage />} />
+            <Route path="check/:shopId" element={<OrderCheckPage />} />
           </Route>
           <Route path="animal" element={<KioskAnimalListPage />}>
             {/* <Route path=":animalId" element={<KioskAnimalDetailPage />} /> */}

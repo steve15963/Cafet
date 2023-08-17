@@ -4,7 +4,7 @@ import axios from "axios";
 const useKioskList = (shopId) => {
   const [nameList, setNameList] = useState([]);
   const [loading, setLoading] = useState(true);
-console.log(shopId);
+//console.log(shopId);
   useEffect(() => {
     const getNameList = async () => {
       try {

@@ -12,18 +12,33 @@ const KioskNameList = () => {
     return <div>Loading...</div>;
   }
 
+  console.log(nameList);
+  
+  const handleDeskClick = (deskId, deskNum) => {
+    
+    localStorage.setItem("selectedDeskId", deskId);
+    localStorage.setItem("selectedDeskNum", deskNum);
+    
+    navigate("/kiosk/menu");
+  };
+
   if (nameList.length === 0) {
     navigate("/kiosk/first", { replace: true });
   }
 
   return (
-    <div>
-      <h2>Name List</h2>
-      <ul>
-        {nameList.map((name, index) => (
-          <li key={index}>{name}</li>
-        ))}
-      </ul>
+    <div className="kiosk-list-container">
+      <p className="login-form-title">키오스크 리스트</p>
+      <br/>
+      {nameList.map(item => (
+        <div
+          key={item.deskId}
+          className="kiosk-list-item"
+          onClick={() => handleDeskClick(item.deskId, item.deskNum)}
+        >
+          Desk {item.deskId}: (Number {item.deskNum})
+        </div>
+      ))}
     </div>
   );
 };

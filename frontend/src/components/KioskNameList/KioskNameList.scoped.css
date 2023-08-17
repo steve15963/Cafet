@@ -1,0 +1,22 @@
+/* KioskNameList.css */
+
+.kiosk-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .kiosk-list-item {
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+  }
+  
+  .kiosk-list-item:last-child {
+    margin-bottom: 0;
+  }
