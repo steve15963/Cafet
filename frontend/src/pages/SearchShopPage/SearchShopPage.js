@@ -49,19 +49,27 @@ const SearchShopPage = () => {
   const handleRegionSearchClick = useCallback(() => {
     searchResult(region);
     let keyword = document.getElementById("searchValue").value;
-    console.log("keyword : "  + keyword);
-    axios.get(`https://i9a105.p.ssafy.io/api/shop/address/${keyword}`)
-      .then(function(res) {
-        console.log(res);
-        setCafeList(res.data.slice(0, 9))
-        
-      })
-      .catch(function (err) {
-        console.log(err);
-        alert('검색결과가 없습니다')
-        setRegion("")
-      });
+    console.log(keyword);
+    //키워드가 빈 경우 그냥 기본 리스트 호출.
+    if(keyword === ""){
+      alert('키워드가 비어있습니다.')
+    }
+    //키워드가 있는 경우.
+    else{
+      console.log("keyword : "  + keyword);
+      axios.get(`https://i9a105.p.ssafy.io/api/shop/search/${keyword}`)
+        .then(function(res) {
+          console.log(res);
+          setCafeList(res.data.slice(0, 9))
+        })
+        .catch(function (err) {
+          console.log(err);
+          alert('검색결과가 없습니다')
+          setRegion("")
+        });
+    }
   }, [region]);
+  
   
 
   return (
