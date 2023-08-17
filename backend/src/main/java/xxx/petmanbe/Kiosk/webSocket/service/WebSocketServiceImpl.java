@@ -59,6 +59,7 @@ public class WebSocketServiceImpl implements WebSocketService{
 		for(int i=0 ; i<list.length ; i++){
 			String[] info = list[i];
 			msg+= info[0]+" "+info[3]+" "+info[2]+" 개"+'\n';
+			if(i==list.length-1) msg+= info[0]+" "+info[3]+" "+info[2]+" 개";
 		}
 
 		return msg.toString();

@@ -14,7 +14,12 @@ const OrderCheckPage = () => {
     setMessage((current) => [...current,({"msg":msg})])
   }
 
+  const handleRemoveMenu = (index) =>{
 
+    const updatedMenuList = message.filter((item, i) => i !== index);
+
+    setMessage(updatedMenuList)
+  }
 
   var sock = new SockJS('https://i9a105.p.ssafy.io/order')
   // var sock = new SockJS('http://localhost:8080/order')
@@ -40,12 +45,14 @@ const addMessage = (content) => {
   // }
 }
 
+
+
   return (
     <div className="App">
       <div>shop : {shopId}번(이름)</div> {/* room number */}
       <p>주문 확인 페이지입니다.</p>
       {/* <Header className="header_class"/> */}
-      <OrderCheckBody message = {message}/>
+      <OrderCheckBody message = {message} onRemoveMenu={handleRemoveMenu}/>
     </div>
   );
 };
