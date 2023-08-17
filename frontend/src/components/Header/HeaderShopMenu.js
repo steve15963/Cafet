@@ -25,7 +25,7 @@ const HeaderShopMenu = () => {
       alert("로그아웃에 실패하셨습니다.");
     }
   };
-
+  const userId = localStorage.getItem("userId");
   return (
     <div className="header-link-container">
       <Stack
@@ -40,7 +40,7 @@ const HeaderShopMenu = () => {
         >
           로그아웃
         </Link>
-        <Link to={"/mypage"} className="header-link">
+        <Link to={`/mypage/:${userId}`} className="header-link">
           마이페이지
         </Link>
       </Stack>
