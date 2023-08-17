@@ -21,6 +21,8 @@ const AccountSettings = () => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
   };
+  const userId = localStorage.getItem("userId");
+
 
   //회원정보 수정버튼 클릭시 동작
   const onUpdateClick = async (event) => {
@@ -31,7 +33,7 @@ const AccountSettings = () => {
       const token = response.data.token;
       console.log("Update success", token);
       alert("회원정보 수정에 성공하셨습니다.");
-      navigate("/mypage", { replace: true });
+      navigate(`/mypage/:${userId}`, { replace: true });
     } catch (error) {
       console.error("Update failed:", error);
       alert("회원정보 수정에 실패하셨습니다.");
