@@ -466,16 +466,14 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public String getFirstImg(String boardContent) {
 		// 정규 표현식 패턴 생성
-		String patternString = "<img\\s+[^>]*src=['\"]([^'\"]+)['\"][^>]*>";
+		String patternString = "/<img.*?src=\"(.*?)\"/";
 		Pattern pattern = Pattern.compile(patternString);
 
 		// 문자열 내에서 패턴 검색
 		Matcher matcher = pattern.matcher(boardContent);
 		if (matcher.find()) {
-			// 따옴표 제거
-			String srcValueWithQuotes = matcher.group(1);
-			String srcValue = srcValueWithQuotes.replaceAll("^['\"]|['\"]$", "");
-			return matcher.group(srcValue);
+			// 찾은 값 반환
+			return matcher.group(1);
 		} else {
 			return null;
 		}
