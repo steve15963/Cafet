@@ -6,9 +6,7 @@ const KioskMenu = () => {
   return (
     <div>
       <div className="logo-container">
-        <Link to={"/kiosk"}>
           <img src="/images/logo/logo192.png" alt="로고" className="logo" />
-        </Link>
         <p>capet</p>
       </div>
       <div className="LoginForm">
