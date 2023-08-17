@@ -38,6 +38,7 @@ import OnePage from "./OrderPage/OnePage";
 import KioskAnimalDetailPage from "./pages/KioskAnimalDetailPage/KioskAnimalDetailPage";
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import KioskMenu from "./components/KioskMenu/KioskMenu";
+import KioskRegist from "./components/KioskRegist/KioskRegist";
 
 const App = () => {
   return (
@@ -80,6 +81,7 @@ const App = () => {
         <Route path="/kiosk" element={<KioskMain />}>
           <Route path="" element={<KioskLogin />} />
           <Route path="list" element={<KioskNameList />} />
+          <Route path="first" element={<KioskRegist />} />
           <Route path="menu" element={<KioskMenu />}>
             <Route path="menu/:shopId" element={<MenuPostPage />} />
             <Route path="menu/check/:shopId" element={<OrderCheckPage />} />

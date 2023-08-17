@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import "./KioskNameList.scoped.css";
 import useKioskList from "../../hooks/useKioskList";
-import { Modal } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const KioskNameList = () => {
   const { nameList } = useKioskList();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   if (nameList.length === 0) {
-    setIsModalOpen(true);
+    navigate("/kiosk/first", { replace: true });
   }
 
   return (
@@ -19,7 +19,6 @@ const KioskNameList = () => {
           <li key={index}>{name}</li>
         ))}
       </ul>
-      {isModalOpen && <Modal onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };
