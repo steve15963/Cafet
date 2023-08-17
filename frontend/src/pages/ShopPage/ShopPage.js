@@ -22,8 +22,6 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 
 import PetsIcon from "@mui/icons-material/Pets";
-import IconButton from '@mui/material/IconButton';
-import AddBoxIcon from '@mui/icons-material/AddBox';
 
 import Chip from '@mui/material/Chip';
 import StarIcon from '@mui/icons-material/Star';
@@ -61,9 +59,9 @@ function a11yProps(index) {
 }
 
 const ShopPage = () => {
+  // const navigate = useNavigate();
 
   const userId = localStorage.getItem('userId');
-  const level = localStorage.getItem('level');
 
   const { shopId } = useParams();
 
@@ -92,8 +90,51 @@ const ShopPage = () => {
   const handleFollowState = (newState) => {
     setIsFollowing(newState)
   }
-  console.log(shopData)
 
+
+  // const handleOnChangeRating = () => {
+
+  //   const serverUrl = "https://i9a105.p.ssafy.io/api/shop/like";
+
+  //   if (starRate === 0) {
+  //     axios.post(serverUrl, { 
+  //       shopId: shopId,
+  //       value: starRate,
+  //       userId: userId,
+  //     })
+  //     .then(function(res) {
+  //       if (res.status !== 404) {
+  //         alert('별점 저장에 성공했습니다.')
+  //       }
+  //     })
+  //     .catch(
+  //       navigate(`/shop/${shopId}`)
+  //     )
+  //   } else if (starRate > 0) {
+  //     axios.put(serverUrl, { 
+  //       userId: userId,
+  //       value: starRate,
+  //       shopId: shopId,
+  //     })
+  //     .then(
+  //       alert('별점이 수정되었습니다')
+  //     )
+  //     .catch(
+  //       alert('수정에 실패했습니다!')
+  //     )
+  //   } else if (starRate === null) {
+  //     axios.delete(serverUrl, {
+  //       data: {
+  //         shopId: shopId,
+  //         userId: userId,
+  //       }
+  //     })
+  //     .then(
+  //       alert('별점이 삭제되었습니다.')
+  //     )
+  //   }
+  // }
+  // console.log("starRate", starRate)
   return (
     <div>
       <Header />
@@ -136,8 +177,8 @@ const ShopPage = () => {
             name="simple-controlled"
             value={starRate}
             onChange={(event, newValue) => {
-              console.log('newValue', newValue)
               setStarRate(newValue);
+              // handleOnChangeRating()
             }}
            />
         </div>
@@ -147,32 +188,18 @@ const ShopPage = () => {
             value={tabValue}
             onChange={handleChange}
             aria-label="basic tabs example"
-          >
+          >1
             <Tab label="카페 가족" {...a11yProps(0)} />
-            <Tab label="갤러리" {...a11yProps(1)} />
-            <Tab label="카페 소식" {...a11yProps(2)} />
-            <Tab label="카페 정보" {...a11yProps(3)} />
+            <Tab label="카페 정보" {...a11yProps(1)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={tabValue} index={0}>
           <ShopAnimalList shopId={shopId} />
         </CustomTabPanel>
-        <CustomTabPanel value={tabValue} index={1}>
-          <h1>갤러리</h1>
-        </CustomTabPanel>
-        <CustomTabPanel value={tabValue} index={2}>
-          <h1>카페 소식</h1>
-          <IconButton>
-            {
-              level === 300 ? <AddBoxIcon /> : <></>
-            }
-          </IconButton>
-        </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={2}>
           <ShopInfoPage key={shopId} {...shopData} />
         </CustomTabPanel>
       </Container>
-
       <div className="footer-save" />
       <Footer />
     </div>

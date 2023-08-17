@@ -6,7 +6,6 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
 const ShopFollow = ({ userId, shopId, isFollowing, followState }) => {
-  console.log(isFollowing);
   const [btnStatus, setBtnStatus] = useState(isFollowing);
 
   const handleFollowFeat = () => {
