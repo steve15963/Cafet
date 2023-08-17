@@ -289,7 +289,7 @@ public class ShopServiceImpl implements ShopService{
 	 }
 
 	// 주소(도로명 주소만)를 위도, 경도로 바꾸기
-	public Position addressToPosition(String address) throws IOException {
+	public Position addressToPosition(String address) {
 
 		WebClient webClient = WebClient.builder()
 				.baseUrl("https://dapi.kakao.com/v2/local/search/address.json?query="+address)

@@ -5,14 +5,10 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.exception.RestApiException;
 import xxx.petmanbe.exception.errorcode.CommonErrorCode;
-import xxx.petmanbe.user.dto.requestDto.RefreshTokenDto;
 import xxx.petmanbe.user.entity.Token;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.TokenRepository;
 import xxx.petmanbe.user.repository.UserRepository;
-
-import java.util.LinkedList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

@@ -11,5 +11,5 @@ public class ResponseBusinessNumberStatusDetailDto {
 	String status_code;
 	Integer request_cnt;
 	Integer valid_cnt;
-	ResponseBusinessNumberStatusDetailDataDto data[];
+	ResponseBusinessNumberStatusDetailDataDto[] data;
 }

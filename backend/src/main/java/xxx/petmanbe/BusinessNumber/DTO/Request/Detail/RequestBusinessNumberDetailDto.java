@@ -8,14 +8,11 @@ import lombok.ToString;
 @Getter
 @ToString
 public class RequestBusinessNumberDetailDto {
-	RequestBusinessNumberBodyDto businesses[];
+	RequestBusinessNumberBodyDto[] businesses;
 
 	public RequestBusinessNumberDetailDto(RequestBusinessNumberBodyDto businesses) {
 		this.businesses = new RequestBusinessNumberBodyDto[1];
 		this.businesses[0] = businesses;
 
-	}
-
-	public RequestBusinessNumberDetailDto() {
 	}
 }

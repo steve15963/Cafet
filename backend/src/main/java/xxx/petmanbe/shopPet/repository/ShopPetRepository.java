@@ -1,10 +1,10 @@
 package xxx.petmanbe.shopPet.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import xxx.petmanbe.shopPet.entity.ShopPet;
-
 import java.util.List;
-import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import xxx.petmanbe.shopPet.entity.ShopPet;
 
 public interface ShopPetRepository extends JpaRepository<ShopPet,Long> {
 

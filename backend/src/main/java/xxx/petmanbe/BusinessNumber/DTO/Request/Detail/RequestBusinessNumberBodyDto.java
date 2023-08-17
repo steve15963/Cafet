@@ -23,7 +23,4 @@ public class RequestBusinessNumberBodyDto {
 		this.start_dt = start_dt;
 		this.p_nm = p_nm;
 	}
-
-	public RequestBusinessNumberBodyDto() {
-	}
 }

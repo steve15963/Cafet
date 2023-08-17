@@ -4,9 +4,9 @@ import xxx.petmanbe.BusinessNumber.DTO.Response.detail.ResponseBusinessNumberSta
 import xxx.petmanbe.BusinessNumber.DTO.Response.nomal.ResponseBusinessNumberStatusDto;
 
 public interface BusinessNumberRepository {
-	public ResponseBusinessNumberStatusDto BusinessNumberSearch(String BusinessNumber);
+	ResponseBusinessNumberStatusDto BusinessNumberSearch(String BusinessNumber);
 
-	public ResponseBusinessNumberStatusDetailDto BusinessNumberSearchDetail(
+	ResponseBusinessNumberStatusDetailDto BusinessNumberSearchDetail(
 		String BusinessNumber,
 		String StartDateTime,
 		String RepresentativeName

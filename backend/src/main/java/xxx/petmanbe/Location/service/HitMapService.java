@@ -8,5 +8,5 @@ public interface HitMapService {
 	 * @param animalId 해당 동물의 Id
 	 * @return
 	 */
-	public HitMapResponseDto getHitMap(long animalId);
+	HitMapResponseDto getHitMap(long animalId);
 }

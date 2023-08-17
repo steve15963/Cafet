@@ -1,8 +1,8 @@
 package xxx.petmanbe.BusinessNumber.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import xxx.petmanbe.BusinessNumber.DTO.Response.detail.ResponseBusinessNumberStatusDetailDto;
 import xxx.petmanbe.BusinessNumber.DTO.Response.nomal.ResponseBusinessNumberStatusDto;
@@ -10,22 +10,15 @@ import xxx.petmanbe.BusinessNumber.Repository.BusinessNumberRepository;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class CheckBusinessNumberServiceImpl implements CheckBusinessNumberService {
-	private BusinessNumberRepository businessNumberRepository;
-
-	@Autowired
-	public CheckBusinessNumberServiceImpl(BusinessNumberRepository businessNumberRepository) {
-		this.businessNumberRepository = businessNumberRepository;
-	}
+	private final BusinessNumberRepository businessNumberRepository;
 
 	@Override
 	public boolean CheckBusinessNumber(String Number) {
 		ResponseBusinessNumberStatusDto responseBusinessNumberStatusDto = businessNumberRepository.BusinessNumberSearch(
 			Number);
-		if (responseBusinessNumberStatusDto.getData()[0].getB_no().equals(Number)) {
-			return true;
-		}
-		return false;
+		return responseBusinessNumberStatusDto.getData()[0].getB_no().equals(Number);
 	}
 
 	@Override
@@ -33,9 +26,7 @@ public class CheckBusinessNumberServiceImpl implements CheckBusinessNumberServic
 		ResponseBusinessNumberStatusDetailDto responseBusinessNumberStatusDetailDto = businessNumberRepository.BusinessNumberSearchDetail(
 			Number, date, name);
 
-		if (responseBusinessNumberStatusDetailDto.getData()[0].getValid_msg() == null)
-			return false;
-		return true;
+		return responseBusinessNumberStatusDetailDto.getData()[0].getValid_msg() != null;
 	}
 
 }

@@ -14,8 +14,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Builder
 public class GetMenuDto {
-
-
     private Long menuId;
 
     private String menuType;

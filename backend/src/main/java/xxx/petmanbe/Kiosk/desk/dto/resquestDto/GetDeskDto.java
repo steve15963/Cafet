@@ -1,10 +1,13 @@
 package xxx.petmanbe.Kiosk.desk.dto.resquestDto;
 
-import lombok.*;
-import xxx.petmanbe.Kiosk.desk.entity.Desk;
-
 import javax.persistence.Column;
-import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import xxx.petmanbe.Kiosk.desk.entity.Desk;
 
 @Getter
 @Setter

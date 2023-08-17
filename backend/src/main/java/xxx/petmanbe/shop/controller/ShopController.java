@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import xxx.petmanbe.address.repository.AddressRepository;
 import xxx.petmanbe.shop.dto.requestDto.DeleteShopGradeDto;
 import xxx.petmanbe.shop.dto.requestDto.LikeShopRequestDto;
 import xxx.petmanbe.shop.dto.requestDto.PostNewShopDto;

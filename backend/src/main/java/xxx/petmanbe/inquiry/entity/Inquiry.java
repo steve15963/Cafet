@@ -16,7 +16,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
-import xxx.petmanbe.user.entity.User;
 
 @Entity
 @Table(name = "inquiry")

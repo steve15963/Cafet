@@ -26,7 +26,7 @@ public class BusinessNumberController {
 	/**
 	 * 사업자 번호의 유무를 검사하는 API
 	 * @since 2023-07-15
-	 * @param num 사업자 번호
+	 * @param requestDto 사업자 번호
 	 * @return 200 : 있는 사업자 번호, 400 : 없는 사업자 번호
 	 */
 	@PostMapping("/simple")

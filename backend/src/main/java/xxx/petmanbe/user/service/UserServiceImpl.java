@@ -267,7 +267,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public boolean postLogout(HttpServletRequest request) {
+	public void postLogout(HttpServletRequest request) {
 
 		String[] token= request.getHeader("Cookie").split("; ");
 		String refreshToken ="";
@@ -287,7 +287,6 @@ public class UserServiceImpl implements UserService{
 		token1.setRefreshToken("");
 
 		tokenRepository.save(token1);
-		return true;
 	}
 
 	@Override

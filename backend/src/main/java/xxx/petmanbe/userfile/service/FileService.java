@@ -7,5 +7,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface FileService {
 
 
-	public String keepFile(MultipartFile file, String email) throws IOException;
+	String keepFile(MultipartFile file, String email) throws IOException;
 }

@@ -28,12 +28,11 @@ public class DeskServiceImpl implements DeskService{
 
     @Override
     public List<GetDeskDto> GetShopDesk(long shopId) {
-        List<GetDeskDto> deskList = deskRepository.findAllByShop_ShopId(shopId)
+
+		return deskRepository.findAllByShop_ShopId(shopId)
             .orElseThrow(()->new RestApiException(CommonErrorCode.INVALID_PARAMETER)).stream()
             .map(GetDeskDto::new)
             .collect(Collectors.toList());
-
-        return deskList;
     }
 
     @Override

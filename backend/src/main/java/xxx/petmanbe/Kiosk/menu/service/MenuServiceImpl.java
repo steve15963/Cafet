@@ -1,7 +1,11 @@
 package xxx.petmanbe.Kiosk.menu.service;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.Kiosk.menu.dto.other.PostMenuPriceSizeDto;
 import xxx.petmanbe.Kiosk.menu.dto.requestDto.PostMenuDto;
 import xxx.petmanbe.Kiosk.menu.dto.responseDto.GetMenuDto;
@@ -14,10 +18,6 @@ import xxx.petmanbe.exception.errorcode.CommonErrorCode;
 import xxx.petmanbe.exception.errorcode.ShopErrorCode;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,12 +50,7 @@ public class MenuServiceImpl implements MenuService {
 					.build();
 
 			menuPriceSizeRepository.save(menuPriceSize);
-//			menuPriceSizeList
 		}
-//			menu_save.setMenuPriceSize();
-
-
-//		long menuId = menuRepository.save(menu).getMenuId();
 
 		return menu.getMenuId();
 	}

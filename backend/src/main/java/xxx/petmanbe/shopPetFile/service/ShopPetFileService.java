@@ -6,6 +6,6 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ShopPetFileService {
-	public boolean keepFile(List<MultipartFile> files, long shopPetId) throws IOException;
+	boolean keepFile(List<MultipartFile> files, long shopPetId) throws IOException;
 
 }

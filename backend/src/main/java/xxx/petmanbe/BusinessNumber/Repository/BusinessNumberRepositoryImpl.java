@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import xxx.petmanbe.BusinessNumber.DTO.Request.Detail.RequestBusinessNumberBodyDto;
 import xxx.petmanbe.BusinessNumber.DTO.Request.Detail.RequestBusinessNumberDetailDto;
@@ -25,16 +26,13 @@ import xxx.petmanbe.BusinessNumber.DTO.Response.nomal.ResponseBusinessNumberStat
 
 @Slf4j
 @Repository
+@RequiredArgsConstructor
 public class BusinessNumberRepositoryImpl implements BusinessNumberRepository {
 
 	@Value("${opendata.key}")
 	private String key;
 
-	private ObjectMapper mapper;
-
-	public BusinessNumberRepositoryImpl() {
-		mapper = new ObjectMapper();
-	}
+	private final ObjectMapper mapper;
 
 	@Override
 	public ResponseBusinessNumberStatusDto BusinessNumberSearch(String BusinessNumber) {

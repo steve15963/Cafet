@@ -3,9 +3,11 @@ package xxx.petmanbe.shopPet.dto.response;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.*;
-import xxx.petmanbe.shop.dto.responseDto.GetShopDto;
-import xxx.petmanbe.shop.entity.Shop;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import xxx.petmanbe.shopPet.entity.ShopPet;
 import xxx.petmanbe.shopPetFile.dto.ShopPetFileDto;
 

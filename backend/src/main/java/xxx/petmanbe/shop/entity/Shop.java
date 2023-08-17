@@ -14,15 +14,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import xxx.petmanbe.Location.entity.BeaconLocation;
-import xxx.petmanbe.Location.entity.PetLocation;
 import xxx.petmanbe.board.entity.Board;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.shop.dto.requestDto.PutShopDto;
 import xxx.petmanbe.shopFile.entity.ShopFile;
 import xxx.petmanbe.shopPet.entity.ShopPet;
-import xxx.petmanbe.shopPetFile.entity.ShopPetFile;
 import xxx.petmanbe.user.entity.User;
 
 @Entity

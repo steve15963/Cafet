@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class RequestBusinessNumberDto {
-	String b_no[];
+	String[] b_no;
 
 	public RequestBusinessNumberDto(String BusinessNumber) {
 		b_no = new String[1];

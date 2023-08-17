@@ -11,6 +11,6 @@ public enum Role {
     SHOP("SHOP"),
     USER("USER");
 
-    private String value;
+    private final String value;
 
 }

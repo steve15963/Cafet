@@ -1,8 +1,8 @@
 package xxx.petmanbe.BusinessNumber.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import xxx.petmanbe.BusinessNumber.DTO.Response.detail.ResponseBusinessNumberStatusDetailDto;
 import xxx.petmanbe.BusinessNumber.DTO.Response.nomal.ResponseBusinessNumberStatusDto;
@@ -10,13 +10,9 @@ import xxx.petmanbe.BusinessNumber.Repository.BusinessNumberRepository;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class BusinessNumberServiceImpl implements BusinessNumberService {
-	private BusinessNumberRepository businessNumberRepository;
-
-	@Autowired
-	public BusinessNumberServiceImpl(BusinessNumberRepository businessNumberRepository) {
-		this.businessNumberRepository = businessNumberRepository;
-	}
+	private final BusinessNumberRepository businessNumberRepository;
 
 	@Override
 	public boolean CheckBusinessNumber(String num) {
@@ -26,15 +22,12 @@ public class BusinessNumberServiceImpl implements BusinessNumberService {
 			return false;
 		log.info(responseBusinessNumberStatusDto.toString());
 
-		/**
-		 * null == 조회실패
-		 * 1 == 조회성공
-		 * n == n개 조회 성공
+		/*
+		  null == 조회실패
+		  1 == 조회성공
+		  n == n개 조회 성공
 		 */
-		if (responseBusinessNumberStatusDto.getMatch_cnt() == null) {
-			return false;
-		}
-		return true;
+		return responseBusinessNumberStatusDto.getMatch_cnt() != null;
 	}
 
 	@Override
@@ -44,14 +37,12 @@ public class BusinessNumberServiceImpl implements BusinessNumberService {
 		if (responseBusinessNumberStatusDetailDto == null)
 			return false;
 		log.info(responseBusinessNumberStatusDetailDto.toString());
-		/**
-		 * null == 조회실패
-		 * 1 == 조회성공
-		 * n == n개 조회 성공
+		/*
+		  null == 조회실패
+		  1 == 조회성공
+		  n == n개 조회 성공
 		 */
-		if (responseBusinessNumberStatusDetailDto.getValid_cnt() == null)
-			return false;
-		return true;
+		return responseBusinessNumberStatusDetailDto.getValid_cnt() != null;
 	}
 
 }

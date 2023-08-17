@@ -2,7 +2,6 @@ package xxx.petmanbe.board.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import lombok.Builder;
 import lombok.Getter;

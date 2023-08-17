@@ -21,8 +21,6 @@ public class Menu {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "menu_id", nullable = false, updatable = false)
 	private Long menuId;
-
-	//대분류
 	
 	// 주문량
 	@Column

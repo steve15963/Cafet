@@ -34,7 +34,7 @@ public class GradeServiceImpl implements GradeService{
     // 유저의 가게 평점 주기
     @Transactional
     @Override
-    public boolean postShopGrade(PostShopGradeDto postShopGradeDto) {
+    public void postShopGrade(PostShopGradeDto postShopGradeDto) {
 
         Shop shop = shopRepository.findById(postShopGradeDto.getShopId())
             .orElseThrow(()->new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
@@ -54,7 +54,6 @@ public class GradeServiceImpl implements GradeService{
 
         shopRepository.save(shop);
 
-        return true;
     }
 
     // 유저별 가게 평점 조회하기
@@ -69,7 +68,7 @@ public class GradeServiceImpl implements GradeService{
 
     // 유저별 가게 평점 수정하기
     @Override
-    public boolean putShopGrade(PutShopGradeDto putShopGradeDto) {
+    public void putShopGrade(PutShopGradeDto putShopGradeDto) {
 
         Grade grade = gradeRepository.findByUserShopJpql(putShopGradeDto.getUserId(), putShopGradeDto.getShopId())
             .orElseThrow(() -> new RestApiException(GradeErrorCode.GRADE_NOT_FOUND));
@@ -83,12 +82,11 @@ public class GradeServiceImpl implements GradeService{
         gradeRepository.save(grade);
         shopRepository.save(shop);
 
-        return true;
-    }
+	}
 
     // 유저 별 가게 평점 삭제하기
     @Override
-    public boolean deleteShopGrade(DeleteShopGradeDto deleteShopGradeDto) {
+    public void deleteShopGrade(DeleteShopGradeDto deleteShopGradeDto) {
 
         Grade grade = gradeRepository.findByUserShopJpql(deleteShopGradeDto.getUserId(),deleteShopGradeDto.getUserId())
             .orElseThrow(() -> new RestApiException(GradeErrorCode.GRADE_NOT_FOUND));
@@ -99,6 +97,5 @@ public class GradeServiceImpl implements GradeService{
 
         gradeRepository.delete(grade);
 
-        return true;
     }
 }

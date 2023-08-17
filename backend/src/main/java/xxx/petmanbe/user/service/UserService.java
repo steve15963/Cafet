@@ -25,8 +25,6 @@ public interface UserService {
 
 	UserInformationDto getUser(long userId) throws Exception;
 
-//	public User SessionLogin(LoginDto loginDto) throws Exception;
-
 	List<UserListDto> getUserList();
 
 	String deleteUser(long userId);
@@ -39,7 +37,7 @@ public interface UserService {
 
 	boolean changeUserPassword(UpdateUserPasswordDto request);
 
-	boolean postLogout(HttpServletRequest request);
+	void postLogout(HttpServletRequest request);
 
 	boolean checkUserLikeBoard(Long boardId, Long userId);
 

@@ -72,12 +72,6 @@ public class BoardFileServiceImpl implements BoardFileService{
 	@Override
 	public String keepOnlyFile(MultipartFile file) throws IOException {
 
-		// BoardOnlyFile file1 = BoardOnlyFile.builder()
-			// 	.boardUrl(storedFileName)
-			// 	.build();
-			//
-			// boardOnlyFileRepository.save(file1);
-
 			return s3Uploader.upload(file, "board" );
 	}
 }

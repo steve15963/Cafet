@@ -4,33 +4,28 @@ import java.sql.Date;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.SignatureException;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.user.entity.Token;
-import xxx.petmanbe.user.entity.User;
-import xxx.petmanbe.user.repository.UserRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -44,8 +39,6 @@ public class JwtUtil {
 
 	@Value("${jwt.refreshTokenExpirationTime.int}")
 	private int refreshTokenExpirationTime;
-
-	private final UserRepository userRepository;
 
 
 	// 객체 초기화, secreKey를 Base64로 인코딩한다.

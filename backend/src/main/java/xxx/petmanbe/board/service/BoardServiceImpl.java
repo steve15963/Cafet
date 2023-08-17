@@ -1,6 +1,5 @@
 package xxx.petmanbe.board.service;
 
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -63,7 +62,7 @@ public class BoardServiceImpl implements BoardService{
 	// 게시글 생성
 	@Transactional
 	@Override
-	public Long postBoard(AddBoardRequestDto request){
+	public void postBoard(AddBoardRequestDto request){
 
 		// 일단 게시글 제목과 내용으로 게시글 객체 생성
 		Board board = request.toEntity();
@@ -151,14 +150,13 @@ public class BoardServiceImpl implements BoardService{
 		boardRepository.save(board);
 		
 		// id 전달
-		return board.getBoardId();
 	}
 
 	// 카테고리 생성
 	@Transactional
 	@Override
-	public Category postCategory(AddCategoryRequestDto request){
-		return categoryRepository.save(request.toEntity());
+	public void postCategory(AddCategoryRequestDto request){
+		categoryRepository.save(request.toEntity());
 	}
 
 	// 게시글 상세 보기
@@ -319,7 +317,7 @@ public class BoardServiceImpl implements BoardService{
 	// 게시글 수정: 제목, 내용, 카테고리, 태그
 	@Transactional
 	@Override
-	public Board putBoard(UpdateBoardRequestDto request){
+	public void putBoard(UpdateBoardRequestDto request){
 
 		// 게시글 정보 가져와서
 		Board board = boardRepository.findById(request.getBoardId())
@@ -393,7 +391,6 @@ public class BoardServiceImpl implements BoardService{
 		}
 
 		// 수정된 정보 반환
-		return board;
 	}
 
 	// 게시글 좋아요 누르기
@@ -452,7 +449,7 @@ public class BoardServiceImpl implements BoardService{
 	// 게시글 삭제 및 복구, update 메소드를 이용해 삭제 여부 값 변경
 	@Transactional
 	@Override
-	public Board putBoardStatus(Long boardId){
+	public void putBoardStatus(Long boardId){
 		// id로 게시글 찾고
 		Board board = boardRepository.findById(boardId)
 			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
@@ -461,7 +458,6 @@ public class BoardServiceImpl implements BoardService{
 		board.changeDeleteStatus();
 
 		// 수정된 정보 반환
-		return board;
 	}
 
 	// 게시글 썸네일 따기

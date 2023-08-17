@@ -21,7 +21,6 @@ import xxx.petmanbe.shopPet.entity.ShopPet;
 import xxx.petmanbe.shopPet.repository.ShopPetRepository;
 import xxx.petmanbe.shopPetFile.dto.ShopPetFileDto;
 import xxx.petmanbe.shopPetFile.entity.ShopPetFile;
-import xxx.petmanbe.shopPetFile.repository.ShopPetFileRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -87,7 +86,7 @@ public class ShopPetServiceImpl implements ShopPetService{
 
     @Transactional
     @Override
-    public boolean putShopPet(PutShopPetDto putShopPetDto) {
+    public void putShopPet(PutShopPetDto putShopPetDto) {
 
         ShopPet shopPet = shopPetRepository.findById(putShopPetDto.getShopPetId())
             .orElseThrow(()-> new RestApiException(PetErrorCode.PET_NOT_FOUND));
@@ -96,12 +95,11 @@ public class ShopPetServiceImpl implements ShopPetService{
 
         shopPetRepository.save(shopPet);
 
-        return true;
     }
 
     @Transactional
     @Override
-    public boolean deleteShopPet(Long shopPetId) {
+    public void deleteShopPet(Long shopPetId) {
 
         ShopPet shopPet = shopPetRepository.findById(shopPetId)
             .orElseThrow(()->new RestApiException(PetErrorCode.PET_NOT_FOUND));
@@ -110,6 +108,5 @@ public class ShopPetServiceImpl implements ShopPetService{
 
         shopPetRepository.save(shopPet);
 
-        return true;
     }
 }

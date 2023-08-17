@@ -4,7 +4,6 @@ import java.util.List;
 
 import lombok.Getter;
 import xxx.petmanbe.tag.dto.response.TagListResponseDto;
-import xxx.petmanbe.tag.entity.Tag;
 
 @Getter
 public class UpdateBoardRequestDto {

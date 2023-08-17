@@ -6,12 +6,12 @@ import xxx.petmanbe.shopPet.dto.response.GetShopPetDto;
 
 public interface ShopPetService {
 
-    public GetShopPetDto getShopPet(long shopId);
+    GetShopPetDto getShopPet(long shopId);
 
-    public long postShopPet(PostShopPetDto postShopPetDto);
+    long postShopPet(PostShopPetDto postShopPetDto);
 
-    public boolean putShopPet(PutShopPetDto putShopPetDto);
+    void putShopPet(PutShopPetDto putShopPetDto);
 
-    public boolean deleteShopPet(Long shopPetId);
+    void deleteShopPet(Long shopPetId);
 
 }

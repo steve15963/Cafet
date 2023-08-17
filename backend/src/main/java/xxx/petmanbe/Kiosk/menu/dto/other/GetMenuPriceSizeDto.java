@@ -19,7 +19,4 @@ public class GetMenuPriceSizeDto {
         this.menuPrice = menuPriceSize.getMenuPrice();
         this.menuSize = menuPriceSize.getMenuSize();
     }
-
-//    public GetMenuPriceSizeDto(MenuPriceSize menuPriceSize) {
-//    }
 }

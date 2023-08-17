@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
 	// 댓글 달기
 	@Transactional
 	@Override
-	public Comment postComment(Long boardId, Long userId, AddCommentRequestDto request){
+	public void postComment(Long boardId, Long userId, AddCommentRequestDto request){
 
 		// dto를 comment로 변환시키고
 		Comment comment	= request.toEntity();
@@ -53,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
 		board.plusCommentSum();
 
 		// 댓글 생성
-		return commentRepository.save(comment);
+		commentRepository.save(comment);
 	}
 
 	// 댓글 목록 가져오기
@@ -77,7 +77,7 @@ public class CommentServiceImpl implements CommentService {
 	// 댓글 수정하기
 	@Transactional
 	@Override
-	public Comment putComment(UpdateCommentRequestDto request){
+	public void putComment(UpdateCommentRequestDto request){
 		// 수정할 정보 가져오기
 		Comment comment = commentRepository.findById(request.getCommentId())
 			.orElseThrow(() -> new RestApiException(CommonErrorCode.INVALID_PARAMETER));
@@ -86,13 +86,12 @@ public class CommentServiceImpl implements CommentService {
 		comment.updateComment(request);
 
 		// 수정 정보 반환
-		return comment;
 	}
 
 	// 댓글 삭제
 	@Transactional
 	@Override
-	public Comment putCommentStatus(Long commentId){
+	public void putCommentStatus(Long commentId){
 
 		// 수정할 정보 가져오기
 		Comment comment = commentRepository.findById(commentId)
@@ -113,6 +112,5 @@ public class CommentServiceImpl implements CommentService {
 			board.plusCommentSum();
 
 		// 바뀐 댓글 정보 반환
-		return comment;
 	}
 }

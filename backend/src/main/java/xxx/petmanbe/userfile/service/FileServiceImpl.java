@@ -14,7 +14,6 @@ import xxx.petmanbe.exception.errorcode.UserErrorCode;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.UserRepository;
 import xxx.petmanbe.userfile.entity.UserFile;
-import xxx.petmanbe.userfile.repository.UserFileRepository;
 
 @RequiredArgsConstructor
 @Service

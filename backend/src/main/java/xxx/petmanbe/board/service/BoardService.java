@@ -8,16 +8,14 @@ import xxx.petmanbe.board.dto.request.LikeRequestDto;
 import xxx.petmanbe.board.dto.request.UpdateBoardRequestDto;
 import xxx.petmanbe.board.dto.response.BoardListResponseDto;
 import xxx.petmanbe.board.dto.response.BoardResponseDto;
-import xxx.petmanbe.board.entity.Board;
-import xxx.petmanbe.board.entity.Category;
 
 public interface BoardService {
 
 	// 게시글 생성
-	Long postBoard(AddBoardRequestDto request);
+	void postBoard(AddBoardRequestDto request);
 
 	// 카테고리 생성
-	Category postCategory(AddCategoryRequestDto request);
+	void postCategory(AddCategoryRequestDto request);
 
 	// 게시글 상세보기
 	BoardResponseDto getBoardById(Long boardId);
@@ -53,7 +51,7 @@ public interface BoardService {
 	List<BoardListResponseDto> getLikeBoardListByUserId(Long userId);
 
 	// 게시글 수정
-	Board putBoard(UpdateBoardRequestDto request);
+	void putBoard(UpdateBoardRequestDto request);
 
 	// 해당 게시글에 해당 유저 좋아요 추가
 	void postLike(LikeRequestDto request);
@@ -62,7 +60,7 @@ public interface BoardService {
 	void deleteLike(LikeRequestDto request);
 
 	// 게시글 삭제표시
-	Board putBoardStatus(Long boardId);
+	void putBoardStatus(Long boardId);
 
 	// 게시글 썸네일 따기
 	String getFirstImg(String boardContent);

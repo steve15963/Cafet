@@ -1,7 +1,5 @@
 package xxx.petmanbe.BusinessNumber.DTO.Request;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
