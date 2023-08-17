@@ -2,6 +2,7 @@ package xxx.petmanbe.Location.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,9 @@ public class LocationController {
 
 	private final HitMapService hitMapService;
 
+	private final SimpMessageSendingOperations template;
+
+
 	/**
 	 * 동물의 위치를 저장하는 컨트롤러 메소드
 	 * @param addPetLocationRequestDto 비콘의 인덱스 값과 그 거리를 내포한 VO이다.
@@ -44,6 +48,14 @@ public class LocationController {
 		log.info(addPetLocationRequestDto.toString());
 		PetLocation petLocation = locationService.getTrilateration(addPetLocationRequestDto);
 		log.info("add Location Test : {}", addPetLocationRequestDto);
+
+		PetLocationResponseDto p = new PetLocationResponseDto(petLocation);
+
+		String a = String.valueOf(p.getX())+ '\n'+ String.valueOf(p.getY());
+
+		template.convertAndSend("/topic/map/1", a);
+
+
 		return new ResponseEntity<>(
 			new PetLocationResponseDto(petLocation),
 			petLocation == null ?HttpStatus.BAD_REQUEST: HttpStatus.ACCEPTED
