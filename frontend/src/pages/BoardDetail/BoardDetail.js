@@ -26,9 +26,6 @@ const BoardDetail = () => {
   const { boardList } = useBoardList();
   const [content, setContent] = useState("");
   const userId = Number(localStorage.getItem("userId"));
-  console.log(typeof userId);
-  console.log(typeof id);
-  console.log(typeof Number(id));
   const nowLiked = useCheckLike(Number(id), userId);
   const [liked, setLiked] = useState(nowLiked);
 
@@ -126,35 +123,41 @@ const BoardDetail = () => {
           variant="contained"
           size="large"
           onClick={onLikeClick}
-          style={{
-            backgroundColor: "white",
-          }}
-        >
-          {liked ? "♥" : "♡"}
+            style={{
+              backgroundColor: "white",
+              color: liked ? "red" : "black", // 내용에 맞게 색상 변경
+            }}
+          >
+            {liked ? "♥" : "♡"}
         </Button>
       </div>
       {boardDetail.commentList.length > 0 && (
         <CommentList commentList={boardDetail.commentList} />
       )}
+      <div className="wrap">
       <Stack
         direction="row"
-        spacing={2}
+        spacing={0}
+        alignItems="center"
         justifyContent="flex-start"
-        sx={{ marginTop: "20px" }}
+        sx={{ marginTop: "20px", width: "100%" }}
       >
-        <div className="boarddetail-input-container">
-          <input
-            type="text"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="댓글을 적어주세요"
-            style={{ width: "100%" }}
-          />
+        <div className="boarddetail-input-container1">
+        <input
+    type="text"
+    value={content}
+    onChange={(e) => setContent(e.target.value)}
+    placeholder="댓글을 적어주세요"
+  />
         </div>
-        <Button variant="contained" onClick={onButtonClick}>
-          댓글 작성
-        </Button>
+        <div className="boarddetail-input-container2">
+        
+  <Button variant="contained" onClick={onButtonClick} >
+    댓글 작성
+  </Button>
+        </div>
       </Stack>
+      </div>
       <NearPost boardList={boardList} currentId={id} />
       <div className="footer-save" />
       <Footer />

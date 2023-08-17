@@ -13,9 +13,9 @@ import MainList from "./components/MainList/MainList";
 import Rule from "./components/Rule/Rule";
 import InquiryForm from "./components/InquiryForm/InquiryForm";
 import ManagePage from "./pages/ManagePage/ManagePage";
-import ManageUsers from "./components/ManageUsers/ManageUsers";
-import ManageShops from "./components/ManageShops/ManageShops";
-import ManageRequest from "./components/ManageRequests/ManageRequests";
+import ManageUsers from "./components/Manage/ManageUsers";
+import ManageShops from "./components/Manage/ManageShops";
+import ManageInquiry from "./components/Manage/ManageInquiry";
 import MyPage from "./pages/MyPage/MyPage";
 import AccountData from "./components/AccountData/AccountData";
 import AccountModify from "./components/AccountModify/AccountModify";
@@ -25,8 +25,8 @@ import TestPage from "./pages/TestPage/TestPage";
 import ShopAnimalDetailPage from "./components/ShopAnimalDetailPage/ShopAnimalDetailPage";
 import ShopInfoPage from "./pages/ShopInfoPage/ShopInfoPage";
 import CreatePage from "./pages/CreatePage/CreatePage";
-import ManageRequestDetail from "./components/ManageRequestDetail/ManageRequestDetail";
-// import ManageRequestList from "./components/ManageRequestList/ManageRequestList";
+import ManageInquiryDetail from "./components/Manage/ManageInquiryDetail";
+// import ManageInquiryList from "./components/ManageRequestList/ManageRequestList";
 import SearchShopPage from "./pages/SearchShopPage/SearchShopPage";
 import KioskMain from "./pages/KioskMain/KioskMain";
 import KioskLogin from "./components/KioskLogin/KioskLogin";
@@ -37,7 +37,9 @@ import KioskAnimalListPage from "./pages/KioskAnimalListPage/KioskAnimalListPage
 import OnePage from "./OrderPage/OnePage";
 import KioskAnimalDetailPage from "./pages/KioskAnimalDetailPage/KioskAnimalDetailPage";
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
-import KioskMenu from "./components/KioskMenu/KioskMenu";
+import KioskRegist from "./components/KioskRegist/KioskRegist";
+import LiveMap from "./LiveMap/LiveMap.js";
+import KioskManage from "./KioskManagePage/KioskManage";
 
 const App = () => {
   return (
@@ -59,9 +61,9 @@ const App = () => {
         <Route path="/manage" element={<ManagePage />}>
           <Route path="" element={<ManageUsers />} />
           <Route path="shops" element={<ManageShops />} />
-          <Route path="requests">
-            <Route path="" element={<ManageRequest />} />
-            <Route path=":id" element={<ManageRequestDetail />} />
+          <Route path="inquiry">
+            <Route path="" element={<ManageInquiry />} />
+            <Route path=":id" element={<ManageInquiryDetail />} />
           </Route>
         </Route>
         <Route path="/mypage" element={<MyPage />}>
@@ -79,20 +81,21 @@ const App = () => {
         <Route path="/search" element={<SearchShopPage />} />
         <Route path="/kiosk" element={<KioskMain />}>
           <Route path="" element={<KioskLogin />} />
+          <Route path="manage/:shopId" element={<KioskManage />} />
+          <Route path="manage/:shopId/post" element={<MenuPostPage />} />
+          <Route path="manage/:shopId/check" element={<OrderCheckPage />} />
           <Route path="list" element={<KioskNameList />} />
-          <Route path="menu" element={<KioskMenu />}>
-            <Route path="menu/:shopId" element={<MenuPostPage />} />
-            <Route path="menu/check/:shopId" element={<OrderCheckPage />} />
-          </Route>
+          <Route path="first" element={<KioskRegist />} />
+          <Route path="menu/buy/:shopId/:tableId" element={<OnePage />} />
           <Route path="animal" element={<KioskAnimalListPage />}>
             {/* <Route path=":animalId" element={<KioskAnimalDetailPage />} /> */}
           </Route>
-          <Route path="buy/:shopId/:tableId" element={<OnePage />} />
         </Route>
         <Route
           path="/kiosk/animal/:animalId"
           element={<KioskAnimalDetailPage />}
         />
+        <Route path="/livemap" element={<LiveMap />}></Route>
       </Routes>
     </div>
   );

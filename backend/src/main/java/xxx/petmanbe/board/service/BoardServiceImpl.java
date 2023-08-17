@@ -224,7 +224,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<BoardListResponseDto> getBoardListWithPics() {
 
-		List<BoardListResponseDto> boardList = boardRepository.findByStatusFalseAndThumbnailNotNullOrderByBoardIdDesc().stream()
+		List<BoardListResponseDto> boardList = boardRepository.findByStatusFalseAndThumbnailNotNullAndCategory_CategoryIdOrderByBoardIdDesc(1L).stream()
 			.map(BoardListResponseDto::new)
 			.collect(Collectors.toList());
 

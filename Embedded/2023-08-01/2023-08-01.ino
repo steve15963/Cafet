@@ -2,17 +2,21 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdbool.h>
 
 #include "WiFiEsp.h"
 
-#define MAX_CIRCULAR_SIZE 1
+#define MAX_CIRCULAR_SIZE 3
 #define BEACON_COUNT 4
 #define RSSI_DEFAULT -50
 
-typedef struct {
-    int insertIndex;
-    int data[MAX_CIRCULAR_SIZE];
-} CircularArray;
+struct KalmanFilter {
+    bool initialized;
+    double processNoise;
+    double measurementNoise;
+    double predictedRSSI;
+    double errorCovariance;
+};
 
 
 SoftwareSerial BTSerial(2, 3);  // SoftwareSerial(RX, TX)
@@ -22,7 +26,7 @@ SoftwareSerial WFSerial(4, 5);
 int searchFlag[BEACON_COUNT] = {0,};
 int temp = 0;
 
-CircularArray Beacon[BEACON_COUNT];
+KalmanFilter rssi[BEACON_COUNT];
 
 
 char ssid[] = "205";            // your network SSID (name)
@@ -36,40 +40,45 @@ const unsigned long postingInterval = 10000L;
 
 // Initialize the Ethernet client object
 WiFiEspClient client;
-
-
-void InitCircularArray(CircularArray *target){
-  target->insertIndex = 0;
-  for(int i = 0; i < MAX_CIRCULAR_SIZE; i++){
-    target->data[i] = RSSI_DEFAULT;
-  }
+void KalmanFilter_init(struct KalmanFilter* filter, double processNoise, double measurementNoise) {
+    filter->initialized = false;
+    filter->processNoise = processNoise;
+    filter->measurementNoise = measurementNoise;
+    filter->predictedRSSI = 0;
+    filter->errorCovariance = 0;
 }
 
-double getAvg(CircularArray *target){
-  int sum = 0;
-  for(int i = 0 ; i < MAX_CIRCULAR_SIZE;i++){
-    sum += target->data[i];
-  }
-  return sum / MAX_CIRCULAR_SIZE;
+double KalmanFilter_filtering(struct KalmanFilter* filter, double rssi) {
+    double priorRSSI;
+    double priorErrorCovariance;
+
+    if (!filter->initialized) {
+        filter->initialized = true;
+        priorRSSI = rssi;
+        priorErrorCovariance = 1;
+    } else {
+        priorRSSI = filter->predictedRSSI;
+        priorErrorCovariance = filter->errorCovariance + filter->processNoise;
+    }
+
+    double kalmanGain = priorErrorCovariance / (priorErrorCovariance + filter->measurementNoise);
+    filter->predictedRSSI = priorRSSI + (kalmanGain * (rssi - priorRSSI));
+    filter->errorCovariance = (1 - kalmanGain) * priorErrorCovariance;
+
+    return filter->predictedRSSI;
 }
-void setData(CircularArray *target,int data){
-  target->data[target->insertIndex] = data;
-  target->insertIndex = (target->insertIndex+1) % MAX_CIRCULAR_SIZE;
-}
 
 
-
-double calculateDistance(int rssi,int index) {
-  // double offset[BEACON_COUNT] = {-53,-49,-49};
+double calculateDistance(double rssi,int index) {
+  //double offset[BEACON_COUNT] = {-53,-49,-49};
   double offset[BEACON_COUNT] = {-49,-49,-49};
-  double n = 2.0;
+  double n = 3.0;
   double constant = offset[index-1];
   double distance = pow(10, (constant - rssi) / (10 * n));
-  return distance * 100;
+  return distance;
 }
 
-void printWifiStatus()
-{
+void printWifiStatus(){
   // print the SSID of the network you're attached to
   Serial.print("SSID: ");
   Serial.println(WiFi.SSID());
@@ -114,8 +123,9 @@ void setup()
   
 
   for(int i = 0 ; i < BEACON_COUNT; i++){
-    InitCircularArray(&Beacon[i]);
+    KalmanFilter_init(&rssi[i],0.005,20);
   }
+
   BTSerial.listen();
   Serial.println("준비 완료!");
   delay(10);
@@ -165,12 +175,11 @@ void loop() {
         Serial.println(power);
         Serial.println(data[5]);
         
+        double avgPower = KalmanFilter_filtering(&rssi[beaconIndex],power);
 
-        setData(&Beacon[beaconIndex], power);
-
-        Serial.print("평균 신호 세기 :");
-        int avgPower = getAvg(&Beacon[beaconIndex]);
+        Serial.print("필터 신호 :");
         Serial.println(avgPower);
+
 
         Serial.print("거리 : ");
         Serial.println(calculateDistance(avgPower,beaconIndex));
@@ -200,8 +209,8 @@ void loop() {
           String key = "\"key\" : [";
           for(int i = 0; i < BEACON_COUNT; i++ ){
             if(searchFlag[i] == 1){
-              int avgPower = getAvg(&Beacon[i]);
-              json = json + calculateDistance(avgPower,i);
+              // int avgPower = getAvg(&Beacon[i]);
+              json = json + calculateDistance(rssi[i].predictedRSSI,i);
               key = key + i;
               if(BEACON_COUNT-1 != i){ 
                 json = json + ",";

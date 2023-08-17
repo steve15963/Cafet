@@ -10,6 +10,8 @@ const OrderCheckPage = () => {
   const { shopId } = useParams();
   const [message, setMessage] = useState([])
 
+  console.log(shopId)
+
   const getMessage = (msg) =>{
     setMessage((current) => [...current,({"msg":msg})])
   }
@@ -21,8 +23,8 @@ const OrderCheckPage = () => {
     setMessage(updatedMenuList)
   }
 
-  var sock = new SockJS('https://i9a105.p.ssafy.io/order')
-  // var sock = new SockJS('http://localhost:8080/order')
+   var sock = new SockJS('https://i9a105.p.ssafy.io/order')
+  //var sock = new SockJS('http://localhost:8080/order')
   let client = Stomp.over(sock);
 
   useEffect(() => {
@@ -41,7 +43,7 @@ const addMessage = (content) => {
   // if(uuid === id){
   //   // props.getMessage(content, true)
   // }else{
-    getMessage(content, false)
+    getMessage(content)
   // }
 }
 

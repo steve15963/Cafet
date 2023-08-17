@@ -2,6 +2,23 @@
   align-items: center;
 }
 
+.OrderNextButton{
+  /* display: flex; */
+  justify-self: center;
+  margin: 5px;
+  padding: 8px 12px;
+  background-color: lightcoral;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-items: center;
+
+}
+.OrderNextButton:hover {
+  background-color:	#FFA07A;
+}
 
 .OrderorderItem3 {
   display: inline-flex;

@@ -78,10 +78,10 @@ const AccountData = () => {
           </Grid>
           <Grid item xs={2} />
           <Grid className="xs10" item xs={8}>
-            <p>10</p>
           </Grid>
           {/* 임시로 페이지 이동을 위한 버튼 */}
           <Button
+          type = "write"
             text={"개인정보 수정"}
             className="button"
             onClick={handleModifyClick}

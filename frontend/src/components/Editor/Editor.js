@@ -107,8 +107,10 @@ const Editor = ({ title, boardId, value, defaultCategory }) => {
       categoryName,
     };
 
-    console.log(boardTitle);
-    console.log(boardContent);
+    // console.log(boardTitle);
+    // console.log(boardContent);
+
+    console.log(data);
 
     axios.put(`https://i9a105.p.ssafy.io/api/board`, data).then((res) => {
       if (res.status === 200) {

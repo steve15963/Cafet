@@ -1,7 +1,7 @@
 import React, {useState } from "react";
 import TextField from "@mui/material/TextField";
 import handleCreateMenu from "../utils/handleCreateMenu.js"
-import Button from "../components/Button/Button.js";
+import KioskButton from "../components/KioskButton/KioskButton.js";
 
 import { useParams } from "react-router-dom";
 
@@ -23,17 +23,10 @@ const MenuPostPage = () => {
             menuSize : menuSize
           }
           setMenuList([...menuList, newMenu]);
-          console.log("setmenu 했다!")
         }
-
-        console.log("menuPrice는!! "+menuPrice)
-        console.log("menuSize는 "+menuSize)
-
-        console.log("menuList는"+menuList);
 
         const postMenuPriceSizeDtoList = menuList;
 
-        console.log("dtolist는 "+ postMenuPriceSizeDtoList)
 
         // console.log(file)
 
@@ -133,7 +126,7 @@ const MenuPostPage = () => {
 
         <ul>
         {menuList.map((item, index)=>(
-          <li key={index}>{item.menuPrice} : {item.menuSize}</li>
+          <li key={index}> {item.menuSize} : {item.menuPrice}</li>
         ))}
         </ul>
 
@@ -152,7 +145,7 @@ const MenuPostPage = () => {
         <br></br>
 
         <div>
-      <Button
+      <KioskButton
             type="common"
             text={"입력하기"}
             className="button"

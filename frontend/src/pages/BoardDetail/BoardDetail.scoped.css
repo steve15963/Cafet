@@ -12,14 +12,20 @@
   margin-top: 20px;
 }
 
-.boarddetail-input-container {
+.boarddetail-input-container1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80%;
+  width: 85%;
+}
+.boarddetail-input-container2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15%;
 }
 
-.boarddetail-input-container input {
+.boarddetail-input-container1 input {
   width: 100%;
   padding: 8px;
   font-size: 14px;
@@ -40,4 +46,11 @@
   justify-content: center;
   padding-bottom: 10px;
   padding-top: 10px;
+}
+
+.wrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

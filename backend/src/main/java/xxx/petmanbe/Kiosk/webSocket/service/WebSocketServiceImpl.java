@@ -2,12 +2,15 @@ package xxx.petmanbe.Kiosk.webSocket.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import xxx.petmanbe.Kiosk.webSocket.Entity.ChatRoom;
 import xxx.petmanbe.Kiosk.webSocket.Entity.ChatRoomMessage;
 import xxx.petmanbe.Kiosk.webSocket.dto.MessageDto;
+import xxx.petmanbe.Kiosk.webSocket.dto.requestDto.MessageGetDto;
 import xxx.petmanbe.Kiosk.webSocket.dto.responseDto.GetMessagesDto;
 import xxx.petmanbe.Kiosk.webSocket.repository.ChatRoomMessageRepository;
 import xxx.petmanbe.Kiosk.webSocket.repository.ChatRoomRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,21 +31,26 @@ public class WebSocketServiceImpl implements WebSocketService{
 	}
 
 	// @Async
-	public boolean saveMessage(MessageDto messageDto){
+	public boolean saveMessage(long shopId, String message){
 
-		// ChatRoom chatRoom = chatRoomRepository.findById(messageDto.getShopId()).orElseThrow(()-> new IllegalArgumentException());
-		//
-		// List<ChatRoomMessage> chatRoomMessageList = new ArrayList<>();
-		// chatRoomMessageList = chatRoomMessageRepository.findAllByChatRoom_ChatRoomId(messageDto.getShopId());
-		//
-		// ChatRoomMessage chatRoomMessage = ChatRoomMessage.builder()
-		// 			.chatRoom(chatRoom)
-		// 		.message(messageDto.getContent())
-		// 				.build();
-		//
-		// chatRoomMessageList.add(chatRoomMessage);
-		//
-		// chatRoomMessageRepository.save(chatRoomMessage);
+		System.out.println("test1"+shopId);
+
+		 ChatRoom chatRoom = chatRoomRepository.findById(shopId).orElseThrow(()-> new IllegalArgumentException());
+
+		 List<ChatRoomMessage> chatRoomMessageList = new ArrayList<>();
+		 chatRoomMessageList = chatRoomMessageRepository.findAllByChatRoom_ChatRoomId(shopId);
+
+		 ChatRoomMessage chatRoomMessage = ChatRoomMessage.builder()
+		 			.chatRoom(chatRoom)
+		 		.message(message)
+		 				.build();
+
+		System.out.println(chatRoomMessage);
+
+
+		chatRoomMessageList.add(chatRoomMessage);
+
+		 chatRoomMessageRepository.save(chatRoomMessage);
 
 		return true;
 	}
@@ -58,11 +66,23 @@ public class WebSocketServiceImpl implements WebSocketService{
 
 		for(int i=0 ; i<list.length ; i++){
 			String[] info = list[i];
-			msg+= info[0]+" "+info[3]+" "+info[2]+" 개"+'\n';
 			if(i==list.length-1) msg+= info[0]+" "+info[3]+" "+info[2]+" 개";
+			else msg+= info[0]+" "+info[3]+" "+info[2]+" 개"+'\n';
 		}
 
 		return msg.toString();
+	}
+
+	@Override
+	public boolean changeStatus(MessageGetDto messageGetDto) {
+
+		ChatRoomMessage chatRoomMessage  =  chatRoomMessageRepository.findByMessageContaining(messageGetDto.getMessage()).orElseThrow(()->new IllegalArgumentException());
+
+		chatRoomMessage.setStatus(true);
+
+		chatRoomMessageRepository.save(chatRoomMessage);
+
+		return true;
 	}
 
 }
