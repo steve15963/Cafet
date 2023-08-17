@@ -1,32 +1,50 @@
 import React from "react";
-import { TextField } from "@mui/material";
-import Button from "../Button/Button";
-import "./ManageRequestDetail.scoped.css";
-import { useParams } from "react-router-dom";
-import useShopUpRequest from "../../hooks/useShopUpRequest";
+import { Button, TextField } from "@mui/material";
+import "./ManageInquiryDetail.scoped.css";
+import { useNavigate, useParams } from "react-router-dom";
+import useInquiry from "../../hooks/useInquiry";
+import formatTime from "../../utils/formatTime";
+import axios from "axios";
 
 const ManageRequestDetail = () => {
-  const requestId = useParams();
-  const { shopUpRequest, loading } = useShopUpRequest(requestId);
+  const inquiryId = useParams();
+  const navigate = useNavigate();
+  const { inquiry, loading } = useInquiry(inquiryId);
   if (loading) {
     return <div>로딩중...</div>;
   }
   const handleSubmit = (e) => {
+    navigate("/manage/inquiry");
     e.preventDefault();
-    alert("카페 등록 신청되었습니다");
+  };
+  console.log(inquiryId.id);
+  const handleDelete = async (e) => {
+    e.preventDefault();
+
+    axios
+      .delete(`https://i9a105.p.ssafy.io/api/inquiry/${inquiryId.id}`)
+      .then((res) => {
+        if (res.status === 204) {
+          navigate(`/manage/inquiry`, { replace: true });
+          return;
+        } else {
+          console.error("문의 사항 삭제에 실패");
+          return;
+        }
+      });
   };
 
   return (
     <div className="request-detail">
       <form className="request-detail-form">
-        <p className="request-detail-form-title">등록 요청 관리</p>
-        <b>신청자 정보</b>
+        <p className="request-detail-form-title">문의 관리</p>
+        <b>문의자 정보</b>
         <div className="request-detail-input-container">
           <TextField
             label="성명"
-            placeholder="신청자 성명을 입력해주세요"
+            placeholder="문의자 성명을 입력해주세요"
             variant="outlined"
-            value={shopUpRequest.requester}
+            value={inquiry.nickname}
             size="small"
             fullWidth
             disabled
@@ -45,92 +63,7 @@ const ManageRequestDetail = () => {
             inputProps={{
               type: "",
             }}
-            value={shopUpRequest.phoneNo}
-            size="small"
-            fullWidth
-            disabled
-            sx={{
-              "& .MuiInputBase-input.Mui-disabled": {
-                WebkitTextFillColor: "#000000",
-              },
-            }}
-          />
-        </div>
-        <br />
-        <b>가게 정보</b>
-        <div className="request-detail-input-container">
-          <TextField
-            label="사업자번호"
-            variant="outlined"
-            placeholder="사업자번호를 입력해주세요"
-            fullWidth
-            value={shopUpRequest.businessNo}
-            size="small"
-            disabled
-            sx={{
-              "& .MuiInputBase-input.Mui-disabled": {
-                WebkitTextFillColor: "#000000",
-              },
-            }}
-          />
-        </div>
-        <div className="request-detail-input-container">
-          <TextField
-            id="outlined-textarea"
-            label="법인명"
-            placeholder="법인명을 입력해주세요"
-            multiline
-            fullWidth
-            value={shopUpRequest.trademark}
-            size="small"
-            disabled
-            sx={{
-              "& .MuiInputBase-input.Mui-disabled": {
-                WebkitTextFillColor: "#000000",
-              },
-            }}
-          />
-        </div>
-        <div className="request-detail-input-container">
-          <TextField
-            id="outlined-textarea"
-            label="대표자"
-            placeholder="대표자 이름을 입력해주세요"
-            multiline
-            fullWidth
-            value={shopUpRequest.ceoName}
-            size="small"
-            disabled
-            sx={{
-              "& .MuiInputBase-input.Mui-disabled": {
-                WebkitTextFillColor: "#000000",
-              },
-            }}
-          />
-        </div>
-        <div className="request-detail-input-container">
-          <TextField
-            id="outlined-textarea"
-            label="개업연월일"
-            placeholder="ex) 20230801"
-            multiline
-            fullWidth
-            size="small"
-            value={shopUpRequest.openDate}
-            disabled
-            sx={{
-              "& .MuiInputBase-input.Mui-disabled": {
-                WebkitTextFillColor: "#000000",
-              },
-            }}
-          />
-        </div>
-        <div className="request-detail-input-container">
-          <TextField
-            label="사업의 종류"
-            placeholder="사업의 종류를 입력해주세요"
-            variant="outlined"
-            value={shopUpRequest.businessType}
+            value={inquiry.phoneNo}
             size="small"
             fullWidth
             disabled
@@ -145,10 +78,29 @@ const ManageRequestDetail = () => {
           <TextField
             id="outlined-textarea"
             label="이메일"
-            placeholder="가게 대표 메일을 입력해주세요"
+            placeholder="문의자 메일을 입력해주세요"
             multiline
-            value={shopUpRequest.businessEmail}
+            value={inquiry.email}
             fullWidth
+            size="small"
+            disabled
+            sx={{
+              "& .MuiInputBase-input.Mui-disabled": {
+                WebkitTextFillColor: "#000000",
+              },
+            }}
+          />
+        </div>
+        <br />
+        <b>문의 내용</b>
+        <div className="request-detail-input-container">
+          <TextField
+            id="outlined-textarea"
+            label="제목"
+            placeholder="제목을 입력해주세요"
+            multiline
+            fullWidth
+            value={inquiry.inquiryTitle}
             size="small"
             disabled
             sx={{
@@ -161,11 +113,11 @@ const ManageRequestDetail = () => {
         <div className="request-detail-input-container">
           <TextField
             id="outlined-textarea"
-            label="사업장 소재지"
-            placeholder="사업장 소재지를 입력해주세요"
+            label="분류"
+            placeholder="분류를 입력해주세요"
             multiline
-            value={shopUpRequest.address}
             fullWidth
+            value={inquiry.inquiryCategoryName}
             size="small"
             disabled
             sx={{
@@ -175,22 +127,56 @@ const ManageRequestDetail = () => {
             }}
           />
         </div>
+        <div className="request-detail-input-container">
+          <TextField
+            id="outlined-textarea"
+            label="생성일"
+            placeholder="ex) 20230801"
+            multiline
+            fullWidth
+            size="small"
+            value={formatTime(inquiry.createdTime)}
+            disabled
+            sx={{
+              "& .MuiInputBase-input.Mui-disabled": {
+                WebkitTextFillColor: "#000000",
+              },
+            }}
+          />
+        </div>
+        <div className="request-detail-input-container">
+          <TextField
+            label="문의 내용"
+            placeholder="문의 내용을 입력해주세요"
+            variant="outlined"
+            value={inquiry.inquiryContent}
+            size="small"
+            fullWidth
+            disabled
+            multiline
+            rows={4}
+            sx={{
+              "& .MuiInputBase-input.Mui-disabled": {
+                WebkitTextFillColor: "#000000",
+              },
+            }}
+          />
+        </div>
         <div className="request-detail-button-row">
           <div>
-            <Button
-              type="common"
-              text={"수락"}
-              className="button"
-              onClick={handleSubmit}
-            />
+            <Button fullWidth variant="contained" onClick={handleSubmit}>
+              뒤로
+            </Button>
           </div>
           <div>
             <Button
-              type="common"
-              text={"거절"}
-              className="button"
-              onClick={handleSubmit}
-            />
+              fullWidth
+              variant="contained"
+              color="error"
+              onClick={handleDelete}
+            >
+              삭제
+            </Button>
           </div>
         </div>
       </form>

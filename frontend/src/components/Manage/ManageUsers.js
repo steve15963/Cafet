@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TextField } from "@mui/material";
-import ManagerUserTable from "../ManagerUserTable/ManageUserTable";
+import ManagerUserTable from "./ManageUserTable";
 import useUserList from "../../hooks/useUserList";
 
 const ManageUsers = () => {
