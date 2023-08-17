@@ -11,6 +11,7 @@ import axios from "axios";
 const Comment = ({ comment }) => {
   const [mayEdit, setMayEdit] = useState(false);
   const [content, setContent] = useState(comment.content);
+
   const formatTime = (isoTime) => {
     const date = new Date(isoTime);
     const year = date.getFullYear().toString().substr(-2);
