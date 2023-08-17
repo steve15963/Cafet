@@ -136,7 +136,8 @@ const KioskLogin = () => {
   const onLoginButtonClick = async (event) => {
     event.preventDefault();
     try {
-      const response = await handleKioskLogin(email, password);
+      // const response = await handleKioskLogin(keyboardRef.current.value, numpadRef.current.value);
+      const response = await handleKioskLogin(keyboardRef.current.value, numpadRef.current.value);
       console.log(response.headers);
       localStorage.setItem("shopId", response.data.shopId);
       localStorage.setItem("levelCode", response.data.levelCode);
@@ -148,6 +149,8 @@ const KioskLogin = () => {
       alert("로그인에 성공하셨습니다.");
       navigate("/kiosk/list", { replace: true });
     } catch (error) {
+      console.log(email)
+      console.log(password)
       console.error("Login failed:");
       alert("로그인에 실패하셨습니다.");
       setEmail("");
@@ -166,9 +169,9 @@ const KioskLogin = () => {
 
       <form className="login-form">
         <p className="login-form-title">키오스크 로그인</p>
-        <div className="login-container">
+        {/* <div>
         <input
-        className="inputFromKey"
+        className="KioskinputFromKey"
         ref={keyboardRef}
         type="text"
         label="이메일"
@@ -177,17 +180,22 @@ const KioskLogin = () => {
         data-kioskboard-type="keyboard"
         placeholder="이메일"
       />
+      </div>
+
+      <div>
       <input
-        className="inputFromKey"
+        className="KioskinputFromKey"
         ref={numpadRef}
-        type="text"
+        type="password"
         variant="outlined"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         data-kioskboard-type="keyboard"
         placeholder="비밀번호"
-      />
-          {/* <TextField
+        />
+        </div> */}
+        <div className="login-container">
+           <TextField
             label="이메일"
             placeholder="이메일을 적어주세요"
             variant="outlined"
@@ -207,8 +215,8 @@ const KioskLogin = () => {
             onChange={(e) => setPassword(e.target.value)}
             size="small"
             fullWidth
-          /> */}
-        </div>
+          />
+       </div>
         <br />
         <div className="login-container">
           <Button
