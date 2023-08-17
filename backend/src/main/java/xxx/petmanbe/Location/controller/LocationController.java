@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import xxx.petmanbe.Location.dto.requestDto.AddPetLocationRequestDto;
-import xxx.petmanbe.Location.dto.requestDto.HitMapRequestDto;
 import xxx.petmanbe.Location.dto.responseDto.HitMapResponseDto;
 import xxx.petmanbe.Location.dto.responseDto.PetLocationResponseDto;
 import xxx.petmanbe.Location.entity.PetLocation;
 import xxx.petmanbe.Location.service.HitMapService;
 import xxx.petmanbe.Location.service.LocationService;
-import xxx.petmanbe.Location.service.LocationServiceImpl;
 
 @Slf4j
 @RestController

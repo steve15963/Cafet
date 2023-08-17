@@ -2,7 +2,6 @@ package xxx.petmanbe.Kiosk.webSocket.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import xxx.petmanbe.Kiosk.webSocket.dto.MessageDto;
@@ -19,12 +18,9 @@ public class MessageController {
 
 
 	//주문내역
-	@MessageMapping("/message") // 받고
-	// @SendTo("/topic/message") // 보내고
+	@MessageMapping("/message")
 	public OrderResponseDto sending(MessageDto message) throws InterruptedException {
 		Thread.sleep(100);
-
-		// System.out.println(message.getContent());
 
 		boolean a = webSocketService.saveMessage(message);
 		String messages = webSocketService.changeToMsg(message.getTableId(), message.getContent());
@@ -37,27 +33,4 @@ public class MessageController {
 
 		return new OrderResponseDto(message.getShopId(),messages, message.getTableId());
 	}
-
-	//완료 버튼을 눌렀을 때
-
-
-
-
-
-
-
-
-	// order 받는 api
-//	@OnMessage //메세지를 받는 annotation
-// 	@MessageMapping("/message") // 받고
-// 	@SendTo("topic/message") // 보내고
-// 	public MessageDto getOrder(@RequestBody OrderRequestDto orderDto){
-//
-// 		 String message = webSocketService.
-//
-//
-//
-// 		return new MessageDto();
-// 	}
-
 }
