@@ -13,6 +13,7 @@ const KioskHeatmap = ({ id }) => {
       .get(`https://i9a105.p.ssafy.io/api/location/pet?animalId=${id}`)
       .then(function (res) {
         res.data.max = 10;
+        console.log(res.data);
         const heatmapInstance = h337.create({
           container: document.getElementById("heatmapContainer"),
         });
