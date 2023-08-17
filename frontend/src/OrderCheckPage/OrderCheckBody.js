@@ -50,8 +50,8 @@ function OrderCheckBody(props) {
               {items.msg.split('\n').map((item,index)=>
               <div>
               {index === 0 && <li className="OrderTable">{item}</li>}
-              {index > 0 && <li className="OrderOrder">{item}</li>}{index >0 && <div class="cntr"><input checked="" type="checkbox" id="cbx" class="hidden-xs-up" /><label for="cbx" class="cbx"></label></div>}
-    
+              {index > 0 && <li className="OrderOrder">{item}<div class="cntr"><input checked="" type="checkbox" id="cbx" class="hidden-xs-up" /><label for="cbx" class="cbx"></label></div></li>}
+              
               </div>
               )
             }
