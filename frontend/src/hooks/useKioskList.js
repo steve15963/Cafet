@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const useKioskList = () => {
+const useKioskList = ({shopId}) => {
   const [nameList, setNameList] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getNameList = async (shopId) => {
-      console.log(typeof shopId)
+    const getNameList = async () => {
       try {
         const response = await axios.get(
           `https://i9a105.p.ssafy.io/api/desk/${shopId}`
@@ -24,7 +23,7 @@ const useKioskList = () => {
     };
 
     getNameList();
-  }, []);
+  }, [shopId]);
 
   return { nameList, loading };
 };
