@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.KioskLogin.dto.responseDto.KioskLoginReturnDto;
 import xxx.petmanbe.KioskLogin.service.KioskService;
@@ -21,6 +23,7 @@ import xxx.petmanbe.user.service.UserService;
 
 @RestController
 @RequestMapping(value="/api/kiosk/user")
+@Tag(name = "키오스크 로그인", description = "키오스크 로그인 API Docs")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class KioskLoginController {
@@ -30,9 +33,8 @@ public class KioskLoginController {
 	private final KioskService kioskService;
 
 	@PostMapping("/login")
+	@Operation(summary = "키오스크에서 로그인하기")
 	public ResponseEntity<?> login(@RequestBody LoginDto loginDto, HttpServletResponse httpServletResponse) throws Exception {
-
-		long shopId = -1;
 
 		KioskLoginReturnDto kioskLoginReturnDto = kioskService.checkShop(loginDto);
 
@@ -46,19 +48,7 @@ public class KioskLoginController {
 
 		LoginReturnDto loginReturnDto = userService.postLoginUser(loginDto);
 
-
-
-		// ResponseCookie cookie2 = ResponseCookie.from("accessToken", loginReturnDto.getToken().getAccessToken())
-		// 	.maxAge(864000)
-		// 	.path("/")
-		// 	.secure(true)
-		// 	.sameSite("None")
-		// 	.httpOnly(true)
-		// 	.build();
-
 		httpServletResponse.addHeader("Authorization",loginReturnDto.getToken().getAccessToken());
-		// httpServletResponse.setHeader("Set-Cookie",cookie1.toString()); //refreshToken
-		//		httpServletResponse.addHeader("Set-Cookie",cookie2.toString()); // accessToken
 
 		//CORS
 		httpServletResponse.setHeader("Acess-Control-Allow-origin","*");

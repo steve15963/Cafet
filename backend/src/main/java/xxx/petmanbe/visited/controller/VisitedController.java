@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.visited.dto.responseDto.DeleteVisitedDateDto;
 import xxx.petmanbe.visited.dto.responseDto.PostVisitedDateDto;
@@ -19,6 +20,7 @@ import xxx.petmanbe.visited.service.VisitedService;
 
 @RestController
 @RequestMapping(value="/api/visited")
+@Tag(name = "가게 방문기록", description = "사용자별 가게 방문기록 관리 API Docs")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class VisitedController {
