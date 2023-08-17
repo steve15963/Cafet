@@ -5,8 +5,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,5 +48,23 @@ public class TagController {
 			.collect(Collectors.toList());
 
 		return new ResponseEntity<>(tagList, HttpStatus.OK);
+	}
+
+	// 태그 비활성화
+	@DeleteMapping("/{tagName}")
+	@Operation(summary = "태그 비활성화")
+	public ResponseEntity<Integer> disableTag(@PathVariable String tagName){
+		// 태그 이름으로 검색
+		Tag tag = tagService.getTag(tagName);
+		
+		// 상태 변경
+		tag.changeDeleteStatus();
+		
+		// 비활성화되면 204, 활성화되면 200 반환
+		if (tag.isStatus()){
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
 	}
 }
