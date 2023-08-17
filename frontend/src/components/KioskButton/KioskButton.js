@@ -16,7 +16,7 @@ const KioskButton = ({ text, type, onClick }) => {
     : "default";
 
   return (
-    <button className={[`button_${btnType}`].join(" ")} onClick={onClick}>
+    <button className={[`Kioskbutton_${btnType}`].join(" ")} onClick={onClick}>
       <span>{text}</span>
     </button>
   );
