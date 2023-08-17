@@ -19,6 +19,8 @@ const KioskHeatmap = ({ id }) => {
   };
 
   useEffect(() => {
+    console.log("페이지 리로드"); // 페이지 로드될 때 "페이지 리로드" 출력
+
     fetchHeatmapData();
 
     const intervalId = setInterval(fetchHeatmapData, 10000);
