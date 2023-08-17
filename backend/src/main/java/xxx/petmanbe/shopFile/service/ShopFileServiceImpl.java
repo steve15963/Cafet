@@ -1,22 +1,20 @@
 package xxx.petmanbe.shopFile.service;
 
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.exception.RestApiException;
-import xxx.petmanbe.exception.errorcode.PetErrorCode;
 import xxx.petmanbe.exception.errorcode.ShopErrorCode;
 import xxx.petmanbe.shop.entity.Shop;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.shopFile.entity.ShopFile;
 import xxx.petmanbe.shopFile.repository.ShopFileRepository;
-import xxx.petmanbe.shopPet.entity.ShopPet;
-import xxx.petmanbe.shopPetFile.entity.ShopPetFile;
 import xxx.petmanbe.userfile.service.S3Uploader;
-
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -63,7 +61,6 @@ public class ShopFileServiceImpl implements ShopFileService{
             return true;
 
         } else {
-            System.out.println("image is null");
             return false;
         }
     }
@@ -71,8 +68,9 @@ public class ShopFileServiceImpl implements ShopFileService{
     @Override
     public List<ShopFile> getShopFile(long shopId) {
 
-        List<ShopFile> shopFileList = shopRepository.findById(shopId).get().getShopFileList();
+        Shop shop = shopRepository.findById(shopId)
+            .orElseThrow(() -> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
-        return shopFileList;
+		return shop.getShopFileList();
     }
 }
