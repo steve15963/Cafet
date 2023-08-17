@@ -27,12 +27,6 @@ const OrderPage = ({onDataFromChild}) => {
     onDataFromChild(dataFromChild)
   }
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
 
   useEffect(() => {
     getMenuList();

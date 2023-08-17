@@ -61,7 +61,7 @@ const Cart = (props) => {
                 {props.data.length<=8 && <div>{propGroup[0]}</div>}
                 {props.data.length<=8 && <div>{propGroup[3]} : ₩ {propGroup[1]}원</div>}
                 {props.data.length<=8 && <div className="Orderbold">수량 : {propGroup[2]}개</div>}
-                <button>삭제</button>
+                {/* <button>삭제</button> */}
               </div>
             </div>
             <div className="OrderCartBoxEight">
