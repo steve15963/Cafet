@@ -1,12 +1,4 @@
-.KioskinputFromKey {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    border-radius: 5px;
-    
-}
-
-.Kioskbutton_default {
+.button_default {
     display: block;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
@@ -22,7 +14,7 @@
     text-transform: uppercase;
   }
   
-  .Kioskbutton_like {
+  .button_like {
     display: block;
     padding: 0.75rem 1.25rem;
     background-color: white;
@@ -36,7 +28,7 @@
     border: 2px solid black; /* 테두리 속성 추가 */
   }
   
-  .Kioskbutton_write {
+  .button_write {
     display: block;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
@@ -52,13 +44,13 @@
     text-transform: uppercase;
   }
   
-  .Kioskbutton_common {
+  .button_common {
     display: block;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-    background-color: #007bff;
+    background-color: lightcoral;
     color: #ffffff;
     font-size: 0.875rem;
     line-height: 1.25rem;
@@ -68,11 +60,11 @@
     text-transform: uppercase;
   }
   
-  .Kioskbutton_common:hover {
-    background-color: #0056b3;
+  .button_common:hover {
+    background-color: lightcoral;
   }
   
-  .Kioskbutton_gray {
+  .button_gray {
     display: block;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
@@ -87,11 +79,11 @@
     text-transform: uppercase;
   }
   
-  .Kioskbutton_gray:hover {
+  .button_gray:hover {
     background-color: rgb(111, 105, 105);
   }
   
-  .Kioskbutton_grays {
+  .button_grays {
     display: block;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
@@ -106,11 +98,11 @@
     text-transform: uppercase;
   }
   
-  .Kioskbutton_grays:hover {
+  .button_grays:hover {
     background-color: rgb(111, 105, 105);
   }
   
-  .Kioskbutton_transparent {
+  .button_transparent {
     display: block;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;

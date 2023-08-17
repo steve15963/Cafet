@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 
 import KioskBoard from "kioskboard";
+import KioskButton from "../KioskButton/KioskButton";
 
 const KioskLogin = () => {
   const [email, setEmail] = useState("");
@@ -219,7 +220,7 @@ const KioskLogin = () => {
        </div>
         <br />
         <div className="login-container">
-          <Button
+          <KioskButton
             type="common"
             text={"입력하기"}
             className="button"
