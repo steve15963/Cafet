@@ -126,11 +126,12 @@ const BoardDetail = () => {
           variant="contained"
           size="large"
           onClick={onLikeClick}
-          style={{
-            backgroundColor: "white",
-          }}
-        >
-          {liked ? "♥" : "♡"}
+            style={{
+              backgroundColor: "white",
+              color: liked ? "red" : "black", // 내용에 맞게 색상 변경
+            }}
+          >
+            {liked ? "♥" : "♡"}
         </Button>
       </div>
       {boardDetail.commentList.length > 0 && (
