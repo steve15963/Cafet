@@ -1,5 +1,5 @@
 import "./OrderCheckBody.scoped.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 
 function OrderCheckBody(props) {
@@ -20,6 +20,7 @@ function OrderCheckBody(props) {
 
     props.onRemoveMenu(index);
   };
+  const [isChecked, setIsChecked] = useState(true);
 
 
   return (
@@ -50,7 +51,7 @@ function OrderCheckBody(props) {
               {items.msg.split('\n').map((item,index)=>
               <div>
               {index === 0 && <li className="OrderTable">{item}</li>}
-              {index > 0 && <li className="OrderOrder">{item}<div class="cntr"><input checked="" type="checkbox" id={`cbx${index}`} class="hidden-xs-up" /><label for={`cbx${index}`} class="cbx"></label></div></li>}
+              {index > 0 && <li className="OrderOrder">{item}<div class="cntr"><input checked={isChecked} onChange={() => setIsChecked(!isChecked)}type="checkbox" id={`cbx${index}`} class="hidden-xs-up" /><label for={`cbx${index}`} class="cbx"></label></div></li>}
               
               </div>
               )
