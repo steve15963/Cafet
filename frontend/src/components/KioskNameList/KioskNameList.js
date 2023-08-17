@@ -35,8 +35,16 @@ const KioskNameList = () => {
     navigate("/kiosk/first", { replace: true });
   }
 
+  const handleManageClick = () =>{
+
+    navigate(`/kiosk/manage/${shopId}`)
+
+  }
+
   return (
-    <div className="kiosk-list-container">
+    <div className="kiosk-list-container">     
+    <button className="Orderbutton1" onClick={() => handleManageClick()}> 관리페이지 </button>
+    <br></br>
       <p className="login-form-title">키오스크 리스트</p>
       <br />
       {nameList.map(item => (

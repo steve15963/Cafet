@@ -10,6 +10,8 @@ const OrderCheckPage = () => {
   const { shopId } = useParams();
   const [message, setMessage] = useState([])
 
+  console.log(shopId)
+
   const getMessage = (msg) =>{
     setMessage((current) => [...current,({"msg":msg})])
   }

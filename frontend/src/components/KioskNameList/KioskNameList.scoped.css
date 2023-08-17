@@ -7,6 +7,7 @@
     padding: 20px;
   }
   
+
   .kiosk-list-item {
     background-color: #f4f4f4;
     border-radius: 5px;
@@ -19,4 +20,18 @@
   
   .kiosk-list-item:last-child {
     margin-bottom: 0;
+  }
+
+  
+  .child-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .child-container span {
+    flex: 1;
+  }
+  
+  .child-container button {
+    text-align: right;
   }

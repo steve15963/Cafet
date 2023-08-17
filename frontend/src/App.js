@@ -40,6 +40,7 @@ import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import KioskMenu from "./components/KioskMenu/KioskMenu";
 import KioskRegist from "./components/KioskRegist/KioskRegist";
 import LiveMap from "./LiveMap/LiveMap.js";
+import KioskManage from "./KioskManagePage/KioskManage";
 
 const App = () => {
   return (
@@ -81,12 +82,13 @@ const App = () => {
         <Route path="/search" element={<SearchShopPage />} />
         <Route path="/kiosk" element={<KioskMain />}>
           <Route path="" element={<KioskLogin />} />
+          <Route path="manage/:shopId" element={<KioskManage />} />
+          <Route path="manage/:shopId/post" element={<MenuPostPage />} />
+          <Route path="manage/:shopId/check" element={<OrderCheckPage />} />
           <Route path="list" element={<KioskNameList />} />
           <Route path="first" element={<KioskRegist />} />
           <Route path="menu" element={<KioskMenu />}>
             <Route path="buy/:shopId/:tableId" element={<OnePage />} />
-            <Route path=":shopId" element={<MenuPostPage />} />
-            <Route path="check/:shopId" element={<OrderCheckPage />} />
           </Route>
           <Route path="animal" element={<KioskAnimalListPage />}>
             {/* <Route path=":animalId" element={<KioskAnimalDetailPage />} /> */}
