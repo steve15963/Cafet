@@ -12,6 +12,7 @@ import xxx.petmanbe.Location.dto.requestDto.AddPetLocationRequestDto;
 import xxx.petmanbe.Location.entity.BeaconLocation;
 import xxx.petmanbe.Location.entity.PetLocation;
 import xxx.petmanbe.Location.entity.UseBeaconForPetLocation;
+import xxx.petmanbe.Location.repository.BeaconLocationRepository;
 import xxx.petmanbe.Location.repository.PetLocationRepository;
 import xxx.petmanbe.Location.repository.useBeaconForPetLocationRepository;
 import xxx.petmanbe.exception.RestApiException;
@@ -34,6 +35,8 @@ public class LocationServiceImpl implements LocationService {
 
 	private final useBeaconForPetLocationRepository useBeaconForPetLocationRepository;
 
+	private final BeaconLocationRepository beaconLocationRepository;
+
 	/**
 	 * 아직 실력이 부족하여 완벽한 구현이 불가능하여
 	 * 비콘은 3개라는 가정하에 계산을 진행하는 위치 계산 메소드.
@@ -41,7 +44,9 @@ public class LocationServiceImpl implements LocationService {
 	 * @return
 	 */
 	public PetLocation getTrilateration(AddPetLocationRequestDto addPetLocationRequestDto){
-		List<BeaconLocation> matchBeacon = findMatchBeacon(addPetLocationRequestDto);
+		// List<BeaconLocation> matchBeacon = findMatchBeacon(addPetLocationRequestDto);
+		List<BeaconLocation> matchBeacon = beaconLocationRepository.findAll();
+
 		if(matchBeacon == null)
 			return null;
 		double x1 = matchBeacon.get(0).getX();
