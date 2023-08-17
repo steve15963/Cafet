@@ -85,10 +85,14 @@ const App = () => {
             <Route path="menu/check/:shopId" element={<OrderCheckPage />} />
           </Route>
           <Route path="animal" element={<KioskAnimalListPage />}>
-            <Route path=":animalId" element={<KioskAnimalDetailPage />} />
+            {/* <Route path=":animalId" element={<KioskAnimalDetailPage />} /> */}
           </Route>
           <Route path="buy/:shopId/:tableId" element={<OnePage />} />
         </Route>
+        <Route
+          path="/kiosk/animal/:animalId"
+          element={<KioskAnimalDetailPage />}
+        />
       </Routes>
     </div>
   );
