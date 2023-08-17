@@ -89,10 +89,6 @@ const App = () => {
           </Route>
           <Route path="buy/:shopId/:tableId" element={<OnePage />} />
         </Route>
-        <Route
-          path="/kiosk/animal/:animalId"
-          element={<KioskAnimalDetailPage />}
-        />
       </Routes>
     </div>
   );
