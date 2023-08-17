@@ -16,9 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import xxx.petmanbe.board.repository.LikeBoardRepository;
 import xxx.petmanbe.exception.RestApiException;
 import xxx.petmanbe.exception.errorcode.CommonErrorCode;
 import xxx.petmanbe.exception.errorcode.UserErrorCode;
+import xxx.petmanbe.shop.repository.LikeShopRepository;
 import xxx.petmanbe.user.dto.other.LoginReturnDto;
 import xxx.petmanbe.user.dto.requestDto.LevelModifyDto;
 import xxx.petmanbe.user.dto.requestDto.LoginDto;
@@ -50,6 +52,10 @@ public class UserServiceImpl implements UserService{
 	private final LevelRepository levelRepository;
 
 	private final UserFileRepository userFileRepository;
+
+	private final LikeBoardRepository likeBoardRepository;
+
+	private final LikeShopRepository likeShopRepository;
 
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
@@ -282,6 +288,16 @@ public class UserServiceImpl implements UserService{
 
 		tokenRepository.save(token1);
 		return true;
+	}
+
+	@Override
+	public boolean checkUserLikeBoard(Long userId, Long boardId) {
+		return likeBoardRepository.findByUser_UserIdAndBoard_boardId(userId, boardId).isPresent();
+	}
+
+	@Override
+	public boolean checkUserLikeShop(Long userId, Long shopId) {
+		return likeShopRepository.findByUser_UserIdAndShop_ShopId(userId, shopId).isPresent();
 	}
 
 }
