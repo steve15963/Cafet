@@ -34,3 +34,10 @@
   align-items: center;
   width: 20%;
 }
+
+.likebtn-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
