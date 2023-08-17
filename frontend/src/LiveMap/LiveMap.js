@@ -27,25 +27,32 @@ const LiveMap = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const addMessage = (content) =>{
-    content.split('\n').map((item,index) => {
+  const addMessage = async (content) =>{
+    await content.split('\n').map((item,index) => {
       
-      if(index===0) { setPlaceX(item)}
+      if(index===0) { 
+        console.log(item)
+        setPlaceX(item)
+      }
       if(index===1) {setPlaceY(item)}
       return null
     }
     )
     
-    console.log(placeX)
-
+    setTimeout(100)
+    
     // window.location.reload();
     
       const heatmapInstance = h337.create({
         container: document.getElementById("heatmapContainer"),
       })
-    heatmapInstance.setData({max:100,
-      data:[
-        {x:placeX, y:placeY, value:1000}]});
+      console.log(placeX+"palcex")
+
+      while(placeX !== "" && placeY !== ""){
+        heatmapInstance.setData({max:100,
+        data:[
+          {x:placeX, y:placeY, value:1000}]});
+      }
   }
 
   return (
@@ -55,9 +62,9 @@ const LiveMap = () => {
       id="heatmapContainer"
       style={{
         display: "flex",
-        maxWidth: "200px",
+        maxWidth: "400px",
         width: "100%",
-        height: "200px",
+        height: "400px",
       }}
     />
       </div>
