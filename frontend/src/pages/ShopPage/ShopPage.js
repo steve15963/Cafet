@@ -7,8 +7,9 @@ import "./ShopPage.scoped.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import ShopFollow from "../../components/ShopFollow/ShopFollow";
-
 import ShopInfoPage from "../ShopInfoPage/ShopInfoPage";
+import ShopAnimalList from "../../components/ShopAnimalList/ShopAnimalList";
+
 
 import PropTypes from "prop-types";
 import Stack from "@mui/material/Stack";
@@ -24,7 +25,6 @@ import PetsIcon from "@mui/icons-material/Pets";
 import IconButton from '@mui/material/IconButton';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 
-import KioskAnimalListPage from "../KioskAnimalListPage/KioskAnimalListPage";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -145,8 +145,7 @@ const ShopPage = () => {
           </Tabs>
         </Box>
         <CustomTabPanel value={tabValue} index={0}>
-          <h1>카페 가족</h1>
-          <KioskAnimalListPage />
+          <ShopAnimalList shopId={shopId} />
         </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={1}>
           <h1>갤러리</h1>

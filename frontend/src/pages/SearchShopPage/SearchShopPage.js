@@ -21,8 +21,6 @@ const SearchShopPage = () => {
       })
       .catch(function (err) {
         console.log(err);
-        alert('검색결과가 없습니다')
-        setRegion("")
       });
   }, []);
 
@@ -32,8 +30,9 @@ const SearchShopPage = () => {
   }, []);
 
   const searchResult = (place) => {
-    if (place.trim() === "") return;
-
+    if (place.trim() === "") { 
+      return; 
+    } else {
     axios
       .get(`/api/shop/address/${place}`)
       .then(function (res) {
@@ -42,8 +41,11 @@ const SearchShopPage = () => {
         setRegion("");
       })
       .catch(function (err) {
+        console.log('get errrrrrrrrrrrrr')
         console.log(err);
       });
+      setRegion("")
+    }
   };
 
   const handleRegionSearchClick = useCallback(() => {
@@ -57,15 +59,15 @@ const SearchShopPage = () => {
       <div className="header-save" />
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <div className="search-wrapper">
+          <div className="search-wrapper" style={{ marginBottom: '15px'}}>
             <div className="region-input">
               <input value={region} onChange={onChangeSearch} />
               <button onClick={handleRegionSearchClick}>검색</button>
             </div>
           </div>
-          <div className="list-wrapper">
+          <div className="list-wrapper" style={{ padding: '15px'}}>
             {cafeList.map((el) => (
-              <SearchCard key={el.shopId} {...el} />
+              <SearchCard key={el.shopId} {...el} style={{ padding: '10px'}}/>
             ))}
           </div>
         </Grid>

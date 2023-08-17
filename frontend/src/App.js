@@ -22,7 +22,7 @@ import AccountModify from "./components/AccountModify/AccountModify";
 import ShopPage from "./pages/ShopPage/ShopPage";
 import TestPage from "./pages/TestPage/TestPage";
 // import AnimalList from "./pages/AnimalListPage/AnimalListPage";
-// import AnimalDetail from "./pages/AnimalDetailPage/AnimalDetailPage";
+import ShopAnimalDetailPage from "./components/ShopAnimalDetailPage/ShopAnimalDetailPage";
 import ShopInfoPage from "./pages/ShopInfoPage/ShopInfoPage";
 import CreatePage from "./pages/CreatePage/CreatePage";
 import ManageRequestDetail from "./components/ManageRequestDetail/ManageRequestDetail";
@@ -94,6 +94,10 @@ const App = () => {
         <Route path="/buy/:shopId/:tableId" element={<OrderPage />} />
         <Route path="/menu/:shopId" element={<MenuPostPage />} />
         <Route path="/check/:shopId" element={<OrderCheckPage />} />
+
+        {/* 카페 동물 세부 페이지 url */}
+        <Route path="/shop/:shopId/:petId" element={<ShopAnimalDetailPage />} />
+        
       </Routes>
     </div>
   );
