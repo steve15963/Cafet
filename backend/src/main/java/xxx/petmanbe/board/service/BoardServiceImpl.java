@@ -1,5 +1,6 @@
 package xxx.petmanbe.board.service;
 
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -85,6 +86,7 @@ public class BoardServiceImpl implements BoardService{
 
 		// 썸네일 변경
 		String newThumbnail = getFirstImg(request.getBoardContent());
+		System.out.println();
 		board.setThumbnail(newThumbnail);
 
 		// 카테고리 찾고
@@ -466,14 +468,14 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public String getFirstImg(String boardContent) {
 		// 정규 표현식 패턴 생성
-		String patternString = "/<img.*?src=\"(.*?)\"/";
+		String patternString = "<img[^>]*src=['\"]([^'\"]+)['\"][^>]*>"; // 첫 번째 <img> 태그의 src 속성값 찾기
 		Pattern pattern = Pattern.compile(patternString);
 
 		// 문자열 내에서 패턴 검색
 		Matcher matcher = pattern.matcher(boardContent);
 		if (matcher.find()) {
-			// 찾은 값 반환
-			return matcher.group(1);
+			String srcValueWithQuotes = matcher.group(1);
+			return srcValueWithQuotes.replaceAll("^['\"]|['\"]$", "");
 		} else {
 			return null;
 		}
