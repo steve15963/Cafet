@@ -2,6 +2,7 @@ import React from "react";
 import "./KioskNameList.scoped.css";
 import useKioskList from "../../hooks/useKioskList";
 import { useNavigate } from "react-router-dom";
+import Button from "../Button/Button";
 
 const KioskNameList = () => {
   const shopId = localStorage.getItem("shopId");
@@ -44,7 +45,7 @@ const KioskNameList = () => {
   return (
     <div className="kiosk-list-container">     
     <button className="Orderbutton1" onClick={() => handleManageClick()}> 관리페이지 </button>
-    <br></br>
+    <br/>
       <p className="login-form-title">키오스크 리스트</p>
       <br />
       {nameList.map(item => (
@@ -57,18 +58,16 @@ const KioskNameList = () => {
             Desk {item.deskId}: (Number {item.deskNum})
           </div>
           <div className="button-container">
-            <button
-              className="edit-button"
-              onClick={() => handleEditClick(item.deskId)}
-            >
-              수정
-            </button>
-            <button
-              className="delete-button"
-              onClick={() => handleDeleteClick(item.deskId)}
-            >
-              삭제
-            </button>
+            <Button
+              type="gray"
+              text={"수정"}
+              onClick={handleEditClick(item.deskId)}
+            />
+            <Button
+              type="gray"
+              text={"삭제"}
+              onClick={handleDeleteClick(item.deskId)}
+            />
           </div>
         </div>
       ))}
