@@ -5,7 +5,6 @@ import handleKioskLogin from "../../utils/handleKioskLogin";
 import "./KioskLogin.scoped.css";
 import TextField from "@mui/material/TextField";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../Button/Button";
 
 import KioskBoard from "kioskboard";
 import KioskButton from "../KioskButton/KioskButton";
@@ -138,7 +137,7 @@ const KioskLogin = () => {
     event.preventDefault();
     try {
       // const response = await handleKioskLogin(keyboardRef.current.value, numpadRef.current.value);
-      const response = await handleKioskLogin(keyboardRef.current.value, numpadRef.current.value);
+      const response = await handleKioskLogin(email, password);
       console.log(response.headers);
       localStorage.setItem("shopId", response.data.shopId);
       localStorage.setItem("levelCode", response.data.levelCode);
@@ -150,8 +149,6 @@ const KioskLogin = () => {
       alert("로그인에 성공하셨습니다.");
       navigate("/kiosk/list", { replace: true });
     } catch (error) {
-      console.log(email)
-      console.log(password)
       console.error("Login failed:");
       alert("로그인에 실패하셨습니다.");
       setEmail("");
@@ -168,7 +165,7 @@ const KioskLogin = () => {
         <p>capet</p>
       </div>
 
-      <form className="login-form">
+      <form className="Kiosklogin-form">
         <p className="login-form-title">키오스크 로그인</p>
         {/* <div>
         <input
