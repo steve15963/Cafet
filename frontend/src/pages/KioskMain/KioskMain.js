@@ -6,7 +6,7 @@ const KioskMain = () => {
   return (
     <div>
       <div className="">
-        <div className="header-save" />
+        <div className="" />
         <Outlet />
       </div>
     </div>

@@ -158,6 +158,10 @@ const KioskLogin = () => {
 
   return (
     <div className="login">
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       <div className="logo-container">
         <Link to={"/"}>
           <img src="/images/logo/logo192.png" alt="로고" className="logo" />

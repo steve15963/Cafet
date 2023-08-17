@@ -6,7 +6,7 @@ import Stomp from "stompjs";
 
 const Cart = (props) => {
 
-  const [money]=useState("");
+  let [money]=useState(0);
 
   // const history = useHistory();
 
@@ -32,6 +32,13 @@ const Cart = (props) => {
     );
   };
 
+  props.data.forEach(element => (
+
+    // console.log(element[1]);
+    // setMoney(element[1])
+    money += element[1]*element[2]
+  ));
+
   return (
     <div className="Ordertwo">
     <div className="Ordercart">
@@ -43,8 +50,10 @@ const Cart = (props) => {
         
         {props.data.map((propGroup)=>(
             // <div className="no_dot" key={index}>
+            
             <div  className="OrderCartBox">
             <div className="OrderCartBoxNotEight">
+              
              <div>
                 {props.data.length<=8 && <img src={propGroup[4]} alt=""/>}
               </div>
