@@ -37,6 +37,12 @@ const KioskLogin = () => {
 
   return (
     <div className="login">
+      <div className="logo-container">
+        <Link to={"/"}>
+          <img src="/images/logo/logo192.png" alt="로고" className="logo" />
+        </Link>
+        <p>capet</p>
+      </div>
       <form className="login-form">
         <p className="login-form-title">키오스크 로그인</p>
         <div className="login-container">
