@@ -33,6 +33,8 @@ public class WebSocketServiceImpl implements WebSocketService{
 	// @Async
 	public boolean saveMessage(long shopId, String message){
 
+		System.out.println("test1"+shopId);
+
 		 ChatRoom chatRoom = chatRoomRepository.findById(shopId).orElseThrow(()-> new IllegalArgumentException());
 
 		 List<ChatRoomMessage> chatRoomMessageList = new ArrayList<>();
@@ -43,7 +45,10 @@ public class WebSocketServiceImpl implements WebSocketService{
 		 		.message(message)
 		 				.build();
 
-		 chatRoomMessageList.add(chatRoomMessage);
+		System.out.println(chatRoomMessage);
+
+
+		chatRoomMessageList.add(chatRoomMessage);
 
 		 chatRoomMessageRepository.save(chatRoomMessage);
 
