@@ -8,24 +8,38 @@ import { useParams } from "react-router-dom";
 const MenuPostPage = () => {
   const { shopId } = useParams();
 
-  const [menuType, setMenuType] = useState("")
-  const [menuPrice, setMenuPrice] = useState("")
-  const [menuSize, setMenuSize] = useState("")
+  const [menuType, setMenuType] = useState([])
+  const [menuPrice, setMenuPrice] = useState([])
+  const [menuSize, setMenuSize] = useState([])
 
 
     //button 클릭시 동작
     const onPostMenuButtonClick = async (event) =>{
         event.preventDefault();
 
-        console.log(items);
+        if(menuPrice || menuSize){
+          const newMenu = {
+            menuPrice : menuPrice,
+            menuSize : menuSize
+          }
+          setMenuList([...menuList, newMenu]);
+          console.log("setmenu 했다!")
+        }
 
-        const postMenuPriceSizeDtoList = [items];
+        console.log("menuPrice는!! "+menuPrice)
+        console.log("menuSize는 "+menuSize)
 
-        console.log(file)
+        console.log("menuList는"+menuList);
+
+        const postMenuPriceSizeDtoList = menuList;
+
+        console.log("dtolist는 "+ postMenuPriceSizeDtoList)
+
+        // console.log(file)
 
          await handleCreateMenu(shopId, menuType, postMenuPriceSizeDtoList, file);
 
-
+        // window.location.reload();
     }
 
 
@@ -37,14 +51,16 @@ const MenuPostPage = () => {
       setFile(selectedFile);
     };
 
-    const [items, setItems] = useState([]);
+    const [menuList, setMenuList] = useState([]);
 
 
     const addSizePrice = () =>{
-      if(menuPrice.trim() !== '' && menuSize.trim() !== ''){
-        console.log(menuPrice)
-        console.log(menuSize)
-        setItems([...menuPrice, menuSize]);
+      if(menuPrice && menuSize){
+        const newMenu = {
+          menuPrice : menuPrice,
+          menuSize : menuSize
+        }
+        setMenuList([...menuList, newMenu]);
         setMenuPrice('')
         setMenuSize('')
       }
@@ -116,8 +132,8 @@ const MenuPostPage = () => {
         <button onClick={addSizePrice}>+</button>
 
         <ul>
-        {items.map((item, index)=>(
-          <li key={index}>{item}</li>
+        {menuList.map((item, index)=>(
+          <li key={index}>{item.menuPrice} : {item.menuSize}</li>
         ))}
         </ul>
 
