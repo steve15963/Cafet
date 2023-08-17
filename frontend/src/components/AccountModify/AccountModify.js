@@ -33,7 +33,7 @@ const AccountSettings = () => {
       const token = response.data.token;
       console.log("Update success", token);
       alert("회원정보 수정에 성공하셨습니다.");
-      navigate(`/mypage/:${userId}`, { replace: true });
+      navigate(`/mypage/${userId}`, { replace: true });
     } catch (error) {
       console.error("Update failed:", error);
       alert("회원정보 수정에 실패하셨습니다.");
