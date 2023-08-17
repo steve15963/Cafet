@@ -5,8 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 const KioskNameList = () => {
   const shopId = localStorage.getItem("shopId");
-  const { nameList } = useKioskList(shopId);
+  const { nameList, loading } = useKioskList(shopId);
   const navigate = useNavigate();
+
+  if (loading || !nameList) {
+    return <div>Loading...</div>;
+  }
 
   if (nameList.length === 0) {
     navigate("/kiosk/first", { replace: true });
