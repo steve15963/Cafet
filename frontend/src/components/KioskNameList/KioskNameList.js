@@ -15,11 +15,11 @@ const KioskNameList = () => {
   console.log(nameList);
   
   const handleDeskClick = (deskId, deskNum) => {
-    
+
     localStorage.setItem("selectedDeskId", deskId);
     localStorage.setItem("selectedDeskNum", deskNum);
     
-    navigate("/kiosk/menu");
+    navigate(`/kiosk/menu/${shopId}}`);
   };
 
   if (nameList.length === 0) {
