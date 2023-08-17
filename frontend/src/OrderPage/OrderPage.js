@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 // import SockJS from "sockjs-client";
 // import Stomp from "stompjs";
 // import { v4 as uuid } from "uuid";
@@ -13,7 +13,7 @@ import Item from "./Item.js"
 const OrderPage = ({onDataFromChild}) => {
   const { shopId, tableId } = useParams();
   const [menuList, setMenuList] = useState([]);
-
+  const navigate = useNavigate();
   
 
 
@@ -41,12 +41,18 @@ const OrderPage = ({onDataFromChild}) => {
     // console.log(resp)
   };
 
+  const handleAnimalClick = () => {
+    // localStorage.setItem("selectedDeskId", deskId);
+    // localStorage.setItem("selectedDeskNum", deskNum);
+    
+    navigate(`/kiosk/animal`);
+  };
 
 
   return (
     <div>
       <p></p>
-      <button className="Orderbutton1"> 애견 정보 </button>
+      <button className="Orderbutton1" onClick={handleAnimalClick}> 애견 정보 </button>
 
       <br></br>
       <div className="Ordertitle">

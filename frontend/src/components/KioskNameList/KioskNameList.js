@@ -18,7 +18,7 @@ const KioskNameList = () => {
     localStorage.setItem("selectedDeskId", deskId);
     localStorage.setItem("selectedDeskNum", deskNum);
     
-    navigate(`/kiosk/menu/${shopId}`);
+    navigate(`/kiosk/menu/buy/${shopId}/${deskNum}`);
   };
 
   const handleEditClick = (deskId) => {
