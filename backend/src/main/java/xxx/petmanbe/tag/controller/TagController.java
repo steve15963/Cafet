@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import xxx.petmanbe.tag.dto.response.TagListResponseDto;
 import xxx.petmanbe.tag.entity.Tag;
@@ -18,11 +19,14 @@ import xxx.petmanbe.tag.service.TagService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/tag")
+
+@io.swagger.v3.oas.annotations.tags.Tag(name = "해시태그", description = "해시태그 API Docs")
 public class TagController {
 	private final TagService tagService;
 
 	// 태그 정보 가져오기
 	@GetMapping("/{tagName}")
+	@Operation(summary = "태그 정보 가져오기, 없으면 생성")
 	public ResponseEntity<Tag> getTag(@PathVariable String tagName){
 		
 		// 태그 가져오기
@@ -34,6 +38,7 @@ public class TagController {
 
 	// 태그 보기
 	@GetMapping("")
+	@Operation(summary = "태그 리스트 가져오기")
 	public ResponseEntity<List<TagListResponseDto>> getTagList(){
 
 		List<TagListResponseDto> tagList = tagService.getTagList().stream()
