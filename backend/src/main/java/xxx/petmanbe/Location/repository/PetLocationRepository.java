@@ -9,5 +9,5 @@ import xxx.petmanbe.Location.entity.PetLocation;
 import xxx.petmanbe.shopPet.entity.ShopPet;
 
 public interface PetLocationRepository extends JpaRepository<PetLocation,Long> {
-	public List<PetLocation> findTop1000PetLocationsByShopPetOrderByCreatedTime(ShopPet shopPet);
+	public List<PetLocation> findTop1000PetLocationsByShopPetOrderByCreatedTimeDesc(ShopPet shopPet);
 }
