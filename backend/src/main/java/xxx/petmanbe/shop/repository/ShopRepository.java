@@ -20,6 +20,8 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
 
 	List<Shop> findByStatusFalseAndAddressContaining(String address);
 
+	List<Shop> findByStatusFalseAndAddressContainingOrShopTitleContaining(String address, String shopTitle);
+
 	Optional<Shop> findByStatusFalseAndUser(User user);
 
 

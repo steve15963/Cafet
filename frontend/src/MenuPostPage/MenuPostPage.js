@@ -1,6 +1,6 @@
 import React, {useState } from "react";
 import TextField from "@mui/material/TextField";
-import handleCreateMethod from "../utils/handleCreateMenu.js"
+import handleCreateMenu from "../utils/handleCreateMenu.js"
 import Button from "../components/Button/Button.js";
 
 import { useParams } from "react-router-dom";
@@ -17,14 +17,39 @@ const MenuPostPage = () => {
     const onPostMenuButtonClick = async (event) =>{
         event.preventDefault();
 
-        const postMenuPriceSizeDtoList = {menuPrice, menuSize};
-        
-         await handleCreateMethod(shopId, menuType, postMenuPriceSizeDtoList, null);
+        console.log(items);
+
+        const postMenuPriceSizeDtoList = [items];
+
+        console.log(file)
+
+         await handleCreateMenu(shopId, menuType, postMenuPriceSizeDtoList, file);
 
 
     }
 
 
+  const [file, setFile] = useState(null);
+
+
+    const handleFileChange = (event) => {
+      const selectedFile = event.target.files[0];
+      setFile(selectedFile);
+    };
+
+    const [items, setItems] = useState([]);
+
+
+    const addSizePrice = () =>{
+      if(menuPrice.trim() !== '' && menuSize.trim() !== ''){
+        console.log(menuPrice)
+        console.log(menuSize)
+        setItems([...menuPrice, menuSize]);
+        setMenuPrice('')
+        setMenuSize('')
+      }
+    }
+  
 
 
   return (
@@ -45,6 +70,20 @@ const MenuPostPage = () => {
         </div>
         
     <br></br>
+
+    {/* <input
+        type="text"
+        value={itemName}
+        onChange={handleInputChange}
+        placeholder="새로운 항목 입력"
+      />
+        <button onClick={addItem}>+</button>
+
+        <ul>
+        {items.map((item, index)=>(
+          <li key={index}>{item}</li>
+        ))}
+        </ul> */}
 
         <div>
         <TextField 
@@ -70,6 +109,28 @@ const MenuPostPage = () => {
         size="small"
         fullWidth
         />
+        </div>
+
+        <br></br>
+
+        <button onClick={addSizePrice}>+</button>
+
+        <ul>
+        {items.map((item, index)=>(
+          <li key={index}>{item}</li>
+        ))}
+        </ul>
+
+        <br></br>
+
+        <div>
+        <label htmlFor="fileInput">프로필 사진 선택</label>
+          <input
+            type="file"
+            id="fileInput"
+            onChange={handleFileChange}
+            accept="image/*"
+          />
         </div>
 
         <br></br>

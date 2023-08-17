@@ -14,7 +14,6 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 import Paper from "@mui/material/Paper";
@@ -37,11 +36,7 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -81,9 +76,17 @@ const createTable = (
 };
 
 const BoardPage = () => {
+  const index = sessionStorage.getItem("index");
   const [value, setValue] = React.useState(0); // Tabs
+
+  useEffect(() => {
+    if (index !== null) {
+      setValue(parseInt(index));
+      sessionStorage.removeItem("index");
+    }
+  }, [index]);
+
   const handleChange = (event, newValue) => {
-    // Tabs
     setValue(newValue);
   };
 
@@ -102,35 +105,6 @@ const BoardPage = () => {
   let navigate = useNavigate();
 
   const goToDetail = (pageId) => {
-    const clickedIndex = totalBoard.findIndex((row) => row.boardId === pageId);
-
-    if (clickedIndex !== -1) {
-      const nextId =
-        clickedIndex > 0 ? totalBoard[clickedIndex - 1].boardId : null;
-      const prevId =
-        clickedIndex < totalBoard.length - 1
-          ? totalBoard[clickedIndex + 1].boardId
-          : null;
-      console.log(totalBoard);
-      sessionStorage.setItem("prevId", prevId);
-      sessionStorage.setItem(
-        "prevTitle",
-        totalBoard[clickedIndex + 1].boardTitle
-      );
-      sessionStorage.setItem(
-        "prevNickname",
-        totalBoard[clickedIndex + 1].nickname
-      );
-      sessionStorage.setItem("nextId", nextId);
-      sessionStorage.setItem(
-        "nextTitle",
-        totalBoard[clickedIndex - 1].boardTitle
-      );
-      sessionStorage.setItem(
-        "nextNickname",
-        totalBoard[clickedIndex - 1].nickname
-      );
-    }
     navigate(`/board/detail/${pageId}`);
   };
 

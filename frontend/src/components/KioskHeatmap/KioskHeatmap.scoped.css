@@ -1,0 +1,4 @@
+#heatmapContainer {
+  background-image: url('./cafe.jpg');
+  object-fit: fill;
+}

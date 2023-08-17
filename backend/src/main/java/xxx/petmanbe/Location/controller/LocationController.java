@@ -32,6 +32,11 @@ public class LocationController {
 
 	private final HitMapService hitMapService;
 
+	/**
+	 * 동물의 위치를 저장하는 컨트롤러 메소드
+	 * @param addPetLocationRequestDto 비콘의 인덱스 값과 그 거리를 내포한 VO이다.
+	 * @return 거리 계산 실패 유무에 따라서 Bad와 ACCEPTED를 반환한다.
+	 */
 	@PostMapping("/pet")
 	public ResponseEntity<PetLocationResponseDto> SavePetLocation(@RequestBody AddPetLocationRequestDto addPetLocationRequestDto){
 		log.info(addPetLocationRequestDto.toString());
@@ -43,6 +48,11 @@ public class LocationController {
 		);
 	}
 
+	/**
+	 * HitMap.js에 들어갈 Json을 프론트에게 내려주는 컨트롤러
+	 * @param animalId 찾고자 하는 동물의 ID
+	 * @return Hitmap.js에 들어가는 Json데이터.
+	 */
 	@GetMapping("/pet")
 	public ResponseEntity<HitMapResponseDto> GetHitMap(@RequestParam long animalId){
 		HitMapResponseDto hitMap = hitMapService.getHitMap(animalId);

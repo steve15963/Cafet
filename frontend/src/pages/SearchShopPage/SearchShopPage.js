@@ -9,15 +9,9 @@ import SearchShopMap from "../../components/SearchShopMap/SearchShopMap";
 
 import Grid from "@mui/material/Grid";
 
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-
 const SearchShopPage = () => {
 
   const [region, setRegion] = useState("");
-  const [animal, setAnimal] = useState("");
   const [cafeList, setCafeList] = useState([]);
 
   useEffect(() => {
@@ -31,10 +25,6 @@ const SearchShopPage = () => {
         setRegion("")
       });
   }, []);
-
-  const handleAnimalChange = (e) => {
-    setAnimal(e.target.value);
-  };
 
   const onChangeSearch = useCallback((e) => {
     const newValue = e.target.value;
@@ -58,6 +48,19 @@ const SearchShopPage = () => {
 
   const handleRegionSearchClick = useCallback(() => {
     searchResult(region);
+    let keyword = document.getElementById("searchValue").value;
+    console.log("keyword : "  + keyword);
+    axios.get(`https://i9a105.p.ssafy.io/api/shop/address/${keyword}`)
+      .then(function(res) {
+        console.log(res);
+        setCafeList(res.data.slice(0, 9))
+        
+      })
+      .catch(function (err) {
+        console.log(err);
+        alert('검색결과가 없습니다')
+        setRegion("")
+      });
   }, [region]);
   
 
@@ -69,23 +72,9 @@ const SearchShopPage = () => {
         <Grid item xs={6}>
           <div className="search-wrapper">
             <div className="region-input">
-              <input value={region} onChange={onChangeSearch} />
+              <input id="searchValue" value={region} onChange={onChangeSearch} />
               <button onClick={handleRegionSearchClick}>검색</button>
             </div>
-            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-              <InputLabel id="select-animal-label">Animal</InputLabel>
-              <Select
-                labelId="select-animal-label"
-                id="select-animal"
-                value={animal}
-                label="Animal"
-                onChange={handleAnimalChange}
-              >
-                <MenuItem value={"강아지"}>강아지</MenuItem>
-                <MenuItem value={"고양이"}>고양이</MenuItem>
-                <MenuItem value={"기타"}>기타</MenuItem>
-              </Select>
-            </FormControl>
           </div>
           <div className="list-wrapper">
             {cafeList.map((el) => (
