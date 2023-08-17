@@ -25,24 +25,6 @@ const OrderPage = ({onDataFromChild}) => {
     onDataFromChild(dataFromChild)
   }
 
-  // const [id] = useState(uuid());
-
-  // var sock = new SockJS("https://i9a105.p.ssafy.io/order");
-  // let client = Stomp.over(sock);
-
-  // const setMessage = () => {
-  //   // console.log(sock);
-  //   client.send(
-  //     "/app/message",
-  //     {},
-  //     JSON.stringify({
-  //       shopId: shopId,
-  //       tableId: tableId,
-  //       content: "menuType",
-  //       uuid: id,
-  //     })
-  //   );
-  // };
 
   useEffect(() => {
     getMenuList();
