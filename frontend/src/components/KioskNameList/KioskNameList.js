@@ -4,7 +4,8 @@ import useKioskList from "../../hooks/useKioskList";
 import { useNavigate } from "react-router-dom";
 
 const KioskNameList = () => {
-  const { nameList } = useKioskList();
+  const shopId = localStorage.getItem("shopId");
+  const { nameList } = useKioskList(shopId);
   const navigate = useNavigate();
 
   if (nameList.length === 0) {
