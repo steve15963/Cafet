@@ -25,7 +25,8 @@ const KioskHeatmap = ({ id }) => {
 
   return ( 
     <div id="heatmapContainer" style={{ 
-      display: "flex", maxWidth: '600px', width: '100%', height: '400px' 
+      display: "flex", maxWidth: '740px', width: '100%', height: '740px',
+      border: '3px solid rgba(0, 0, 0, 0.05)'
     }} />
   )
 }
