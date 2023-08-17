@@ -19,7 +19,7 @@ public class AddInquiryRequestDto {
 		return Inquiry.builder()
 			.inquiryTitle(this.inquiryTitle)
 			.inquiryContent(this.inquiryContent)
-			.nickname(this.inquiryCategory)
+			.nickname(this.nickname)
 			.email(this.email)
 			.phoneNo(this.phoneNo)
 			.build();
