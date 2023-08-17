@@ -38,6 +38,7 @@ import OnePage from "./OrderPage/OnePage";
 import KioskAnimalDetailPage from "./pages/KioskAnimalDetailPage/KioskAnimalDetailPage";
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import KioskMenu from "./components/KioskMenu/KioskMenu";
+import LiveMap from "./LiveMap/LiveMap.js";
 
 const App = () => {
   return (
@@ -93,6 +94,7 @@ const App = () => {
           path="/kiosk/animal/:animalId"
           element={<KioskAnimalDetailPage />}
         />
+        <Route path="/livemap" element={<LiveMap />} ></Route>
       </Routes>
     </div>
   );
