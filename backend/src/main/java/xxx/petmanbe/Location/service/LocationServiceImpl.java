@@ -102,8 +102,8 @@ public class LocationServiceImpl implements LocationService {
 			.orElseThrow(() -> new RestApiException(PetErrorCode.PET_NOT_FOUND));
 
 		PetLocation build = PetLocation.builder()
-			.x(x)
-			.y(y)
+			.x(x * 100)
+			.y(y * 100)
 			.z(0)
 			.temp(addPetLocationRequestDto.getTemp())
 			.shopPet(shopPet)
