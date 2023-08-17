@@ -7,7 +7,7 @@ public interface WebSocketService {
 
 	public GetMessagesDto getMessages(long roomId);
 
-	public boolean saveMessage(MessageDto messageDto);
+	public boolean saveMessage(long shopId, String message);
 
 	public long getRoomList();
 

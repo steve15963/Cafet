@@ -51,7 +51,7 @@ const Cart = (props) => {
         {props.data.map((propGroup)=>(
             // <div className="no_dot" key={index}>
             
-            <div  className="OrderCartBox">
+            <div className="OrderCartBox">
             <div className="OrderCartBoxNotEight">
               
              <div>

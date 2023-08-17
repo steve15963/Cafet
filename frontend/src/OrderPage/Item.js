@@ -36,7 +36,7 @@ const Item = ({item, onDataFromChild}) => {
                 </span>
               </div>
               ))}
-            </div>
+        </div>
       </div>
       {modalOpen && <div className="OrderModalBackground"> </div>}
       {modalOpen && <ModalBasic setModalOpen={setModalOpen} data={item} onDataToParent ={handleChildData}/>}          

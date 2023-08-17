@@ -2,12 +2,14 @@ package xxx.petmanbe.Kiosk.webSocket.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import xxx.petmanbe.Kiosk.webSocket.Entity.ChatRoom;
 import xxx.petmanbe.Kiosk.webSocket.Entity.ChatRoomMessage;
 import xxx.petmanbe.Kiosk.webSocket.dto.MessageDto;
 import xxx.petmanbe.Kiosk.webSocket.dto.responseDto.GetMessagesDto;
 import xxx.petmanbe.Kiosk.webSocket.repository.ChatRoomMessageRepository;
 import xxx.petmanbe.Kiosk.webSocket.repository.ChatRoomRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,21 +30,21 @@ public class WebSocketServiceImpl implements WebSocketService{
 	}
 
 	// @Async
-	public boolean saveMessage(MessageDto messageDto){
+	public boolean saveMessage(long shopId, String message){
 
-		// ChatRoom chatRoom = chatRoomRepository.findById(messageDto.getShopId()).orElseThrow(()-> new IllegalArgumentException());
-		//
-		// List<ChatRoomMessage> chatRoomMessageList = new ArrayList<>();
-		// chatRoomMessageList = chatRoomMessageRepository.findAllByChatRoom_ChatRoomId(messageDto.getShopId());
-		//
-		// ChatRoomMessage chatRoomMessage = ChatRoomMessage.builder()
-		// 			.chatRoom(chatRoom)
-		// 		.message(messageDto.getContent())
-		// 				.build();
-		//
-		// chatRoomMessageList.add(chatRoomMessage);
-		//
-		// chatRoomMessageRepository.save(chatRoomMessage);
+		 ChatRoom chatRoom = chatRoomRepository.findById(shopId).orElseThrow(()-> new IllegalArgumentException());
+
+		 List<ChatRoomMessage> chatRoomMessageList = new ArrayList<>();
+		 chatRoomMessageList = chatRoomMessageRepository.findAllByChatRoom_ChatRoomId(shopId);
+
+		 ChatRoomMessage chatRoomMessage = ChatRoomMessage.builder()
+		 			.chatRoom(chatRoom)
+		 		.message(message)
+		 				.build();
+
+		 chatRoomMessageList.add(chatRoomMessage);
+
+		 chatRoomMessageRepository.save(chatRoomMessage);
 
 		return true;
 	}
