@@ -20,7 +20,9 @@ import xxx.petmanbe.Location.entity.PetLocation;
 import xxx.petmanbe.board.entity.Board;
 import xxx.petmanbe.common.entity.BaseTimeEntity;
 import xxx.petmanbe.shop.dto.requestDto.PutShopDto;
+import xxx.petmanbe.shopFile.entity.ShopFile;
 import xxx.petmanbe.shopPet.entity.ShopPet;
+import xxx.petmanbe.shopPetFile.entity.ShopPetFile;
 import xxx.petmanbe.user.entity.User;
 
 @Entity
@@ -87,6 +89,9 @@ public class Shop extends BaseTimeEntity {
 
 	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "shop")
 	private List<ShopPet> shopPetList;
+
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "shop")
+	private List<ShopFile> shopFileList;
 
 	@ManyToOne
 	@JoinColumn(name="user_id")

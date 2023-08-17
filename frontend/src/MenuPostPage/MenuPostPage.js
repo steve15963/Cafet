@@ -1,6 +1,6 @@
 import React, {useState } from "react";
 import TextField from "@mui/material/TextField";
-import handleCreateMethod from "../utils/handleCreateMenu.js"
+import handleCreateMenu from "../utils/handleCreateMenu.js"
 import Button from "../components/Button/Button.js";
 
 import { useParams } from "react-router-dom";
@@ -18,13 +18,23 @@ const MenuPostPage = () => {
         event.preventDefault();
 
         const postMenuPriceSizeDtoList = {menuPrice, menuSize};
-        
-         await handleCreateMethod(shopId, menuType, postMenuPriceSizeDtoList, null);
+
+        console.log(file)
+
+         await handleCreateMenu(shopId, menuType, postMenuPriceSizeDtoList, file);
 
 
     }
 
 
+  const [file, setFile] = useState(null);
+
+
+    const handleFileChange = (event) => {
+      const selectedFile = event.target.files[0];
+      setFile(selectedFile);
+    };
+  
 
 
   return (
@@ -70,6 +80,18 @@ const MenuPostPage = () => {
         size="small"
         fullWidth
         />
+        </div>
+
+        <br></br>
+
+        <div>
+        <label htmlFor="fileInput">프로필 사진 선택</label>
+          <input
+            type="file"
+            id="fileInput"
+            onChange={handleFileChange}
+            accept="image/*"
+          />
         </div>
 
         <br></br>

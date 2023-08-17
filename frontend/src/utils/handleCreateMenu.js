@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const handleCreateMethod = async (shopId, menuType, postMenuPriceSizeDtoList, file) =>{
+const handleCreateMenu = async (shopId, menuType, postMenuPriceSizeDtoList, file) =>{
     const formData = new FormData();
     console.log(shopId)
     console.log(menuType)
@@ -34,4 +34,4 @@ const handleCreateMethod = async (shopId, menuType, postMenuPriceSizeDtoList, fi
     return response;
 };
 
-export default handleCreateMethod;
+export default handleCreateMenu;
