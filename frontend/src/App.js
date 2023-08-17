@@ -39,6 +39,7 @@ import KioskAnimalDetailPage from "./pages/KioskAnimalDetailPage/KioskAnimalDeta
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import KioskMenu from "./components/KioskMenu/KioskMenu";
 import KioskRegist from "./components/KioskRegist/KioskRegist";
+import LiveMap from "./LiveMap/LiveMap.js";
 
 const App = () => {
   return (
@@ -95,6 +96,7 @@ const App = () => {
           path="/kiosk/animal/:animalId"
           element={<KioskAnimalDetailPage />}
         />
+        <Route path="/livemap" element={<LiveMap />}></Route>
       </Routes>
     </div>
   );
