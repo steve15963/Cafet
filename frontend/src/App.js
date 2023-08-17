@@ -30,15 +30,14 @@ import ManageRequestDetail from "./components/ManageRequestDetail/ManageRequestD
 import SearchShopPage from "./pages/SearchShopPage/SearchShopPage";
 import KioskMain from "./pages/KioskMain/KioskMain";
 import KioskLogin from "./components/KioskLogin/KioskLogin";
-import KioskMenu from "./components/KioskMenu/KioskMenu";
 import KioskNameList from "./components/KioskNameList/KioskNameList";
 import OrderCheckPage from "./OrderCheckPage/OrderCheckPage";
 import MenuPostPage from "./MenuPostPage/MenuPostPage";
 import KioskAnimalListPage from "./pages/KioskAnimalListPage/KioskAnimalListPage";
 import OnePage from "./OrderPage/OnePage";
-import OrderPage from "./OrderPage/OrderPage";
 import KioskAnimalDetailPage from "./pages/KioskAnimalDetailPage/KioskAnimalDetailPage";
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
+import KioskMenu from "./components/KioskMenu/KioskMenu";
 
 const App = () => {
   return (
@@ -71,9 +70,6 @@ const App = () => {
         </Route>
         <Route path="/shop/:shopId" element={<ShopPage />} />
         <Route path="/animal/:id/info" element={<ShopInfoPage />} />
-        {/* <Route path="/shop/animal" element={<AnimalList />} />
-        <Route path="/shop/animal/:id" element={<AnimalDetail />} /> */}
-
         <Route path="create">
           <Route path="" element={<CreatePage />} />
           <Route path=":id" element={<CreatePage />} />
@@ -83,17 +79,15 @@ const App = () => {
         <Route path="/kiosk" element={<KioskMain />}>
           <Route path="" element={<KioskLogin />} />
           <Route path="list" element={<KioskNameList />} />
-          <Route path="menu" element={<KioskMenu />} />
-          <Route path="animal" element={<KioskAnimalListPage />} />
+          <Route path="menu" element={<KioskMenu />}>
+            <Route path="menu/:shopId" element={<MenuPostPage />} />
+            <Route path="menu/check/:shopId" element={<OrderCheckPage />} />
+          </Route>
+          <Route path="animal" element={<KioskAnimalListPage />}>
+            <Route path=":animalId" element={<KioskAnimalDetailPage />} />
+          </Route>
+          <Route path="buy/:shopId/:tableId" element={<OnePage />} />
         </Route>
-        <Route path="/buy/:shopId/:tableId" element={<OnePage />} />
-        <Route
-          path="/kiosk/animal/:animalId"
-          element={<KioskAnimalDetailPage />}
-        />
-        <Route path="/buy/:shopId/:tableId" element={<OrderPage />} />
-        <Route path="/menu/:shopId" element={<MenuPostPage />} />
-        <Route path="/check/:shopId" element={<OrderCheckPage />} />
       </Routes>
     </div>
   );
