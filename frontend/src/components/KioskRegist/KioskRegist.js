@@ -5,7 +5,7 @@ import handleKioskFirst from "../../utils/handleKioskFirst";
 import "./KioskRegist.scoped.css";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
-import Button from "../Button/Button";
+import KioskButton from "../KioskButton/KioskButton";
 
 const KioskRegist = () => {
   const shopId = localStorage.getItem("shopId");
@@ -44,7 +44,7 @@ const KioskRegist = () => {
         </div>
         <br />
         <div className="login-container">
-          <Button
+          <KioskButton
             type="common"
             text={"입력하기"}
             className="button"

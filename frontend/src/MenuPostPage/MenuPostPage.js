@@ -1,7 +1,7 @@
 import React, {useState } from "react";
 import TextField from "@mui/material/TextField";
 import handleCreateMenu from "../utils/handleCreateMenu.js"
-import Button from "../components/Button/Button.js";
+import KioskButton from "../components/KioskButton/KioskButton.js";
 
 import { useParams } from "react-router-dom";
 
@@ -152,7 +152,7 @@ const MenuPostPage = () => {
         <br></br>
 
         <div>
-      <Button
+      <KioskButton
             type="common"
             text={"입력하기"}
             className="button"
