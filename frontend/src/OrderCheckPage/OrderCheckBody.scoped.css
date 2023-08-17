@@ -11,6 +11,13 @@
     list-style-type: none;
 }
 
+.buttonX {
+    content: '';
+    position: absolute;
+    background-color: #fff;
+    /* transform: rotate(45deg); */
+  }
+
 .OrderTable{
     font-size: 24px; /* 폰트 크기 */
     font-weight: bold; /* 폰트 두께 */
