@@ -136,6 +136,7 @@ const BoardDetail = () => {
       {boardDetail.commentList.length > 0 && (
         <CommentList commentList={boardDetail.commentList} />
       )}
+      <div className="wrap">
       <Stack
         direction="row"
         spacing={2}
@@ -155,6 +156,7 @@ const BoardDetail = () => {
           댓글 작성
         </Button>
       </Stack>
+      </div>
       <NearPost boardList={boardList} currentId={id} />
       <div className="footer-save" />
       <Footer />
