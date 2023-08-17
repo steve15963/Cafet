@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const KioskNameList = () => {
   const shopId = localStorage.getItem("shopId");
-  const { nameList, loading } = useKioskList(shopId);
+  const { nameList, loading } = useKioskList(Number(shopId));
   const navigate = useNavigate();
 
   if (loading || !nameList) {
