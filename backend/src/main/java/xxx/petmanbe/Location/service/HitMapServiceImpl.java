@@ -28,7 +28,7 @@ public class HitMapServiceImpl implements HitMapService{
 
 		ShopPet shopPet = byId.get();
 
-		List<PetLocation> locations = petLocationRepository.findTop1000PetLocationsByShopPetOrderByCreatedTime(shopPet);
+		List<PetLocation> locations = petLocationRepository.findTop1000PetLocationsByShopPetOrderByCreatedTimeDesc(shopPet);
 
 		HitMapResponseDto hitMapResponseDto = new HitMapResponseDto();
 
