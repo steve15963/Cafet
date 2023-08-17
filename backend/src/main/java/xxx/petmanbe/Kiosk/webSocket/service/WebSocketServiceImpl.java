@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import xxx.petmanbe.Kiosk.webSocket.Entity.ChatRoom;
 import xxx.petmanbe.Kiosk.webSocket.Entity.ChatRoomMessage;
 import xxx.petmanbe.Kiosk.webSocket.dto.MessageDto;
+import xxx.petmanbe.Kiosk.webSocket.dto.requestDto.MessageGetDto;
 import xxx.petmanbe.Kiosk.webSocket.dto.responseDto.GetMessagesDto;
 import xxx.petmanbe.Kiosk.webSocket.repository.ChatRoomMessageRepository;
 import xxx.petmanbe.Kiosk.webSocket.repository.ChatRoomRepository;
@@ -65,6 +66,18 @@ public class WebSocketServiceImpl implements WebSocketService{
 		}
 
 		return msg.toString();
+	}
+
+	@Override
+	public boolean changeStatus(MessageGetDto messageGetDto) {
+
+		ChatRoomMessage chatRoomMessage  =  chatRoomMessageRepository.findByMessageContaining(messageGetDto.getMessage()).orElseThrow(()->new IllegalArgumentException());
+
+		chatRoomMessage.setStatus(true);
+
+		chatRoomMessageRepository.save(chatRoomMessage);
+
+		return true;
 	}
 
 }
