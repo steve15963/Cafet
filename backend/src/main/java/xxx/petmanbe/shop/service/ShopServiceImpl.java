@@ -375,4 +375,11 @@ public class ShopServiceImpl implements ShopService{
 		}
 	}
 
+	@Override
+	public List<GetShopListDto> getShopListByKey(String address, String shopTitle) {
+
+		return shopRepository.findByStatusFalseAndAddressContainingOrShopTitleContaining(address, shopTitle)
+			.stream().map(GetShopListDto::new).collect(Collectors.toList());
+	}
+
 }

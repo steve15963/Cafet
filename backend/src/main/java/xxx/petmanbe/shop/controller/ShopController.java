@@ -204,6 +204,15 @@ public class ShopController {
         return new ResponseEntity<>(shopList, HttpStatus.OK);
     }
 
+    @GetMapping("/search/{key}")
+    public ResponseEntity<List<GetShopListDto>> getShopListByKey(@PathVariable String key){
+
+        List<GetShopListDto> shopList = shopService.getShopListByKey(key,key);
+
+        return new ResponseEntity<>(shopList, HttpStatus.OK);
+
+    }
+
     // 해당 태그가 들어가는 가게 리스트 가져오기
     @GetMapping("/tag/{tagName}")
     public ResponseEntity<List<GetShopListDto>> getShopListByTag(String tagName){

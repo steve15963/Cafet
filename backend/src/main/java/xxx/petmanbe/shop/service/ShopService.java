@@ -47,4 +47,7 @@ public interface ShopService {
 	
 	// 가게 찜 삭제
 	boolean deleteLikeShop(Long userId, Long shopId);
+
+	List<GetShopListDto> getShopListByKey(String address, String shopTitle);
+
 }
