@@ -40,4 +40,8 @@ public interface UserService {
 	boolean changeUserPassword(UpdateUserPasswordDto request);
 
 	boolean postLogout(HttpServletRequest request);
+
+	boolean checkUserLikeBoard(Long boardId, Long userId);
+
+	boolean checkUserLikeShop(Long userId, Long shopId);
 }

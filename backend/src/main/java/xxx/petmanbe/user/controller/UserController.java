@@ -266,5 +266,19 @@ public class UserController {
 
 		return new ResponseEntity<>(userList, HttpStatus.OK);
 	}
+
+	// 해당 게시글 좋아요 여부
+	@GetMapping("/{userId}/likeBoard/{boardId}")
+	public ResponseEntity<Boolean> checkUserLikeBoard(@PathVariable Long userId, @PathVariable Long boardId){
+
+		return new ResponseEntity<>(userService.checkUserLikeBoard(userId, boardId), HttpStatus.OK);
+	}
+
+	// 해당 가게 좋아요 여부
+	@GetMapping("/{userId}/likeShop/{shopId}")
+	public ResponseEntity<Boolean> checkUserLikeShop(@PathVariable Long userId, @PathVariable Long shopId){
+
+		return new ResponseEntity<>(userService.checkUserLikeShop(userId, shopId), HttpStatus.OK);
+	}
 }
 

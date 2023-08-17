@@ -407,7 +407,7 @@ public class BoardServiceImpl implements BoardService{
 			.orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
 		// 일단 좋아요가 눌려있는지 확인, 누른 적 없으면
-		if (likeBoardRepository.findByBoard_BoardIdAndUser_UserId(request.getBoardId(), request.getUserId()).isEmpty()) {
+		if (likeBoardRepository.findByUser_UserIdAndBoard_boardId(request.getUserId(), request.getBoardId()).isEmpty()) {
 
 			// 좋아요 데이터 만들어서 넣기
 			LikeBoard newLike = LikeBoard.builder().build();
@@ -434,7 +434,7 @@ public class BoardServiceImpl implements BoardService{
 			.orElseThrow(() -> new RestApiException(BoardErrorCode.BOARD_NOT_FOUND));
 
 		// 일단 좋아요가 눌려있는지 확인, 누른 적 있으면
-		likeBoardRepository.findByBoard_BoardIdAndUser_UserId(request.getBoardId(), request.getUserId())
+		likeBoardRepository.findByUser_UserIdAndBoard_boardId(request.getUserId(), request.getBoardId())
 			.ifPresentOrElse(
 				// 해당 좋아요 정보가 있으면 삭제
 				likeBoard -> {
