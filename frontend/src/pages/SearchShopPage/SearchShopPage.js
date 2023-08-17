@@ -48,6 +48,19 @@ const SearchShopPage = () => {
 
   const handleRegionSearchClick = useCallback(() => {
     searchResult(region);
+    let keyword = document.getElementById("searchValue").value;
+    console.log("keyword : "  + keyword);
+    axios.get(`https://i9a105.p.ssafy.io/api/shop/address/${keyword}`)
+      .then(function(res) {
+        console.log(res);
+        setCafeList(res.data.slice(0, 9))
+        
+      })
+      .catch(function (err) {
+        console.log(err);
+        alert('검색결과가 없습니다')
+        setRegion("")
+      });
   }, [region]);
   
 
@@ -59,7 +72,7 @@ const SearchShopPage = () => {
         <Grid item xs={6}>
           <div className="search-wrapper">
             <div className="region-input">
-              <input value={region} onChange={onChangeSearch} />
+              <input id="searchValue" value={region} onChange={onChangeSearch} />
               <button onClick={handleRegionSearchClick}>검색</button>
             </div>
           </div>
