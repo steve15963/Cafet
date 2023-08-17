@@ -22,7 +22,7 @@ import AccountModify from "./components/AccountModify/AccountModify";
 import ShopPage from "./pages/ShopPage/ShopPage";
 import TestPage from "./pages/TestPage/TestPage";
 // import AnimalList from "./pages/AnimalListPage/AnimalListPage";
-// import AnimalDetail from "./pages/AnimalDetailPage/AnimalDetailPage";
+import ShopAnimalDetailPage from "./components/ShopAnimalDetailPage/ShopAnimalDetailPage";
 import ShopInfoPage from "./pages/ShopInfoPage/ShopInfoPage";
 import CreatePage from "./pages/CreatePage/CreatePage";
 import ManageRequestDetail from "./components/ManageRequestDetail/ManageRequestDetail";
@@ -69,6 +69,7 @@ const App = () => {
           <Route path="modify" element={<AccountModify />} />
         </Route>
         <Route path="/shop/:shopId" element={<ShopPage />} />
+        <Route path="/shop/:shopId/:petId" element={<ShopAnimalDetailPage />} />
         <Route path="/animal/:id/info" element={<ShopInfoPage />} />
         <Route path="create">
           <Route path="" element={<CreatePage />} />
@@ -88,6 +89,10 @@ const App = () => {
           </Route>
           <Route path="buy/:shopId/:tableId" element={<OnePage />} />
         </Route>
+        <Route
+          path="/kiosk/animal/:animalId"
+          element={<KioskAnimalDetailPage />}
+        />
       </Routes>
     </div>
   );

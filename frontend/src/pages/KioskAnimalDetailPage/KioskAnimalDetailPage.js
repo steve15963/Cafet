@@ -4,9 +4,6 @@ import { useParams } from "react-router-dom";
 import InfoIcon from '@mui/icons-material/Info';
 import BlurOnIcon from '@mui/icons-material/BlurOn';
 
-// import {
-//   Box,
-// } from "@mui/material";
 
 import './KioskAnimalDetailPage.scoped.css'
 import KioskHeatmap from "../../components/KioskHeatmap/KioskHeatmap";

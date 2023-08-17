@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
+import './ShopAnimalDetailPage.scoped.css'
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import KioskHeatmap from "../KioskHeatmap/KioskHeatmap";
+
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -16,21 +21,25 @@ import TodayIcon from '@mui/icons-material/Today';
 
 import { green } from '@mui/material/colors';
 
-const KioskAnimalInfo = () => {
+const ShopAnimalDetailPage = () => {
+
   const [ detailAnimal, setDetailAnimal ] = useState([])
 
-  const { animalId } = useParams();
+  const {petId} = useParams();
 
   useEffect(() => {
-    axios.get(`https://i9a105.p.ssafy.io/api/shopPet/${animalId}`)
+    axios.get(`https://i9a105.p.ssafy.io/api/shopPet/${petId}`)
       .then((res) => {
+        console.log(res.data)
         setDetailAnimal(res.data)
       })
       .catch()
-  }, [animalId])
+  }, [petId])
 
   return (
     <div>
+      <Header />
+      <div className="header-save" />
       <div className="info-wrapper">
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
           <ListItem>
@@ -79,8 +88,14 @@ const KioskAnimalInfo = () => {
           </ListItem>
         </List>
       </div>
+      <div className="heatmap-section">
+        <h4>자주 있는 장소</h4>
+        <KioskHeatmap id={petId} /> 
+      </div>
+      <div className="footer-save" />
+      <Footer />
     </div>
   )
 }
 
-export default KioskAnimalInfo
+export default ShopAnimalDetailPage

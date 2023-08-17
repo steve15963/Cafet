@@ -1,0 +1,35 @@
+.animalItem {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e2e2e2;
+  display: flex;
+  justify-content: space-between;
+}
+
+.animalItem .img_section {
+  cursor: pointer;
+  min-width: 120px;
+  height: 100px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+}
+ 
+.animalItem .img_section img {
+  width: 50%;
+}
+
+.animalItem .info_section {
+  flex-grow: 1;
+  margin-left: 20px;
+}
+
+.animalItem .info_section .name-wrapper {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.animalItem .info_section .birth-wrapper {
+  font-size: 15px;
+}

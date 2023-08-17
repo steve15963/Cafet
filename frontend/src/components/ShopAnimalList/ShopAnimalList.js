@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+
+import './ShopAnimalList.scoped.css'
+import ShopAnimalListItem from "../ShopAnimalListItem/ShopAnimalListItem";
+
 import axios from "axios";
 
-import KioskAnimalListItem from "../../components/KioskAnimalListItem/KioskAnimalListItem";
-
-const KioskAnimalListPage = () => {
-  let shopId = 1
+const ShopAnimalList = ({ shopId }) => {
 
   const [animalList, setAnimalList] = useState([]);
 
@@ -12,26 +13,26 @@ const KioskAnimalListPage = () => {
     axios
       .get(`https://i9a105.p.ssafy.io/api/shop/${shopId}`)
       .then(function (response) {
+        console.log(response.data)
         setAnimalList(response.data.shopPetList);
       })
       .catch(function (error) {
         console.log(error);
       });
   }, [shopId]);
-
+  
   return (
     <div>
       {
         animalList.map((el) => 
-          <KioskAnimalListItem 
-              key={el.shopPetId}
-              data={el} />
+          <ShopAnimalListItem
+          key={el.shopPetId} 
+          shopId={shopId} 
+          data={el} />
         )
       }
     </div>
   );
-  
-  
-}
+};
 
-export default KioskAnimalListPage;
+export default ShopAnimalList;

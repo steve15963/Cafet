@@ -76,10 +76,11 @@ const SearchShopMap = ({ cafeList }) => {
 
   
   return (
-    <div>
+    <div style={{ display: "flex", width: "100%" }}>
       <div
         id="map"
         style={{
+          display: 'flex',
           width: '100%',
           height: '500px',
         }}
