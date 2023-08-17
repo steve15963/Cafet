@@ -8,9 +8,9 @@ import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const ManageRequestList = (props) => {
+const ManageInquiryList = (props) => {
   const navigate = useNavigate();
-  const handleRequestDetail = (e, id) => {
+  const handleInquiryDetail = (e, id) => {
     navigate(`${id}`);
   };
   return (
@@ -18,20 +18,20 @@ const ManageRequestList = (props) => {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableBody>
-            {props.requestList.map((row) => (
+            {props.inquiryList.map((row) => (
               <TableRow
-                key={row.requestId}
+                key={row.inquiryId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.shop}
+                  {row.inquiryTitle}
                 </TableCell>
 
                 <TableCell align="right">
                   <Button
                     variant="outlined"
                     onClick={(event) =>
-                      handleRequestDetail(event, row.requestId)
+                      handleInquiryDetail(event, row.inquiryId)
                     }
                   >
                     상세 보기
@@ -45,4 +45,4 @@ const ManageRequestList = (props) => {
     </div>
   );
 };
-export default ManageRequestList;
+export default ManageInquiryList;

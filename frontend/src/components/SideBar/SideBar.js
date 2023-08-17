@@ -14,9 +14,9 @@ const SideBar = () => {
       <div className="linkdiv">
         <Link to={"/manage/shops"}>업주관리</Link>
       </div>
-      {/* <div className="linkdiv">
-        <Link to={"/manage/requests"}>등록요청관리</Link>
-      </div> */}
+      <div className="linkdiv">
+        <Link to={"/manage/inquiry"}>등록요청관리</Link>
+      </div>
     </nav>
   );
 };

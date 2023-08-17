@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { TextField } from "@mui/material";
 
-import ManagerShopTable from "../ManageShopTable/ManageShopTable";
-import useShopList from "./../../hooks/useShopList";
+import ManagerShopTable from "./ManageShopTable";
+import useShopList from "../../hooks/useShopList";
 
 const ManageShops = () => {
   const { shopList, setQuery, loading } = useShopList();
