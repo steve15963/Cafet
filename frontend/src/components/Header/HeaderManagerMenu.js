@@ -43,7 +43,7 @@ const HeaderManagerMenu = () => {
         >
           로그아웃
         </Link>
-        <Link to={`/mypage/:${userId}`} className="header-link">
+        <Link to={`/mypage/${userId}`} className="header-link">
           마이페이지
         </Link>
         <Link to={"/manage"} className="header-link">
