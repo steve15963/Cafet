@@ -13,4 +13,8 @@ public interface VisitedRepository extends JpaRepository<Visited,Long> {
     @Query("select i from Visited i where i.user.userId = :User and i.shop.shopId = :Shop")
     Optional<Visited> findByUserShopJpql(@Param("User") long userId, @Param("Shop") long shopId);
 
+    // 평점에 쓸 쿼리문
+    @Query("select i from Visited i where i.user.userId = :User and i.shop.shopId = :Shop and datediff(current_date, i.createdTime) <= 7")
+    Optional<Visited> findByVisitedTime(@Param("User") long userId, @Param("Shop") long shopId);
+
 }

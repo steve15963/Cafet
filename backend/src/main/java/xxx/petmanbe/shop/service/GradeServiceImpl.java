@@ -10,6 +10,7 @@ import xxx.petmanbe.exception.errorcode.CommonErrorCode;
 import xxx.petmanbe.exception.errorcode.GradeErrorCode;
 import xxx.petmanbe.exception.errorcode.ShopErrorCode;
 import xxx.petmanbe.exception.errorcode.UserErrorCode;
+import xxx.petmanbe.exception.errorcode.VisitErrorCode;
 import xxx.petmanbe.shop.dto.requestDto.DeleteShopGradeDto;
 import xxx.petmanbe.shop.dto.requestDto.PostShopGradeDto;
 import xxx.petmanbe.shop.dto.requestDto.PutShopGradeDto;
@@ -20,6 +21,7 @@ import xxx.petmanbe.shop.repository.GradeRepository;
 import xxx.petmanbe.shop.repository.ShopRepository;
 import xxx.petmanbe.user.entity.User;
 import xxx.petmanbe.user.repository.UserRepository;
+import xxx.petmanbe.visited.repository.VisitedRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -31,29 +33,37 @@ public class GradeServiceImpl implements GradeService{
 
     private final UserRepository userRepository;
 
+    private final VisitedRepository visitedRepository;
+
     // 유저의 가게 평점 주기
     @Transactional
     @Override
     public void postShopGrade(PostShopGradeDto postShopGradeDto) {
 
-        Shop shop = shopRepository.findById(postShopGradeDto.getShopId())
-            .orElseThrow(()->new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
+        // 우선 7일 이내 방문한 기록이 있는지 보고
+        if (visitedRepository.findByVisitedTime(postShopGradeDto.getUserId(), postShopGradeDto.getShopId()).isPresent()) {
+            Shop shop = shopRepository.findById(postShopGradeDto.getShopId())
+                .orElseThrow(() -> new RestApiException(ShopErrorCode.SHOP_NOT_FOUND));
 
-        User user = userRepository.findById(postShopGradeDto.getUserId())
-            .orElseThrow(()-> new RestApiException(UserErrorCode.USER_NOT_FOUND));
+            User user = userRepository.findById(postShopGradeDto.getUserId())
+                .orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
 
-        Grade grade = Grade.builder()
+            Grade grade = Grade.builder()
                 .value(postShopGradeDto.getValue())
                 .shop(shop)
                 .user(user)
                 .build();
 
-        gradeRepository.save(grade);
+            gradeRepository.save(grade);
 
-        shop.updateGrade(shop.getTotalScore()+ postShopGradeDto.getValue(), shop.getGradeCount()+1);
+            shop.updateGrade(shop.getTotalScore() + postShopGradeDto.getValue(), shop.getGradeCount() + 1);
 
-        shopRepository.save(shop);
-
+            shopRepository.save(shop);
+        }
+        // 없으면 방문한 기록 없다고 하기
+        else {
+            throw new RestApiException(VisitErrorCode.VISIT_NOT_FOUND);
+        }
     }
 
     // 유저별 가게 평점 조회하기
