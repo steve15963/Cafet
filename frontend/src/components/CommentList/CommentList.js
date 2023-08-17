@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Comment from "./Comment";
+import Comment from "../Comment/Comment";
 
 const CommentList = ({ commentList }) => {
   console.log(commentList);

@@ -15,15 +15,20 @@ import PropTypes from "prop-types";
 import Stack from "@mui/material/Stack";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import StarIcon from "@mui/icons-material/Star";
-import { yellow } from "@mui/material/colors";
 import { Avatar, Container } from "@mui/material";
-import PetsIcon from "@mui/icons-material/Pets";
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
 
+import PetsIcon from "@mui/icons-material/Pets";
 import IconButton from '@mui/material/IconButton';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+
+import Chip from '@mui/material/Chip';
+import StarIcon from '@mui/icons-material/Star';
+
+import Rating from '@mui/material/Rating';
 
 
 function CustomTabPanel(props) {
@@ -67,6 +72,8 @@ const ShopPage = () => {
   const [tabValue, setTabValue] = useState(0);
   const [shopData, setShopData] = useState([]);
 
+  const [ starRate, setStarRate ] = useState(0); // 별점
+
   useEffect(() => {
     axios
       .get(`https://i9a105.p.ssafy.io/api/shop/${shopId}`)
@@ -81,20 +88,11 @@ const ShopPage = () => {
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
-  const stars = Math.round((shopData.totalScore / shopData.gradeCount) * 10) / 10;
-  
-  const displayStars = (stars) => {
-    if (stars > 0) {
-      return [...Array(stars)].map((e, i) => (
-        <StarIcon sx={{ color: yellow[700] }} />
-      ));
-    }
-    return null;
-  };
 
   const handleFollowState = (newState) => {
     setIsFollowing(newState)
   }
+  console.log(shopData)
 
   return (
     <div>
@@ -107,23 +105,23 @@ const ShopPage = () => {
           alignItems="center"
           gap={1}
         >
-          <Avatar>
-            <PetsIcon />
-          </Avatar>
-          <Typography
-            variant="h5"
-            sx={{ display: "flex", alignItems: "center", gap: "15px" }}
-          >
-            {shopData.shopTitle}
-          </Typography>
-          <Stack
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            gap={0}
-          >
-            {displayStars(stars)}
-          </Stack>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar>
+                <PetsIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={shopData.shopTitle} 
+                          secondary={
+                            <>
+                              <Chip icon={<StarIcon />}
+                                    color="primary"
+                                    size="small"
+                                    label="3점" 
+                                    variant="outlined" />
+                            </>
+                          } /> 
+          </ListItem>
 
           {/* 가게 북마크 */}
           <ShopFollow userId={userId}
@@ -131,6 +129,18 @@ const ShopPage = () => {
                       isFollowing={isFollowing} 
                       followState={handleFollowState} />
         </Stack>
+        {/* 가게 별점 */}
+        <div className="star-wrapper" 
+             style={{ display: 'flex', justifyContent: 'center'}}>
+          <Rating
+            name="simple-controlled"
+            value={starRate}
+            onChange={(event, newValue) => {
+              console.log('newValue', newValue)
+              setStarRate(newValue);
+            }}
+           />
+        </div>
         <Box sx={{ width: "100%", borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             variant="fullWidth"
@@ -158,7 +168,7 @@ const ShopPage = () => {
             }
           </IconButton>
         </CustomTabPanel>
-        <CustomTabPanel value={tabValue} index={3}>
+        <CustomTabPanel value={tabValue} index={2}>
           <ShopInfoPage key={shopId} {...shopData} />
         </CustomTabPanel>
       </Container>
