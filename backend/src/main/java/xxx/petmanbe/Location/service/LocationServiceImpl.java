@@ -62,6 +62,12 @@ public class LocationServiceImpl implements LocationService {
 		double r2 = addPetLocationRequestDto.getBeaconList().get(1);
 		double r3 = addPetLocationRequestDto.getBeaconList().get(2);
 
+
+		log.info("" + r1);
+		log.info("" + r2);
+		log.info("" + r3);
+
+
 		double S = (
 			Math.pow(x3,2.) - Math.pow(x2,2.)
 			+ Math.pow(y3,2.) - Math.pow(y2,2.)
@@ -74,10 +80,21 @@ public class LocationServiceImpl implements LocationService {
 		) / 2.0;
 
 		double y = (
-			( T * (x2 - x3))
-				- (
-					S * (x2 - x1)
-			)) / (((y1 - y2) * (x2 - x3)) - ((y3-y2) * (x2 - x1)));
+			(
+				T *
+				(
+					x2 - x3
+				)
+			)
+			-
+			(
+				S *
+				(
+					x2 - x1
+				)
+			)
+			) /
+			(((y1 - y2) * (x2 - x3)) - ((y3-y2) * (x2 - x1)));
 
 		double x = ((y * (y1 - y2)) - T) / (x2 - x1);
 
