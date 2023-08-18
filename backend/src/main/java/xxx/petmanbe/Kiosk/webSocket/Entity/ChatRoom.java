@@ -7,7 +7,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.util.List;
 
-@Data
 @Entity
 @Table(name = "ChatRoom")
 @DynamicUpdate
@@ -27,12 +26,12 @@ public class ChatRoom {
 	private List<ChatRoomMessage> chatRoomMessageList;
 
 
-	public static ChatRoom create(long shopId){
-		ChatRoom room = new ChatRoom();
-		room.setChatRoomId(shopId);
-
-		return room;
-	}
+	// public static ChatRoom create(long shopId){
+	// 	ChatRoom room = new ChatRoom();
+	// 	room.setChatRoomId(shopId);
+	//
+	// 	return room;
+	// }
 
 
 

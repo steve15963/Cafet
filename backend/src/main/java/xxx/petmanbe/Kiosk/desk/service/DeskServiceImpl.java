@@ -38,7 +38,7 @@ public class DeskServiceImpl implements DeskService{
     @Override
     public boolean postShop(PostDeskDto request) {
 
-        Desk desk = deskRepository.findTopByShop_ShopId(request.getShopId());
+        Desk desk = deskRepository.findTopByShop_ShopIdOrderByDeskNumDesc(request.getShopId());
 
         if(Objects.isNull(desk)){
             Shop shop = shopRepository.findById(request.getShopId())
@@ -95,7 +95,7 @@ public class DeskServiceImpl implements DeskService{
             }
         }
 
-        desk.setDeskNum(putTableDto.getTableNum());
+        desk.setDeskNum(putTableDto.getNewTableNum());
 
 
         deskRepository.save(desk);

@@ -11,7 +11,7 @@ import xxx.petmanbe.Kiosk.desk.entity.Desk;
 
 public interface DeskRepository extends JpaRepository<Desk, Long> {
 
-    Desk findTopByShop_ShopId(Long shopId);
+    Desk findTopByShop_ShopIdOrderByDeskNumDesc(Long shopId);
 
     Optional<List<Desk>> findAllByShop_ShopId(Long shopId);
 

@@ -13,5 +13,5 @@ import lombok.Setter;
 @Builder
 public class PutTableDto {
 
-	long tableNum;
+	long newTableNum;
 }

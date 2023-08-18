@@ -35,13 +35,13 @@ public class RoomController {
 	// }
 
 	// 방 만들기(이건 회원가입할 때 만들어도 될듯...)
-	@PostMapping("/{shopId}")
-	public Long MakeRoom(@PathVariable long shopId){
-
-		ChatRoom newRoom =  ChatRoom.create(shopId);
-
-		return newRoom.getChatRoomId();
-	}
+	// @PostMapping("/{shopId}")
+	// public Long MakeRoom(@PathVariable long shopId){
+	//
+	// 	ChatRoom newRoom =  ChatRoom.create(shopId);
+	//
+	// 	return newRoom.getChatRoomId();
+	// }
 
 	// 방에 있는 메시지 불러오기
 	@GetMapping("/{shopId}")
