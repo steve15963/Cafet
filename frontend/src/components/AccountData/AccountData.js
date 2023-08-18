@@ -8,7 +8,6 @@ import Button from "../Button/Button";
 import UserBoards from "../UserBoards/UserBoards";
 import UserComments from "../UserComments/UserComments";
 import UserLike from "../UserLike/UserLike";
-import UserGrade from "../UserGrade/UserGrade";
 
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
@@ -96,8 +95,6 @@ const AccountData = () => {
               <Tab label="게시물" {...a11yProps(0)} />
               <Tab label="댓글" {...a11yProps(1)} />
               <Tab label="좋아요" {...a11yProps(2)} />
-              <Tab label="팔로우" {...a11yProps(3)} />
-              <Tab label="별점" {...a11yProps(4)} />
             </Tabs>
           </Box>
           <CustomTabPanel value={tabValue} index={0}>
@@ -108,12 +105,6 @@ const AccountData = () => {
           </CustomTabPanel>
           <CustomTabPanel value={tabValue} index={2}>
             <UserLike userId={userId} />
-          </CustomTabPanel>
-          <CustomTabPanel value={tabValue} index={3}>
-            팔로우
-          </CustomTabPanel>
-          <CustomTabPanel value={tabValue} index={4}>
-            <UserGrade userId={userId} />
           </CustomTabPanel>
         </Box>
       </div>
