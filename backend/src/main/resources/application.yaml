@@ -4,7 +4,8 @@ spring:
     username: root
     password: Gy8zn152Yh
     url: jdbc:mysql://i9a105.p.ssafy.io:3306/S09P11A105?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
-
+    hikari:
+      maximum-pool-size: 2
   jpa:
     properties:
       hibernate:
@@ -14,11 +15,12 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
+
   mail:
     host: smtp.naver.com
     port: 587
-    username:
-    password:
+    username: cafet123@naver.com
+    password: cafet!23
     properties:
       mail:
         smtp:
@@ -29,13 +31,13 @@ spring:
           startssl:
             enable: true
             required: true
-        sender:
+        sender: cafet123@naver.com
 jwt:
-  key: 
+  key: asdfasdfasdfafsdadsfdaffasdsadffasdfasdfasdfafsdadsfdaffasdsadffasdfasdfasdfafsdadsfdaffasdsadff
   accessTokenExpirationTime:
     int: 3000000
   refreshTokenExpirationTime:
-    int: 300000
+    int: 60
   whiteList:
     /swagger/**,
     /swagger-resources/**,
@@ -48,14 +50,37 @@ jwt:
     /api/user/new/**,
     /api/board/**,
     /api/shop/**,
-    /api/location/**
+    /api/location/**,
+    /api/menu/**,
+    /api/mail/**
 
 opendata:
-  key:
+  key: G3uj7g7AEmUsSHLZV4LlslK73nTPC7mo/t7LfzMO5Q8g0fJjdmml+iyF12xdZUmYXFy+CT083HHACNQgny4WVw==
 
 mail:
   regist:
     ExpirationTime:
       int: 5
     CheckExpirationTime:
-      int: 1
+      int: 5
+
+# Kakao api
+kakao:
+  map:
+    key: KakaoAK 3f4683b5cba1076dea94d245d77fde0f
+
+# AWS Account Credentials
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAYXKKVNOPXKJX3NE4
+      secretKey: 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
+    s3:
+      bucket: picturepractice
+      bucket-url: https://picturepractice.s3.ap-northeast-2.amazonaws.com/
+    region:
+      static: ap-northeast-2
+    stack:
+      auto:
+        false
+
