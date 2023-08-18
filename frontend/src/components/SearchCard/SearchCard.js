@@ -15,13 +15,16 @@ const SearchCard = ({ shopId, shopTitle, gradeCount, address, phoneNo }) => {
 
   return (
     <div className="card-wrapper" onClick={() => goToShop(shopId)}>
-      <div className="card red">
-        <p className="tip">{shopTitle}</p>
-        <p className="second-text"><StarIcon sx={{ color: yellow[700] }} fontSize="string" />{gradeCount}점</p>
-        <p className="second-text">{phoneNo}</p>
-        <p className="second-text">{address}</p>
+      <div className='star'>
+        <p className="second-text"><StarIcon sx={{ color: yellow[700] }} fontSize="string" />&nbsp;{gradeCount}점</p>
+      </div>
+      <div className="title-col">{shopTitle}</div>
+      <div className="phoneNo-col">
+        <p>{phoneNo}</p>
+        <p>{address}</p>
       </div>
     </div>
+
   )
 }
 

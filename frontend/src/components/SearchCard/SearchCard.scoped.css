@@ -1,39 +1,30 @@
 .card-wrapper {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.card-wrapper .red {
-  background-color: #ececec;
-}
-
-
-.card-wrapper .card {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  height: 100px;
-  width: 250px;
-  border-radius: 10px;
-  color: black;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(240, 240, 240);
   cursor: pointer;
-  transition: 400ms;
-  margin-left: 20px;
-  margin-bottom: 5px;
+  padding-top: 10px;
 }
 
-.card-wrapper .card p.tip {
-  font-size: 1em;
-  font-weight: 700;
+.card-wrapper .star {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  width: 50px;
 }
 
-.card-wrapper .card p.second-text {
-  font-size: .7em;
+.card-wrapper .title-col {
+  flex: 1;
 }
 
-.card-wrapper .card:hover {
-  transform: scale(1.1, 1.1);
+.card-wrapper .phoneNo-col {
+  font-size: 14px;
+  color: gray;
+}
+
+.card-wrapper .address-col {
+  font-size: 14px;
+  color: gray;
 }
