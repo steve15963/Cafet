@@ -38,9 +38,9 @@ public class MessageController {
 	public void check(MessageGetDto messageGetDto) throws InterruptedException{
 		Thread.sleep(100);
 
-		webSocketService.changeStatus(messageGetDto);
+		// webSocketService.changeStatus(messageGetDto);
 
-		System.out.println(messageGetDto.getMsg());
+		// System.out.println(messageGetDto.getMsg());
 
 	}
 

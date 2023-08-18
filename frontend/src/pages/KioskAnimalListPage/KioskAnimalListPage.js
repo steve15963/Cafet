@@ -21,6 +21,7 @@ const KioskAnimalListPage = () => {
 
   return (
     <div>
+      <div>애견정보</div>
       {
         animalList.map((el) => 
           <KioskAnimalListItem 
