@@ -2,7 +2,7 @@ import React, {useState } from "react";
 import TextField from "@mui/material/TextField";
 import handleCreateMenu from "../utils/handleCreateMenu.js"
 import KioskButton from "../components/KioskButton/KioskButton.js";
-
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 const MenuPostPage = () => {
@@ -12,7 +12,7 @@ const MenuPostPage = () => {
   const [menuPrice, setMenuPrice] = useState([])
   const [menuSize, setMenuSize] = useState([])
 
-
+  const navigate = useNavigate();
     //button 클릭시 동작
     const onPostMenuButtonClick = async (event) =>{
         event.preventDefault();
@@ -30,12 +30,10 @@ const MenuPostPage = () => {
 
         // console.log(file)
 
-         await handleCreateMenu(shopId, menuType, postMenuPriceSizeDtoList, file);
+         await handleCreateMenu(shopId, menuType, postMenuPriceSizeDtoList, file);   
 
-        
 
-         window.location.href("./")
-
+         navigate(-1);
     }
 
 

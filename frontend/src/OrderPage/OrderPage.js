@@ -69,7 +69,6 @@ const OrderPage = ({onDataFromChild}) => {
 
       <br></br>
       <div className="Ordertitle">
-        shop : {shopId}, table : {tableId}
       </div>
       <br></br>
       <br></br>
