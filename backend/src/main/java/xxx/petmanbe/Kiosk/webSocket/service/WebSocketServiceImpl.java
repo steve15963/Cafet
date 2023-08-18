@@ -13,6 +13,8 @@ import xxx.petmanbe.Kiosk.webSocket.repository.ChatRoomRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 @Service
 @RequiredArgsConstructor
 public class WebSocketServiceImpl implements WebSocketService{
@@ -30,7 +32,7 @@ public class WebSocketServiceImpl implements WebSocketService{
 			.build();
 	}
 
-	// @Async
+	@Transactional
 	public boolean saveMessage(long shopId, String message){
 
 		System.out.println("test1"+shopId);
