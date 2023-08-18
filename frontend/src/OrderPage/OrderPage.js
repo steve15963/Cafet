@@ -15,7 +15,7 @@ import 'slick-carousel/slick/slick-theme.css';
 
 
 const OrderPage = ({onDataFromChild}) => {
-  const { shopId, tableId } = useParams();
+  const { shopId } = useParams();
   const [menuList, setMenuList] = useState([]);
   const navigate = useNavigate();
   
