@@ -29,7 +29,10 @@ const Cart = (props) => {
         tableId: p.props.data2,
         content: p.props.data,
       })
-    );
+
+      );
+      alert("주문되었습니다! 잠시만 기달려주세요!");
+      window.location.reload();
   };
 
   props.data.forEach(element => (
