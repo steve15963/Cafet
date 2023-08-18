@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import handleKioskFirst from "../../utils/handleKioskFirst";
-import "./KioskRegist.scoped.css";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import KioskButton from "../KioskButton/KioskButton";

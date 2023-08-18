@@ -11,6 +11,7 @@ const Button = ({ text, type, onClick }) => {
     "grays",
     "transparent",
     "like",
+    "kiosk",
   ].includes(type)
     ? type
     : "default";
