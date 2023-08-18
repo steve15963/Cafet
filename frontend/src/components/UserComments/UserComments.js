@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./UserComments.scoped.css";
 
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -13,8 +12,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
 const UserComments = ({ userId }) => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -32,7 +30,7 @@ const UserComments = ({ userId }) => {
 
   const goToDetail = (pageId) => {
     return navigate(`/board/detail/${pageId}`);
-  }
+  };
 
   useEffect(() => {
     axios

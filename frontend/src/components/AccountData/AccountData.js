@@ -3,8 +3,6 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import "./AccountData.scoped.css";
-
 import Button from "../Button/Button";
 
 import UserBoards from "../UserBoards/UserBoards";
@@ -77,11 +75,10 @@ const AccountData = () => {
             />
           </Grid>
           <Grid item xs={2} />
-          <Grid className="xs10" item xs={8}>
-          </Grid>
+          <Grid className="xs10" item xs={8}></Grid>
           {/* 임시로 페이지 이동을 위한 버튼 */}
           <Button
-          type = "write"
+            type="write"
             text={"개인정보 수정"}
             className="button"
             onClick={handleModifyClick}
