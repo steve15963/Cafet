@@ -72,7 +72,7 @@ const SearchShopPage = () => {
     }
   }, [region]);
   
-  
+  console.log(cafeList)
 
   return (
     <div className="SearchShop">
