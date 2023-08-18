@@ -39,8 +39,8 @@ const SearchShopMap = ({ cafeList }) => {
       `            ${el.title}` + 
       '        </div>' + 
       '        <div class="body">' + 
-      '            <div class="img">' +
-      '           </div>' + 
+      // '            <div class="img">' +
+      // '           </div>' + 
       '            <div class="desc">' + 
       `                <div class="ellipsis">${el.address}</div>` +
       `                <div class="ellipsis">${el.phoneNo}</div>` +
@@ -76,7 +76,7 @@ const SearchShopMap = ({ cafeList }) => {
 
   
   return (
-    <div style={{ display: "flex", width: "100%" }}>
+    <div style={{ display: "flex", width: "800px" }}>
       <div
         id="map"
         style={{
@@ -93,9 +93,9 @@ const SearchShopMap = ({ cafeList }) => {
               .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
               .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
               .info .body {position: relative;overflow: hidden;}
-              .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+              .info .desc {position: relative;margin: 13px 0 0 10px;height: 75px;}
               .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
-              .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+              // .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
               .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
         `}
       </style>

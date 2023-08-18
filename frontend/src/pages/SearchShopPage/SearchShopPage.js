@@ -72,27 +72,34 @@ const SearchShopPage = () => {
     }
   }, [region]);
   
-  
+  console.log(cafeList)
 
   return (
     <div className="SearchShop">
       <Header />
       <div className="header-save" />
       <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <div className="search-wrapper" style={{ marginBottom: '15px'}}>
-            <div className="region-input">
-              <input id="searchValue" value={region} onChange={onChangeSearch} />
+        <Grid item xs={4}>
+
+          <div className="TodoEditor">
+            <h4>카페 검색</h4>
+            <div className="editor_wrapper">
+              <input
+              id="searchValue"
+              value={region}
+              onChange={onChangeSearch}
+              placeholder="주소를 입력해 주세요" />
               <button onClick={handleRegionSearchClick}>검색</button>
             </div>
           </div>
+
           <div className="list-wrapper" style={{ padding: '15px'}}>
             {cafeList.map((el) => (
               <SearchCard key={el.shopId} {...el} style={{ padding: '10px'}}/>
             ))}
           </div>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={8}>
           <SearchShopMap cafeList={cafeList} />
         </Grid>
       </Grid>

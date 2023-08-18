@@ -12,7 +12,7 @@ const ShopAnimalListItem = ({ shopId, data }) => {
   return (
     <div className='animalItem'>
       <div className='img_section' onClick={goToDetailAnimal}>
-        <img alt={data.petName} src={data.shopPetFileDtoList.url} />
+        <img alt={data.petName} src={data.shopPetFileDtoList[0].url} />
       </div>
       <div className='info_section'>
         <div className='name-wrapper'>{data.petName}</div>
