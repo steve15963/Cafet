@@ -32,7 +32,10 @@ const MenuPostPage = () => {
 
          await handleCreateMenu(shopId, menuType, postMenuPriceSizeDtoList, file);
 
-        // window.location.reload();
+        
+
+         window.location.href("./")
+
     }
 
 
