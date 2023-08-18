@@ -196,7 +196,7 @@ const ShopPage = () => {
         <CustomTabPanel value={tabValue} index={0}>
           <ShopAnimalList shopId={shopId} />
         </CustomTabPanel>
-        <CustomTabPanel value={tabValue} index={2}>
+        <CustomTabPanel value={tabValue} index={1}>
           <ShopInfoPage key={shopId} {...shopData} />
         </CustomTabPanel>
       </Container>
