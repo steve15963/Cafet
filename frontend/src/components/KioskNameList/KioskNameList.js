@@ -87,7 +87,7 @@ const KioskNameList = () => {
             <div
               className="kiosk-list-item"
               key={item.deskId}
-              onClick={() => handleDeskClick()}
+              onClick={() => handleDeskClick(item.deskId, item.deskNum)}
             >
               Desk {item.deskId}: (Number {item.deskNum})
             </div>
