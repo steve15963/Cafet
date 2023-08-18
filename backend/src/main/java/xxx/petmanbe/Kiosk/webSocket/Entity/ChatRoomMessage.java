@@ -6,7 +6,6 @@ import xxx.petmanbe.common.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 
-@Data
 @Entity
 @Table(name = "ChatRoomMessage")
 @DynamicUpdate
@@ -14,6 +13,8 @@ import javax.persistence.*;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class ChatRoomMessage extends BaseTimeEntity {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

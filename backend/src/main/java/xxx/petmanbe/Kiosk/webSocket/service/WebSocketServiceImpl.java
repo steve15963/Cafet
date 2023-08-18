@@ -81,6 +81,9 @@ public class WebSocketServiceImpl implements WebSocketService{
 		ChatRoomMessage chatRoomMessage  =  chatRoomMessageRepository.findByMessageContaining(messageGetDto.getMessage()).orElseThrow(()->new IllegalArgumentException());
 
 		chatRoomMessage.setStatus(true);
+		
+		System.out.println(chatRoomMessage.getMessage());
+		System.out.println(chatRoomMessage.isStatus());
 
 		chatRoomMessageRepository.save(chatRoomMessage);
 
