@@ -18,15 +18,12 @@ function OrderCheckBody(props) {
 
   const setMessage = (p) => {
 
-    console.log("p는"+p)
-
     // console.log(sock);
     client.send(
       "/app/check",
       {},
       JSON.stringify({
-        message: p,
-        status: true
+        message: p
       })
     );
   };

@@ -40,7 +40,7 @@ public class MessageController {
 
 		webSocketService.changeStatus(messageGetDto);
 
-		System.out.println(messageGetDto.getMessage());
+		System.out.println(messageGetDto.getMsg());
 
 	}
 

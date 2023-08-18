@@ -78,10 +78,10 @@ public class WebSocketServiceImpl implements WebSocketService{
 	@Override
 	public boolean changeStatus(MessageGetDto messageGetDto) {
 
-		ChatRoomMessage chatRoomMessage  =  chatRoomMessageRepository.findByMessageContaining(messageGetDto.getMessage()).orElseThrow(()->new IllegalArgumentException());
+		ChatRoomMessage chatRoomMessage  =  chatRoomMessageRepository.findByMessageContaining(messageGetDto.getMsg()).orElseThrow(()->new IllegalArgumentException());
 
 		chatRoomMessage.setStatus(true);
-		
+
 		System.out.println(chatRoomMessage.getMessage());
 		System.out.println(chatRoomMessage.isStatus());
 

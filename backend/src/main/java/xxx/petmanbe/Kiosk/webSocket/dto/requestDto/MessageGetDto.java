@@ -14,9 +14,7 @@ import lombok.Setter;
 public class MessageGetDto {
 
 
-    String message;
-
-    boolean status;
+    String msg;
 
 
 }
