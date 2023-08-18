@@ -4,6 +4,7 @@ import useKioskList from "../../hooks/useKioskList";
 import { useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 import handleDeleteTable from "../../utils/handleDeleteTable";
+import handleCreateTable from "../../utils/handleCreateTable";
 // import handleModifyTable from "../../utils/handleModifyTable";
 
 const KioskNameList = () => {
@@ -50,6 +51,19 @@ const KioskNameList = () => {
     }
   };
 
+  const onCreateClick = async (shopId) => {
+    try {
+      //eslint-disable-next-line
+      const response = await handleCreateTable(shopId);
+      console.log("Table Create success : ");
+      alert("테이블이 추가되었습니다.");
+      window.location.reload();
+    } catch (error) {
+      console.error("Table Create failed:");
+      alert("테이블 추가에 실패하셨습니다.");
+    }
+  };
+
   if (nameList.length === 0) {
     navigate("/kiosk/first", { replace: true });
   }
@@ -92,6 +106,13 @@ const KioskNameList = () => {
           </div>
         </div>
       ))}
+      <div>
+        <Button
+          type="default"
+          text={"추가"}
+          onClick={() => onCreateClick(shopId)}
+        />
+      </div>
     </div>
   );
 };
