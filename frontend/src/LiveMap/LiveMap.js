@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useEffect} from "react";
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import h337 from "heatmap.js";
@@ -7,8 +7,8 @@ import h337 from "heatmap.js";
 
 const LiveMap = () => {
   
-  const [placeX, setPlaceX] = useState("");
-  const [placeY, setPlaceY] = useState("");
+  // const [placeX, setPlaceX] = useState("");
+  // const [placeY, setPlaceY] = useState("");
 
     var sock = new SockJS('https://i9a105.p.ssafy.io/order')
     // var sock = new SockJS('http://localhost:8080/order')
@@ -28,32 +28,33 @@ const LiveMap = () => {
   }, [])
 
   const addMessage = async (content) =>{
-    await content.split('\n').map((item,index) => {
+    const lines = content.split('\n')
       
-      if(index===0) { 
-        console.log(item)
-        setPlaceX(item)
-      }
-      if(index===1) {setPlaceY(item)}
-      return null
-    }
-    )
+      const newPlaceX = lines[0];
+      const newPlaceY = lines[1];
+
+    if(newPlaceX && newPlaceY){
+      // setPlaceX(newPlaceX)
+      // setPlaceY(newPlaceY)
     
-    setTimeout(100)
-    
-    // window.location.reload();
-    
+    setTimeout(()=>{
+
       const heatmapInstance = h337.create({
         container: document.getElementById("heatmapContainer"),
       })
-      console.log(placeX+"palcex")
 
-      while(placeX !== "" && placeY !== ""){
+      // console.log(placeX+"palcex")
+
+
         heatmapInstance.setData({max:100,
         data:[
-          {x:placeX, y:placeY, value:1000}]});
+          {x:parseInt(newPlaceX), y: parseInt(newPlaceY), value:1000}],
+        });
+        },100);
       }
-  }
+    };
+    
+    // window.location.reload();
 
   return (
     <div>
